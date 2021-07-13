@@ -8,27 +8,11 @@ import City from "components/City";
 
 const DatosPersonales = ({
   form,
-  Countries = [],
-  States = [],
-  Cities = [],
   showShadow=true,
   doc=null
 }) => {
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
 
   const rules = [{ required: true, message: "Por favor rellena este campo!" }];
-
-  const selectedCountry = (country) => {
-    const _states = States.states.filter((c) => c.id_country == country);
-    form.setFieldsValue({ estado: "", ciudad: "" });
-    setStates(_states);
-  };
-  const selectedState = (state) => {
-    const _cities = Cities.cities.filter((c) => c.id_state == state);
-    form.setFieldsValue({ ciudad: "" });
-    setCities(_cities);
-  };
 
   return (
     <>

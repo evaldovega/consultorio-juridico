@@ -56,11 +56,11 @@ const DatosDocumento = ({ form, Countries = [], States = [], Cities = [],showSha
               <DatePicker />
             </Form.Item>
           </div>
-          <Country name="r_config_paisExpedicion" rules={rules} />
+          <Country name="r_config_paisExpedicion" state='r_config_departamentoExpedicion' rules={rules} />
         </div>
 
         <div className="grid-2">
-          <State name="r_config_departamentoExpedicion" rules={rules} />
+          <State name="r_config_departamentoExpedicion" city='r_config_ciudadExpedicion' rules={rules} />
           <City name="r_config_ciudadExpedicion" rules={rules} />
         </div>
 

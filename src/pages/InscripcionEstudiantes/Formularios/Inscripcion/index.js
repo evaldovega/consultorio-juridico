@@ -24,7 +24,11 @@ const InscripcionPracticasConsultorioJuridico=()=>{
     const [loading,setLoading]=useState(false)
     const [form]=useForm()
 
-    const save=()=>{
+    const error=(e)=>{
+        console.log(e)
+    }
+    const save=(data)=>{
+        console.log(data)
         setLoading(true)
         setTimeout(()=>{
             setLoading(false)
@@ -49,16 +53,16 @@ const InscripcionPracticasConsultorioJuridico=()=>{
            <div className='section-title'>
                <Typography.Title level={4}>Inscripción a practicas de Consultorio Jurídico</Typography.Title>
            </div>
-           <Form form={form} layout='vertical' className='formulario-curso' scrollToFirstError={true} onFinish={save}>
-        <DatosPersonales Countries={Countries} States={States} Cities={Cities} form={form}/>
+           <Form form={form} layout='vertical' scrollToFirstError={true} className='formulario-curso' onError={error} onFinish={save}>
+        <DatosPersonales form={form}/>
         <br></br>
         <Discapacidad form={form}/>
         <br></br>
-        <DatosDocumento form={form} Countries={Countries} States={States} Cities={Cities}/>
+        <DatosDocumento form={form}/>
         <br></br>
-        <DatosUbicacion form={form} Countries={Countries} States={States} Cities={Cities}/>
+        <DatosUbicacion form={form} />
         <br></br>
-        <DatosLaborales form={form} Countries={Countries} States={States} Cities={Cities}/>
+        <DatosLaborales form={form}/>
         <br></br>
         <DatosInscripcion form={form}/>
         <br></br>

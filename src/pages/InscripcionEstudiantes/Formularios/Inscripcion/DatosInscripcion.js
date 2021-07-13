@@ -21,14 +21,13 @@ const DatosInscripcion = ({showShadow=true}) => {
       <Card className={showShadow ? 'card-shadown' : ''}>
       <div className="grid-2">
         <div>
-
-          <Form.Item label="Codigo estudiantil" rules={rules}>
+          <Form.Item label="Codigo estudiantil" name='a_cod_estudiantil' rules={rules}>
             <Input />
           </Form.Item>
         </div>
         <div>
 
-          <Form.Item label="Año" rules={rules}>
+          <Form.Item label="Año" name='ano' rules={rules}>
             <InputNumber />
           </Form.Item>
         </div>
@@ -36,15 +35,15 @@ const DatosInscripcion = ({showShadow=true}) => {
         <div className="grid-2">
           <div>
 
-          <Form.Item label="Semestre" rules={rules}>
+          <Form.Item label="Semestre" name='semestre' rules={rules}>
             <InputNumber />
           </Form.Item>
           </div>
           <div>
 
-          <Form.Item label="Jornada" rules={rules}>
+          <Form.Item label="Jornada" name='jornada' rules={rules}>
             <Select>
-              <Select.Option>Diurna</Select.Option>
+              <Select.Option value={1}>Diurna</Select.Option>
             </Select>
           </Form.Item>
           </div>
@@ -52,9 +51,9 @@ const DatosInscripcion = ({showShadow=true}) => {
         <div className="grid-2">
           <div>
 
-          <Form.Item label="Consultorio número" rules={rules}>
+          <Form.Item label="Consultorio número" name='consultorio' rules={rules}>
             <Select>
-              <Select.Option>Consultorio 1</Select.Option>
+              <Select.Option value={1}>Consultorio 1</Select.Option>
             </Select>
           </Form.Item>
           </div>
@@ -63,15 +62,15 @@ const DatosInscripcion = ({showShadow=true}) => {
         <div className="grid-2">
           <div>
 
-          <Form.Item label="Grupo" rules={rules}>
+          <Form.Item label="Grupo" name='grupo' rules={rules}>
             <Select>
-              <Select.Option>Grupo 1</Select.Option>
+              <Select.Option value={1}>Grupo 1</Select.Option>
             </Select>
           </Form.Item>
           </div>
           <div>
 
-          <Form.Item label="Turno" rules={rules}>
+          <Form.Item label="Turno" name='turno' rules={rules}>
             <Input />
           </Form.Item>
           </div>
@@ -80,15 +79,15 @@ const DatosInscripcion = ({showShadow=true}) => {
         <div className="grid-2">
           <div>
 
-          <Form.Item label="Lugar" rules={rules}>
+          <Form.Item label="Lugar" name='lugar' rules={rules}>
             <Select>
-              <Select.Option>Lugar 1</Select.Option>
+              <Select.Option value={1}>Lugar 1</Select.Option>
             </Select>
           </Form.Item>
           </div>
           <div>
 
-          <Form.Item label="Fecha inscripción" rules={rules}>
+          <Form.Item label="Fecha inscripción" name='fecha_inscripcion' rules={rules}>
             <DatePicker />
           </Form.Item>
           </div>

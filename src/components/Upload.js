@@ -12,7 +12,8 @@ const UploadCustom=({children,form=null,name=null,multiple=false,accept='*',labe
             reader.onload = (e) => {
                 setImage(e.target.result)
                 if(name && form){
-                    form.setFieldsValue({name:e.target.result})
+                    console.log('hola')
+                    form.setFieldsValue({[name]:e.target.result})
                 }
             };
             reader.readAsDataURL(file);
@@ -21,7 +22,7 @@ const UploadCustom=({children,form=null,name=null,multiple=false,accept='*',labe
       }
       const renderInput=()=>{
           if(name){
-              return (<Form.Item name={name} noStyle rules={[{required:true,message:'Selecciona una archivo'}]}>
+              return (<Form.Item name={name}  rules={[{required:true,message:'Selecciona una archivo'}]}>
               <Input type='hidden' />
             </Form.Item>)
           }

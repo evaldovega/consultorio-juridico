@@ -11,22 +11,10 @@ import {
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-const DatosLaborales = ({ form, Countries = [], States = [], Cities = [],showShadow=true }) => {
+const DatosLaborales = ({ form,showShadow=true }) => {
   const rules = [{ required: true, message: "Por favor rellene este campo!" }];
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
   const [work, setWork] = useState(false);
 
-  const selectedCountry = (country) => {
-    const _states = States.states.filter((c) => c.id_country == country);
-    form.setFieldsValue({ "estado-laboral": "", "ciudad-laboral": "" });
-    setStates(_states);
-  };
-  const selectedState = (state) => {
-    const _cities = Cities.cities.filter((c) => c.id_state == state);
-    form.setFieldsValue({ "ciudad-laboral": "" });
-    setCities(_cities);
-  };
 
   return (
     <>
@@ -73,62 +61,7 @@ const DatosLaborales = ({ form, Countries = [], States = [], Cities = [],showSha
         {work ? (
           <div>
             <Space style={{ display: "flex" }} size='large'>
-              <Form.Item label="Pais" name="r_config_paisLaboral" rules={rules}>
-                <Select
-                  autocomplete="off"
-                  disabled={!work}
-                  onChange={selectedCountry}
-                  showSearch
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {Countries.countries.map((c) => (
-                    <Select.Option key={c.id} value={c.id}>
-                      {c.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="Estado" name="r_config_departamentoLaboral" rules={rules}>
-                <Select
-                  onChange={selectedState}
-                  disabled={!work}
-                  showSearch
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {states.map((c) => (
-                    <Select.Option key={c.id} value={c.id}>
-                      {c.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Space>
-            <Space style={{ display: "flex" }} size='large'>
-              <Form.Item label="Ciudad" name="r_config_ciudadLaboral" rules={rules}>
-                <Select
-                  showSearch
-                  disabled={!work}
-                  filterOption={(input, option) =>
-                    option.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase()) >= 0
-                  }
-                >
-                  {cities.map((c) => (
-                    <Select.Option key={c.id} value={c.id}>
-                      {c.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
+              
               <Form.Item label="Empresa" name="a_nombreEmpresa" rules={rules}>
                 <Input disabled={!work} />
               </Form.Item>
