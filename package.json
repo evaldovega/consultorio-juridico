@@ -3,19 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "antd": "^4.16.0",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "craco-less": "^1.17.1",
     "react": "^17.0.2",
+    "react-bootstrap": "^1.6.0",
+    "react-custom-events": "^1.0.3",
     "react-dom": "^17.0.2",
+    "react-google-recaptcha": "^2.1.0",
+    "react-highlight-words": "^0.17.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "use-between": "0.0.18",
+    "use-immer": "^0.5.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "deploy": "aws s3 sync build/ s3://consultorio-juridico --acl public-read",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "start2": "craco start"
   },
   "eslintConfig": {
     "extends": [
