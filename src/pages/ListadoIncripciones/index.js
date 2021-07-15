@@ -5,11 +5,19 @@ import Page from 'components/Page'
 import inscripciones from 'constants/inscripciones.json'
 import { useImmer } from 'use-immer';
 import TextNew from 'components/TextNew';
+import API from 'utils/Axios';
 
 import {
     FolderViewOutlined,SearchOutlined
   } from "@ant-design/icons";
   import Highlighter from 'react-highlight-words';
+
+const getInscripciones = async () => {
+  API.get('estudiantes/inscripcion/').then(response=>{
+    console.log(JSON.stringify(response.data))
+  })
+}
+
 const ListadoIncripciones=()=>{
     const [docs,setDoc]=useImmer([]);
     const [loading,setLoading]=useState(true)
@@ -96,6 +104,7 @@ const ListadoIncripciones=()=>{
 
     useEffect(()=>{
         setTimeout(()=>{
+            getInscripciones();
             setLoading(false);
             setDoc(draft=>inscripciones)
         },1000)

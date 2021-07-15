@@ -22,7 +22,9 @@ const UploadCustom=({children,form=null,name=null,multiple=false,accept='*',labe
       }
       const renderInput=()=>{
           if(name){
-              return (<Form.Item name={name}  rules={[{required:true,message:'Selecciona una archivo'}]}>
+              return (<Form.Item name={name} 
+              rules={[{required:true,message:'Selecciona una archivo'}]}
+              >
               <Input type='hidden' />
             </Form.Item>)
           }

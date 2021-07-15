@@ -65,19 +65,19 @@ const DatosPersonales = ({
         <div className="grid-2">
           <Country
             form={form}
-            name="r_config_paisUbicacion"
-            state="r_config_departamentoUbicacion"
+            name="r_config_paisNacimiento"
+            state="r_config_departamento"
           />
 
           <State
             form={form}
-            name="r_config_departamentoUbicacion"
-            city="r_config_ciudadUbicacion"
+            name="r_config_departamento"
+            city="r_config_ciudadNacimiento"
           />
         </div>
 
         <div className="grid-2">
-          <City form={form} name="r_config_ciudadUbicacion" />
+          <City form={form} name="r_config_ciudadNacimiento" />
 
           <div>
             <Form.Item
@@ -94,8 +94,8 @@ const DatosPersonales = ({
           <div>
             <Form.Item label="Género" name="c_genero" rules={rules}>
               <Select>
-                <Select.Option value="Femenino">Femenino</Select.Option>
-                <Select.Option value="Masculino">Masculino</Select.Option>
+                <Select.Option value="F">Femenino</Select.Option>
+                <Select.Option value="M">Masculino</Select.Option>
                 <Select.Option value="Otro">Otro</Select.Option>
               </Select>
             </Form.Item>

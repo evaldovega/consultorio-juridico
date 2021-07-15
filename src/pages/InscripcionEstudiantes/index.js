@@ -41,16 +41,18 @@ const InscripcionEstudiantes = () => {
             }}
             className='grid2'
           >
-            <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card className='card-small card-shadown'>
-                <Space style={{display:'flex',alignItems:'center'}}>
-                  <img src="/icons/edit.png" width={42} />
-                  <Typography.Title level={5} style={{margin:0}}>
-                    Inscripción a prácticas de Consultorio Jurídico
-                  </Typography.Title>
-                </Space>
-              </Card>
-            </Link>
+            <div className='grid2'>
+              <Link to="/inscripcion-estudiantes/inscripcion-practicas">
+                <Card className='card-small card-shadown'>
+                  <Space style={{display:'flex',alignItems:'center'}}>
+                    <img src="/icons/edit.png" width={42} />
+                    <Typography.Title level={5} style={{margin:0}}>
+                      Inscripción a prácticas de Consultorio Jurídico
+                    </Typography.Title>
+                  </Space>
+                </Card>
+              </Link>
+            </div>
             <Link to="/inscripcion-estudiantes/listado">
               <Card className='card-small card-shadown'>
                 <Space style={{display:'flex',alignItems:'center'}}>
