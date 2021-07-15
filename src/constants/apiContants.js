@@ -1,4 +1,5 @@
 export const ACCESS_TOKEN_NAME='token-consultorio-juridico'
+export const USER_FULL_NAME='cj-nombre-usuario'
 
 export const MODULES=[
     {id:0,img:'images/modulo1.jpg',name:'Asesoría Jurídica',parent:'Asesoría Jurídica',url:'/asesoria-juridica'},

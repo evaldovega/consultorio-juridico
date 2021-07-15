@@ -14,7 +14,7 @@ import {
   Layout,
   message
 } from "antd";
-import { ACCESS_TOKEN_NAME } from '../constants/apiContants';
+import { ACCESS_TOKEN_NAME, USER_FULL_NAME } from '../constants/apiContants';
 import {Link} from 'react-router-dom'
 import ReCAPTCHA from "react-google-recaptcha";
 import GoSite from 'components/goSite';
@@ -36,6 +36,7 @@ const Login=({location,history})=>{
       setLoading(true)
       API.post('auth-user/',data).then(({data})=>{
         localStorage.setItem(ACCESS_TOKEN_NAME,data.access_token)
+        localStorage.setItem(USER_FULL_NAME,data.fullname)
         history.replace(location && location.state && location.state.from ? location.state.from.pathname : '/')
       }).catch(error=>{
         console.log(error.response)

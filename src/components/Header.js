@@ -1,7 +1,7 @@
 import React from 'react'
 import {Menu,Layout,Dropdown,Space,Avatar,Typography,Card, Row, Col} from 'antd'
 import {useHistory,Link} from 'react-router-dom'
-import { ACCESS_TOKEN_NAME, MODULES } from '../constants/apiContants';
+import { ACCESS_TOKEN_NAME, MODULES, USER_FULL_NAME } from '../constants/apiContants';
 import {
     UserOutlined,SettingFilled
   } from "@ant-design/icons";
@@ -10,6 +10,7 @@ const HeaderPage=({showLogo=true})=>{
     const history=useHistory()
     const logout=()=>{
         localStorage.removeItem(ACCESS_TOKEN_NAME);
+        localStorage.removeItem(USER_FULL_NAME);
         history.replace('/login')
       }
     const menu=()=>(<Menu>
@@ -29,7 +30,7 @@ const HeaderPage=({showLogo=true})=>{
               <Dropdown overlay={menu} trigger={["click"]}>
                 <Space size="small" align="end" style={{ marginLeft: 16 }}>
                   <Avatar icon={<UserOutlined />} />
-                  <b style={{ color: "white" }}>Evaldo</b>
+                  <b style={{ color: "white" }}>{localStorage.getItem(USER_FULL_NAME)}</b>
                 </Space>
               </Dropdown>
             </Space>
