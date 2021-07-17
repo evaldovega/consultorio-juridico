@@ -31,8 +31,8 @@ const InscripcionPracticasConsultorioJuridico = () => {
     }
     const save = async (data) => {
         let dataJson = {
-            "r_persona": {
-                "f_archivoFotoPerfil": data.f_archivoFotoPerfil,
+            "r_usuarios_persona": {
+                "f_archivoFotoPerfil_str": data.f_archivoFotoPerfil,
                 "a_primerNombre": data.a_primerNombre,
                 "a_segundoNombre": data.a_segundoNombre,
                 "a_primerApellido": data.a_primerApellido,
@@ -50,7 +50,7 @@ const InscripcionPracticasConsultorioJuridico = () => {
                 "r_config_paisExpedicion": data.r_config_paisExpedicion,
                 "r_config_departamentoExpedicion": data.r_config_departamentoExpedicion,
                 "r_config_ciudadExpedicion": data.r_config_ciudadExpedicion,
-                "f_archivoDocumento": data.f_archivoDocumento
+                "f_archivoDocumento_str": data.f_archivoDocumento
             },
             "mm_discapacidad": data.mm_discapacidad,
             "r_config_paisUbicacion": data.r_config_paisUbicacion,
@@ -78,7 +78,7 @@ const InscripcionPracticasConsultorioJuridico = () => {
             "r_config_lugarPracticas": data.r_config_lugarPracticas,
             "dt_fechaInscripcion": Moment(data.dt_fechaInscripcion).format('YYYY-MM-DD')
         }
-        console.log(JSON.stringify(dataJson))
+        console.log(JSON.stringify(dataJson.r_usuarios_persona.f_archivoFotoPerfil))
         setLoading(true)
         API.post('estudiantes/inscripcion/',dataJson).then(({data})=>{
             setLoading(false)

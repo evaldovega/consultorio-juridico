@@ -21,6 +21,7 @@ const Discapacidad = ({showShadow=true}) => {
     setError(null)
     API('configuracion/discapacidad/').then(({data})=>{
       setDocs(Chunk(data))
+      console.log(JSON.stringify(docs))
     }).catch(error=>{
       setError(error.response ? error.response.statusText : error.toString())
     }).finally(()=>{

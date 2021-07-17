@@ -12,17 +12,18 @@ import {
   } from "@ant-design/icons";
   import Highlighter from 'react-highlight-words';
 
-const getInscripciones = async () => {
-  API.get('estudiantes/inscripcion/').then(response=>{
-    console.log(JSON.stringify(response.data))
-  })
-}
-
 const ListadoIncripciones=()=>{
-    const [docs,setDoc]=useImmer([]);
+    const [docs,setDoc]=useState([]);
     const [loading,setLoading]=useState(true)
     const [searchText,setSearchText]=useState('')
     const [searchedColumn,setSearchedColumn]=useState('')
+
+    const getInscripciones = async () => {
+      API.get('estudiantes/inscripcion/').then(response=>{
+        console.log(JSON.stringify(response.data))
+        setDoc(response.data)
+      })
+    }
 
     const getColumnSearchProps = dataIndex => {
       let searchInput;
@@ -140,7 +141,6 @@ const ListadoIncripciones=()=>{
                 <Table.Column width={150} title='Tipo de documento' dataIndex='tipodoc'/>
                 <Table.Column width={150} title='Documento de identidad' dataIndex='doc'/>
                 <Table.Column width={150} title='Fecha de expedición' dataIndex='exp'/>
-                
             </Table>
             </Card>
         </Page>
