@@ -107,7 +107,7 @@ const ListadoIncripciones=()=>{
         setTimeout(()=>{
             getInscripciones();
             setLoading(false);
-            setDoc(draft=>inscripciones)
+            //setDoc(draft=>inscripciones)
         },1000)
     },[])
 
@@ -136,11 +136,15 @@ const ListadoIncripciones=()=>{
               <div style={{flex:1}}></div>
               </div>
             <Table dataSource={docs} loading={loading} size='small' rowKey='_id' scroll={{x:400,y:400}}>
-                <Table.Column width={150} fixed={true} title='No. de inscripción' dataIndex='inscripcion'/>
+                <Table.Column width={150} fixed={true} title='No. de inscripción' dataIndex='id'/>
                 <Table.Column width={150} {...getColumnSearchProps('nombre')} sorter={(a, b) => a.nombre.length - b.nombre.length} sortDirections={['descend', 'ascend']} title='Nombres y apellidos' render={(d)=><Link to={`/inscripcion-estudiante/${d.id}/detalle`}><TextNew date={d.exp}>{d.nombre}</TextNew></Link>}/>
-                <Table.Column width={150} title='Tipo de documento' dataIndex='tipodoc'/>
-                <Table.Column width={150} title='Documento de identidad' dataIndex='doc'/>
-                <Table.Column width={150} title='Fecha de expedición' dataIndex='exp'/>
+                <Table.Column width={150} title='Primer nombre' dataIndex={['r_usuarios_persona', 'a_primerNombre']}/>
+                <Table.Column width={150} title='Segundo nombre' dataIndex={['r_usuarios_persona', 'a_segundoNombre']}/>
+                <Table.Column width={150} title='Primer apellido' dataIndex={['r_usuarios_persona', 'a_primerApellido']}/>
+                <Table.Column width={150} title='Segundo apellido' dataIndex={['r_usuarios_persona', 'a_segundoApellido']}/>
+                <Table.Column width={150} title='Tipo de documento' dataIndex={['r_usuarios_persona', 'r_config_tipoDocumento']}/>
+                <Table.Column width={150} title='Documento de identidad' dataIndex={['r_usuarios_persona', 'a_numeroDocumento']}/>
+                <Table.Column width={150} title='Fecha de expedición' dataIndex={['r_usuarios_persona', 'a_fechaExpedicionDocumento']}/>
             </Table>
             </Card>
         </Page>
