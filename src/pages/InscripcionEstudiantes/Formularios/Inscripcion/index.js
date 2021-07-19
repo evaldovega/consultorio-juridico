@@ -78,14 +78,14 @@ const InscripcionPracticasConsultorioJuridico = () => {
             "r_config_lugarPracticas": data.r_config_lugarPracticas,
             "dt_fechaInscripcion": Moment(data.dt_fechaInscripcion).format('YYYY-MM-DD')
         }
-        console.log(JSON.stringify(dataJson.r_usuarios_persona.f_archivoFotoPerfil))
+        console.log(JSON.stringify(dataJson))
         setLoading(true)
         API.post('estudiantes/inscripcion/',dataJson).then(({data})=>{
             setLoading(false)
             notification['success']({
                 message: 'Felicitaciones',
                 description:
-                    'Estas incrito a las practicas.',
+                    'Estas inscrito a las practicas.',
             });
         })
         // setTimeout(() => {

@@ -1,53 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { Form, Space, Input, Card, Divider, Checkbox, Typography,Spin, Result, Button } from "antd";
+import { Form, Space, Input, Card, Divider, Checkbox, Typography, Spin, Result, Button } from "antd";
 import API from 'utils/Axios';
 import { Chunk } from "utils";
 
-const Discapacidad = ({showShadow=true}) => {
-  const dataTest=[
-    {id:1,label:'No aplica'},
-    {id:1,label:'No aplica'},
-    {id:1,label:'No aplica'},
-    {id:1,label:'No aplica'}
+const Discapacidad = ({ showShadow = true }) => {
+  const dataTest = [
+    { id: 1, label: 'No aplica' },
+    { id: 1, label: 'No aplica' },
+    { id: 1, label: 'No aplica' },
+    { id: 1, label: 'No aplica' }
   ]
   const rules = [{ required: true, message: "Please input your username!" }];
-  const [docs,setDocs]=useState([])
-  const [loading,setLoading]=useState(false)
-  const [error,setError]=useState(null)
+  const [docs, setDocs] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const load=()=>{
-    console.log(docs)
+  const load = () => {
     setLoading(true)
     setError(null)
-    API('configuracion/discapacidad/').then(({data})=>{
-      setDocs(Chunk(data))
-      console.log(JSON.stringify(docs))
-    }).catch(error=>{
+    API('configuracion/discapacidad/').then(({ data }) => {
+      data.map((el) => (
+        docs.push({ 'label': el.a_titulo, 'value': el.id })
+      ))
+      // console.log("Discapacidades: " + JSON.stringify(data))
+    }).catch(error => {
       setError(error.response ? error.response.statusText : error.toString())
-    }).finally(()=>{
-      setTimeout(()=>{
+    }).finally(() => {
+      setTimeout(() => {
         setLoading(false)
-      },1000)
+      }, 1000)
     })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     load()
-  },[])
+  }, [])
 
-  if(error){
+  if (error) {
     return (
       <Card className={showShadow ? 'card-shadown' : ''}>
         <Result status='warning'
-      title={error}
-      
-      extra={
-        <Button htmlType='button' type="secundary" key="console" onClick={load}>
-          Recargar listado de discapacidades
-        </Button>
-      }
-    />
-    </Card>)
+          title={error}
+
+          extra={
+            <Button htmlType='button' type="secundary" key="console" onClick={load}>
+              Recargar listado de discapacidades
+            </Button>
+          }
+        />
+      </Card>)
   }
   return (
     <Spin spinning={loading}>
@@ -56,12 +57,22 @@ const Discapacidad = ({showShadow=true}) => {
       </Typography.Title>
       <Card className={showShadow ? 'card-shadown' : ''}>
 
-      <div className='discapacidades'>
-        {docs.map((discapacidades,index)=>(
+        <div className='discapacidades'>
+          {/* {docs.map((discapacidades,index)=>(
           <Space key={index} style={{ display: "flex" }} size="large">
             {discapacidades.map(d=><Checkbox key={d.id} value={d.id}>{d.a_titulo}</Checkbox>)}
           </Space>
-        ))}
+        ))} */}
+          <Form.Item name="mm_discapacidad">
+            {docs.length > 0 ? (
+              <Checkbox.Group
+                options={docs}
+                style={{ display: 'grid' }}
+              />
+            ) : (
+              <></>
+            )}
+          </Form.Item>
         </div>
       </Card>
     </Spin>
