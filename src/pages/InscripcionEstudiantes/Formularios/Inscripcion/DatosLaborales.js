@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Space,
@@ -10,11 +10,32 @@ import {
   Switch, Typography
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import API from 'utils/Axios';
 
 const DatosLaborales = ({ form, showShadow = true }) => {
   const rules = [{ required: true, message: "Por favor rellene este campo!" }];
   const [work, setWork] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [profesiones, setProfesiones] = useState([])
 
+  const load = () => {
+    setLoading(true)
+    setError(null)
+    API('configuracion/profesion/').then(({ data }) => {
+      setProfesiones(data)
+    }).catch(error => {
+      setError(error.response ? error.response.statusText : error.toString())
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
+    })
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
 
   return (
     <>
@@ -34,7 +55,11 @@ const DatosLaborales = ({ form, showShadow = true }) => {
               name="r_config_profesion"
             // rules={rules}
             >
-              <Input />
+              <Select>
+                {profesiones.map((el, i) => (
+                  <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
 

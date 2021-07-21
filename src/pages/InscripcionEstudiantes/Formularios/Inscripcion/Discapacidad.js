@@ -3,7 +3,7 @@ import { Form, Space, Input, Card, Divider, Checkbox, Typography, Spin, Result, 
 import API from 'utils/Axios';
 import { Chunk } from "utils";
 
-const Discapacidad = ({ showShadow = true }) => {
+const Discapacidad = ({ showShadow = true, valores }) => {
   const dataTest = [
     { id: 1, label: 'No aplica' },
     { id: 1, label: 'No aplica' },
@@ -68,6 +68,7 @@ const Discapacidad = ({ showShadow = true }) => {
               <Checkbox.Group
                 options={docs}
                 style={{ display: 'grid' }}
+                value={valores}
               />
             ) : (
               <></>
