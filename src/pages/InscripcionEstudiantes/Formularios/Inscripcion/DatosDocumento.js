@@ -6,8 +6,9 @@ import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
 import API from 'utils/Axios';
+import moment from "moment";
 
-const DatosDocumento = ({ form, Countries = [], States = [], Cities = [],showShadow=true, upload=true, doc=null}) => {
+const DatosDocumento = ({ form, Countries = [], States = [], Cities = [],showShadow=true, upload=true, pais, doc=null}) => {
   const rules = [{ required: true, message: "Por favor rellene este campo!" }];
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -77,7 +78,7 @@ const DatosDocumento = ({ form, Countries = [], States = [], Cities = [],showSha
               name="a_fechaExpedicionDocumento"
               rules={rules}
             >
-              <DatePicker />
+              <DatePicker/>
             </Form.Item>
           </div>
           <Country name="r_config_paisExpedicion" state='r_config_departamentoExpedicion' rules={rules} />
