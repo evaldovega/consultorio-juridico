@@ -18,10 +18,6 @@ import Moment from 'moment';
 
 const { TabPane } = Tabs;
 
-const Countries = require('constants/Countries.json')
-const States = require('constants/States.json')
-const Cities = require('constants/Cities.json')
-
 const VerInscripcion = () => {
   const { id } = useParams();
   const [inscripciones, setInscripciones] = useState([])
@@ -182,7 +178,7 @@ const VerInscripcion = () => {
         <TabPane tab="Inscripción a prácticas de consultorio jurídico" key="1">
           {doc ? (
             <Form form={form} layout='vertical' className='formulario-curso' scrollToFirstError={true} onFinish={save}>
-              <DatosPersonales doc={doc} showShadow={false} Countries={Countries} States={States} Cities={Cities} form={form} />
+              <DatosPersonales doc={doc} showShadow={false} form={form} />
               <br></br>
               <Discapacidad doc={doc} showShadow={false} valores={discapacidades} form={form} />
               <br></br>

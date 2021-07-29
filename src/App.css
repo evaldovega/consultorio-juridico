@@ -305,8 +305,7 @@ label{
     border-color: #00378b;
     
 }
-.discapacidades{
-    display: grid; 
+.discapacidades{ 
     gap: 24px;
     grid-template-columns:repeat(3,1fr);
 }

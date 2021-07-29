@@ -67,7 +67,7 @@ const Discapacidad = ({ showShadow = true, valores }) => {
             {docs.length > 0 ? (
               <Checkbox.Group
                 options={docs}
-                style={{ display: 'grid' }}
+                style={{ width: "100%" }}
                 value={valores}
               />
             ) : (
