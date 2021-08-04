@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Space, Input, Card, Button, DatePicker, Select, Typography,Upload } from "antd";
+import { Form, Space, Input, Card, Button, DatePicker, Select, Typography, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import UploadCustom from "components/Upload";
 import Country from "components/Country";
@@ -10,32 +10,52 @@ import { Chunk } from "utils";
 
 const DatosPersonales = ({
   form,
-  showShadow=true,
-  doc=null
+  showShadow = true,
+  doc = null
 }) => {
 
   const rules = [{ required: true, message: "Por favor rellena este campo!" }];
-  const [orientaciones, setOrientaciones] = useState([]);
-  const [loading,setLoading]=useState(false)
-  const [error,setError]=useState(null)
+  const [orientaciones, setOrientaciones] = useState([])
+  const [etnias, setEtnias] = useState([])
+  const [EPS, setEPS] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const load=()=>{
+  const load = () => {
     setLoading(true)
     setError(null)
-    API('configuracion/orientacion/').then(({data})=>{
+    API('configuracion/orientacion/').then(({ data }) => {
       setOrientaciones(data)
-    }).catch(error=>{
+    }).catch(error => {
       setError(error.response ? error.response.statusText : error.toString())
-    }).finally(()=>{
-      setTimeout(()=>{
+    }).finally(() => {
+      setTimeout(() => {
         setLoading(false)
-      },1000)
+      }, 1000)
+    })
+    API('configuracion/entidad-salud/').then(({ data }) => {
+      setEPS(data)
+    }).catch(error => {
+      setError(error.response ? error.response.statusText : error.toString())
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
+    })
+    API('configuracion/etnia/').then(({ data }) => {
+      setEtnias(data)
+    }).catch(error => {
+      setError(error.response ? error.response.statusText : error.toString())
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     load()
-  },[])
+  }, [])
 
   return (
     <>
@@ -130,9 +150,6 @@ const DatosPersonales = ({
               rules={rules}
             >
               <Select>
-                {/* <Select.Option value={1}>Heterosexual</Select.Option>
-                <Select.Option value={2}>Homosexual</Select.Option>
-                <Select.Option value={3}>Bisexual</Select.Option> */}
                 {orientaciones.map((el, i) => (
                   <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
                 ))}
@@ -144,7 +161,11 @@ const DatosPersonales = ({
         <div className="grid-2">
           <div>
             <Form.Item label="Etnia" name="r_config_etnia" rules={rules}>
-              <Input />
+              <Select>
+                {etnias.map((el, i) => (
+                  <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
           <div>
@@ -153,7 +174,11 @@ const DatosPersonales = ({
               name="r_config_eps"
               rules={rules}
             >
-              <Input />
+              <Select>
+                {EPS.map((el, i) => (
+                  <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </div>
         </div>

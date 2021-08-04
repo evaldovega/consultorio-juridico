@@ -45,6 +45,8 @@ const InscripcionPracticasConsultorioJuridico = () => {
                 "r_config_ciudadNacimiento": data.r_config_ciudadNacimiento,
                 "c_genero": data.c_genero,
                 "r_config_orientacion": data.r_config_orientacion,
+                "r_config_eps": data.r_config_eps,
+                "r_config_tipoDocumento": data.r_config_tipoDocumento,
                 "a_numeroDocumento": data.a_numeroDocumento,
                 "a_fechaExpedicionDocumento": Moment(data.a_fechaExpedicionDocumento).format('YYYY-MM-DD'),
                 "r_config_paisExpedicion": data.r_config_paisExpedicion,
@@ -111,7 +113,7 @@ const InscripcionPracticasConsultorioJuridico = () => {
                     <br></br>
                     <Discapacidad form={form} />
                     <br></br>
-                    <DatosDocumento form={form} />
+                    <DatosDocumento form={form} upload={true} />
                     <br></br>
                     <DatosUbicacion form={form} />
                     <br></br>
