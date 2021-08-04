@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Space, Input, Card, Button, DatePicker, Select, Typography,Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import UploadCustom from "components/Upload";
 import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
+import API from 'utils/Axios';
+import { Chunk } from "utils";
 
 const DatosPersonales = ({
   form,
@@ -13,6 +15,27 @@ const DatosPersonales = ({
 }) => {
 
   const rules = [{ required: true, message: "Por favor rellena este campo!" }];
+  const [orientaciones, setOrientaciones] = useState([]);
+  const [loading,setLoading]=useState(false)
+  const [error,setError]=useState(null)
+
+  const load=()=>{
+    setLoading(true)
+    setError(null)
+    API('configuracion/orientacion/').then(({data})=>{
+      setOrientaciones(data)
+    }).catch(error=>{
+      setError(error.response ? error.response.statusText : error.toString())
+    }).finally(()=>{
+      setTimeout(()=>{
+        setLoading(false)
+      },1000)
+    })
+  }
+
+  useEffect(()=>{
+    load()
+  },[])
 
   return (
     <>
@@ -65,19 +88,19 @@ const DatosPersonales = ({
         <div className="grid-2">
           <Country
             form={form}
-            name="r_config_paisUbicacion"
-            state="r_config_departamentoUbicacion"
+            name="r_config_paisNacimiento"
+            state="r_config_departamento"
           />
 
           <State
             form={form}
-            name="r_config_departamentoUbicacion"
-            city="r_config_ciudadUbicacion"
+            name="r_config_departamento"
+            city="r_config_ciudadNacimiento"
           />
         </div>
 
         <div className="grid-2">
-          <City form={form} name="r_config_ciudadUbicacion" />
+          <City form={form} name="r_config_ciudadNacimiento" />
 
           <div>
             <Form.Item
@@ -94,8 +117,8 @@ const DatosPersonales = ({
           <div>
             <Form.Item label="Género" name="c_genero" rules={rules}>
               <Select>
-                <Select.Option value="Femenino">Femenino</Select.Option>
-                <Select.Option value="Masculino">Masculino</Select.Option>
+                <Select.Option value="F">Femenino</Select.Option>
+                <Select.Option value="M">Masculino</Select.Option>
                 <Select.Option value="Otro">Otro</Select.Option>
               </Select>
             </Form.Item>
@@ -107,9 +130,12 @@ const DatosPersonales = ({
               rules={rules}
             >
               <Select>
-                <Select.Option value={1}>Heterosexual</Select.Option>
+                {/* <Select.Option value={1}>Heterosexual</Select.Option>
                 <Select.Option value={2}>Homosexual</Select.Option>
-                <Select.Option value={3}>Bisexual</Select.Option>
+                <Select.Option value={3}>Bisexual</Select.Option> */}
+                {orientaciones.map((el, i) => (
+                  <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
+                ))}
               </Select>
             </Form.Item>
           </div>

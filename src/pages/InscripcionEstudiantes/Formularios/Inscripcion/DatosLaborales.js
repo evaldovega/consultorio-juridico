@@ -7,11 +7,11 @@ import {
   Divider,
   Select,
   DatePicker,
-  Switch,Typography
+  Switch, Typography
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-const DatosLaborales = ({ form,showShadow=true }) => {
+const DatosLaborales = ({ form, showShadow = true }) => {
   const rules = [{ required: true, message: "Por favor rellene este campo!" }];
   const [work, setWork] = useState(false);
 
@@ -22,46 +22,46 @@ const DatosLaborales = ({ form,showShadow=true }) => {
         Datos laborales
       </Typography.Title>
       <Card className={showShadow ? 'card-shadown' : ''}>
-      <div className="grid-2">
-        <div>
-
-          <Form.Item
-            label="Profesión u oficio"
-            tooltip={{
-              title: "Ejemplo: Estudiante",
-              icon: <InfoCircleOutlined />,
-            }}
-            name="r_config_profesion"
-            rules={rules}
-          >
-            <Input />
-          </Form.Item>
-        </div>
-
         <div className="grid-2">
           <div>
 
-          <Form.Item label="Servidor público" name="b_servidorPublico">
-            <Switch checkedChildren="Si" unCheckedChildren="No" />
-          </Form.Item>
+            <Form.Item
+              label="Profesión u oficio"
+              tooltip={{
+                title: "Ejemplo: Estudiante",
+                icon: <InfoCircleOutlined />,
+              }}
+              name="r_config_profesion"
+            // rules={rules}
+            >
+              <Input />
+            </Form.Item>
           </div>
-          <div>
 
-          <Form.Item label="Trabaja" name="trabaja-laboral">
-            <Switch
-              checkedChildren="Si"
-              unCheckedChildren="No"
-              onChange={setWork}
-            />
-          </Form.Item>
-          </div>
+          <div className="grid-2">
+            <div>
+
+              <Form.Item label="Servidor público" name="b_servidorPublico">
+                <Switch checkedChildren="Si" unCheckedChildren="No" />
+              </Form.Item>
+            </div>
+            <div>
+
+              <Form.Item label="Trabaja" name="trabaja-laboral">
+                <Switch
+                  checkedChildren="Si"
+                  unCheckedChildren="No"
+                  onChange={setWork}
+                />
+              </Form.Item>
+            </div>
           </div>
         </div>
 
         {work ? (
           <div>
             <Space style={{ display: "flex" }} size='large'>
-              
+
               <Form.Item label="Empresa" name="a_nombreEmpresa" rules={rules}>
                 <Input disabled={!work} />
               </Form.Item>

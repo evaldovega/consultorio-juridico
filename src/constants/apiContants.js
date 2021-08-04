@@ -1,4 +1,5 @@
-export const ACCESS_TOKEN_NAME = "token-consultorio-juridico";
+export const ACCESS_TOKEN_NAME='token-consultorio-juridico'
+export const USER_FULL_NAME='cj-nombre-usuario'
 
 export const ROL_PERSONA='CIUDADANO'
 export const ROL_ESTUDIANTE='ESTUDIANTE'

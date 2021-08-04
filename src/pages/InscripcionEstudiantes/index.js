@@ -21,20 +21,20 @@ const InscripcionEstudiantes = () => {
   return (
     <Policy policy={['asesor']}>
     <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Inscripción estudiantes</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className='section-title'>
-            <Typography.Title level={4}>
-              Modulo Inscripción estudiantes
-            </Typography.Title>
-            <Typography.Paragraph>
-              Escoge el formulario según tus necesidades
-            </Typography.Paragraph>
-          </div>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to="/">Inicio</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Inscripción estudiantes</Breadcrumb.Item>
+      </Breadcrumb>
+      <div className='section-title'>
+        <Typography.Title level={4}>
+          Modulo Inscripción estudiantes
+        </Typography.Title>
+        <Typography.Paragraph>
+          Escoge el formulario según tus necesidades
+        </Typography.Paragraph>
+      </div>
 
           <div
             style={{

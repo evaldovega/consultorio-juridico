@@ -70,6 +70,7 @@ const DatosDocumento = ({ form, Countries = [], States = [], Cities = [],showSha
           form={form}
           name="f_archivoDocumento"
           accept=".png,.jpg,.jpeg"
+          rules={""}
         >
           <Button
             type="primary"

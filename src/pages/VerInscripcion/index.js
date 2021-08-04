@@ -12,7 +12,8 @@ import DatosUbicacion from 'pages/InscripcionEstudiantes/Formularios/Inscripcion
 import DatosLaborales from 'pages/InscripcionEstudiantes/Formularios/Inscripcion/DatosLaborales';
 import DatosInscripcion from 'pages/InscripcionEstudiantes/Formularios/Inscripcion/DatosInscripcion';
 import ArchivosInscripcion from "./Archivos";
-import inscripciones from 'constants/inscripciones.json'
+import API from 'utils/Axios';
+// import inscripciones from 'constants/inscripciones.json'
 
 const { TabPane } = Tabs;
 
@@ -22,25 +23,45 @@ const Cities = require('constants/Cities.json')
 
 const VerInscripcion = () => {
     const {id} =useParams();
-    
+    const [inscripciones, setInscripciones] = useState([])
     const [loading,setLoading]=useState(false)
     const [doc,setDoc]=useState(null)
     const [form]=useForm()
 
+    const getInscripciones = async () => {
+      API.get('estudiantes/inscripcion/').then(response=>{
+        console.log(JSON.stringify(response.data))
+        setDoc({
+          ...response.data.find((i) => i.id == id),
+          ced: "https://assets.homeis.com/image/fetch/q_auto:low,f_auto/https%3A%2F%2Fassets-gcp.homeis.com%2Fimage%2Fupload%2Fc_fill%2Ce_sharpen%2Cf_jpg%2Cq_auto%2Cw_600%2Fv1%2Fhomeis-prod%2Fprod%2Fuploads%2Fpost%2F2020-08-07%2F18%2F5d813a67a6874b0011c5c62c-459a73af-f697-43ba-af34-8814eb0e7d96.png",
+        });
+      })
+    }
+
     useEffect(()=>{
-      setDoc({
-        ...inscripciones.find((i) => i.id == id),
-        ced: "https://assets.homeis.com/image/fetch/q_auto:low,f_auto/https%3A%2F%2Fassets-gcp.homeis.com%2Fimage%2Fupload%2Fc_fill%2Ce_sharpen%2Cf_jpg%2Cq_auto%2Cw_600%2Fv1%2Fhomeis-prod%2Fprod%2Fuploads%2Fpost%2F2020-08-07%2F18%2F5d813a67a6874b0011c5c62c-459a73af-f697-43ba-af34-8814eb0e7d96.png",
-      });
+      getInscripciones();
     },[])
 
     useEffect(()=>{
       if(doc){
         form.setFieldsValue({
-          a_primerNombre:doc.nombre
+          a_primerNombre:doc.r_usuarios_persona.a_primerNombre,
+          a_segundoNombre:doc.r_usuarios_persona.a_segundoNombre,
+          a_primerApellido:doc.r_usuarios_persona.a_primerApellido,
+          a_segundoApellido:doc.r_usuarios_persona.a_segundoApellido,
+          r_config_paisNacimiento:doc.r_usuarios_persona.r_config_paisNacimiento,
+          r_config_departamento:doc.r_usuarios_persona.r_config_departamento,
+          r_config_ciudadNacimiento:doc.r_usuarios_persona.r_config_ciudadNacimiento,
+          c_genero:doc.r_usuarios_persona.c_genero,
+          r_config_orientacion:doc.r_usuarios_persona.r_config_orientacion,
+          r_config_etnia:doc.r_usuarios_persona.r_config_etnia,
+          r_config_eps:doc.r_usuarios_persona.r_config_eps,
+          f_archivoFotoPerfil:doc.r_usuarios_persona.f_archivoFotoPerfil,
+          mm_discapacidad:doc.r_usuarios_persona.mm_discapacidad,
         })
       }
     },[doc])
+    
     const save=()=>{}
   return (
     <Page>
