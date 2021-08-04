@@ -1,14 +1,12 @@
 import axios from "axios";
 import { ACCESS_TOKEN_NAME } from "constants/apiContants";
-
+console.log(ACCESS_TOKEN_NAME)
 const getToken = () => `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`;
 
 const API = axios.create({
   baseURL: "http://ua-cj-dashboard.ufotech.co/api/",
-  crossdomain:true,
   headers: {
-    'Content-Type': 'application/json',
-    origin: null
+    'Content-Type': 'application/json'
   }
 });
 

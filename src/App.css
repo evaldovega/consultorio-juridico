@@ -314,13 +314,18 @@ label{
     display: grid;
     grid-template-columns: repeat(2, calc(100% / 2));
     grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: 1fr;
 }
 .grid-3{
     display: grid;
+    width: 95%;
+    margin:0 auto;
     grid-template-columns: repeat(3, calc(100% / 3));
     grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: 1fr;
+}
+.grid-2 .ant-card,.grid-3 .ant-card{
+    height: 100%;
 }
 .footer-content{
     animation-delay: .2s;

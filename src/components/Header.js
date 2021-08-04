@@ -1,10 +1,11 @@
 import React from 'react'
 import {Menu,Layout,Dropdown,Space,Avatar,Typography,Card, Row, Col} from 'antd'
 import {useHistory,Link} from 'react-router-dom'
-import { ACCESS_TOKEN_NAME, MODULES } from '../constants/apiContants';
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ADMIN } from '../constants/apiContants';
 import {
     UserOutlined,SettingFilled
   } from "@ant-design/icons";
+import Policy from './Policy';
   const { Header } = Layout;
 const HeaderPage=({showLogo=true})=>{
     const history=useHistory()
@@ -13,7 +14,7 @@ const HeaderPage=({showLogo=true})=>{
         history.replace('/login')
       }
     const menu=()=>(<Menu>
-        <Menu.Item>Perfil</Menu.Item>
+        <Menu.Item><Link to='/perfil'>Perfil</Link></Menu.Item>
         <Menu.Divider></Menu.Divider>
         <Menu.Item onClick={logout}>
             Salir
@@ -25,7 +26,10 @@ const HeaderPage=({showLogo=true})=>{
               <Link to='/'><img src="/images/logow.png" style={{ width: 120 }} /></Link>
             </Space>}
             <Space align="center" style={{ marginLeft: "auto" }}>
+              <Policy policy={[ROL_ADMIN]}>
               <Link to='/configuraciones' style={{display:'flex',justifyContent:'center',gap:12,alignItems:'center'}}><img src='/icons/engranaje.png' width={16} /> Configuraciones</Link>
+              </Policy>
+              
               <Dropdown overlay={menu} trigger={["click"]}>
                 <Space size="small" align="end" style={{ marginLeft: 16 }}>
                   <Avatar icon={<UserOutlined />} />

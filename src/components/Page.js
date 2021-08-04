@@ -4,15 +4,13 @@ import HeaderPage from "components/Header";
 
 const Page=({children,fullWidth=false})=>{
     return (
-        <>
+      <>
         <HeaderPage />
-        {!fullWidth && <div className='content-body'>
-            {children}
-        </div>}
+        {!fullWidth && <div className="content-body">{children}</div>}
         {fullWidth && children}
-        <Footer/>
-        </>
-    )
+        <Footer />
+      </>
+    );
 }
 
 export default Page

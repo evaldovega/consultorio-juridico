@@ -1,12 +1,14 @@
 import logo from './logo.svg';
 import './App.less';
 import './App.css'
+import './styles/Folder.css'
 import {
   BrowserRouter as Router,
   Switch,
   Route,Redirect,
   Link
 } from "react-router-dom";
+import * as PolicyProvider from "components/Policy/Ctx";
 import {ConfigProvider} from 'antd'
 import locale from "antd/lib/locale/es_ES";
 import Login from './pages/Login'
@@ -29,11 +31,16 @@ import ListadoIncripciones from 'pages/ListadoIncripciones';
 import VerInscripcion from 'pages/VerInscripcion';
 
 import AsesoriaJuridicaHome from 'pages/AsesoriaJuridica';
+import MisAsesorias from 'pages/MisAsesorias';
+import SolicitarAsesoria from 'pages/SolicitarAsesoria';
+import Perfil from 'pages/Perfil';
 
 function App() {
   return (
     <ConfigProvider locale={locale}>
+      
       <Router>
+      <PolicyProvider.Provider>
         <Switch>
           <PrivateRouter path="/" exact>
             <Home />
@@ -83,11 +90,22 @@ function App() {
           <PrivateRouter path="/asesoria-juridica" exact>
             <AsesoriaJuridicaHome />
           </PrivateRouter>
+          <PrivateRouter path="/mis-asesorias" exact>
+            <MisAsesorias />
+          </PrivateRouter>
+          <PrivateRouter path="/guardar-asesoria" exact>
+            <SolicitarAsesoria />
+          </PrivateRouter>
+          <PrivateRouter path='/perfil' exact>
+            <Perfil/>
+          </PrivateRouter>
 
           <Route path="/login" exact component={Login} />
           <Route path="/registrarse" exact component={Registro} />
         </Switch>
+        </PolicyProvider.Provider>
       </Router>
+      
     </ConfigProvider>
   );
 }

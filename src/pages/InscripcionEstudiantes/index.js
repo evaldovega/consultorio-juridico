@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Policy from 'components/Policy';
 import {
   Space,
   Layout,
@@ -19,6 +19,7 @@ const InscripcionEstudiantes = () => {
   const [form] = useForm();
 
   return (
+    <Policy policy={['asesor']}>
     <Page>
           <Breadcrumb>
             <Breadcrumb.Item>
@@ -39,7 +40,7 @@ const InscripcionEstudiantes = () => {
             style={{
               animationDelay: 0.2,gap:'24px!important'
             }}
-            className='grid2'
+            className='grid-2'
           >
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
               <Card className='card-small card-shadown'>
@@ -95,6 +96,7 @@ const InscripcionEstudiantes = () => {
         
       
         </Page>
+        </Policy>
   );
 };
 export default InscripcionEstudiantes;
