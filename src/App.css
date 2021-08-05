@@ -85,7 +85,16 @@ label{
     border-color: #00378b;
     color: #ffff;;
 }
-
+.btn-upload{
+    background-color: #ffff;
+    border-color: #00378b;
+    color: #00378b;
+}
+.ant-upload :hover{
+    background-color: #00378b;
+    border-color: #00378b;
+    color: #ffff;;
+}
 .ant-spin-container{
     z-index: 3;
 }
@@ -328,7 +337,15 @@ label{
     grid-gap: 10px;
     grid-auto-rows: 1fr;
 }
-.grid-2 .ant-card,.grid-3 .ant-card{
+.grid-4{
+    display: grid;
+    width: 95%;
+    margin:0;
+    grid-template-columns: repeat(4, calc(100% / 4));
+    grid-gap: 10px;
+    grid-auto-rows: 1fr;
+}
+.grid-2 .ant-card,.grid-3 .ant-card,.grid-4 .ant-card{
     height: 100%;
 }
 .footer-content{

@@ -17,7 +17,7 @@ import AccessDenied from "components/Policy/AccessDenied";
 
 const AsesoriaJuridicaHome=()=>{
     return (
-      <Policy policy={['asesor','estudiante']} feedback={<AccessDenied msn='Acceso denegado'/>}>
+      <Policy policy={[]} feedback={<AccessDenied msn='Acceso denegado'/>}>
         <Page>
             <Breadcrumb>
             <Breadcrumb.Item>

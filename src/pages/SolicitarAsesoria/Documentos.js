@@ -35,7 +35,7 @@ const SolicitarAsesoriaDocs=()=>{
                 return false
             }} multiple={true} fileList={fileList} listType="picture"
       >
-                <Button icon={<UploadOutlined />}>Anexar archivos</Button>
+                <Button className="btn-upload" icon={<UploadOutlined />}>Anexar archivos</Button>
             </Upload>
         </div>
     )

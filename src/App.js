@@ -93,7 +93,7 @@ function App() {
           <PrivateRouter path="/mis-asesorias" exact>
             <MisAsesorias />
           </PrivateRouter>
-          <PrivateRouter path="/guardar-asesoria" exact>
+          <PrivateRouter path="/asesoria-juridica/solicitar" exact>
             <SolicitarAsesoria />
           </PrivateRouter>
           <PrivateRouter path='/perfil' exact>
