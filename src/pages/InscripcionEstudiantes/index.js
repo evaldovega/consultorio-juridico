@@ -8,7 +8,7 @@ import {
   Card,
 } from "antd";
 
-import { ACCESS_TOKEN_NAME, MODULES } from "../../constants/apiContants";
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR } from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import { useForm } from "antd/lib/form/Form";
 import Page from 'components/Page'
@@ -19,7 +19,7 @@ const InscripcionEstudiantes = () => {
   const [form] = useForm();
 
   return (
-    <Policy policy={['asesor']}>
+    <Policy policy={[ROL_ASESOR]}>
     <Page>
       <Breadcrumb>
         <Breadcrumb.Item>

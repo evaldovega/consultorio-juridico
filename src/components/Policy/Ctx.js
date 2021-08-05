@@ -1,4 +1,4 @@
-import { ROL_ASESOR, ROL_ESTUDIANTE, ROL_PERSONA } from "constants/apiContants";
+import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_PERSONA } from "constants/apiContants";
 import React, { useState, createContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import API from "utils/Axios";
@@ -10,8 +10,8 @@ export const Provider = ({ children }) => {
   const location=useLocation()
   console.log(location)
 
-  const [allPolicies, setAllPolcies] = useState([ROL_ESTUDIANTE,ROL_ASESOR,ROL_PERSONA]);
-  const [policies, setPolcies] = useState([ROL_PERSONA]);
+  const [allPolicies, setAllPolcies] = useState([ROL_ESTUDIANTE,ROL_ASESOR,ROL_PERSONA,ROL_ADMIN]);
+  const [policies, setPolcies] = useState([ROL_ASESOR]);
   const [loading, setLoading] = useState(true);
   const [loadingReal, setLoadingReal] = useState(true);
 

@@ -14,7 +14,7 @@ export const MODULES = [
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
-    policies:['asesor','estudiante']
+    policies:[ROL_ASESOR,ROL_ESTUDIANTE]
   },
   /*{
     id: 2,
@@ -28,7 +28,7 @@ export const MODULES = [
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
-    policies:['asesor']
+    policies:[ROL_ASESOR]
   },
   /*{
     id: 7,

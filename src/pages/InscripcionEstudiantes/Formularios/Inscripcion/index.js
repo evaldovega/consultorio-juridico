@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { PageHeader, Skeleton, Spin, Space, notification, Layout, Divider, Form, Typography, Breadcrumb, Card, Button } from 'antd';
 import Footer from 'components/Footer'
 import { useParams } from 'react-router';
-import { ACCESS_TOKEN_NAME, MODULES } from 'constants/apiContants';
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR } from 'constants/apiContants';
 import { Link } from 'react-router-dom';
 import HeaderPage from 'components/Header';
 import { useForm } from 'antd/lib/form/Form';
@@ -15,6 +15,7 @@ import DatosLaborales from './DatosLaborales';
 import DatosInscripcion from './DatosInscripcion';
 import API from 'utils/Axios';
 import Moment from 'moment';
+import Policy from 'components/Policy';
 
 const Countries = require('constants/Countries.json')
 const States = require('constants/States.json')
@@ -94,7 +95,7 @@ const InscripcionPracticasConsultorioJuridico = () => {
         // }, 3000)
     }
 
-    return (<>
+    return (<Policy policy={[ROL_ASESOR]}>
 
         <HeaderPage />
 
@@ -130,7 +131,7 @@ const InscripcionPracticasConsultorioJuridico = () => {
 
 
         <Footer />
-    </>)
+    </Policy>)
 }
 
 export default InscripcionPracticasConsultorioJuridico

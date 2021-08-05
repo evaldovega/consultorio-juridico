@@ -1,44 +1,60 @@
-import { Table,Typography,Breadcrumb,Button,Card,Input,Space,Form} from 'antd'
-import React,{useState,useEffect} from 'react'
-import { Link } from "react-router-dom";
-import Page from 'components/Page'
-import inscripciones from 'constants/inscripciones.json'
-import { useImmer } from 'use-immer';
-import TextNew from 'components/TextNew';
-import API from 'utils/Axios';
-
 import {
-    FolderViewOutlined,SearchOutlined
-  } from "@ant-design/icons";
-  import Highlighter from 'react-highlight-words';
+  Table,
+  Typography,
+  Breadcrumb,
+  Button,
+  Card,
+  Input,
+  Space,
+  Form,
+} from "antd";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Page from "components/Page";
+import inscripciones from "constants/inscripciones.json";
+import { useImmer } from "use-immer";
+import TextNew from "components/TextNew";
+import API from "utils/Axios";
 
-const ListadoIncripciones=()=>{
-    const [docs,setDoc]=useState([]);
-    const [loading,setLoading]=useState(true)
-    const [searchText,setSearchText]=useState('')
-    const [searchedColumn,setSearchedColumn]=useState('')
+import { FolderViewOutlined, SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+import Policy from "components/Policy";
+import { ROL_ASESOR } from "constants/apiContants";
 
-    const getInscripciones = async () => {
-      API.get('estudiantes/inscripcion/').then(response=>{
-        console.log(JSON.stringify(response.data))
-        setDoc(response.data)
-      })
-    }
+const ListadoIncripciones = () => {
+  const [docs, setDoc] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
 
-    const getColumnSearchProps = dataIndex => {
-      let searchInput;
-      const _props={
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+  const getInscripciones = async () => {
+    API.get("estudiantes/inscripcion/").then((response) => {
+      console.log(JSON.stringify(response.data));
+      setDoc(response.data);
+    });
+  };
+
+  const getColumnSearchProps = (dataIndex) => {
+    let searchInput;
+    const _props = {
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
         <div style={{ padding: 8 }}>
           <Input
-            ref={node => {
+            ref={(node) => {
               searchInput = node;
             }}
             placeholder={`Search ${dataIndex}`}
             value={selectedKeys[0]}
-            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
             onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            style={{ marginBottom: 8, display: 'block' }}
+            style={{ marginBottom: 8, display: "block" }}
           />
           <Space>
             <Button
@@ -50,7 +66,11 @@ const ListadoIncripciones=()=>{
             >
               Buscar
             </Button>
-            <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            <Button
+              onClick={() => handleReset(clearFilters)}
+              size="small"
+              style={{ width: 90 }}
+            >
               Limpiar
             </Button>
             <Button
@@ -58,8 +78,8 @@ const ListadoIncripciones=()=>{
               size="small"
               onClick={() => {
                 confirm({ closeDropdown: false });
-                  setSearchText(selectedKeys[0])
-                  setSearchedColumn(dataIndex)
+                setSearchText(selectedKeys[0]);
+                setSearchedColumn(dataIndex);
               }}
             >
               Resaltar
@@ -67,88 +87,146 @@ const ListadoIncripciones=()=>{
           </Space>
         </div>
       ),
-      filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
       onFilter: (value, record) =>
         record[dataIndex]
-          ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-          : '',
-      onFilterDropdownVisibleChange: visible => {
+          ? record[dataIndex]
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase())
+          : "",
+      onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
           setTimeout(() => searchInput.select(), 100);
         }
       },
-      render: text =>
+      render: (text) =>
         searchedColumn === dataIndex ? (
           <Highlighter
-            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
             searchWords={[searchText]}
             autoEscape
-            textToHighlight={text ? text.toString() : ''}
+            textToHighlight={text ? text.toString() : ""}
           />
         ) : (
           text
         ),
-    }
-    return _props
+    };
+    return _props;
   };
-  
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
-      confirm();
-      setSearchText(0)
-      setSearchedColumn(dataIndex)
-    };
-  
-    const handleReset = clearFilters => {
-      clearFilters();
-      setSearchText('')
-    };
 
-    useEffect(()=>{
-        setTimeout(()=>{
-            getInscripciones();
-            setLoading(false);
-            //setDoc(draft=>inscripciones)
-        },1000)
-    },[])
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(0);
+    setSearchedColumn(dataIndex);
+  };
 
-    return (
-        <Page>
-            <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/inscripcion-estudiantes'>Inscripción estudiantes</Link></Breadcrumb.Item>
-            <Breadcrumb.Item>Listado de incripciones</Breadcrumb.Item>
-          </Breadcrumb>
-            <div className='section-title'>
-            <Typography.Title level={4}>
-              Listado de inscripciones
-            </Typography.Title>
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      getInscripciones();
+      setLoading(false);
+      //setDoc(draft=>inscripciones)
+    }, 1000);
+  }, []);
+
+  return (
+    <Policy policy={[ROL_ASESOR]}>
+      <Page>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/">Inicio</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Listado de incripciones</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="section-title">
+          <Typography.Title level={4}>
+            Listado de inscripciones
+          </Typography.Title>
+        </div>
+        <Card className="card-shadown">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Form style={{ flex: 1 }}>
+              <Form.Item label="Buscar">
+                <Input />
+              </Form.Item>
+            </Form>
+            <div style={{ flex: 1 }}></div>
           </div>
-            <Card className='card-shadown'>
-              <div style={{display:'flex',justifyContent:'space-between'}}>
-                
-              <Form style={{flex:1}}>
-                <Form.Item label='Buscar'>
-                  <Input/>
-                </Form.Item>
-              </Form>
-              <div style={{flex:1}}></div>
-              </div>
-            <Table dataSource={docs} loading={loading} size='small' rowKey='_id' scroll={{x:400,y:400}}>
-                <Table.Column width={150} fixed={true} title='No. de inscripción' dataIndex='id'/>
-                <Table.Column width={150} {...getColumnSearchProps('nombre')} sorter={(a, b) => a.nombre.length - b.nombre.length} sortDirections={['descend', 'ascend']} title='Nombres y apellidos' render={(d)=><Link to={`/inscripcion-estudiante/${d.id}/detalle`}><TextNew date={d.exp}>{d.nombre}</TextNew></Link>}/>
-                <Table.Column width={150} title='Primer nombre' dataIndex={['r_usuarios_persona', 'a_primerNombre']}/>
-                <Table.Column width={150} title='Segundo nombre' dataIndex={['r_usuarios_persona', 'a_segundoNombre']}/>
-                <Table.Column width={150} title='Primer apellido' dataIndex={['r_usuarios_persona', 'a_primerApellido']}/>
-                <Table.Column width={150} title='Segundo apellido' dataIndex={['r_usuarios_persona', 'a_segundoApellido']}/>
-                <Table.Column width={150} title='Tipo de documento' dataIndex={['r_usuarios_persona', 'r_config_tipoDocumento']}/>
-                <Table.Column width={150} title='Documento de identidad' dataIndex={['r_usuarios_persona', 'a_numeroDocumento']}/>
-                <Table.Column width={150} title='Fecha de expedición' dataIndex={['r_usuarios_persona', 'a_fechaExpedicionDocumento']}/>
-            </Table>
-            </Card>
-        </Page>
-    )
-}
+          <Table
+            dataSource={docs}
+            loading={loading}
+            size="small"
+            rowKey="_id"
+            scroll={{ x: 400, y: 400 }}
+          >
+            <Table.Column
+              width={150}
+              fixed={true}
+              title="No. de inscripción"
+              dataIndex="id"
+            />
+            {/*<Table.Column
+              width={150}
+              {...getColumnSearchProps("nombre")}
+              sorter={(a, b) => a.nombre.length - b.nombre.length}
+              sortDirections={["descend", "ascend"]}
+              title="Nombres y apellidos"
+              render={(d) => (
+                <Link to={`/inscripcion-estudiante/${d.id}/detalle`}>
+                  <TextNew date={d.exp}>{d.nombre}</TextNew>
+                </Link>
+              )}
+            />*/}
+            <Table.Column
+              width={150}
+              title="Primer nombre"
+              dataIndex={["r_usuarios_persona", "a_primerNombre"]}
+            />
+            <Table.Column
+              width={150}
+              title="Segundo nombre"
+              dataIndex={["r_usuarios_persona", "a_segundoNombre"]}
+            />
+            <Table.Column
+              width={150}
+              title="Primer apellido"
+              dataIndex={["r_usuarios_persona", "a_primerApellido"]}
+            />
+            <Table.Column
+              width={150}
+              title="Segundo apellido"
+              dataIndex={["r_usuarios_persona", "a_segundoApellido"]}
+            />
+            <Table.Column
+              width={150}
+              title="Tipo de documento"
+              dataIndex={["r_usuarios_persona", "r_config_tipoDocumento"]}
+            />
+            <Table.Column
+              width={150}
+              title="Documento de identidad"
+              dataIndex={["r_usuarios_persona", "a_numeroDocumento"]}
+            />
+            <Table.Column
+              width={150}
+              title="Fecha de expedición"
+              dataIndex={["r_usuarios_persona", "a_fechaExpedicionDocumento"]}
+            />
+          </Table>
+        </Card>
+      </Page>
+    </Policy>
+  );
+};
 
-export default ListadoIncripciones
+export default ListadoIncripciones;
