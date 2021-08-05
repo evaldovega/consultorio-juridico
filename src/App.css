@@ -324,9 +324,6 @@ label{
     display: grid;
     grid-template-columns: repeat(3, calc(100% / 3));
     grid-gap: 10px;
-<<<<<<< Updated upstream
-    grid-auto-rows: minmax(100px, auto);
-=======
     grid-auto-rows: 1fr;
 }
 .grid-4{
@@ -338,7 +335,6 @@ label{
 }
 .grid-2 .ant-card,.grid-3 .ant-card,.grid-4 .ant-card{
     height: 100%;
->>>>>>> Stashed changes
 }
 .footer-content{
     animation-delay: .2s;

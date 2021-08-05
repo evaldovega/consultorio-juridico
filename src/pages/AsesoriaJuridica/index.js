@@ -15,10 +15,6 @@ import Page from 'components/Page'
 
 const AsesoriaJuridicaHome=()=>{
     return (
-<<<<<<< Updated upstream
-=======
-      <Policy policy={[]} feedback={<AccessDenied msn='Acceso denegado'/>}>
->>>>>>> Stashed changes
         <Page>
             <Breadcrumb>
             <Breadcrumb.Item>
