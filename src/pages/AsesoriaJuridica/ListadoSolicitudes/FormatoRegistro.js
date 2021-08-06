@@ -1,4 +1,4 @@
-import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, Select, Collapse } from 'antd'
+import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, DatePicker, Select, Collapse, Checkbox } from 'antd'
 import City from 'components/City';
 import State from 'components/State';
 import { useState, useEffect } from 'react';
@@ -46,7 +46,7 @@ const SolicitarAsesoria = () => {
                         style={{ marginBottom: 20 }}
                     >
                         <Panel header="Datos del usuario" key="1">
-                            <Card className='card-shadown' style={{ marginTop: 64 }}>
+                            <Card style={{ marginTop: 10 }}>
                                 <Spin spinning={loading}>
                                     <div className="grid-2">
                                         <div>
@@ -322,7 +322,7 @@ const SolicitarAsesoria = () => {
                         expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
                     >
                         <Panel header="Asunto de consulta" key="2">
-                            <Card className='card-shadown' style={{ marginTop: 34 }}>
+                            <Card style={{ marginTop: 10 }}>
                                 <Spin spinning={loading}>
                                     <Form.Item name="asunto" rules={[{ required: true, message: 'Describa los hechos' }]} tooltip="Describa detalladamente los hechos">
                                         <Input.TextArea rows={5} cols={5} placeholder="Exponga su caso de manera breve..." />
@@ -387,6 +387,190 @@ const SolicitarAsesoria = () => {
                                             <Select.Option value="Otro">Otro</Select.Option>
                                         </Select>
                                     </Form.Item>
+                                </div>
+                            </div>
+                            <div style={{ width: "100%", backgroundColor: '#F7F7F7', paddingHorizontal: 5 }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flex: 2 }}>
+                                        Nombre del estudiante
+                                    </div>
+                                    <div style={{ flex: 1, textAlign: 'right', color: '#C7C7C7' }}>
+                                        X
+                                    </div>
+                                </div>
+                                <hr style={{ color: '#c7c7c7' }} />
+                            </div>
+                            <div style={{ width: "100%" }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flex: 2 }}>
+                                        Nombre del estudiante
+                                    </div>
+                                    <div style={{ flex: 1, textAlign: 'right', color: '#C7C7C7' }}>
+                                        X
+                                    </div>
+                                </div>
+                                <hr style={{ color: '#c7c7c7' }} />
+                            </div>
+                            <div className="grid-2">
+                                <div>
+                                    <Form.Item
+                                        label="Nombres y apellidos"
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                                <div>
+                                    <Form.Item
+                                        label="Consultorio No."
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                            </div>
+                            <div className="grid-2">
+                                <div>
+                                    <Form.Item label="Área de la asesoría" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                            </div>
+                        </Spin>
+                    </Card>
+                    <Typography.Title level={5} className="title-blue">
+                        Datos del estudiante
+                    </Typography.Title>
+                    <Card className='card-shadown' style={{ marginTop: 34 }}>
+                        <Spin spinning={loading}>
+                            <Form.Item name="asunto" label="Recomendaciones">
+                                <Input.TextArea rows={5} cols={5} />
+                            </Form.Item>
+                            <Form.Item name="asunto" label="Compromisos">
+                                <Input.TextArea rows={5} cols={5} />
+                            </Form.Item>
+                            <div className="grid-4">
+                                <div>
+                                    <Form.Item label="Fecha para cumplir los compromisos" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                                <div>
+                                    <Form.Item label="Nueva cita" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                                <div>
+                                    <Form.Item label="Fecha" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                                <div>
+                                    <Form.Item label="Hora" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                            </div>
+                        </Spin>
+                    </Card>
+                    <Typography.Title level={5} className="title-blue">
+                        Seguimientos de asesoría
+                    </Typography.Title>
+                    <Card className='card-shadown' style={{ marginTop: 34 }}>
+                        <Spin spinning={loading}>
+                            <div style={{marginBottom: 10}}>
+                                <strong style={{marginRight: 20, fontSize: 20}}>Actividades realizadas:</strong>
+                                <strong style={{marginRight: 20}}>Asesorías</strong>
+                                <Checkbox>
+                                    Verbal
+                                </Checkbox>
+                                <Checkbox>
+                                    Escrita
+                                </Checkbox>
+                            </div>
+                            <div>
+                                <strong style={{marginRight: 20, fontSize: 20}}>Clase de asesorías:</strong>
+                                <strong style={{marginRight: 20}}>Penal</strong>
+                                <Checkbox>
+                                    Elaboración de denuncia
+                                </Checkbox>
+                                <strong style={{marginLeft: 20, marginRight: 20}}>Laboral</strong>
+                                <Checkbox>
+                                    Elaboración de liquidación
+                                </Checkbox>
+                            </div>
+                        </Spin>
+                    </Card>
+                    <Typography.Title level={5} className="title-blue">
+                        Procedimiento
+                    </Typography.Title>
+                    <Typography.Paragraph style={{ textAlign: 'left', color: '#707070', fontSize: 16 }}>
+                        Escoge la acción recomendada para el caso
+                    </Typography.Paragraph>
+                    <Card className='card-shadown' style={{ marginTop: 34 }}>
+                        <Spin spinning={loading}>
+                            <div className="grid-2">
+                                <div>
+                                    <Form.Item
+                                        label="Fecha de radicación"
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                                <div>
+                                    <Form.Item label="Entidad ante la que se presenta" name="c_genero">
+                                        <Select>
+                                            <Select.Option value="F">Femenino</Select.Option>
+                                            <Select.Option value="M">Masculino</Select.Option>
+                                            <Select.Option value="Otro">Otro</Select.Option>
+                                        </Select>
+                                    </Form.Item>
+                                </div>
+                            </div>
+                            <Form.Item name="asunto" label="Respuesta">
+                                <Input.TextArea rows={3} cols={5} />
+                            </Form.Item>
+                        </Spin>
+                    </Card>
+                    <Card className='card-shadown' style={{ marginTop: 34 }}>
+                        <Spin spinning={loading}>
+                            <Form.Item name="asunto" label="Observación">
+                                <Input.TextArea rows={5} cols={5} />
+                            </Form.Item>
+                            <Form.Item name="asunto" label="Se recomienda">
+                                <Input.TextArea rows={3} cols={5} />
+                            </Form.Item>
+                            <div className="grid-3">
+                                <div>
+                                    <span style={{ marginRight: 10 }}>Nueva cita</span>
+                                    <Checkbox>
+                                        Si
+                                    </Checkbox>
+                                    <Checkbox>
+                                        No
+                                    </Checkbox>
+                                </div>
+                                <div>
+                                    <span style={{ marginRight: 10 }}>Fecha y hora</span>
+                                    <DatePicker />
                                 </div>
                             </div>
                         </Spin>
