@@ -33,6 +33,8 @@ import VerInscripcion from 'pages/VerInscripcion';
 import AsesoriaJuridicaHome from 'pages/AsesoriaJuridica';
 import MisAsesorias from 'pages/MisAsesorias';
 import SolicitarAsesoria from 'pages/SolicitarAsesoria';
+import ListadoSolicitudes from 'pages/AsesoriaJuridica/ListadoSolicitudes'
+import FormatoRegistro from 'pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro'
 import Perfil from 'pages/Perfil';
 
 function App() {
@@ -95,6 +97,12 @@ function App() {
           </PrivateRouter>
           <PrivateRouter path="/asesoria-juridica/solicitar" exact>
             <SolicitarAsesoria />
+          </PrivateRouter>
+          <PrivateRouter path="/asesoria-juridica/solicitudes" exact>
+            <ListadoSolicitudes />
+          </PrivateRouter>
+          <PrivateRouter path="/asesoria-juridica/formato-registro" exact>
+            <FormatoRegistro />
           </PrivateRouter>
           <PrivateRouter path='/perfil' exact>
             <Perfil/>

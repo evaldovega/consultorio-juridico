@@ -48,6 +48,7 @@ const AsesoriaJuridicaHome=()=>{
             <Link to="/asesoria-juridica/solicitudes">
               <Card className='card-small card-shadown'>
                 <Space style={{display:'flex',alignItems:'center'}}>
+                <img src="/icons/list.png" width={42} />
                   <Typography.Title level={5} style={{margin:0}}>
                     Listado de solicitudes
                   </Typography.Title>
