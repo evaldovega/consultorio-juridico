@@ -25,7 +25,7 @@ const props = {
   },
 };
 
-const ArchivosInscripcion=()=>{
+const ArchivosAsesoria=()=>{
   const [archivos, setArchivos] = useState([
     {
       icon: "https://image.flaticon.com/icons/png/512/136/136522.png",
@@ -48,7 +48,7 @@ const ArchivosInscripcion=()=>{
     renderItem={item => (
       <List.Item>
         <List.Item.Meta
-          avatar={<img width={42} src={item.icon} />}
+          avatar={<img width={25} src={item.icon} />}
           title={<a href="https://ant.design">{item.title}</a>}
           
         />
@@ -60,4 +60,4 @@ const ArchivosInscripcion=()=>{
     )
 }
 
-export default ArchivosInscripcion
+export default ArchivosAsesoria

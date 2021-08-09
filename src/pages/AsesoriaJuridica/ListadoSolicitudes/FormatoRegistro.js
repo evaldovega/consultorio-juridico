@@ -1,11 +1,13 @@
-import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, DatePicker, Select, Collapse, Checkbox } from 'antd'
+import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, DatePicker, Select, Collapse, Checkbox, List } from 'antd'
 import City from 'components/City';
 import State from 'components/State';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import ArchivosInscripcion from "./Archivos";
 import SolicitarAsesoriaDocs from './Documentos';
-import { CaretRightOutlined } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
+import ArchivosAsesoria from './Archivos';
+import { MDBDataTable } from 'mdbreact'
+import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
 const { default: Page } = require("components/Page")
 const { default: Policy } = require("components/Policy")
 const { ROL_PERSONA } = require("constants/apiContants")
@@ -15,6 +17,17 @@ const SolicitarAsesoria = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const { Panel } = Collapse;
+
+    const [registros, setRegistros] = useState([
+        {
+            icon: "",
+            title: "Nombre del estudiante",
+        },
+        {
+            icon: "",
+            title: "Nombre del estudiante",
+        },
+    ]);
 
     const save = () => {
         setLoading(true);
@@ -32,7 +45,10 @@ const SolicitarAsesoria = () => {
                     <Breadcrumb.Item>
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item>Solicitar asesoria</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <Link to="/asesoria-juridica">Asesoría Jurídica</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>Formato de registro</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className='section-title'>
                     <Typography.Title level={4}>
@@ -41,8 +57,8 @@ const SolicitarAsesoria = () => {
                 </div>
                 <Form form={form} layout="vertical" onFinish={save}>
                     <Collapse
-                        defaultActiveKey={['1']}
-                        expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                        expandIcon={({ isActive }) => <CaretDownOutlined rotate={isActive ? 180 : 0} />}
+                        expandIconPosition={'right'}
                         style={{ marginBottom: 20 }}
                     >
                         <Panel header="Datos del usuario" key="1">
@@ -318,17 +334,14 @@ const SolicitarAsesoria = () => {
                         </Panel>
                     </Collapse>
                     <Collapse
-                        defaultActiveKey={['2']}
-                        expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                        expandIcon={({ isActive }) => <CaretDownOutlined rotate={isActive ? 180 : 0} />}
                     >
                         <Panel header="Asunto de consulta" key="2">
-                            <Card style={{ marginTop: 10 }}>
-                                <Spin spinning={loading}>
-                                    <Form.Item name="asunto" rules={[{ required: true, message: 'Describa los hechos' }]} tooltip="Describa detalladamente los hechos">
-                                        <Input.TextArea rows={5} cols={5} placeholder="Exponga su caso de manera breve..." />
-                                    </Form.Item>
-                                </Spin>
-                            </Card>
+                            <Spin spinning={loading}>
+                                <Form.Item name="asunto" rules={[{ required: true, message: 'Describa los hechos' }]} tooltip="Describa detalladamente los hechos">
+                                    <Input.TextArea rows={5} cols={5} maxLength={200} placeholder="Exponga su caso de manera breve..." />
+                                </Form.Item>
+                            </Spin>
                         </Panel>
                     </Collapse>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -339,11 +352,12 @@ const SolicitarAsesoria = () => {
                         </div>
                         <div style={{ textAlign: 'right', flex: 1, marginTop: 50 }}>
                             <SolicitarAsesoriaDocs />
+
                         </div>
                     </div>
                     <Card className='card-shadown' style={{ marginTop: 34 }}>
                         <Spin spinning={loading}>
-                            <ArchivosInscripcion />
+                            <ArchivosAsesoria />
                         </Spin>
                     </Card>
                     <Card className='card-shadown' style={{ marginTop: 64 }}>
@@ -389,28 +403,32 @@ const SolicitarAsesoria = () => {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div style={{ width: "100%", backgroundColor: '#F7F7F7', paddingHorizontal: 5 }}>
-                                <div style={{ display: 'flex' }}>
-                                    <div style={{ flex: 2 }}>
-                                        Nombre del estudiante
-                                    </div>
-                                    <div style={{ flex: 1, textAlign: 'right', color: '#C7C7C7' }}>
-                                        X
-                                    </div>
-                                </div>
-                                <hr style={{ color: '#c7c7c7' }} />
-                            </div>
-                            <div style={{ width: "100%" }}>
-                                <div style={{ display: 'flex' }}>
-                                    <div style={{ flex: 2 }}>
-                                        Nombre del estudiante
-                                    </div>
-                                    <div style={{ flex: 1, textAlign: 'right', color: '#C7C7C7' }}>
-                                        X
-                                    </div>
-                                </div>
-                                <hr style={{ color: '#c7c7c7' }} />
-                            </div>
+                            <List itemLayout="horizontal"
+                                style={{
+                                    marginBottom: 10
+                                }}
+                                dataSource={registros}
+                                renderItem={item => (
+                                    <List.Item extra={
+                                        <Button
+                                            style={{
+                                                border: 0
+                                            }}
+                                        >
+                                            <CloseOutlined style={{
+                                                height: 30,
+                                                color: "#b0b0b0"
+                                            }} />
+                                        </Button>
+                                    }>
+                                        <List.Item.Meta
+                                            title={<a href="https://ant.design">{item.title}</a>}
+
+                                        />
+                                    </List.Item>
+                                )}>
+
+                            </List>
                             <div className="grid-2">
                                 <div>
                                     <Form.Item
@@ -496,9 +514,9 @@ const SolicitarAsesoria = () => {
                     </Typography.Title>
                     <Card className='card-shadown' style={{ marginTop: 34 }}>
                         <Spin spinning={loading}>
-                            <div style={{marginBottom: 10}}>
-                                <strong style={{marginRight: 20, fontSize: 20}}>Actividades realizadas:</strong>
-                                <strong style={{marginRight: 20}}>Asesorías</strong>
+                            <div style={{ marginBottom: 10 }}>
+                                <strong style={{ marginRight: 20, fontSize: 20 }}>Actividades realizadas:</strong>
+                                <strong style={{ marginRight: 20 }}>Asesorías</strong>
                                 <Checkbox>
                                     Verbal
                                 </Checkbox>
@@ -507,12 +525,12 @@ const SolicitarAsesoria = () => {
                                 </Checkbox>
                             </div>
                             <div>
-                                <strong style={{marginRight: 20, fontSize: 20}}>Clase de asesorías:</strong>
-                                <strong style={{marginRight: 20}}>Penal</strong>
+                                <strong style={{ marginRight: 20, fontSize: 20 }}>Clase de asesorías:</strong>
+                                <strong style={{ marginRight: 20 }}>Penal</strong>
                                 <Checkbox>
                                     Elaboración de denuncia
                                 </Checkbox>
-                                <strong style={{marginLeft: 20, marginRight: 20}}>Laboral</strong>
+                                <strong style={{ marginLeft: 20, marginRight: 20 }}>Laboral</strong>
                                 <Checkbox>
                                     Elaboración de liquidación
                                 </Checkbox>

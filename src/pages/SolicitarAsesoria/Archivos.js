@@ -1,6 +1,6 @@
 import React from 'react'
-import { Upload, message, List,Avatar } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { Upload, message, Button, List, Avatar } from 'antd';
+import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
 const { Dragger } = Upload;
@@ -25,7 +25,7 @@ const props = {
   },
 };
 
-const ArchivosInscripcion=()=>{
+const ArchivosAsesoria = () => {
   const [archivos, setArchivos] = useState([
     {
       icon: "https://image.flaticon.com/icons/png/512/136/136522.png",
@@ -41,23 +41,34 @@ const ArchivosInscripcion=()=>{
     }
   ]);
 
-    return (
-        <div>
-  <List itemLayout="horizontal"
-    dataSource={archivos}
-    renderItem={item => (
-      <List.Item>
-        <List.Item.Meta
-          avatar={<img width={42} src={item.icon} />}
-          title={<a href="https://ant.design">{item.title}</a>}
-          
-        />
-      </List.Item>
-    )}>
+  return (
+    <div>
+      <List itemLayout="horizontal"
+        dataSource={archivos}
+        renderItem={item => (
+          <List.Item extra={
+            <Button 
+              style={{
+                border: 0
+              }}
+            >
+              <CloseOutlined style={{
+                height: 30,
+                color: "#b0b0b0"
+              }} />
+            </Button>
+          }>
+            <List.Item.Meta
+              avatar={<img width={20} src={item.icon} />}
+              title={<a href="https://ant.design">{item.title}</a>}
 
-  </List>
-        </div>
-    )
+            />
+          </List.Item>
+        )}>
+
+      </List>
+    </div>
+  )
 }
 
-export default ArchivosInscripcion
+export default ArchivosAsesoria

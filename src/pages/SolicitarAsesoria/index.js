@@ -3,7 +3,7 @@ import City from 'components/City';
 import State from 'components/State';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import ArchivosInscripcion from "./Archivos";
+import ArchivosAsesoria from "./Archivos";
 import SolicitarAsesoriaDocs from './Documentos';
 const { default: Page } = require("components/Page")
 const { default: Policy } = require("components/Policy")
@@ -335,8 +335,8 @@ const SolicitarAsesoria = () => {
               </Form.Item>
             </Spin>
           </Card>
-          <div style={{display: 'flex', alignItems: 'center'}}>
-            <div style={{flex: 1}}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
               <Typography.Title level={5} className="title-blue">
                 Documentos anexados
               </Typography.Title>
@@ -347,7 +347,7 @@ const SolicitarAsesoria = () => {
           </div>
           <Card className='card-shadown' style={{ marginTop: 34 }}>
             <Spin spinning={loading}>
-              <ArchivosInscripcion />
+              <ArchivosAsesoria />
             </Spin>
           </Card>
           <Form.Item style={{ marginTop: 20, textAlign: 'right' }}>

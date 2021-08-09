@@ -88,7 +88,8 @@ label{
 .btn-upload{
     background-color: #ffff;
     border-color: #00378b;
-    color: #00378b; 
+    color: #00378b;
+    box-shadow: 10px 10px 15px -6px rgba(0,0,0,0.20);
 }
 .ant-upload :hover{
     background-color: #00378b;
@@ -319,9 +320,34 @@ label{
     grid-template-columns:repeat(3,1fr);
 }
 
+#tabla-listado-solicitudes {
+    width: 100%;
+}
+
+#tabla-listado-solicitudes tbody + thead {
+    display: none;
+}
+
+#tabla-listado-solicitudes tbody {
+    border-top: #000;
+    border-top-width: 10px;
+}
+
+#tabla-listado-solicitudes th {
+    background-color: #FFFFFF;
+}
+
+.ant-collapse {
+    box-shadow: 10px 10px 15px -6px rgba(0,0,0,0.20);
+    border-radius: 8px;
+    border: 0;
+    background-color: #fff;
+}
+
 .ant-btn-dangerous.ant-btn-primary{
     background: #cc1212;
     border-color: #cc1212;
+    box-shadow: 10px 10px 15px -6px rgba(0,0,0,0.20);
 }
 .grid-2{
     display: grid;
