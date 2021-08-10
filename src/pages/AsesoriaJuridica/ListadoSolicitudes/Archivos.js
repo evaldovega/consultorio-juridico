@@ -1,6 +1,6 @@
 import React from 'react'
-import { Upload, message, List,Avatar } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { Upload, message, List,Avatar, Button } from 'antd';
+import { InboxOutlined, CloseOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
 const { Dragger } = Upload;
@@ -46,7 +46,18 @@ const ArchivosAsesoria=()=>{
   <List itemLayout="horizontal"
     dataSource={archivos}
     renderItem={item => (
-      <List.Item>
+      <List.Item extra={
+        <Button 
+          style={{
+            border: 0
+          }}
+        >
+          <CloseOutlined style={{
+            height: 30,
+            color: "#b0b0b0"
+          }} />
+        </Button>
+      }>
         <List.Item.Meta
           avatar={<img width={25} src={item.icon} />}
           title={<a href="https://ant.design">{item.title}</a>}

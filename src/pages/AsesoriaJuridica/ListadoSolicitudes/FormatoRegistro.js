@@ -1,4 +1,4 @@
-import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, DatePicker, Select, Collapse, Checkbox, List } from 'antd'
+import { Form, Input, Button, Breadcrumb, Typography, Card, Spin, notification, DatePicker, Select, Collapse, Checkbox, List, Table } from 'antd'
 import City from 'components/City';
 import State from 'components/State';
 import { useState, useEffect } from 'react';
@@ -357,7 +357,51 @@ const SolicitarAsesoria = () => {
                     </div>
                     <Card className='card-shadown' style={{ marginTop: 34 }}>
                         <Spin spinning={loading}>
-                            <ArchivosAsesoria />
+                            {/* <ArchivosAsesoria /> */}
+                            <Table 
+                                columns={[
+                                    {
+                                        title: 'Documento',
+                                        dataIndex: 'documento',
+                                        key: 'documento'
+                                    },
+                                    {
+                                        title: 'Reserva legal',
+                                        dataIndex: 'reservalegal',
+                                        key: 'reservalegal',
+                                        render: text => <Checkbox />
+                                    },
+                                    {
+                                        title: '',
+                                        dataIndex: 'delete',
+                                        key: 'delete',
+                                        render: text => 
+                                            <Button style={{
+                                                border: 0,
+                                                backgroundColor: 'transparent'
+                                            }}>
+                                                <CloseOutlined style={{
+                                                    color: '#C7C7C7'
+                                                }} />
+                                            </Button>
+                                    }
+                                ]}
+                                dataSource={[
+                                    {
+                                        key: '1',
+                                        documento: 'Nombre del documento adjuntado',
+                                        reservalegal: '',
+                                        delete: ''
+                                    },
+                                    {
+                                        key: '2',
+                                        documento: 'Nombre del documento adjuntado',
+                                        reservalegal: '',
+                                        delete: ''
+                                    }
+                                ]}
+                                pagination={false}
+                            />
                         </Spin>
                     </Card>
                     <Card className='card-shadown' style={{ marginTop: 64 }}>
