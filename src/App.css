@@ -357,16 +357,14 @@ label{
 }
 .grid-3{
     display: grid;
-    width: 95%;
-    margin:0 auto;
+    width: 99%;
     grid-template-columns: repeat(3, calc(100% / 3));
     grid-gap: 10px;
     grid-auto-rows: 1fr;
 }
 .grid-4{
     display: grid;
-    width: 95%;
-    margin:0;
+    width: 98%;
     grid-template-columns: repeat(4, calc(100% / 4));
     grid-gap: 10px;
     grid-auto-rows: 1fr;
