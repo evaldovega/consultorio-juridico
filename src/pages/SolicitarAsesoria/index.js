@@ -1,7 +1,9 @@
-import { Breadcrumb, Button, Card, 
-  Checkbox, DatePicker, Form, 
-  Input, notification, Select, 
-  Spin, Switch, Typography } from 'antd';
+import {
+  Breadcrumb, Button, Card,
+  Checkbox, DatePicker, Form,
+  Input, notification, Select,
+  Spin, Switch, Typography
+} from 'antd';
 import City from 'components/City';
 import Country from "components/Country";
 import State from 'components/State';
@@ -10,6 +12,8 @@ import { Link } from "react-router-dom";
 import API from 'utils/Axios';
 import ArchivosAsesoria from "./Archivos";
 import SolicitarAsesoriaDocs from './Documentos';
+
+var moment = require('moment')
 
 const { default: Page } = require("components/Page")
 const { default: Policy } = require("components/Policy")
@@ -31,13 +35,20 @@ const SolicitarAsesoria = () => {
   const [etnias, setEtnias] = useState([])
   const [error, setError] = useState(null)
 
-  const save = () => {
+  const save = async (data) => {
     setLoading(true);
-    setTimeout(() => {
-      notification.success({ duration: 5, message: 'Asesoria registrada correctamente', description: 'Su radicado es 2021-002, le notificaremos cuando se le asigne un abogado.' })
-      setLoading(false)
-      form.setFieldsValue({ asunto: "" })
-    }, 2000)
+    API.post('asesorias/solicitud/', data)
+      .then(({ data }) => {
+        setLoading(false)
+        notification['success']({
+          message: 'Felicitaciones',
+          description:
+            'Su asesoría fue enviada correctamente.',
+        });
+      })
+      .catch(err => {
+        console.log(err.response.data)
+      })
   }
 
   const load = () => {
@@ -156,21 +167,28 @@ const SolicitarAsesoria = () => {
         <Form form={form} layout="vertical" onFinish={save}>
           <Card className='card-shadown' style={{ marginTop: 64 }}>
             <Spin spinning={loading}>
+              <Form.Item name="dt_fechaAsesoria" initialValue={moment().format('YYYY-MM-DD')} noStyle>
+                <Input type="hidden"/>
+              </Form.Item>
+              <Form.Item name="ht_horaAsesoria" initialValue={moment().format('HH:mm')} noStyle>
+                <Input type="hidden" />
+              </Form.Item>
               <div className="grid-2">
                 <div>
+
                   <Form.Item
                     label="Nombres y apellidos"
-                    name="r_nombres"
+                    name="a_nombreCompleto"
                   >
                     <Input />
                   </Form.Item>
                 </div>
                 <div>
                   <Form.Item
-                    label="Fecha de nacimiento"
-                    name="fechanacimiento"
+                    label="Edad"
+                    name="a_edad"
                   >
-                    <DatePicker />
+                    <Input />
                   </Form.Item>
                 </div>
               </div>
@@ -240,12 +258,12 @@ const SolicitarAsesoria = () => {
               </div>
               <div className="grid-2">
                 <div>
-                  <Form.Item label="Mujer cabeza de familia" name="cdf">
+                  <Form.Item label="Mujer cabeza de familia" name="b_mujerCabezaFamilia">
                     <Switch checkedChildren="Si" unCheckedChildren="No" />
                   </Form.Item>
                 </div>
                 <div>
-                  <Form.Item label="Afectado por la violencia" name="c_afectado">
+                  <Form.Item label="Afectado por la violencia" name="r_config_afectacionViolencia">
                     <Select>
                       {afectacionViolencia.map((el, i) => (
                         <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
@@ -256,13 +274,14 @@ const SolicitarAsesoria = () => {
               </div>
               <div className="grid-2">
                 <div>
-                  <Form.Item label="Migrante" name="migrante">
+                  <Form.Item label="Migrante" name="b_migrante">
                     <Switch checkedChildren="Si" unCheckedChildren="No" />
                   </Form.Item>
                 </div>
                 <div>
                   <Form.Item
                     label="¿De dónde?"
+                    name="a_migrante"
                   >
                     <Input />
                   </Form.Item>
@@ -293,6 +312,7 @@ const SolicitarAsesoria = () => {
                 <div>
                   <Form.Item
                     label="Dirección de residencia"
+                    name="a_direccion"
                   >
                     <Input />
                   </Form.Item>
@@ -300,16 +320,17 @@ const SolicitarAsesoria = () => {
                 <div>
                   <Form.Item
                     label="Barrio"
+                    name="a_barrio"
                   >
                     <Input />
                   </Form.Item>
                 </div>
                 <div>
-                  <Country name="r_config_pais" state='r_config_departamento' rules={rules} />
+                  <Country name="r_config_paisUbicacion" state='r_config_departamentoUbicacion' rules={rules} />
                 </div>
-                <State name="r_config_departamento" city='r_config_ciudad' rules={rules} />
+                <State name="r_config_departamentoUbicacion" city='r_config_ciudadUbicacion' rules={rules} />
                 <div>
-                  <City name="r_config_ciudad" rules={rules} />
+                  <City name="r_config_ciudadUbicacion" rules={rules} />
                 </div>
                 <div>
                   <Form.Item label="Vivienda" name="r_config_tipovivienda">
@@ -323,7 +344,7 @@ const SolicitarAsesoria = () => {
               </div>
               <div className="grid-2">
                 <div>
-                  <Form.Item label="Estado civil" name="r_config_estadocivil">
+                  <Form.Item label="Estado civil" name="r_config_estadoCivil">
                     <Select>
                       {estadosCiviles.map((el, i) => (
                         <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
@@ -334,6 +355,7 @@ const SolicitarAsesoria = () => {
                 <div>
                   <Form.Item
                     label="Teléfono celular"
+                    name="a_telefonoCelular"
                   >
                     <Input />
                   </Form.Item>
@@ -343,6 +365,7 @@ const SolicitarAsesoria = () => {
                 <div>
                   <Form.Item
                     label="Correo electrónico"
+                    name="a_correoElectronico"
                     rules={[{
                       type: 'email',
                       message: 'Introduzca un e-mail válido.'
@@ -369,12 +392,12 @@ const SolicitarAsesoria = () => {
               <div className="grid-2">
                 <div className="grid-2">
                   <div>
-                    <Form.Item label="Trabaja" name="c_trabaja">
+                    <Form.Item label="Trabaja" name="b_trabaja">
                       <Switch checkedChildren="Si" unCheckedChildren="No" />
                     </Form.Item>
                   </div>
                   <div>
-                    <Form.Item label="Servidor público" name="c_servidor">
+                    <Form.Item label="Servidor público" name="b_servidorPublico">
                       <Switch checkedChildren="Si" unCheckedChildren="No" />
                     </Form.Item>
                   </div>
@@ -383,6 +406,7 @@ const SolicitarAsesoria = () => {
                   <div>
                     <Form.Item
                       label="Cargo"
+                      name="a_cargoEmpresa"
                     >
                       <Input />
                     </Form.Item>
@@ -393,19 +417,20 @@ const SolicitarAsesoria = () => {
                 <div>
                   <Form.Item
                     label="Nombre de la empresa donde labora"
+                    name="a_nombreEmpresa"
                   >
                     <Input />
                   </Form.Item>
                 </div>
                 <div>
-                  <Form.Item label="Presentación de SISBEN" name="c_sisben">
+                  <Form.Item label="Presentación de SISBEN" name="b_presentacionSisben">
                     <Switch checkedChildren="Si" unCheckedChildren="No" />
                   </Form.Item>
                 </div>
               </div>
               <div className="grid-2">
                 <div>
-                  <Form.Item label="Presentación de recibo de servicio público" name="c_genero">
+                  <Form.Item label="Presentación de recibo de servicio público" name="b_presentacionServiciosPublicos">
                     <Switch checkedChildren="Si" unCheckedChildren="No" />
                   </Form.Item>
                 </div>
@@ -429,7 +454,7 @@ const SolicitarAsesoria = () => {
           </Typography.Title>
           <Card className='card-shadown' style={{ marginTop: 34 }}>
             <Spin spinning={loading}>
-              <Form.Item name="asunto" rules={[{ required: true, message: 'Describa los hechos' }]} tooltip="Describa detalladamente los hechos">
+              <Form.Item name="t_asuntoConsulta" rules={[{ required: true, message: 'Describa los hechos' }]} tooltip="Describa detalladamente los hechos">
                 <Input.TextArea rows={5} cols={5} placeholder="Exponga su caso de manera breve..." />
               </Form.Item>
             </Spin>
