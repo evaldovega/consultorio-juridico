@@ -27,6 +27,13 @@ const ListadoSolicitudes = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
+  const getSolicitudes = async () => {
+    API.get("asesorias/solicitud/").then((response) => {
+      console.log(JSON.stringify(response.data));
+      setDoc(response.data);
+    });
+  };
+
   const getColumnSearchProps = (dataIndex) => {
     let searchInput;
     const _props = {
@@ -123,6 +130,7 @@ const ListadoSolicitudes = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      getSolicitudes();
       setLoading(false);
       //setDoc(draft=>inscripciones)
     }, 1000);
@@ -146,44 +154,44 @@ const ListadoSolicitudes = () => {
           </Typography.Title>
         </div>
         <Card className="card-shadown">
-          
+
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Form style={{ flex: 1 }}>
-                <Form.Item label="Buscar">
-                  <Input />
-                </Form.Item>
-              </Form>
-              <div style={{ flex: 1 }}></div>
-            </div>
-            <Table
-              dataSource={docs}
-              loading={loading}
-              size="small"
-              rowKey="_id"
-              scroll={{ x: 400, y: 400 }}
-            >
-              <Table.Column
-                width={100}
-                fixed={true}
-                title="No. de solicitud"
-                dataIndex="id"
-              />
-          <Table.Column
-                width={200}
-                title="Asunto de consulta"
-                dataIndex={["r_usuarios_persona", "a_primerNombre"]}
-              />
-              <Table.Column
-                width={100}
-                title="Fecha"
-                dataIndex={["r_usuarios_persona", "a_segundoNombre"]}
-              />
-              <Table.Column
-                width={100}
-                title="Hora"
-                dataIndex={["r_usuarios_persona", "a_primerApellido"]}
-              />
-            </Table>
+            <Form style={{ flex: 1 }}>
+              <Form.Item label="Buscar">
+                <Input />
+              </Form.Item>
+            </Form>
+            <div style={{ flex: 1 }}></div>
+          </div>
+          <Table
+            dataSource={docs}
+            loading={loading}
+            size="small"
+            rowKey="_id"
+            scroll={{ x: 400, y: 400 }}
+          >
+            <Table.Column
+              width={100}
+              fixed={true}
+              title="No. de solicitud"
+              dataIndex={["r_asesoria_casoJuridico", "id"]}
+            />
+            <Table.Column
+              width={200}
+              title="Nombre completo"
+              dataIndex={["a_nombreCompleto"]}
+            />
+            <Table.Column
+              width={100}
+              title="Fecha"
+              dataIndex={["dt_fechaAsesoria"]}
+            />
+            <Table.Column
+              width={150}
+              title="Asunto de consulta"
+              dataIndex={["t_asuntoConsulta"]}
+            />
+          </Table>
         </Card>
       </Page>
     </Policy>
