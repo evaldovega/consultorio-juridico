@@ -4,6 +4,7 @@ import {
     SendOutlined,
     CustomerServiceOutlined,DownloadOutlined
   } from "@ant-design/icons";
+import { Link } from 'react-router-dom'
 
   const { Footer } = Layout;
 
@@ -23,7 +24,12 @@ const Foot=()=>{
                     <CustomerServiceOutlined size={32} style={{color:'#ffff'}}/> <Typography.Text>3008010515</Typography.Text>
                   </Space>
                   <Space style={{display:'flex',alignItems:'center'}} align='start'>
-                    <SendOutlined size={32} style={{color:'#ffff'}}/> <Typography.Text>correo@corre.com</Typography.Text>
+                    <SendOutlined size={32} style={{color:'#ffff'}}/>
+                    <a href={`mailto:correo@corre.com`}>
+                      <Typography.Text>
+                        correo@corre.com
+                      </Typography.Text>
+                    </a>
                   </Space>
             </div>
             <div>
