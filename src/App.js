@@ -34,6 +34,8 @@ import AsesoriaJuridicaHome from 'pages/AsesoriaJuridica';
 import MisAsesorias from 'pages/MisAsesorias';
 import SolicitarAsesoria from 'pages/SolicitarAsesoria';
 import Perfil from 'pages/Perfil';
+import CentroDeConciliacion from 'pages/CentroConciliacion';
+import CentroDeConciliacionRegistrar from 'pages/CentroConciliacion/Registrar';
 
 function App() {
   return (
@@ -99,6 +101,12 @@ function App() {
           <PrivateRouter path='/perfil' exact>
             <Perfil/>
           </PrivateRouter>
+          <PrivateRouter path="/centro-de-conciliacion" exact>
+            <CentroDeConciliacion/>
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/solicitar" exact>
+            <CentroDeConciliacionRegistrar/>
+            </PrivateRouter>
 
           <Route path="/login" exact component={Login} />
           <Route path="/registrarse" exact component={Registro} />

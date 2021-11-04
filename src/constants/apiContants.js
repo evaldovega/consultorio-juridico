@@ -59,6 +59,14 @@ export const MODULES = [
     id: '',
     name: "Solicitar asesoría jurídica",
     policies:[ROL_PERSONA],
-    url:'/guardar-asesoria'
+    url:'/guardar-asesoria',
+    img: "images/modulo2.jpg",
+  },
+  {
+    id: '',
+    name: "Centro de conciliación",
+    policies:[],
+    url:'/centro-de-conciliacion',
+    img: "images/modulo2.jpg",
   }
 ];
