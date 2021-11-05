@@ -45,7 +45,7 @@ const CentroDeConciliacion=()=>{
                 </Space>
               </Card>
             </Link>
-            <Link to="/asesoria-juridica/solicitudes">
+            <Link to="/centro-de-conciliacion/solicitudes">
               <Card className='card-small card-shadown'>
                 <Space style={{display:'flex',alignItems:'center'}}>
                   <Typography.Title level={5} style={{margin:0}}>
