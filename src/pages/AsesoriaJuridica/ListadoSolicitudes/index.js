@@ -21,7 +21,7 @@ import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
 
-const ListadoSolicitudes = () => {
+const ListadoSolicitudesAsesoria = () => {
   const [docs, setDoc] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
@@ -198,4 +198,4 @@ const ListadoSolicitudes = () => {
   );
 };
 
-export default ListadoSolicitudes;
+export default ListadoSolicitudesAsesoria;

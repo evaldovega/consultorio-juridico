@@ -31,6 +31,7 @@ import ListadoIncripciones from 'pages/ListadoIncripciones';
 import VerInscripcion from 'pages/VerInscripcion';
 
 import AsesoriaJuridicaHome from 'pages/AsesoriaJuridica';
+import ListadoSolicitudesAsesoria from 'pages/AsesoriaJuridica/ListadoSolicitudes';
 import MisAsesorias from 'pages/MisAsesorias';
 import SolicitarAsesoria from 'pages/SolicitarAsesoria';
 import Perfil from 'pages/Perfil';
@@ -93,11 +94,14 @@ function App() {
             <PrivateRouter path="/asesoria-juridica" exact>
               <AsesoriaJuridicaHome />
             </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/solicitar" exact>
+              <SolicitarAsesoria />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/solicitudes" exact>
+              <ListadoSolicitudesAsesoria />
+            </PrivateRouter>
             <PrivateRouter path="/mis-asesorias" exact>
               <MisAsesorias />
-            </PrivateRouter>
-            <PrivateRouter path="/guardar-asesoria" exact>
-              <SolicitarAsesoria />
             </PrivateRouter>
             <PrivateRouter path='/perfil' exact>
               <Perfil />
