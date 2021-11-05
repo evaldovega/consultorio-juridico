@@ -4,7 +4,7 @@ console.log(ACCESS_TOKEN_NAME)
 const getToken = () => `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`;
 
 const API = axios.create({
-  baseURL: "http://ua-cj-dashboard.ufotech.co/api/",
+  baseURL: "http://179.0.29.155:8000/api/",
   headers: {
     'Content-Type': 'application/json'
   }

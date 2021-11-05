@@ -8,12 +8,27 @@ import OrientacionSexualSelector from "components/OrientacionSexualSelector";
 import EtniaSelector from "components/EtniaSelector";
 import Discapacidad from "pages/InscripcionEstudiantes/Formularios/Inscripcion/Discapacidad";
 import Checkbox from "antd/lib/checkbox/Checkbox";
+import API from 'utils/Axios'
+import { useState, useEffect } from 'react'
 
 const { Typography, Card } = require("antd");
 
 const Perfil = () => {
   const rules = [{ required: true, message: "Ingrese esta información" }];
+  const [estadoCivil, setEstadoCivil] = useState([])
   const [form] = Form.useForm();
+
+  const load = async () => {
+    API('configuracion/estado-civil/')
+    .then(({data}) => {
+      setEstadoCivil(data)
+    })
+  }
+
+  useEffect(() => {
+    load()
+  }, [])
+
   return (
     <Page>
       <div>
@@ -55,7 +70,11 @@ const Perfil = () => {
                 <DatePicker />
               </Form.Item>
               <Form.Item label="Estado civil" rules={rules} name="ec">
-                <Select />
+                <Select>
+                  {estadoCivil.map((el) => (
+                    <Select.Option value={el.id}>{el.a_titulo}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
               <Form.Item
                 label="Profesión u oficio"

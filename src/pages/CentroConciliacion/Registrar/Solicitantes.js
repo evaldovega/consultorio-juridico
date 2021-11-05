@@ -41,7 +41,7 @@ const Solicitantes=()=>{
                                 </Dropdown.Button>
                         </div>
                         <Form.List name="solicitantes">
-                                {(fields, { add, remove }) => (fields.map((field,index) => (<Solicitante  form={form} field={field} remove={remove} index={index}></Solicitante>)))}
+                                {(fields, { add, remove }) => (fields.map((field,index) => (<Solicitante key={index} form={form} field={field} remove={remove} index={index}></Solicitante>)))}
                         </Form.List>
                         <div style={{display:"flex",justifyContent:"space-between"}}>
                                 <span></span>

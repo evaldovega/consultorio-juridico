@@ -14,7 +14,7 @@ import { useForm } from "antd/lib/form/Form";
 import Page from 'components/Page'
 import Policy from "components/Policy";
 import AccessDenied from "components/Policy/AccessDenied";
-import 
+
 const CentroDeConciliacion=()=>{
     return (
       <Policy policy={[]} feedback={<AccessDenied msn='Acceso denegado'/>}>
