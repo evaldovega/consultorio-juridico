@@ -86,13 +86,13 @@ const Solicitante = ({ form, field, remove, index }) => {
                                         </Form.Item>
                                 </div>
                                 <div className="grid-3">
-                                        <Form.Item {...field} name={[field.name, 'numeroIdentidad']} fieldKey={[field.fieldKey, 'numeroIdentidad']} label="N° de identidad" rules={[{ required: true, message: 'Ingrese información' }]}>
+                                        <Form.Item {...field} name={[field.name, 'a_numeroIdentificacion']} fieldKey={[field.fieldKey, 'numeroIdentidad']} label="N° de identidad" rules={[{ required: true, message: 'Ingrese información' }]}>
                                                 <Input size="middle" />
                                         </Form.Item>
-                                        <Form.Item {...field} name={[field.name, 'expeidoEn']} fieldKey={[field.fieldKey, 'expeidoEn']} label="Expedido en" rules={[{ required: true, message: 'Ingrese información' }]}>
+                                        <Form.Item {...field} name={[field.name, 'a_lugarExpedicion']} fieldKey={[field.fieldKey, 'expeidoEn']} label="Expedido en" rules={[{ required: true, message: 'Ingrese información' }]}>
                                                 <Input size="middle" />
                                         </Form.Item>
-                                        <Form.Item {...field} name={[field.name, 'direccion']} fieldKey={[field.fieldKey, 'direccion']} label="Dirección" rules={[{ required: true, message: 'Ingrese información' }]}>
+                                        <Form.Item {...field} name={[field.name, 'a_direccion']} fieldKey={[field.fieldKey, 'direccion']} label="Dirección" rules={[{ required: true, message: 'Ingrese información' }]}>
                                                 <Input size="middle" />
                                         </Form.Item>
                                 </div>
@@ -108,7 +108,7 @@ const Solicitante = ({ form, field, remove, index }) => {
                                         </Form.Item>
                                 </div>
                                 <div className="grid-3">
-                                        <Form.Item {...field} name={[field.name, 'nombres']} fieldKey={[field.fieldKey, 'nombres']} label="Nombres" rules={[{ required: true, message: 'Ingrese información' }]}>
+                                        <Form.Item {...field} name={[field.name, 'a_nombreCompleto']} fieldKey={[field.fieldKey, 'nombres']} label="Nombres" rules={[{ required: true, message: 'Ingrese información' }]}>
                                                 <Input size="middle" />
                                         </Form.Item>
                                         <Form.Item {...field} name={[field.name, 'tel']} fieldKey={[field.fieldKey, 'tel']} label="Teléfono" rules={[{ required: true, message: 'Ingrese información' }]}>

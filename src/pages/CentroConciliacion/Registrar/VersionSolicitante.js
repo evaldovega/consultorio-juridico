@@ -20,12 +20,12 @@ const VersionSolicitante=({form})=>{
                 <Card className="card-shadown">
                         <Typography.Title>Versión del solicitante</Typography.Title>
                         <br></br>
-                        <Form.Item name="versionSolicitanteHace" label="Hace cuanto qué se incio el conflicto"  rules={[{ required: true, message: 'Ingrese información' }]}>
+                        <Form.Item name="r_config_tiempoConflicto" label="Hace cuánto que se inició el conflicto"  rules={[{ required: true, message: 'Ingrese información' }]}>
                                 <Input/>
                         </Form.Item>
                         <br></br>
                         <Typography.Title level={4}>Intención del solicitante</Typography.Title>
-                        <Form.Item name="versionSolicitanteIntencion"  rules={[{ required: true, message: 'Ingrese información' }]}>
+                        <Form.Item name="c_intencionSolicitante"  rules={[{ required: true, message: 'Ingrese información' }]}>
                                 <Radio.Group>
                                         <Radio value="1">Conciliar</Radio>
                                         <Radio value="2">Cumplir con el requisito de procedibilidad</Radio>
@@ -45,26 +45,26 @@ const VersionSolicitante=({form})=>{
 
                         <br></br>
                         <Typography.Title level={4}>Pretenciones iniciales</Typography.Title>
-                        <Form.Item name="versionSolicitantePretencionInicial"  rules={[{ required: true, message: 'Ingrese información' }]}>
+                        <Form.Item name="t_pretencionesIniciales"  rules={[{ required: true, message: 'Ingrese información' }]}>
                                 <Input.TextArea/>
                         </Form.Item>
 
                         <br></br>
                         <Typography.Title level={4}>Resumen de los hechos</Typography.Title>
-                        <Form.Item name="versionSolicitantePretencionResumen"  rules={[{ required: true, message: 'Ingrese información' }]}>
+                        <Form.Item name="t_resumenHechos"  rules={[{ required: true, message: 'Ingrese información' }]}>
                                 <Input.TextArea/>
                         </Form.Item>
                         <br></br>
                         <Typography.Title level={4}>Pruebas y anexos</Typography.Title>
-                        <Form.List name="versionSolicitanteAnexos"  rules={[{ required: true, message: 'Ingrese información' }]}>
+                        <Form.List name="t_pruebasAnexos"  rules={[{ required: true, message: 'Ingrese información' }]}>
                                 {(fields, { add, remove }) => (<div>{fields.map((field,index) => (<Adjunto form={form} field={field} remove={remove} index={index} />))}<Button onClick={add} type="primary" htmlType="button">Nuevo anexo</Button></div>)}
                         </Form.List>
                         <br></br>
                         <div className="grid-2">
-                                <Form.Item name="versionSolicitanteCuantia" label="Cuantia valor" rules={[{ required: true, message: 'Ingrese información' }]}>
+                                <Form.Item name="a_cuantiaValor" label="Cuantia valor" rules={[{ required: true, message: 'Ingrese información' }]}>
                                         <Input/>
                                 </Form.Item>
-                                <Form.Item name="versionSolicitanteCuantiaIndeterminada" label="Indeterminada">
+                                <Form.Item name="a_indeterminada" label="Indeterminada">
                                         <Input/>
                                 </Form.Item>
                         </div>
