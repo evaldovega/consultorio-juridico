@@ -1,6 +1,10 @@
 import { UploadOutlined } from '@ant-design/icons';
 import Adjunto from './Adjunto';
 import { useEffect } from 'react';
+import Country from '../../../components/Country'
+import State from '../../../components/State'
+import City from '../../../components/City'
+
 const { Card, Typography, Form, Input, Radio, Upload, Button } = require("antd")
 
 const VersionSolicitante=({form})=>{
@@ -34,12 +38,8 @@ const VersionSolicitante=({form})=>{
                         <Typography.Title level={4}>Lugar de los hechos</Typography.Title>
                         <br></br>
                         <div className="grid-2">
-                                <Form.Item name="versionSolicitanteDep" label="Departamento"  rules={[{ required: true, message: 'Ingrese información' }]}>
-                                        <Input/>
-                                </Form.Item>
-                                <Form.Item name="versionSolicitanteMun" label="Municipio"  rules={[{ required: true, message: 'Ingrese información' }]}>
-                                        <Input/>
-                                </Form.Item>
+                                <State name="r_config_departamento" city="r_config_municipio"/>
+                                <City name="r_config_municipio"/>
                         </div>
 
                         <br></br>
