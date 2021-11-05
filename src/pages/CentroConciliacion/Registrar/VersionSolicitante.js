@@ -38,6 +38,7 @@ const VersionSolicitante=({form})=>{
                         <Typography.Title level={4}>Lugar de los hechos</Typography.Title>
                         <br></br>
                         <div className="grid-2">
+                                <Country name="r_config_pais" state="r_config_departamento" />
                                 <State name="r_config_departamento" city="r_config_municipio"/>
                                 <City name="r_config_municipio"/>
                         </div>
