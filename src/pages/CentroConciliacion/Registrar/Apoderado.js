@@ -3,7 +3,7 @@ const { Form, Select, Input,DatePicker,InputNumber,Avatar } = require("antd")
 
 const Apoderado=({field})=>{
         return (
-                <div style={{marginLeft:50}}>
+                <div style={{marginLeft:"10px"}}>
                         <Typography.Title level={2}>Información del apoderado</Typography.Title>
                         <div className="grid-3">
                                 <Form.Item {...field} name={[field.name, 'apoderadoNombre']} fieldKey={[field.fieldKey, 'apoderadoNombre']} label="Nombres y apellidos" >

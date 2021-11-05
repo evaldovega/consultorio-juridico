@@ -58,9 +58,9 @@ const Solicitante = ({ form, field, remove, index }) => {
 
         if (solicitante.type == "natural") {
                 return (
-                        <div style={{ borderLeft: "2px solid #00378b" }}>
+                        <div style={{ borderLeft: "2px solid #00378b", paddingLeft: "20px" }}>
                                 <Popconfirm title="Se borrara el solicitante" onConfirm={() => remove(index)}>
-                                        <Avatar icon={<UserOutlined />} style={{ marginLeft: "-16px" }} />
+                                        <Avatar icon={<UserOutlined />} style={{ marginLeft: "-36px" }} />
                                 </Popconfirm>
 
                                 <div className="grid-3">
@@ -198,9 +198,9 @@ const Solicitante = ({ form, field, remove, index }) => {
         }
 
         return (
-                <div style={{ borderLeft: "2px solid #00378b" }}>
+                <div style={{ borderLeft: "2px solid #00378b", paddingLeft: "20px" }}>
                         <Popconfirm title="Se borrara el solicitante" onConfirm={() => remove(index)}>
-                                <Avatar icon={<BankOutlined />} style={{ marginLeft: "-16px" }} />
+                                <Avatar icon={<BankOutlined />} style={{ marginLeft: "-36px" }} />
                         </Popconfirm>
                         <div className="grid-3">
                                 <Form.Item {...field} name={[field.name, 'nombreJuridico']} fieldKey={[field.fieldKey, 'nombreJuridico']} label="Nombre de la persona jurídica" rules={[{ required: true, message: 'Ingrese información' }]}>
