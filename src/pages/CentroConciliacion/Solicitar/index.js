@@ -44,8 +44,32 @@ const SolicitarConciliacion = () => {
 
   const getSelectItems = async (data) => {
     API.get('configuracion/solicitante-servicio/')
-      .then(({data}) => {
+      .then(({ data }) => {
         setSolicitantes(data)
+      })
+    API.get('configuracion/finalidad-solicitante/')
+      .then(({ data }) => {
+        setFinalidades(data)
+      })
+    API.get('configuracion/tipo-caso-gratuito/')
+      .then(({ data }) => {
+        setCasosGratuitos(data)
+      })
+    API.get('configuracion/area-asesoria/')
+      .then(({ data }) => {
+        setAreas(data)
+      })
+    API.get('configuracion/tema-conciliacion/')
+      .then(({ data }) => {
+        setTemas(data)
+      })
+    API.get('configuracion/subtema-conciliacion/')
+      .then(({ data }) => {
+        setSubtemas(data)
+      })
+    API.get('configuracion/tiempo-conflicto/')
+      .then(({ data }) => {
+        setTiemposConflicto(data)
       })
   }
 
@@ -86,7 +110,7 @@ const SolicitarConciliacion = () => {
       draggable: true,
     });
   };
-  const loadDetail = () => {};
+  const loadDetail = () => { };
 
   //------Enviar el formulario de persona
   const save = () => {
@@ -210,9 +234,10 @@ const SolicitarConciliacion = () => {
                           Solicitante del servicio
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="">Seleccione...</option>
+                          {solicitantes.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.ht_horaAsesoria?.message} />
                       </Form.Group>
@@ -229,9 +254,10 @@ const SolicitarConciliacion = () => {
                           Finalidad del solicitante
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="">Seleccione...</option>
+                          {finalidades.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -246,9 +272,10 @@ const SolicitarConciliacion = () => {
                           Caso gratuito
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                        <option value="">Seleccione...</option>
+                            {casosGratuitos.map((el) => (
+                              <option value={el.id}>{el.a_titulo}</option>
+                            ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -263,9 +290,9 @@ const SolicitarConciliacion = () => {
                           Definición del asunto jurídico
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="">Seleccione...</option>
+                          <option value={true}>Si</option>
+                          <option value={false}>No</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -277,12 +304,13 @@ const SolicitarConciliacion = () => {
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>
-                            Área o materia
+                          Área o materia
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                        <option value="">Seleccione...</option>
+                          {areas.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -297,9 +325,10 @@ const SolicitarConciliacion = () => {
                           Tema
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                        <option value="">Seleccione...</option>
+                          {temas.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -314,9 +343,10 @@ const SolicitarConciliacion = () => {
                           Subtema
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                        <option value="">Seleccione...</option>
+                          {subtemas.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -331,9 +361,10 @@ const SolicitarConciliacion = () => {
                           Tiempo de conflicto
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                        <option value="">Seleccione...</option>
+                          {tiemposConflicto.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -348,9 +379,11 @@ const SolicitarConciliacion = () => {
                           Intención del solicitante
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="">Seleccione...</option>
+                          <option value="CONCILIAR">Conciliar</option>
+                          <option value="CUMPLIR_PROCEDIBILIDAD">Cumplir procedibilidad</option>
+                          <option value="DIALOGAR">Dialogar</option>
+                          <option value="OTRO">Otro</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -365,9 +398,9 @@ const SolicitarConciliacion = () => {
                           Departamentos
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="1">Una parte</option>
+                          <option value="2">Las dos partes</option>
+                          <option value="3">Mediante apoderado</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -382,9 +415,9 @@ const SolicitarConciliacion = () => {
                           Municipio
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="1">Una parte</option>
+                          <option value="2">Las dos partes</option>
+                          <option value="3">Mediante apoderado</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -461,12 +494,12 @@ const SolicitarConciliacion = () => {
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>
-                          Municipio
+                          Indeterminada
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="1">Una parte</option>
+                          <option value="2">Las dos partes</option>
+                          <option value="3">Mediante apoderado</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -481,9 +514,9 @@ const SolicitarConciliacion = () => {
                           Conciliador
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                            <option value="1">Una parte</option>
-                            <option value="2">Las dos partes</option>
-                            <option value="3">Mediante apoderado</option>
+                          <option value="1">Una parte</option>
+                          <option value="2">Las dos partes</option>
+                          <option value="3">Mediante apoderado</option>
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>

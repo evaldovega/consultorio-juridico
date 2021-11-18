@@ -37,6 +37,7 @@ import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 
 import CentroConciliacionHome from "pages/CentroConciliacion";
 import SolicitarConciliacion from "pages/CentroConciliacion/Solicitar"
+import ListadoSolicitudesConciliacion from "pages/CentroConciliacion/ListadoSolicitudes"
 
 import moment from "moment";
 moment.locale("es");
@@ -126,6 +127,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/centro-conciliacion/solicitar" exact>
               <SolicitarConciliacion />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-conciliacion/solicitudes" exact>
+              <ListadoSolicitudesConciliacion />
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
