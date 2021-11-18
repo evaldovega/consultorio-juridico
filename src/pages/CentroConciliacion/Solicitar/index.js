@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import API from "utils/Axios";
 import { useParams, useHistory } from "react-router-dom";
@@ -19,12 +19,19 @@ import Context from "./Ctx";
 import Errors from "components/Errors";
 import ArchivosAsesoria from "./Archivos";
 import AsesoriaEstudiantes from "./Estudiantes";
+import Country from "components/Country";
+import State from "components/State";
+import City from "components/City";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
 const { ROL_PERSONA } = require("constants/apiContants");
 
 const SolicitarConciliacion = () => {
+  const {
+    readOnly
+  } = useContext(Context);
+
   const history = useHistory();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -272,10 +279,10 @@ const SolicitarConciliacion = () => {
                           Caso gratuito
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                        <option value="">Seleccione...</option>
-                            {casosGratuitos.map((el) => (
-                              <option value={el.id}>{el.a_titulo}</option>
-                            ))}
+                          <option value="">Seleccione...</option>
+                          {casosGratuitos.map((el) => (
+                            <option value={el.id}>{el.a_titulo}</option>
+                          ))}
                         </Form.Control>
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
@@ -307,7 +314,7 @@ const SolicitarConciliacion = () => {
                           Área o materia
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                        <option value="">Seleccione...</option>
+                          <option value="">Seleccione...</option>
                           {areas.map((el) => (
                             <option value={el.id}>{el.a_titulo}</option>
                           ))}
@@ -325,7 +332,7 @@ const SolicitarConciliacion = () => {
                           Tema
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                        <option value="">Seleccione...</option>
+                          <option value="">Seleccione...</option>
                           {temas.map((el) => (
                             <option value={el.id}>{el.a_titulo}</option>
                           ))}
@@ -343,7 +350,7 @@ const SolicitarConciliacion = () => {
                           Subtema
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                        <option value="">Seleccione...</option>
+                          <option value="">Seleccione...</option>
                           {subtemas.map((el) => (
                             <option value={el.id}>{el.a_titulo}</option>
                           ))}
@@ -361,7 +368,7 @@ const SolicitarConciliacion = () => {
                           Tiempo de conflicto
                         </Form.Label>
                         <Form.Control {...field} as="select">
-                        <option value="">Seleccione...</option>
+                          <option value="">Seleccione...</option>
                           {tiemposConflicto.map((el) => (
                             <option value={el.id}>{el.a_titulo}</option>
                           ))}
@@ -390,18 +397,38 @@ const SolicitarConciliacion = () => {
                     )}
                   />
                   <Controller
+                    name="r_config_pais"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group as={Col} xs="12" md="6">
+                        <Form.Label>
+                          País
+                        </Form.Label>
+                        <Country
+                          field={field}
+                          child="r_config_departamento"
+                          setValue={setValue}
+                          readOnly={readOnly}
+                          plaintext={readOnly}
+                        />
+                        <Errors message={errors?.t_asuntoConsulta?.message} />
+                      </Form.Group>
+                    )}
+                  />
+                  <Controller
                     name="r_config_departamento"
                     control={control}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>
-                          Departamentos
+                          Departamento
                         </Form.Label>
-                        <Form.Control {...field} as="select">
-                          <option value="1">Una parte</option>
-                          <option value="2">Las dos partes</option>
-                          <option value="3">Mediante apoderado</option>
-                        </Form.Control>
+                        <State
+                          field={field}
+                          child="r_config_municipio"
+                          setValue={setValue}
+                          readOnly={readOnly}
+                        />
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
                     )}
@@ -414,11 +441,7 @@ const SolicitarConciliacion = () => {
                         <Form.Label>
                           Municipio
                         </Form.Label>
-                        <Form.Control {...field} as="select">
-                          <option value="1">Una parte</option>
-                          <option value="2">Las dos partes</option>
-                          <option value="3">Mediante apoderado</option>
-                        </Form.Control>
+                        <City field={field} setValue={setValue} readOnly={readOnly} />
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
                     )}

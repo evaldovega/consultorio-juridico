@@ -66,7 +66,7 @@ const ListadoSolicitudesConciliacion = () => {
                 {docs.map((d, i) => (
                   <tr key={i}>
                     <td>
-                      <Link to={`/centro-conciliacion/caso/${d.id}`}>{d.r_asesoria_casoJuridico}</Link>
+                      <Link to={`/asesoria-juridica/caso/${d.id}`}>{d.r_asesoria_casoJuridico}</Link>
                     </td>
                     <td>
                       {d.d_fechaSolicitud}
