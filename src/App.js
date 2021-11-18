@@ -34,6 +34,10 @@ import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRe
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
+
+import CentroConciliacionHome from "pages/CentroConciliacion";
+import SolicitarConciliacion from "pages/CentroConciliacion/Solicitar"
+
 import moment from "moment";
 moment.locale("es");
 function App() {
@@ -117,7 +121,12 @@ function App() {
             <PrivateRouter path="/perfil" exact>
               <Perfil />
             </PrivateRouter>
-
+            <PrivateRouter path="/centro-conciliacion" exact>
+              <CentroConciliacionHome />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-conciliacion/solicitar" exact>
+              <SolicitarConciliacion />
+            </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
           </Switch>
