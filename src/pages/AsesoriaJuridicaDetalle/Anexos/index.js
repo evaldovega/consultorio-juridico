@@ -1,3 +1,6 @@
+import { policyAllow } from "components/Policy";
+import { Context } from "components/Policy/Ctx";
+import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 import { useEffect } from "react";
 import { useState, useContext } from "react";
 import {
@@ -17,6 +20,8 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const name = "mm_documentosAnexos";
   const { mm_documentosAnexos = [] } = caso;
   const [cargando, setCargando] = useState(false);
+  const [puedeRemover, setPuedeRemover] = useState(false);
+  const { policies } = useContext(Context);
 
   const edit = async (anexo, anexos) => {
     try {
@@ -80,13 +85,23 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
     }
   };
 
+  useEffect(() => {
+    if (policies && policies.length) {
+      setPuedeRemover(
+        policyAllow([ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE], policies)
+      );
+    } else {
+      setPuedeRemover(false);
+    }
+  }, [policies]);
+
   return (
     <div>
       <Table className="mb-3">
         <thead>
           <th>Documento</th>
           <th>Reserva legal</th>
-          <th></th>
+          {puedeRemover ? <th></th> : null}
         </thead>
         <tbody>
           {mm_documentosAnexos?.map((d, i) => (
@@ -98,11 +113,13 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
                   onChange={(e) => onCheck(e, i)}
                 />
               </td>
-              <td>
-                <Button type="button" size="sm" onClick={() => remove(i)}>
-                  <FaTimes />
-                </Button>
-              </td>
+              {puedeRemover ? (
+                <td>
+                  <Button type="button" size="sm" onClick={() => remove(i)}>
+                    <FaTimes />
+                  </Button>
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>

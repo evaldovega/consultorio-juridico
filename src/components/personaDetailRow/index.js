@@ -28,7 +28,7 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
   return (
     <Row className="mb-2 align-items-center">
       <Col>
-        <div className="circle-profile">
+        <div className="circle-profile" style={{ width: 64, height: 64 }}>
           <Image src={doc.f_archivoFotoPerfil} />
         </div>
       </Col>

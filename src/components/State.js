@@ -38,7 +38,7 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
 
   useEffect(() => {
     emitCustomEvent(`load-${child}`, field.value);
-    if (!field?.value.length) {
+    if (!field?.value?.length) {
       //setValue(child, "");
     }
   }, [field.value]);

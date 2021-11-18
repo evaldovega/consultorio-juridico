@@ -26,8 +26,8 @@ const ArchivosAsesoria = () => {
     reader.onload = function () {
       const _anexos = getValues(name) || [];
       _anexos.push({
-        nombre: file.name,
-        data: reader.result,
+        a_titulo: file.name,
+        f_archivo: reader.result,
         reserva_legal: false,
       });
       setValue(name, _anexos);
@@ -60,7 +60,7 @@ const ArchivosAsesoria = () => {
         <tbody>
           {anexos?.map((d, i) => (
             <tr key={i}>
-              <td>{d.nombre}</td>
+              <td>{d.a_titulo}</td>
               <td>
                 <Form.Check
                   checked={d.reserva_legal}

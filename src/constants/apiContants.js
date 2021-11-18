@@ -15,7 +15,7 @@ export const MODULES = [
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
-    policies: [ROL_ASESOR, ROL_ESTUDIANTE],
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
   },
   /*{
     id: 2,
@@ -29,20 +29,20 @@ export const MODULES = [
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
-    policies: [ROL_ASESOR, ROL_ESTUDIANTE],
+    policies: [ROL_ADMIN, ROL_ASESOR],
   },
   {
     id: "",
     name: "Mis asesorias jurídicas",
-    policies: [ROL_PERSONA, ROL_ASESOR],
+    policies: [ROL_PERSONA],
     url: "mis-asesorias",
     img: "images/modulo2.jpg",
   },
   {
     id: "",
     name: "Solicitar asesoría jurídica",
-    policies: [ROL_PERSONA, ROL_ASESOR],
-    url: "/guardar-asesoria",
+    policies: [ROL_PERSONA],
+    url: "/asesoria-juridica/solicitar",
     img: "images/modulo2.jpg",
   },
 ];

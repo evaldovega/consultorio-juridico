@@ -4,6 +4,15 @@ import { useForm, Controller } from "react-hook-form";
 import Errors from "components/Errors";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
+import Policy, { policyAllow } from "components/Policy";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "constants/apiContants";
+import { useContext } from "react";
+import { Context } from "components/Policy/Ctx";
 
 const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
   const {
@@ -21,6 +30,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
@@ -99,7 +110,12 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>
                       Fecha de radicación <span className="required" />
                     </Form.Label>
-                    <Form.Control {...field} type="date" disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      type="date"
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                     <Errors message={errors?.dt_fechaRadicacion?.message} />
                   </Form.Group>
                 )}
@@ -116,7 +132,11 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>
                       Contra quien <span className="required" />
                     </Form.Label>
-                    <Form.Control {...field} disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                     <Errors message={errors?.a_contraQuien?.message} />
                   </Form.Group>
                 )}
@@ -133,7 +153,11 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Reparto</Form.Label>
-                    <Form.Control {...field} disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                   </Form.Group>
                 )}
               />
@@ -146,7 +170,12 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Fallo</Form.Label>
-                    <Form.Control {...field} disabled={cargando} type="date" />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                      type="date"
+                    />
                   </Form.Group>
                 )}
               />
@@ -167,8 +196,10 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     </Form.Label>
                     <Form.Control
                       {...field}
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                       as="textarea"
+                      rows="6"
                     />
                     <Errors message={errors?.t_observacion?.message} />
                   </Form.Group>
@@ -187,8 +218,10 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>Respuesta</Form.Label>
                     <Form.Control
                       {...field}
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                       as="textarea"
+                      rows="6"
                     />
                   </Form.Group>
                 )}
@@ -196,11 +229,13 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" disabled={cargando}>
-            Guardar
-          </Button>
-        </Modal.Footer>
+        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+          <Modal.Footer>
+            <Button variant="primary" type="submit" disabled={cargando}>
+              Guardar
+            </Button>
+          </Modal.Footer>
+        </Policy>
       </Form>
     </Modal>
   );

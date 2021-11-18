@@ -13,24 +13,28 @@ export const Context = createContext();
 
 export const Provider = ({ children }) => {
   const location = useLocation();
-  console.log(location);
 
-  const [allPolicies, setAllPolcies] = useState([
-    ROL_ESTUDIANTE,
-    ROL_ASESOR,
-    ROL_PERSONA,
-    ROL_ADMIN,
-  ]);
+  const [allPolicies, setAllPolcies] = useState([]);
   const [policies, setPolcies] = useState([ROL_ASESOR]);
   const [loading, setLoading] = useState(true);
   const [loadingReal, setLoadingReal] = useState(true);
+  const [username, setUsername] = useState("");
+  const [persona, setPersona] = useState("");
+  const [fullname, setFullname] = useState("");
 
   const loadPolicies = () => {
     setLoadingReal(true);
     setLoading(true);
-    Promise.all([API.get("/auth-user")])
+    setUsername("");
+    setPersona("");
+    setFullname("");
+    Promise.all([API.get("/auth-user/")])
       .then((response) => {
-        //setPolcies(response[0].data.roles);
+        //response[0].data.roles
+        setPolcies(response[0].data.roles);
+        setPersona(response[0].data.id_persona);
+        setUsername(response[0].data.username);
+        setFullname(response[0].data.fullname);
         setLoading(false);
         setLoadingReal(false);
       })
@@ -43,6 +47,12 @@ export const Provider = ({ children }) => {
       setLoading(false);
     }, 2000);
   };
+
+  useEffect(() => {
+    if (location.pathname != "/login") {
+      loadPolicies();
+    }
+  }, []);
 
   useEffect(() => {
     if (location.pathname == "/login") {
@@ -64,6 +74,9 @@ export const Provider = ({ children }) => {
   const ctx = {
     policies: policies,
     allPolicies: allPolicies,
+    fullname,
+    username,
+    persona,
   };
 
   return (

@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-import { ACCESS_TOKEN_NAME, MODULES } from "../../constants/apiContants";
+import {
+  ACCESS_TOKEN_NAME,
+  MODULES,
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import Policy from "components/Policy";
@@ -13,7 +20,10 @@ import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 
 const AsesoriaJuridicaHome = () => {
   return (
-    <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
+    <Policy
+      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
+      feedback={<AccessDenied msn="Acceso denegado" />}
+    >
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -21,10 +31,6 @@ const AsesoriaJuridicaHome = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Asesoria jurídica</Breadcrumb.Item>
         </Breadcrumb>
-
-        <div className="section-title">
-          <h1>Asesoria jurídica</h1>
-        </div>
 
         <Row className="modules">
           <Col xs={12} md={6}>

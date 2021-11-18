@@ -21,8 +21,13 @@ import ArchivosAsesoria from "./Archivos";
 import AsesoriaEstudiantes from "./Estudiantes";
 
 const { default: Page } = require("components/Page");
-const { default: Policy } = require("components/Policy");
-const { ROL_PERSONA } = require("constants/apiContants");
+const { default: Policy, policyAllow } = require("components/Policy");
+const {
+  ROL_PERSONA,
+  ROL_ESTUDIANTE,
+  ROL_ADMIN,
+  ROL_ASESOR,
+} = require("constants/apiContants");
 
 const SolicitarAsesoria = () => {
   const history = useHistory();
@@ -39,9 +44,11 @@ const SolicitarAsesoria = () => {
     setLoading(true);
     const _data = {
       ...data,
-      mm_estudiantesAsignados: data.mm_estudiantesAsignados.map((e) => e.id),
+      mm_estudiantesAsignados: data.mm_estudiantesAsignados
+        ? data.mm_estudiantesAsignados.map((e) => e.id)
+        : [],
     };
-    console.log(_data);
+
     API.post("asesorias/solicitud/", _data)
       .then(({ data }) => {
         setLoading(false);
@@ -53,16 +60,18 @@ const SolicitarAsesoria = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        history.push("/asesoria-juridica");
+        history.push(`asesoria-juridica/caso/${data.id}/`);
       })
       .catch((err) => {
         console.log(err.response.data);
         setLoading(false);
       });
   };
+
   const checkKeyDown = (e) => {
     if (e.code === "Enter") e.preventDefault();
   };
+
   const onError = (e) => {
     toast.info("😥 Ingresa la información faltante por favor!", {
       position: "top-center",
@@ -73,8 +82,14 @@ const SolicitarAsesoria = () => {
       draggable: true,
     });
   };
+
   const loadDetail = () => {};
 
+  //------Guardar como persona
+  const guardarComoPersona = async () => {
+    setValue("r_usuarios_persona", localStorage.getItem("id_persona"));
+    formAsesoria.current.click();
+  };
   //------Enviar el formulario de persona
   const save = () => {
     const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
@@ -93,7 +108,6 @@ const SolicitarAsesoria = () => {
   };
   //-----Enviar el formulario de inscripcion
   const personaGuardada = ({ persona, success }) => {
-    console.log({ success });
     if (success) {
       setValue("r_usuarios_persona", persona.id);
       formAsesoria.current.click();
@@ -130,44 +144,54 @@ const SolicitarAsesoria = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    policyAllow();
+  }, []);
+
   return (
-    <Policy policy={[]}>
+    <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_ADMIN, ROL_ASESOR]}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/asesoria-juridica">Asesoria jurídica</Link>
-          </Breadcrumb.Item>
+          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+            <Breadcrumb.Item>
+              <Link to="/asesoria-juridica">Asesoria jurídica</Link>
+            </Breadcrumb.Item>
+          </Policy>
           <Breadcrumb.Item active>Solicitar asesoria</Breadcrumb.Item>
         </Breadcrumb>
+
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >
-          <Accordion defaultActiveKey="0">
-            <Card>
-              <Card.Header className="d-flex justify-content-end">
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Ciudadano
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body style={{ padding: "2.5rem" }}>
-                  <PerfilMaster
-                    id={personaId}
-                    formRef={formPersona}
-                    showButton={false}
-                    allowSearchPerson={true}
-                    clearOnFinish={true}
-                    callback={personaGuardada}
-                  />
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
-          <br />
-          <br />
+          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+            <Accordion defaultActiveKey="0">
+              <Card>
+                <Card.Header className="d-flex justify-content-end">
+                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                    Ciudadano
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body style={{ padding: "2.5rem" }}>
+                    <PerfilMaster
+                      id={personaId}
+                      formRef={formPersona}
+                      showButton={false}
+                      allowSearchPerson={true}
+                      clearOnFinish={true}
+                      callback={personaGuardada}
+                    />
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
+            <br />
+            <br />
+          </Policy>
+
           <Form
             noValidate
             onSubmit={handleSubmit(guardarAsesoria, onError)}
@@ -178,41 +202,42 @@ const SolicitarAsesoria = () => {
                 <h2 className="title-line">
                   <span>Datos de asesoria</span>
                 </h2>
-
-                <Row className="mb-3">
-                  <Controller
-                    name="dt_fechaAsesoria"
-                    control={control}
-                    rules={{
-                      required: "Ingrese una fecha",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="6">
-                        <Form.Label>
-                          Fecha de asesoria <span className="required" />
-                        </Form.Label>
-                        <Form.Control type="date" {...field} />
-                        <Errors message={errors?.dt_fechaAsesoria?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                  <Controller
-                    name="ht_horaAsesoria"
-                    control={control}
-                    rules={{
-                      required: "Ingrese una hora",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="6">
-                        <Form.Label>
-                          Hora de asesoria <span className="required" />
-                        </Form.Label>
-                        <Form.Control type="time" {...field} />
-                        <Errors message={errors?.ht_horaAsesoria?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                </Row>
+                <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+                  <Row className="mb-3">
+                    <Controller
+                      name="dt_fechaAsesoria"
+                      control={control}
+                      rules={{
+                        required: "Ingrese una fecha",
+                      }}
+                      render={({ field }) => (
+                        <Form.Group as={Col} xs="12" md="6">
+                          <Form.Label>
+                            Fecha de asesoria <span className="required" />
+                          </Form.Label>
+                          <Form.Control type="date" {...field} />
+                          <Errors message={errors?.dt_fechaAsesoria?.message} />
+                        </Form.Group>
+                      )}
+                    />
+                    <Controller
+                      name="ht_horaAsesoria"
+                      control={control}
+                      rules={{
+                        required: "Ingrese una hora",
+                      }}
+                      render={({ field }) => (
+                        <Form.Group as={Col} xs="12" md="6">
+                          <Form.Label>
+                            Hora de asesoria <span className="required" />
+                          </Form.Label>
+                          <Form.Control type="time" {...field} />
+                          <Errors message={errors?.ht_horaAsesoria?.message} />
+                        </Form.Group>
+                      )}
+                    />
+                  </Row>
+                </Policy>
                 <Row className="mb-3">
                   <Controller
                     name="t_asuntoConsulta"
@@ -221,11 +246,11 @@ const SolicitarAsesoria = () => {
                       required: "Ingrese un asunto",
                     }}
                     render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="6">
+                      <Form.Group as={Col} xs="12">
                         <Form.Label>
                           Asunto <span className="required" />
                         </Form.Label>
-                        <Form.Control as="textarea" {...field} />
+                        <Form.Control as="textarea" rows="6" {...field} />
                         <Errors message={errors?.t_asuntoConsulta?.message} />
                       </Form.Group>
                     )}
@@ -243,9 +268,12 @@ const SolicitarAsesoria = () => {
                 <ArchivosAsesoria />
               </Card.Body>
             </Card>
-            <br />
-            <br />
-            <AsesoriaEstudiantes />
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+              <br />
+              <br />
+              <AsesoriaEstudiantes />
+            </Policy>
+
             <Button
               hidden={true}
               type="submit"
@@ -256,9 +284,16 @@ const SolicitarAsesoria = () => {
             </Button>
           </Form>
           <div className="d-flex justify-content-end mt-4">
-            <Button onClick={save} size="lg" disabled={loading}>
-              Registrar
-            </Button>
+            <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+              <Button onClick={save} size="lg" disabled={loading}>
+                Registrar
+              </Button>
+            </Policy>
+            <Policy policy={[ROL_PERSONA]}>
+              <Button onClick={guardarComoPersona} size="lg" disabled={loading}>
+                Registrar
+              </Button>
+            </Policy>
           </div>
         </Context.Provider>
       </Page>

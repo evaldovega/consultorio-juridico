@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as PolicyProvider from "./Ctx";
+import { Context } from "./Ctx";
 
 export let POLICIES = [];
 
@@ -30,9 +30,8 @@ export const policyAllow = (policy, policiesAllow = []) => {
 };
 
 const Policy = ({ policy, children, feedback = "", init = null }) => {
-  const { policies } = useContext(PolicyProvider.Context);
+  const { policies } = useContext(Context);
   const [allow, setAllow] = useState(false);
-
   POLICIES = policies;
 
   useEffect(() => {

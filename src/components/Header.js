@@ -11,6 +11,8 @@ import Policy from "./Policy";
 import GoSite from "components/goSite";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { FaAccessibleIcon, FaCog } from "react-icons/fa";
+import { useContext } from "react";
+import { Context } from "./Policy/Ctx";
 
 const HeaderPage = ({ showLogo = true }) => {
   const history = useHistory();
@@ -19,6 +21,7 @@ const HeaderPage = ({ showLogo = true }) => {
     localStorage.removeItem(USER_FULL_NAME);
     history.replace("/login");
   };
+  const { fullname } = useContext(Context);
 
   return (
     <Navbar bg="dark" fixed="top" variant="dark" expand="lg">
@@ -55,10 +58,7 @@ const HeaderPage = ({ showLogo = true }) => {
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown
-              title={localStorage.getItem(USER_FULL_NAME)}
-              id="basic-nav-dropdown"
-            >
+            <NavDropdown title={fullname} id="basic-nav-dropdown">
               <NavDropdown.Item>
                 <Link to="/perfil">Perfil</Link>
               </NavDropdown.Item>
