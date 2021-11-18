@@ -42,6 +42,13 @@ const SolicitarConciliacion = () => {
   const formPersona = useRef();
   const formAsesoria = useRef();
 
+  const getSelectItems = async (data) => {
+    API.get('configuracion/solicitante-servicio/')
+      .then(({data}) => {
+        setSolicitantes(data)
+      })
+  }
+
   const guardarAsesoria = async (data) => {
     setLoading(true);
     const _data = {
@@ -122,6 +129,7 @@ const SolicitarConciliacion = () => {
   });
 
   useEffect(() => {
+    getSelectItems()
     if (id) {
       loadDetail();
     }
