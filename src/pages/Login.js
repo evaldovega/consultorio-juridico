@@ -1,132 +1,191 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Form,
-  Input,
-  Button,
-  Radio,
-  Typography,
-  Row,
-  Col,
-  Spin,
-  notification,
-  Card,
-  Carousel,
-  Layout,
-  message
-} from "antd";
-import { ACCESS_TOKEN_NAME, USER_FULL_NAME } from '../constants/apiContants';
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState, useCallback } from "react";
+import { ACCESS_TOKEN_NAME, USER_FULL_NAME } from "../constants/apiContants";
+import { Link, useHistory } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
-import GoSite from 'components/goSite';
-import {DownloadOutlined} from "@ant-design/icons";
-import API from 'utils/Axios';
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-const { Header, Footer, Sider, Content } = Layout;
+import GoSite from "components/goSite";
+import { Button, Form, Container, Row, Col, Spinner } from "react-bootstrap";
+import API from "utils/Axios";
+import Slogan from "components/Slogan";
+import { useForm, Controller } from "react-hook-form";
+import Errors from "components/Errors";
+import { toast } from "react-toastify";
+import { useRef } from "react";
+import { animateCSS } from "utils";
 
-const Login=({location,history})=>{
-
+const Login = ({ location, history }) => {
   const recaptchaRef = React.useRef();
-  const [loading,setLoading]=useState(false)
-    const onFinish=async (data)=>{
-      setLoading(true)
-      API.post('auth-user/',data).then(({data})=>{
-        localStorage.setItem(ACCESS_TOKEN_NAME,data.access_token)
-        localStorage.setItem(USER_FULL_NAME,data.fullname)
-        history.replace(location && location.state && location.state.from ? location.state.from.pathname : '/')
-      }).catch(error=>{
-        console.log(error.response)
-        message.error(error.response && error.response.data ? error.response.data.detail : error.toString())
-      }).finally(()=>{
-        setLoading(false)
+  const [loading, setLoading] = useState(false);
+
+  const colA = useRef();
+  const colB = useRef();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
+
+  const go = useCallback(
+    (link) => {
+      Promise.all([
+        animateCSS(colA.current, "fadeOutLeft"),
+        animateCSS(colB.current, "fadeOutRight"),
+      ]).then(() => {
+        history.push(link);
+      });
+    },
+    [history]
+  );
+
+  const onFinish = async (data) => {
+    setLoading(true);
+    API.post("auth-user/", data)
+      .then(({ data }) => {
+        console.log(JSON.stringify(data));
+        localStorage.setItem(ACCESS_TOKEN_NAME, data.access_token);
+        localStorage.setItem(USER_FULL_NAME, data.fullname);
+        localStorage.setItem("username_id", data.id);
+        localStorage.setItem("id_persona", data.id_persona);
+        history.replace(
+          location && location.state && location.state.from
+            ? location.state.from.pathname
+            : "/"
+        );
       })
-    }
+      .catch((error) => {
+        const e =
+          error.response && error.response.data
+            ? error.response.data.detail
+            : error.toString();
+        toast.error(`😥 ${e}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
-    useEffect(()=>{
-      localStorage.removeItem(ACCESS_TOKEN_NAME)
-    },[])
-    return (<>
+  const onError = () => {};
 
-    <div style={{position:'fixed',width:'100%',height:'100%'}}>
-      
-    <Carousel effect='fade' autoplay={true} dotPosition='left'>
-      <div className='cover-black'>
-        <img src='https://www.uniatlantico.edu.co/uatlantico/sites/default/files/sede_centro_ua.jpg'/>
-      </div>
-      <div className='cover-black'>
-        <img src='https://uniatlantico.edu.co/uatlantico/sites/default/files/DSC06468.JPG'/>
-      </div>
-    </Carousel>
-    </div>
-    <GoSite style={{position:'absolute',top:16,left:16}}/>
-    
-    <div style={{position:'absolute',bottom:42,left:0,display:'flex',justifyContent:'center',flexDirection:'column',backgroundColor:'rgba(0,0,0,.5)',padding:16}}>
-        <Typography.Paragraph style={{color:'#ffff'}}>Política de acceso para personas que <br></br>presenten discapacidad visual o auditiva</Typography.Paragraph>
-        <Button type='primary' icon={<DownloadOutlined/>} href='https://convertic.gov.co/641/w3-propertyvalue-15308.html' target='blank'>Descargar herramientas</Button>
-    </div>
-    
-    <ReCAPTCHA ref={recaptchaRef} style={{position:'absolute',bottom:42,right:0}}
-          sitekey="AIzaSyCnU94fBKc0rKYki_MqbQDLPil-fHN_P2k"
-        />
-        <div style={{display:'flex',width:'100%',height:'100vh',justifyContent:'center',alignItems:'center'}}>
-        <Spin spinning={loading}>
-      <div className='card-login'>
-        <img src='https://www.uniatlantico.edu.co/uatlantico/sites/default/files/docencia/facultades/img/Consultorio%20Juridico.jpg' className='logo' style={{maxWidth:'100%',marginBottom:32}}/>
-        <div className='card-login-content'>
-            <Typography.Title level={4} style={{textAlign:'center',marginBottom:32}}>Bienvenido</Typography.Title>
+  useEffect(() => {
+    localStorage.removeItem(ACCESS_TOKEN_NAME);
+  }, []);
+
+  return (
+    <div id="wrap">
+      <div className="full-screen-view">
+        <div
+          className="full-screen-content animate__animated animate__fadeInLeft"
+          ref={colA}
+        >
+          <Container className="d-flex justify-content-center align-items-center">
             <Form
-              name="basic"
-              initialValues={{
-                remember: true,
-                username: "",
-                password: "",
-              }}
-              onFinish={onFinish}
+              noValidate
+              onSubmit={handleSubmit(onFinish, onError)}
+              style={{ width: "60%", marginTop: 100, marginBottom: 32 }}
             >
-              <Form.Item
+              <img
+                src="/images/logo.png"
+                className="img-fluid"
+                style={{ marginBottom: 100 }}
+              />
+              <Controller
                 name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Por favor ingrese su E-mail",
-                  },
-                ]}
-              >
-                <Input  placeholder="Nombre de usuario" />
-              </Form.Item>
-
-              <Form.Item
+                control={control}
+                defaultValue=""
+                rules={{ required: "Ingrese su usuario" }}
+                render={({ field }) => (
+                  <Form.Group>
+                    <Form.Label>Usuario</Form.Label>
+                    <Form.Control {...field} disabled={loading} />
+                    <Errors message={errors.username?.message} />
+                  </Form.Group>
+                )}
+              />
+              <Controller
                 name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Por favor ingrese su contraseña!",
-                  },
-                ]}
-              >
-                <Input.Password placeholder="Contraseña" />
-              </Form.Item>
-              
-              <Form.Item style={{marginTop:42}}>
-                <Button type="primary" block htmlType="submit">
-                  Acceder
-                </Button>
-              </Form.Item>
-              <div style={{marginTop:96,textAlign:'center'}}>
-              <Link to='/registrarse' style={{flex:1}} className='link-blue'>Registrarse</Link> 
-              <span style={{marginLeft:8,marginRight:8}}>|</span>
-               <Link style={{flex:1,textAlign:'right'}} to='recuperar-clave' className='link-blue'>Olvidé la contraseña</Link>
-              </div>
+                control={control}
+                defaultValue=""
+                rules={{ required: "Ingrese su contraseña" }}
+                render={({ field }) => (
+                  <Form.Group>
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control
+                      {...field}
+                      disabled={loading}
+                      type="password"
+                    />
+                    <Errors message={errors.password?.message} />
+                  </Form.Group>
+                )}
+              />
+              {loading ? (
+                <div className="d-flex justify-content-center">
+                  <Spinner
+                    animation="border"
+                    role="status"
+                    variant="primary"
+                  ></Spinner>
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  <Button type="submit" disabled={loading}>
+                    Acceder
+                  </Button>
+                  <div className="mt-4 d-flex justify-content-center align-items-center">
+                    <a
+                      onClick={() => go("/registrarse")}
+                      className="link link-primary"
+                    >
+                      Registrarse
+                    </a>
+                    <span className="ml-4 mr-4">⍿</span>
+                    <Link to="recuperar-clave" className="link-blue">
+                      Olvidé la contraseña
+                    </Link>
+                  </div>
+                </>
+              )}
             </Form>
-            </div>
-      </div>
-      </Spin>
-      </div>
-    </>)
-}
+          </Container>
+        </div>
+        <section
+          ref={colB}
+          className="full-screen-view-sidebar full-screen-view-sidebar-right animate__animated animate__fadeInRight"
+        >
+          <div className="step-view-sidebar">
+            <div className="step-view-sidebar-background sidebar-login-bg"></div>
 
-export default Login
+            <div className="login-dimg-content">
+              <Slogan />
+              <p className="text-white">
+                Política de acceso para personas que <br></br>presenten
+                discapacidad visual o auditiva.
+              </p>
+              <Button
+                href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
+                target="blank"
+                className="animate__animated animate__bounceInUp"
+              >
+                Descargar herramientas
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

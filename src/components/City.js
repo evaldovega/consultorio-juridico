@@ -1,90 +1,75 @@
 import React, { useEffect, useState } from "react";
-import { Form, Space,Spin, Input, Card, Button, DatePicker, Select,Alert } from "antd";
+import { Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { useCustomEventListener } from 'react-custom-events';
+import { useCustomEventListener } from "react-custom-events";
 import API from "utils/Axios";
+import { Alert, Form, Button } from "react-bootstrap";
 
-const City=({form,rules=[],label='Ciudad',name='ciu'})=>{
+const City = ({ setValue, field = {}, readOnly = false }) => {
+  const [state, setState] = useState(null);
+  const [docs, setDocs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const [state,setState]=useState(null)
-    const [docs,setDocs] = useState([])
-    const [loading,setLoading]=useState(false)
-    const [error,setError]=useState(null)
+  const load = () => {
+    setLoading(true);
+    setError(null);
+    API(`configuracion/ciudad?r_config_departamento=${state}`)
+      .then(({ data }) => {
+        setDocs(data);
+      })
+      .catch((error) => {
+        setError(error.toString());
+      })
+      .finally(() => setLoading(false));
+  };
 
-    const selected=(id)=>{
-        console.log(id)
-        if(form){
-          form.setFieldsValue({[name]:id})
-        }
+  useCustomEventListener(`load-${field.name}`, (data) => {
+    setState(data);
+  });
+
+  useEffect(() => {
+    if (state) {
+      load();
+    } else {
+      setDocs([]);
+      setValue(field.name, "");
     }
+  }, [state]);
 
-
-    const load=()=>{
-        setLoading(true)
-        setError(null)
-        API(`configuracion/ciudad?r_config_departamento=${state}`).then(({data})=>{
-            setDocs(data)
-        })
-        .catch((error)=>{
-            setError(error.toString())
-        })
-        .finally(()=>setLoading(false))
-    }
-
-    
-    useCustomEventListener(`load-${name}`, data => {
-      setState(data)
-    });
-
-    useEffect(()=>{
-      if(state){
-        load()
-      }
-    },[state])
-
-    if(error){
-        return (
-          <div
-            style={{
-              flexDirection: "row",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Form.Item name={name} rules={rules}>
-              <Input type="hidden" />
-            </Form.Item>
-            <Alert type="warning" message={`${error}, ciudades no cargadas.`} />
-            <Button
-              icon={<SyncOutlined />}
-              size="large"
-              onClick={load}
-              htmlType="button"
-            ></Button>
-          </div>
-        );
-    }
-
+  if (error) {
     return (
-      <Spin spinning={loading}>
-        <Form.Item label={label} name={name} rules={rules}>
-          <Select
-            autocomplete="off"
-            onChange={selected}
-            showSearch disabled={!state}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {docs.map((c) => (
-              <Select.Option key={c.id} value={c.id}>
-                {c.a_titulo}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Spin>
+      <div
+        style={{
+          flexDirection: "row",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Alert variant="warning">{`${error}, ciudades no cargadas.`}</Alert>
+        <Button size="large" onClick={load} type="button">
+          Recargar
+        </Button>
+      </div>
     );
-}
+  }
 
-export default City
+  return (
+    <Form.Control
+      as="select"
+      {...field}
+      readOnly={readOnly}
+      plaintext={readOnly}
+      disabled={readOnly}
+    >
+      <option value="">Seleccione</option>
+      {docs.map((c) => (
+        <option key={c.id} value={c.id}>
+          {c.a_titulo}
+        </option>
+      ))}
+    </Form.Control>
+  );
+};
+
+export default City;

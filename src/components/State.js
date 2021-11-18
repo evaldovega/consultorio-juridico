@@ -1,91 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { Form, Space,Spin, Input, Card, Button, DatePicker, Select,Alert } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { emitCustomEvent,useCustomEventListener } from 'react-custom-events';
+import { emitCustomEvent, useCustomEventListener } from "react-custom-events";
 import API from "utils/Axios";
-import { useForm } from "antd/lib/form/Form";
+import { Form, Button, Alert } from "react-bootstrap";
+const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
+  const [docs, setDocs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [country, setCountry] = useState(null);
 
-const State=({form,rules=[],label='Departamento',name='dep',city})=>{
+  useCustomEventListener(`load-${field.name}`, (data) => {
+    setCountry(data);
+  });
 
-    const [docs,setDocs] = useState([])
-    const [loading,setLoading]=useState(false)
-    const [error,setError]=useState(null)
-    const [country,setCountry]=useState(null)
+  const load = () => {
+    setLoading(true);
+    setError(null);
+    API(`configuracion/departamento?r_config_pais=${country}`)
+      .then(({ data }) => {
+        setDocs(data);
+      })
+      .catch((error) => {
+        setError(error.toString());
+      })
+      .finally(() => setLoading(false));
+  };
 
-    const selected=(id)=>{
-        console.log(id)
-        if(form){
-          form.setFieldsValue({[name]:id})
-        }
-        emitCustomEvent(`load-${city}`,id)
+  useEffect(() => {
+    if (country) {
+      load();
+    } else {
+      //selected("");
+      setValue(field.name, "");
+      setDocs([]);
     }
+  }, [country]);
 
-    useCustomEventListener(`load-${name}`, data => {
-      setCountry(data)
-    });
-
-    const load=()=>{
-        setLoading(true)
-        setError(null)
-        API(`configuracion/departamento?r_config_pais=${country}`).then(({data})=>{
-            setDocs(data)
-        })
-        .catch((error)=>{
-            setError(error.toString())
-        })
-        .finally(()=>setLoading(false))
+  useEffect(() => {
+    emitCustomEvent(`load-${child}`, field.value);
+    if (!field?.value.length) {
+      //setValue(child, "");
     }
-    
+  }, [field.value]);
 
-    useEffect(()=>{
-        if(country){
-          load()
-        }
-    },[country])
-
-    if(error){
-        return (
-          <div
-          style={{
-            flexDirection: "row",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Form.Item name={name} rules={rules}>
-            <Input type="hidden" />
-          </Form.Item>
-          <Alert type="warning" message={`${error}, Dep. no cargados.`} />
-          <Button
-            icon={<SyncOutlined />}
-            size="large"
-            onClick={load}
-            htmlType="button"
-          ></Button>
-        </div>
-        )
-    }
-
+  if (error) {
     return (
-      <Spin spinning={loading}>
-        <Form.Item label={label} name={name} rules={rules}>
-          <Select
-            autocomplete="off"
-            onChange={selected} disabled={!country}
-            showSearch
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {docs.map((c) => (
-              <Select.Option key={c.id} value={c.id}>
-                {c.a_titulo}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Spin>
+      <div
+        style={{
+          flexDirection: "row",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Alert variant="warning">{`${error}, Dep. no cargados.`}</Alert>
+        <Button
+          icon={<SyncOutlined />}
+          size="large"
+          onClick={load}
+          type="button"
+        >
+          Recargar
+        </Button>
+      </div>
     );
-}
+  }
 
-export default State
+  return (
+    <Form.Control
+      as="select"
+      {...field}
+      readOnly={readOnly}
+      plaintext={readOnly}
+      disabled={readOnly}
+    >
+      <option value="">Seleccione</option>
+      {docs.map((c) => (
+        <option key={c.id} value={c.id}>
+          {c.a_titulo}
+        </option>
+      ))}
+    </Form.Control>
+  );
+};
+
+export default State;

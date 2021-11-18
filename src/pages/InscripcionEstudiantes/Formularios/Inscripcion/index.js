@@ -1,137 +1,213 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from "react";
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR } from "constants/apiContants";
+import { Link } from "react-router-dom";
 
-import { PageHeader, Skeleton, Spin, Space, notification, Layout, Divider, Form, Typography, Breadcrumb, Card, Button } from 'antd';
-import Footer from 'components/Footer'
-import { useParams } from 'react-router';
-import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR } from 'constants/apiContants';
-import { Link } from 'react-router-dom';
-import HeaderPage from 'components/Header';
-import { useForm } from 'antd/lib/form/Form';
-import DatosPersonales from './DatosPersonales'
-import Discapacidad from './Discapacidad';
-import DatosDocumento from './DatosDocumento';
-import DatosUbicacion from './DatosUbicacion';
-import DatosLaborales from './DatosLaborales';
-import DatosInscripcion from './DatosInscripcion';
-import API from 'utils/Axios';
-import Moment from 'moment';
-import Policy from 'components/Policy';
+import API from "utils/Axios";
+import Policy from "components/Policy";
+import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
+import { useForm, FormProvider } from "react-hook-form";
+import Context from "./Ctx";
+import { toast } from "react-toastify";
 
-const Countries = require('constants/Countries.json')
-const States = require('constants/States.json')
-const Cities = require('constants/Cities.json')
+import { useParams, useHistory } from "react-router-dom";
 
-const { Content, Header } = Layout
+import Page from "components/Page";
 
-const InscripcionPracticasConsultorioJuridico = () => {
-    const [loading, setLoading] = useState(false)
-    const [form] = useForm()
+import DatosInscripcion from "./DatosInscripcion";
+import PerfilMaster from "pages/Perfil/Master";
 
-    const error = (e) => {
-        console.log(e)
+const InscripcionPracticasConsultorioJuridico = ({}) => {
+  const history = useHistory();
+  const { id } = useParams();
+
+  const R_USER = localStorage.getItem("username_id");
+
+  const [loading, setLoading] = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [personaId, setPersonaId] = useState("");
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+    getValues,
+    reset,
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
+
+  const checkKeyDown = (e) => {
+    if (e.code === "Enter") e.preventDefault();
+  };
+
+  const onError = (e) => {
+    toast.info("😥 Ingresa la información faltante por favor!", {
+      position: "top-center",
+      autoClose: 10000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
+  const loadDetail = () => {
+    setLoadingDetail(true);
+    API.get("estudiantes/inscripcion/" + id + "/")
+      .then(({ data }) => {
+        setPersonaId(data.r_usuarios_persona.id);
+        //------------------------------Inscripcion-----------------
+        setValue("a_codigoEstudiantil", data.a_codigoEstudiantil);
+        setValue("a_anioInscripcion", data.a_anioInscripcion);
+        setValue("a_semestreInscripcion", data.a_semestreInscripcion);
+        setValue(
+          "r_config_jornadaInscripcion",
+          data.r_config_jornadaInscripcion
+        );
+        setValue("a_numeroConsultorio", data.a_numeroConsultorio);
+        setValue("r_config_grupo", data.r_config_grupo);
+        setValue("a_turno", data.a_turno);
+        setValue("r_config_lugarPracticas", data.r_config_lugarPracticas);
+        setValue("dt_fechaInscripcion", data.dt_fechaInscripcion);
+      })
+      .finally(() => setLoadingDetail(false));
+  };
+
+  const saveInscripcion = async (data) => {
+    setLoading(true);
+
+    API({
+      url: "estudiantes/inscripcion/" + (id ? `${id}/` : ""),
+      method: id ? "PATCH" : "POST",
+      data: data,
+    })
+      .then(({ data }) => {
+        setLoading(false);
+        toast.success(
+          "👏 Estudiante registrado satisfactoriamente a las practicas",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
+        history.push("/inscripcion-estudiantes");
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error("🦄 Algo anda mal!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      });
+  };
+
+  const formPersona = useRef();
+  const formInscripcion = useRef();
+
+  //------Enviar el formulario de persona
+  const save = () => {
+    formPersona.current.click();
+  };
+  //-----Enviar el formulario de inscripcion
+  const personaGuardada = ({ persona, success }) => {
+    if (success) {
+      setValue("personaid", persona.id);
+      formInscripcion.current.click();
+    } else {
+      toast.error("🦄 No se pudo guardar los datos del estudiante!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-    const save = async (data) => {
-        let dataJson = {
-            "r_usuarios_persona": {
-                "f_archivoFotoPerfil_str": data.f_archivoFotoPerfil,
-                "a_primerNombre": data.a_primerNombre,
-                "a_segundoNombre": data.a_segundoNombre,
-                "a_primerApellido": data.a_primerApellido,
-                "a_segundoApellido": data.a_segundoApellido,
-                "a_fechaNacimiento": Moment(data.a_fechaNacimiento).format('YYYY-MM-DD'),
-                "a_celular": data.a_celular,
-                "a_correoElectronico": data.a_correoElectronico,
-                "r_config_paisNacimiento": data.r_config_paisNacimiento,
-                "r_config_departamento": data.r_config_departamento,
-                "r_config_ciudadNacimiento": data.r_config_ciudadNacimiento,
-                "c_genero": data.c_genero,
-                "r_config_orientacion": data.r_config_orientacion,
-                "r_config_eps": data.r_config_eps,
-                "r_config_tipoDocumento": data.r_config_tipoDocumento,
-                "a_numeroDocumento": data.a_numeroDocumento,
-                "a_fechaExpedicionDocumento": Moment(data.a_fechaExpedicionDocumento).format('YYYY-MM-DD'),
-                "r_config_paisExpedicion": data.r_config_paisExpedicion,
-                "r_config_departamentoExpedicion": data.r_config_departamentoExpedicion,
-                "r_config_ciudadExpedicion": data.r_config_ciudadExpedicion,
-                "f_archivoDocumento_str": data.f_archivoDocumento
-            },
-            "mm_discapacidad": data.mm_discapacidad,
-            "r_config_paisUbicacion": data.r_config_paisUbicacion,
-            "r_config_departamentoUbicacion": data.r_config_departamentoUbicacion,
-            "r_config_ciudadUbicacion": data.r_config_ciudadUbicacion,
-            "a_direccion": data.a_direccion,
-            "a_barrio": data.a_barrio,
-            "a_telefono": data.a_telefono,
-            // "r_config_profesion": data.r_config_profesion,
-            "b_servidorPublico": data.b_servidorPublico,
-            "r_config_paisLaboral": data.r_config_paisLaboral,
-            "r_config_departamentoLaboral": data.r_config_departamentoLaboral,
-            "r_config_ciudadLaboral": data.r_config_ciudadLaboral,
-            "a_nombreEmpresa": data.a_nombreEmpresa,
-            "a_direccionEmpresa": data.a_direccionEmpresa,
-            "a_cargoEmpresa": data.a_cargoEmpresa,
-            "a_nivelSalarial": data.a_nivelSalarial,
-            "a_codigoEstudiantil": data.a_codigoEstudiantil,
-            "a_anioInscripcion": data.a_anioInscripcion,
-            "a_semestreInscripcion": data.a_semestreInscripcion,
-            "r_config_jornadaInscripcion": data.r_config_jornadaInscripcion,
-            "a_numeroConsultorio": data.a_numeroConsultorio,
-            "r_config_grupo": data.r_config_grupo,
-            "a_turno": data.a_turno,
-            "r_config_lugarPracticas": data.r_config_lugarPracticas,
-            "dt_fechaInscripcion": Moment(data.dt_fechaInscripcion).format('YYYY-MM-DD')
-        }
-        console.log(JSON.stringify(dataJson))
-        setLoading(true)
-        API.post('estudiantes/inscripcion/',dataJson).then(({data})=>{
-            setLoading(false)
-            notification['success']({
-                message: 'Felicitaciones',
-                description:
-                    'Estas inscrito a las practicas.',
-            });
-        })
-        // setTimeout(() => {
-        // }, 3000)
+  };
+
+  useEffect(() => {
+    if (id) {
+      loadDetail();
     }
+  }, [id]);
 
-    return (<Policy policy={[ROL_ASESOR]}>
+  if (loadingDetail) {
+    return "<Page><h1>Cargando inscripción...</h1></Page>";
+  }
 
-        <HeaderPage />
+  return (
+    <Policy policy={[ROL_ASESOR]}>
+      <Page>
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/">Inicio</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            Inscripción a practicas consultorio jurídico
+          </Breadcrumb.Item>
+        </Breadcrumb>
 
-        <div className='content-body'>
-            <Spin spinning={loading}>
-                <Breadcrumb>
-                    <Breadcrumb.Item><Link to='/'>Inicio</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to='/inscripcion-estudiantes'>Inscripción estudiantes</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>Inscripción a practicas consultorio jurídico</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className='section-title'>
-                    <Typography.Title level={4}>Inscripción a practicas de Consultorio Jurídico</Typography.Title>
-                </div>
-                <Form form={form} layout='vertical' scrollToFirstError={true} className='formulario-curso' onError={error} onFinish={save}>
-                    <DatosPersonales form={form} />
-                    <br></br>
-                    <Discapacidad form={form} />
-                    <br></br>
-                    <DatosDocumento form={form} upload={true} />
-                    <br></br>
-                    <DatosUbicacion form={form} />
-                    <br></br>
-                    <DatosLaborales form={form} />
-                    <br></br>
-                    <DatosInscripcion form={form} />
-                    <br></br>
-                    <div style={{ display: 'flex', flex: 1, justifyContent: 'flex-end', width: '100%', marginTop: 50, marginBottom: 50 }}>
-                        <Button htmlType='submit' size='large' type='primary'>Registrar</Button>
-                    </div>
-                </Form>
-            </Spin>
-        </div>
+        <Context.Provider
+          value={{ control, watch, errors, setValue, getValues, loading }}
+        >
+          <Card>
+            <Card.Body style={{ padding: "2.5rem" }}>
+              <PerfilMaster
+                id={personaId}
+                formRef={formPersona}
+                showButton={false}
+                allowSearchPerson={true}
+                clearOnFinish={true}
+                callback={personaGuardada}
+              />
+            </Card.Body>
+          </Card>
+          <br />
+          <FormProvider errors={errors}>
+            <Form
+              noValidate
+              onSubmit={handleSubmit(saveInscripcion, onError)}
+              onKeyDown={(e) => checkKeyDown(e)}
+            >
+              <fieldset disabled={loading}>
+                <Card>
+                  <Card.Body style={{ padding: "2.5rem" }}>
+                    <DatosInscripcion />
+                  </Card.Body>
+                </Card>
+                <input
+                  {...register("personaid", { required: true })}
+                  type="hidden"
+                />
+              </fieldset>
+              <Button type="submit" hidden={true} ref={formInscripcion} />
+            </Form>
+          </FormProvider>
+          <div className="d-flex justify-content-end mt-4">
+            <Button onClick={save} size="lg" disabled={loading}>
+              Registrar
+            </Button>
+          </div>
+        </Context.Provider>
+      </Page>
+    </Policy>
+  );
+};
 
-
-        <Footer />
-    </Policy>)
-}
-
-export default InscripcionPracticasConsultorioJuridico
+export default InscripcionPracticasConsultorioJuridico;

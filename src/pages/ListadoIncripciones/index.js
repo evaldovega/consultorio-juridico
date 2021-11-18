@@ -1,22 +1,11 @@
-import {
-  Table,
-  Typography,
-  Breadcrumb,
-  Button,
-  Card,
-  Input,
-  Space,
-  Form,
-} from "antd";
+import { Button, Input, Space, Form } from "antd";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import inscripciones from "constants/inscripciones.json";
-import { useImmer } from "use-immer";
-import TextNew from "components/TextNew";
 import API from "utils/Axios";
+import { Breadcrumb, Card, Table, Spinner } from "react-bootstrap";
 
-import { FolderViewOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
@@ -146,83 +135,50 @@ const ListadoIncripciones = () => {
           <Breadcrumb.Item>
             <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Listado de incripciones</Breadcrumb.Item>
+          <Breadcrumb.Item active>Listado de incripciones</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="section-title">
-          <Typography.Title level={4}>
-            Listado de inscripciones
-          </Typography.Title>
-        </div>
-        <Card className="card-shadown">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Form style={{ flex: 1 }}>
-              <Form.Item label="Buscar">
-                <Input />
-              </Form.Item>
-            </Form>
-            <div style={{ flex: 1 }}></div>
-          </div>
-          <Table
-            dataSource={docs}
-            loading={loading}
-            size="small"
-            rowKey="_id"
-            scroll={{ x: 400, y: 400 }}
-          >
-            <Table.Column
-              width={150}
-              fixed={true}
-              title="No. de inscripción"
-              dataIndex="id"
-            />
-            {/*<Table.Column
-              width={150}
-              {...getColumnSearchProps("nombre")}
-              sorter={(a, b) => a.nombre.length - b.nombre.length}
-              sortDirections={["descend", "ascend"]}
-              title="Nombres y apellidos"
-              render={(d) => (
-                <Link to={`/inscripcion-estudiante/${d.id}/detalle`}>
-                  <TextNew date={d.exp}>{d.nombre}</TextNew>
-                </Link>
-              )}
-            />*/}
-            <Table.Column
-              width={150}
-              title="Primer nombre"
-              dataIndex={["r_usuarios_persona", "a_primerNombre"]}
-            />
-            <Table.Column
-              width={150}
-              title="Segundo nombre"
-              dataIndex={["r_usuarios_persona", "a_segundoNombre"]}
-            />
-            <Table.Column
-              width={150}
-              title="Primer apellido"
-              dataIndex={["r_usuarios_persona", "a_primerApellido"]}
-            />
-            <Table.Column
-              width={150}
-              title="Segundo apellido"
-              dataIndex={["r_usuarios_persona", "a_segundoApellido"]}
-            />
-            <Table.Column
-              width={150}
-              title="Tipo de documento"
-              dataIndex={["r_usuarios_persona", "r_config_tipoDocumento"]}
-            />
-            <Table.Column
-              width={150}
-              title="Documento de identidad"
-              dataIndex={["r_usuarios_persona", "a_numeroDocumento"]}
-            />
-            <Table.Column
-              width={150}
-              title="Fecha de expedición"
-              dataIndex={["r_usuarios_persona", "a_fechaExpedicionDocumento"]}
-            />
-          </Table>
+
+        <Card>
+          <Card.Body>
+            {loading && (
+              <div className="d-flex justify-content-center">
+                <Spinner
+                  animation="border"
+                  role="status"
+                  variant="primary"
+                ></Spinner>
+              </div>
+            )}
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>No. inscripción</th>
+                  <th>Fecha inscripción</th>
+                  <th>Nombres y apellidos</th>
+                  <th>Consultorio</th>
+                  <th>Turno</th>
+                </tr>
+              </thead>
+              <tbody>
+                {docs.map((d) => (
+                  <tr>
+                    <td>{d.id}</td>
+                    <td>{d.dt_fechaInscripcion}</td>
+                    <td>
+                      <Link
+                        to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
+                      >
+                        {d.r_usuarios_persona.a_primerNombre}{" "}
+                        {d.r_usuarios_persona.a_primerApellido}
+                      </Link>
+                    </td>
+                    <td>{d.a_numeroConsultorio}</td>
+                    <td>{d.a_turno}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
         </Card>
       </Page>
     </Policy>

@@ -1,21 +1,11 @@
-import {
-  Table,
-  Typography,
-  Breadcrumb,
-  Button,
-  Card,
-  Input,
-  Space,
-  Form,
-} from "antd";
+import { Typography, Input, Space } from "antd";
+import { Table, Breadcrumb, Card, Button, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import inscripciones from "constants/inscripciones.json";
 import { useImmer } from "use-immer";
 import TextNew from "components/TextNew";
 import API from "utils/Axios";
-import { MDBDataTable } from 'mdbreact'
 import { FolderViewOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
@@ -24,108 +14,12 @@ import { ROL_ASESOR } from "constants/apiContants";
 const ListadoSolicitudes = () => {
   const [docs, setDoc] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
 
   const getSolicitudes = async () => {
     API.get("asesorias/solicitud/").then((response) => {
       console.log(JSON.stringify(response.data));
       setDoc(response.data);
     });
-  };
-
-  const getColumnSearchProps = (dataIndex) => {
-    let searchInput;
-    const _props = {
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters,
-      }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={(node) => {
-              searchInput = node;
-            }}
-            placeholder={`Search ${dataIndex}`}
-            value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            style={{ marginBottom: 8, display: "block" }}
-          />
-          <Space>
-            <Button
-              type="primary"
-              onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-              icon={<SearchOutlined />}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Buscar
-            </Button>
-            <Button
-              onClick={() => handleReset(clearFilters)}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Limpiar
-            </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                confirm({ closeDropdown: false });
-                setSearchText(selectedKeys[0]);
-                setSearchedColumn(dataIndex);
-              }}
-            >
-              Resaltar
-            </Button>
-          </Space>
-        </div>
-      ),
-      filterIcon: (filtered) => (
-        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-      ),
-      onFilter: (value, record) =>
-        record[dataIndex]
-          ? record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase())
-          : "",
-      onFilterDropdownVisibleChange: (visible) => {
-        if (visible) {
-          setTimeout(() => searchInput.select(), 100);
-        }
-      },
-      render: (text) =>
-        searchedColumn === dataIndex ? (
-          <Highlighter
-            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-            searchWords={[searchText]}
-            autoEscape
-            textToHighlight={text ? text.toString() : ""}
-          />
-        ) : (
-          text
-        ),
-    };
-    return _props;
-  };
-
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(0);
-    setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText("");
   };
 
   useEffect(() => {
@@ -146,52 +40,47 @@ const ListadoSolicitudes = () => {
           <Breadcrumb.Item>
             <Link to="/asesoria-juridica">Asesoría Jurídica</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Listado de solicitudes</Breadcrumb.Item>
+          <Breadcrumb.Item active>Casos</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="section-title">
-          <Typography.Title level={4}>
-            Listado de solicitudes
-          </Typography.Title>
-        </div>
-        <Card className="card-shadown">
 
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Form style={{ flex: 1 }}>
-              <Form.Item label="Buscar">
-                <Input />
-              </Form.Item>
-            </Form>
-            <div style={{ flex: 1 }}></div>
-          </div>
-          <Table
-            dataSource={docs}
-            loading={loading}
-            size="small"
-            rowKey="_id"
-            scroll={{ x: 400, y: 400 }}
-          >
-            <Table.Column
-              width={100}
-              fixed={true}
-              title="No. de solicitud"
-              dataIndex={["r_asesoria_casoJuridico", "id"]}
-            />
-            <Table.Column
-              width={200}
-              title="Nombre completo"
-              dataIndex={["a_nombreCompleto"]}
-            />
-            <Table.Column
-              width={100}
-              title="Fecha"
-              dataIndex={["dt_fechaAsesoria"]}
-            />
-            <Table.Column
-              width={150}
-              title="Asunto de consulta"
-              dataIndex={["t_asuntoConsulta"]}
-            />
-          </Table>
+        <Card>
+          <Card.Body>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Form style={{ flex: 1 }}>
+                <Form.Group>
+                  <Form.Control placeholder="Buscar..." />
+                </Form.Group>
+              </Form>
+              <div style={{ flex: 1 }}></div>
+            </div>
+            <Table>
+              <thead>
+                <tr>
+                  <th>No. caso</th>
+                  <th>Nombre y apellidos</th>
+                  <th>Documento de identidad</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {docs.map((d, i) => (
+                  <tr key={i}>
+                    <td>
+                      <Link to={`/asesoria-juridica/caso/${d.id}`}>{d.id}</Link>
+                    </td>
+                    <td>
+                      {d.r_usuarios_solicitante.a_primerNombre}{" "}
+                      {d.r_usuarios_solicitante.a_primerApellido}
+                    </td>
+                    <td>{d.r_usuarios_solicitante.a_numeroDocumento}</td>
+                    <td>
+                      {d.dt_fechaAsesoria} {d.ht_horaAsesoria}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
         </Card>
       </Page>
     </Policy>
