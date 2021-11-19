@@ -17,6 +17,13 @@ export const MODULES = [
     url: "/asesoria-juridica",
     policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
   },
+  {
+    id: 5,
+    img: "images/modulo1.jpg",
+    name: "Centro de conciliación",
+    url: "/centro-de-conciliacion",
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
+  },
   /*{
     id: 2,
     img: "images/modulo3.jpg",

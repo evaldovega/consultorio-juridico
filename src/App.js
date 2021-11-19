@@ -34,6 +34,8 @@ import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 import moment from "moment";
+import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
+import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 moment.locale("es");
 
 function App() {
@@ -117,7 +119,12 @@ function App() {
             <PrivateRouter path="/perfil" exact>
               <Perfil />
             </PrivateRouter>
-
+            <PrivateRouter path="/centro-de-conciliacion" exact>
+              <CentroDeConciliacionHome />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/registrar" exact>
+              <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
           </Switch>

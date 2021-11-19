@@ -103,6 +103,17 @@ const PerfilMaster = ({
     "flex-column": !readOnly,
   });
 
+  const enviarFormulario = (event) => {
+    if (typeof event.preventDefault === "function") {
+      event.preventDefault();
+    }
+    if (typeof event.stopPropagation === "function") {
+      // prevent any outer forms from receiving the event too
+      event.stopPropagation();
+    }
+    return handleSubmit(onSubmit, onError)(event);
+  };
+
   useEffect(() => {
     load();
   }, [id]);
@@ -126,7 +137,7 @@ const PerfilMaster = ({
     >
       <Form
         noValidate
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={enviarFormulario}
         onKeyDown={(e) => checkKeyDown(e)}
       >
         <fieldset disabled={loading}>

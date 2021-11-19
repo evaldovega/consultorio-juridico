@@ -37,7 +37,7 @@
   "scripts": {
     "deploy": "aws s3 sync build/ s3://consultorio-juridico --acl public-read",
     "start": "react-scripts start",
-    "build": "craco build",
+    "build": "react-scripts build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "start2": "craco start"

@@ -87,7 +87,7 @@ const SolicitarAsesoria = () => {
 
   //------Guardar como persona
   const guardarComoPersona = async () => {
-    setValue("r_usuarios_persona", localStorage.getItem("id_persona"));
+    setValue("r_usuarios_solicitante", localStorage.getItem("id_persona"));
     formAsesoria.current.click();
   };
   //------Enviar el formulario de persona
@@ -109,7 +109,7 @@ const SolicitarAsesoria = () => {
   //-----Enviar el formulario de inscripcion
   const personaGuardada = ({ persona, success }) => {
     if (success) {
-      setValue("r_usuarios_persona", persona.id);
+      setValue("r_usuarios_solicitante", persona.id);
       formAsesoria.current.click();
     } else {
       toast.error("🦄 No se pudo guardar los datos del ciudadano!", {
