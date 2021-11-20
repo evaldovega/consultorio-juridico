@@ -31,6 +31,10 @@ import MisAsesorias from "pages/MisAsesorias";
 import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
+
+import AsignacionEmpleados from "pages/AsignacionEmpleados"
+import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
+
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
@@ -113,6 +117,12 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/formato-registro" exact>
               <FormatoRegistro />
+            </PrivateRouter>
+            <PrivateRouter path="/asignacion-empleados" exact>
+              <AsignacionEmpleados />
+            </PrivateRouter>
+            <PrivateRouter path="/asignacion-empleados/asignar" exact>
+              <AsignarEmpleado />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />

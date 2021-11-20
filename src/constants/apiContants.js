@@ -45,4 +45,11 @@ export const MODULES = [
     url: "/guardar-asesoria",
     img: "images/modulo2.jpg",
   },
+  {
+    id: "",
+    name: "Asignación de empleados",
+    policies: [ROL_PERSONA, ROL_ASESOR],
+    url: "/asignacion-empleados",
+    img: "images/modulo2.jpg",
+  },
 ];
