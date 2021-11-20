@@ -5,12 +5,17 @@ import API from "utils/Axios";
 import PersonaDetailRow from "components/personaDetailRow";
 import BuscadorEstudiante from "components/buscadorEstudiante";
 import { toast } from "react-toastify";
+import Policy, { policyAllow } from "components/Policy";
+import { ROL_ADMIN, ROL_ASESOR } from "constants/apiContants";
+import { useContext } from "react";
+import { Context } from "components/Policy/Ctx";
 
 const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
   const { mm_estudiantesAsignados = [] } = caso;
-
+  const { policies } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [listado, setListado] = useState([]);
+  const [allowRemove, setAllowRemove] = useState(false);
 
   const onRemoveEstudiante = async (id) => {
     try {
@@ -21,7 +26,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
       await API.patch(`asesorias/solicitud/${asesoriaId}/`, {
         mm_estudiantesAsignados: listadoTemporal,
       });
-      setListado(listadoTemporal);
+      setCaso({ ...caso, mm_estudiantesAsignados: listadoTemporal });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -46,7 +51,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
       await API.patch(`asesorias/solicitud/${asesoriaId}/`, {
         mm_estudiantesAsignados: listadoTemporal,
       });
-      setListado(listadoTemporal);
+      setCaso({ ...caso, mm_estudiantesAsignados: listadoTemporal });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -62,6 +67,14 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
   };
 
   useEffect(() => {
+    if (policies && policies.length > 0) {
+      setAllowRemove(policyAllow([ROL_ADMIN, ROL_ASESOR], policies));
+    } else {
+      setAllowRemove(false);
+    }
+  }, [policies]);
+
+  useEffect(() => {
     if (mm_estudiantesAsignados) {
       setListado(mm_estudiantesAsignados);
     }
@@ -74,14 +87,15 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
           {" "}
           <PersonaDetailRow
             id={e}
-            allowRemove={true}
+            allowRemove={allowRemove}
             onRemove={onRemoveEstudiante}
           />
           {i < listado.length - 1 && <hr />}
         </>
       ))}
-      <h5></h5>
-      <BuscadorEstudiante onSelect={onSelect} />
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+        <BuscadorEstudiante onSelect={onSelect} />
+      </Policy>
     </div>
   );
 };

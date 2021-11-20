@@ -9,7 +9,7 @@ import API from "utils/Axios";
 import { FolderViewOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
-import { ROL_ASESOR } from "constants/apiContants";
+import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
 const ListadoSolicitudes = () => {
   const [docs, setDoc] = useState([]);
@@ -31,7 +31,7 @@ const ListadoSolicitudes = () => {
   }, []);
 
   return (
-    <Policy policy={[ROL_ASESOR]}>
+    <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -69,12 +69,12 @@ const ListadoSolicitudes = () => {
                       <Link to={`/asesoria-juridica/caso/${d.id}`}>{d.id}</Link>
                     </td>
                     <td>
-                      {d.r_usuarios_solicitante.a_primerNombre}{" "}
-                      {d.r_usuarios_solicitante.a_primerApellido}
+                      {d?.r_usuarios_solicitante?.a_primerNombre}{" "}
+                      {d?.r_usuarios_solicitante?.a_primerApellido}
                     </td>
-                    <td>{d.r_usuarios_solicitante.a_numeroDocumento}</td>
+                    <td>{d?.r_usuarios_solicitante?.a_numeroDocumento}</td>
                     <td>
-                      {d.dt_fechaAsesoria} {d.ht_horaAsesoria}
+                      {d?.dt_fechaAsesoria} {d?.ht_horaAsesoria}
                     </td>
                   </tr>
                 ))}

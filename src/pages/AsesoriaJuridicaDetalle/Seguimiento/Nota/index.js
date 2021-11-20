@@ -6,6 +6,15 @@ import API from "utils/Axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { useEffect } from "react";
+import Policy, { policyAllow } from "components/Policy";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "constants/apiContants";
+import { useContext } from "react";
+import { Context } from "components/Policy/Ctx";
 
 const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
   const {
@@ -23,6 +32,8 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
@@ -55,6 +66,7 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
       setCargando(false);
     }
   };
+
   const onError = () => {
     toast.warn("Error al ingresar información");
   };
@@ -66,6 +78,18 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
       setValue("t_observacion", "");
     }
   }, [show, doc]);
+
+  useEffect(() => {
+    if (policies && policies.length) {
+      if (policyAllow([ROL_PERSONA], policies)) {
+        setReadOnly(true);
+      } else {
+        setReadOnly(false);
+      }
+    } else {
+      setReadOnly(true);
+    }
+  }, [policies]);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
@@ -89,7 +113,9 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Control
                       {...field}
                       as="textarea"
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                      rows="6"
                     />
                     <Errors message={errors?.t_observacion?.message} />
                   </Form.Group>
@@ -98,11 +124,17 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" disabled={cargando}>
-            Agregar
-          </Button>
-        </Modal.Footer>
+        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+          <Modal.Footer>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={cargando || readOnly}
+            >
+              Agregar
+            </Button>
+          </Modal.Footer>
+        </Policy>
       </Form>
     </Modal>
   );

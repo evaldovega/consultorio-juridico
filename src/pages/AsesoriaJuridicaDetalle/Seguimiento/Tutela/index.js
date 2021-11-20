@@ -4,6 +4,15 @@ import { useForm, Controller } from "react-hook-form";
 import Errors from "components/Errors";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
+import { useContext } from "react";
+import { Context } from "components/Policy/Ctx";
+import Policy, { policyAllow } from "components/Policy";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "constants/apiContants";
 
 const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
   const {
@@ -21,6 +30,8 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
@@ -90,6 +101,18 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
     }
   }, [show, doc]);
 
+  useEffect(() => {
+    if (policies && policies.length) {
+      if (policyAllow([ROL_PERSONA], policies)) {
+        setReadOnly(true);
+      } else {
+        setReadOnly(false);
+      }
+    } else {
+      setReadOnly(true);
+    }
+  }, [policies]);
+
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
       <Form noValidate onSubmit={handleSubmit(guardar, onError)}>
@@ -109,7 +132,12 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>
                       Fecha de radicación <span className="required" />
                     </Form.Label>
-                    <Form.Control {...field} type="date" disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      type="date"
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                     <Errors
                       message={errors?.dt_fechaRadicacionTutela?.message}
                     />
@@ -128,7 +156,11 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>
                       Entidad a la que se presenta <span className="required" />
                     </Form.Label>
-                    <Form.Control {...field} disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                     <Errors message={errors?.a_entidadTutela?.message} />
                   </Form.Group>
                 )}
@@ -145,7 +177,11 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Reparto primera instancia</Form.Label>
-                    <Form.Control {...field} disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                   </Form.Group>
                 )}
               />
@@ -158,7 +194,12 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Fallo primera instancia</Form.Label>
-                    <Form.Control {...field} disabled={cargando} type="date" />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                      type="date"
+                    />
                   </Form.Group>
                 )}
               />
@@ -173,7 +214,11 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Fecha impugnación</Form.Label>
-                    <Form.Control {...field} disabled={cargando} />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
                   </Form.Group>
                 )}
               />
@@ -185,7 +230,12 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>Fallo segunda instancia</Form.Label>
-                    <Form.Control {...field} disabled={cargando} type="date" />
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                      type="date"
+                    />
                   </Form.Group>
                 )}
               />
@@ -206,7 +256,8 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     </Form.Label>
                     <Form.Control
                       {...field}
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                       as="textarea"
                     />
                     <Errors message={errors?.t_observacion?.message} />
@@ -226,8 +277,10 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>Respuesta</Form.Label>
                     <Form.Control
                       {...field}
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                       as="textarea"
+                      rows="6"
                     />
                   </Form.Group>
                 )}
@@ -235,11 +288,13 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" disabled={cargando}>
-            Guardar
-          </Button>
-        </Modal.Footer>
+        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+          <Modal.Footer>
+            <Button variant="primary" type="submit" disabled={cargando}>
+              Guardar
+            </Button>
+          </Modal.Footer>
+        </Policy>
       </Form>
     </Modal>
   );

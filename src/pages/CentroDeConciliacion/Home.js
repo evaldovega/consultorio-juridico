@@ -18,7 +18,7 @@ import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
 import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 
-const AsesoriaJuridicaHome = () => {
+const CentroDeConciliacionHome = () => {
   return (
     <Policy
       policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
@@ -29,7 +29,7 @@ const AsesoriaJuridicaHome = () => {
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Asesoria jurídica</Breadcrumb.Item>
+          <Breadcrumb.Item active>Centro de conciliación</Breadcrumb.Item>
         </Breadcrumb>
 
         <Row className="modules">
@@ -43,7 +43,7 @@ const AsesoriaJuridicaHome = () => {
                 />
               )}
               title="Formato de Registro"
-              link="/asesoria-juridica/solicitar"
+              link="/centro-de-conciliacion/registrar"
             />
           </Col>
           <Col xs={12} md={6}>
@@ -56,7 +56,7 @@ const AsesoriaJuridicaHome = () => {
                 />
               )}
               title="Listado de casos"
-              link="/asesoria-juridica/solicitudes"
+              link="/centro-de-conciliacion/solicitudes"
             />
           </Col>
         </Row>
@@ -65,4 +65,4 @@ const AsesoriaJuridicaHome = () => {
   );
 };
 
-export default AsesoriaJuridicaHome;
+export default CentroDeConciliacionHome;

@@ -5,8 +5,7 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as PolicyProvider from "components/Policy/Ctx";
-import { ConfigProvider } from "antd";
-import locale from "antd/lib/locale/es_ES";
+
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import InscripcionEstudiantes from "./pages/InscripcionEstudiantes";
@@ -39,10 +38,13 @@ import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 import moment from "moment";
+import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
+import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 moment.locale("es");
+
 function App() {
   return (
-    <ConfigProvider locale={locale}>
+    <>
       <Router>
         <PolicyProvider.Provider>
           <Switch>
@@ -127,14 +129,19 @@ function App() {
             <PrivateRouter path="/perfil" exact>
               <Perfil />
             </PrivateRouter>
-
+            <PrivateRouter path="/centro-de-conciliacion" exact>
+              <CentroDeConciliacionHome />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/registrar" exact>
+              <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
           </Switch>
         </PolicyProvider.Provider>
       </Router>
       <ToastContainer />
-    </ConfigProvider>
+    </>
   );
 }
 

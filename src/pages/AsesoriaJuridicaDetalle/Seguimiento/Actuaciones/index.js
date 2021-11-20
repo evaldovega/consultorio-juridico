@@ -12,6 +12,8 @@ import moment from "moment";
 import Nota from "../Nota";
 import Tutela from "../Tutela";
 import Demanda from "../Demanda";
+import Policy from "components/Policy";
+import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
 const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const [mostrarAgendarCita, setMostrarAgendarCita] = useState(false);
@@ -129,154 +131,196 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
         show={mostrarDemanda}
         setShow={setMostrarDemanda}
       />
-      {!seguimientos.length && (
-        <h5 className="mb-4">Aquí inicia el proceso!</h5>
-      )}
+
       <Card.Body style={{ height: 400, overflowY: "scroll" }}>
+        {!seguimientos.length && (
+          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+            <div className="text-center h-100 d-flex flex-column justify-content-center">
+              <h5 className="mb-4">Aquí inicia el proceso!</h5>
+              <p>Añade actuaciones para llevar el seguimiento del caso</p>
+              <img
+                height="80"
+                src="/images/undraw_handcrafts_arrow.svg"
+                style={{ transform: "rotate(178deg)" }}
+              />
+            </div>
+          </Policy>
+        )}
         {seguimientos.map((s) => {
           switch (s.c_tipoSeguimientoAccion) {
             case "NOTA":
               return (
-                <Card className="mb-1">
-                  <Card.Header className="d-flex align-items-center">
+                <div className="mb-3 mt-3">
+                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
                     <FcComments />
                     Nota
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>{moment(s.sys_fechaCreacion).format("LLL")}</h5>
-                    <p>{s.t_observacion}</p>
-                    <Button onClick={() => setEdit(s)}>
+                  </div>
+
+                  <p>
+                    <b>{moment(s.sys_fechaCreacion).format("LLL")}</b>{" "}
+                    {s.t_observacion}{" "}
+                    <Button
+                      className="btn-sm"
+                      variant="link"
+                      onClick={() => setEdit(s)}
+                    >
                       <FaPenAlt />
                     </Button>
-                  </Card.Body>
-                </Card>
+                  </p>
+                </div>
               );
               break;
             case "CITA":
               return (
-                <Card className="mb-1">
-                  <Card.Header className="d-flex align-items-center">
+                <div className="mb-3 mt-3">
+                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
                     <FcAlarmClock />
                     Cita
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>{moment(s.dt_fechaNuevaCita).format("LLL")}</h5>
-                    <p>{s.t_observacion}</p>
-                    <Button onClick={() => setEdit(s)}>
+                  </div>
+                  <p>
+                    <b>{moment(s.dt_fechaNuevaCita).format("LLL")}</b>{" "}
+                    {s.t_observacion}{" "}
+                    <Button
+                      className="btn-sm"
+                      variant="link"
+                      onClick={() => setEdit(s)}
+                    >
                       <FaPenAlt />
                     </Button>
-                  </Card.Body>
-                </Card>
+                  </p>
+                </div>
               );
               break;
             case "DERECHO_PETICION":
               return (
-                <Card className="mb-1">
-                  <Card.Header className="d-flex align-items-center">
+                <div className="mb-3 mt-3">
+                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
                     Derecho de petición
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>{moment(s.dt_fechaRadicacion).format("LLL")}</h5>
-                    <p className="text-justify">{s.t_observacion}</p>
-                    <p className="text-justify">{s.t_respuesta}</p>
-                    <Button onClick={() => setEdit(s)}>
+                  </div>
+
+                  <p className="text-justify">
+                    <b>{moment(s.dt_fechaRadicacion).format("LLL")}</b>{" "}
+                    {s.t_observacion}
+                  </p>
+                  <p className="text-justify">
+                    {s.t_respuesta}{" "}
+                    <Button
+                      className="btn-sm"
+                      variant="link"
+                      onClick={() => setEdit(s)}
+                    >
                       <FaPenAlt />
                     </Button>
-                  </Card.Body>
-                </Card>
+                  </p>
+                </div>
               );
               break;
             case "TUTELA":
               return (
-                <Card className="mb-1">
-                  <Card.Header className="d-flex align-items-center">
+                <div className="mb-3 mt-3">
+                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center ">
                     Tutela
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>{moment(s.dt_fechaRadicacionTutela).format("LLL")}</h5>
-                    <p className="text-justify">{s.t_observacion}</p>
-                    <p className="text-justify">{s.t_respuesta}</p>
-                    <Button onClick={() => setEdit(s)}>
+                  </div>
+
+                  <p className="text-justify">
+                    <b>
+                      <i>{moment(s.dt_fechaRadicacionTutela).format("LLL")}</i>
+                    </b>{" "}
+                    {s.t_observacion}
+                  </p>
+                  <p className="text-justify">
+                    {s.t_respuesta}{" "}
+                    <Button
+                      className="btn-sm"
+                      variant="link"
+                      onClick={() => setEdit(s)}
+                    >
                       <FaPenAlt />
                     </Button>
-                  </Card.Body>
-                </Card>
+                  </p>
+                </div>
               );
               break;
             case "DEMANDA":
               return (
-                <Card className="mb-1">
-                  <Card.Header className="d-flex align-items-center">
+                <div className="mb-3 mt-3">
+                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
                     Demanda
-                  </Card.Header>
-                  <Card.Body>
-                    <h5>{moment(s.dt_fechaRadicaciona).format("LLL")}</h5>
-                    <p className="text-justify">{s.t_observacion}</p>
-                    <p className="text-justify">{s.t_respuesta}</p>
-                    <Button onClick={() => setEdit(s)}>
+                  </div>
+                  <h5>{moment(s.dt_fechaRadicaciona).format("LLL")}</h5>
+                  <p className="text-justify">{s.t_observacion}</p>
+                  <p className="text-justify">
+                    {s.t_respuesta}{" "}
+                    <Button
+                      className="btn-sm"
+                      variant="link"
+                      onClick={() => setEdit(s)}
+                    >
                       <FaPenAlt />
                     </Button>
-                  </Card.Body>
-                </Card>
+                  </p>
+                </div>
               );
               break;
           }
         })}
       </Card.Body>
 
-      <Card.Footer>
-        <div className="text-center mt-4">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              <FaPlus></FaPlus> Añade una actuación
-            </Dropdown.Toggle>
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+        <Card.Footer>
+          <div className="text-center mt-4">
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <FaPlus></FaPlus> Añade una actuación
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={() => {
-                  action("NOTA");
-                  setDoc(null);
-                }}
-              >
-                Añadir nota
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  action("CITA");
-                  setDoc(null);
-                }}
-              >
-                Agendar cita
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item
-                onClick={() => {
-                  action("DERECHO_PETICION");
-                  setDoc(null);
-                }}
-              >
-                Presentar derecho de petición
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  action("TUTELA");
-                  setDoc(null);
-                }}
-              >
-                Presentar tutela
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  action("DEMANDA");
-                  setDoc(null);
-                }}
-              >
-                Presentar demanda
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </Card.Footer>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() => {
+                    action("NOTA");
+                    setDoc(null);
+                  }}
+                >
+                  Añadir nota
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    action("CITA");
+                    setDoc(null);
+                  }}
+                >
+                  Agendar cita
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={() => {
+                    action("DERECHO_PETICION");
+                    setDoc(null);
+                  }}
+                >
+                  Presentar derecho de petición
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    action("TUTELA");
+                    setDoc(null);
+                  }}
+                >
+                  Presentar tutela
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    action("DEMANDA");
+                    setDoc(null);
+                  }}
+                >
+                  Presentar demanda
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </Card.Footer>
+      </Policy>
     </div>
   );
 };

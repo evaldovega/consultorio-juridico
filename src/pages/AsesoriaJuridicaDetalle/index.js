@@ -10,14 +10,18 @@ import API from "utils/Axios";
 import ArchivosAsesoria from "./Anexos";
 import Estudiantes from "./Estudiantes";
 import Actuaciones from "./Seguimiento/Actuaciones";
-import Compromisos from "./Seguimiento/Compromiso";
+import Compromisos from "./Compromiso";
 import { FcSerialTasks } from "react-icons/fc";
+import Policy from "components/Policy";
+import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
 const AsesoriaJuridicaDetalle = () => {
   const { id: asesoriaId } = useParams();
   const [solicitanteId, setSolicitanteId] = useState("");
   const [caso, setCaso] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const compromisoEstablecido = caso?.t_recomendaciones?.length ? true : false;
 
   const cargarAsesoria = () => {
     setLoading(true);
@@ -49,7 +53,7 @@ const AsesoriaJuridicaDetalle = () => {
         <Breadcrumb.Item active>Detalle</Breadcrumb.Item>
       </Breadcrumb>
 
-      <Card style={{ paddingTop: 8 }}>
+      <Card style={{ paddingTop: 8, overflow: "visible" }}>
         <Tabs defaultActiveKey="detalle" id="uncontrolled-tab-example">
           <Tab eventKey="detalle" title="Detalle">
             <br />
@@ -101,13 +105,16 @@ const AsesoriaJuridicaDetalle = () => {
                 </Col>
               </Row>
               <hr />
-              <Compromisos />
+              <Compromisos
+                asesoriaId={asesoriaId}
+                caso={caso}
+                setCaso={setCaso}
+              />
             </Card.Body>
           </Tab>
 
           <Tab eventKey="asignados" title="Estudiantes asignados">
             <br />
-
             <Card.Body>
               <Estudiantes
                 asesoriaId={asesoriaId}
@@ -116,6 +123,7 @@ const AsesoriaJuridicaDetalle = () => {
               />
             </Card.Body>
           </Tab>
+
           <Tab eventKey="solicitante" title="Solicitante">
             <br />
             <Card.Body>
@@ -127,6 +135,7 @@ const AsesoriaJuridicaDetalle = () => {
               />
             </Card.Body>
           </Tab>
+
           <Tab eventKey="anexos" title="Anexos">
             <br />
             <Card.Body>
@@ -137,20 +146,23 @@ const AsesoriaJuridicaDetalle = () => {
               />
             </Card.Body>
           </Tab>
-          <Tab
-            eventKey="seguimiento"
-            title={
-              <span>
-                <FcSerialTasks /> Seguimiento
-              </span>
-            }
-          >
-            <Actuaciones
-              asesoriaId={asesoriaId}
-              caso={caso}
-              setCaso={setCaso}
-            />
-          </Tab>
+
+          {compromisoEstablecido ? (
+            <Tab
+              eventKey="seguimiento"
+              title={
+                <span>
+                  <FcSerialTasks /> Seguimiento
+                </span>
+              }
+            >
+              <Actuaciones
+                asesoriaId={asesoriaId}
+                caso={caso}
+                setCaso={setCaso}
+              />
+            </Tab>
+          ) : null}
         </Tabs>
       </Card>
     </Page>

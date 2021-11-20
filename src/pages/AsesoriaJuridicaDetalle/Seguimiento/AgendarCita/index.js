@@ -6,6 +6,15 @@ import API from "utils/Axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { dateForDateTimeInputValue } from "utils";
+import Policy, { policyAllow } from "components/Policy";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "constants/apiContants";
+import { useContext } from "react";
+import { Context } from "components/Policy/Ctx";
 
 const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
   const {
@@ -23,6 +32,8 @@ const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
@@ -76,6 +87,18 @@ const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
     }
   }, [show, doc]);
 
+  useEffect(() => {
+    if (policies && policies.length) {
+      if (policyAllow([ROL_PERSONA], policies)) {
+        setReadOnly(true);
+      } else {
+        setReadOnly(false);
+      }
+    } else {
+      setReadOnly(true);
+    }
+  }, [policies]);
+
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
       <Form noValidate onSubmit={handleSubmit(guardar, onError)}>
@@ -98,7 +121,8 @@ const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Control
                       {...field}
                       type="datetime-local"
-                      disabled={cargando}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                     />
                     <Errors message={errors?.dt_fechaNuevaCita?.message} />
                   </Form.Group>
@@ -121,7 +145,9 @@ const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Control
                       {...field}
                       as="textarea"
-                      disabled={cargando}
+                      rows="6"
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
                     />
                     <Errors message={errors?.t_observacion?.message} />
                   </Form.Group>
@@ -130,11 +156,13 @@ const AgendarCita = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" disabled={cargando}>
-            Agendar
-          </Button>
-        </Modal.Footer>
+        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+          <Modal.Footer>
+            <Button variant="primary" type="submit" disabled={cargando}>
+              Agendar
+            </Button>
+          </Modal.Footer>
+        </Policy>
       </Form>
     </Modal>
   );

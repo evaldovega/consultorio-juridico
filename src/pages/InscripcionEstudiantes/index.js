@@ -6,6 +6,7 @@ import {
   ACCESS_TOKEN_NAME,
   MODULES,
   ROL_ASESOR,
+  ROL_ADMIN,
 } from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import { useForm } from "antd/lib/form/Form";
@@ -20,6 +21,7 @@ import {
   FaUserAlt,
   FaUserPlus,
 } from "react-icons/fa";
+import AccessDenied from "components/Policy/AccessDenied";
 
 const InscripcionEstudiantes = ({ params }) => {
   console.log({ params });
@@ -27,7 +29,7 @@ const InscripcionEstudiantes = ({ params }) => {
   const [form] = useForm();
 
   return (
-    <Policy policy={[ROL_ASESOR]}>
+    <Policy policy={[ROL_ASESOR, ROL_ADMIN]} feedback={<AccessDenied />}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
