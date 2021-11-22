@@ -20,7 +20,7 @@ import Errors from "components/Errors";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
-const { ROL_PERSONA } = require("constants/apiContants");
+const { ROL_PERSONA, ROL_ADMIN } = require("constants/apiContants");
 
 const AsignarEmpleado = () => {
     const history = useHistory();
@@ -143,7 +143,7 @@ const AsignarEmpleado = () => {
     }, [id]);
 
     return (
-        <Policy policy={[]}>
+        <Policy policy={[ROL_ADMIN]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
