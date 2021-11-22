@@ -3,11 +3,25 @@ import { Controller } from "react-hook-form";
 import { Breadcrumb, Card, Row, Col, Image, Form } from "react-bootstrap";
 import Errors from "components/Errors";
 import Context from "./Ctx";
+import API from "utils/Axios";
 
 const PerfilLaboral = () => {
   const { readOnly, control, errors, setValue, watch } = useContext(Context);
 
   const trabaja = watch("b_trabaja", false);
+
+  const [profesiones, setProfesiones] = useState([])
+
+  const getProfesiones = async () => {
+    API('configuracion/profesion/')
+      .then(response => {
+        setProfesiones(response.data)
+      })
+  }
+
+  useEffect(() => {
+    getProfesiones()
+  }, [])
 
   const DatosLaborales = () => (
     <>
@@ -148,11 +162,12 @@ const PerfilLaboral = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6">
               <Form.Label>Profesión u oficio</Form.Label>
-              <Form.Control
-                {...field}
-                readOnly={readOnly}
-                plaintext={readOnly}
-              />
+              <Form.Control as="select" {...field}>
+                <option value="">Seleccione...</option>
+                {profesiones.map((el) => (
+                  <option value={el.id}>{el.a_titulo}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
           )}
         />
