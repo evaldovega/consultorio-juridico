@@ -173,14 +173,14 @@ const PerfilLaboral = () => {
                 plaintext={readOnly}
               >
                 <option value="">Seleccione</option>
-                <option value="Si">Si</option>
-                <option value="No">No</option>
+                <option value="true">Si</option>
+                <option value="false">No</option>
               </Form.Control>
             </Form.Group>
           )}
         />
       </Row>
-      {trabaja == "Si" ? DatosLaborales() : null}
+      {trabaja == "true" ? DatosLaborales() : null}
     </div>
   );
 };
