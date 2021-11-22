@@ -159,9 +159,9 @@ const AsignarEmpleado = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/asesoria-juridica">Asesoria jurídica</Link>
+                        <Link to="/asignacion-empleados">Asignación de empleados</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Solicitar asesoria</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Asignar</Breadcrumb.Item>
                 </Breadcrumb>
                 <Context.Provider
                     value={{ control, watch, errors, setValue, getValues, loading }}
