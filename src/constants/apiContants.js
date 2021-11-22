@@ -65,4 +65,12 @@ export const MODULES = [
     descripcion: "",
     img: "images/modulo2.jpg",
   },
+  {
+    id: "",
+    name: "Autorización",
+    policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
+    url: "/asignacion-empleados",
+    descripcion: "",
+    img: "images/modulo2.jpg",
+  },
 ];
