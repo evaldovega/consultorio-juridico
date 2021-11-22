@@ -9,6 +9,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
   const [jornadas, setJornadas] = useState([]);
   const [lugarPracticas, setLugarPracticas] = useState([]);
   const [grupos, setGrupos] = useState([]);
+  const [consultorios, setConsultorios] = useState([])
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { readOnly, control, errors, setValue } = useContext(Context);
@@ -19,6 +20,18 @@ const DatosInscripcion = ({ showShadow = true }) => {
     API("configuracion/jornadas/")
       .then(({ data }) => {
         setJornadas(data);
+      })
+      .catch((error) => {
+        setError(error.response ? error.response.statusText : error.toString());
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      });
+    API("configuracion/consultorio/")
+      .then(({ data }) => {
+        setConsultorios(data);
       })
       .catch((error) => {
         setError(error.response ? error.response.statusText : error.toString());
@@ -163,7 +176,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
 
           <Row className="mb-3">
             <Controller
-              name="a_numeroConsultorio"
+              name="r_config_numeroConsultorio"
               control={control}
               defaultValue=""
               rules={{ required: "Ingrese información" }}
@@ -179,7 +192,11 @@ const DatosInscripcion = ({ showShadow = true }) => {
                     readOnly={readOnly}
                   >
                     <option value="">Seleccione</option>
-                    <option value={1}>Consultorio 1</option>
+                    {consultorios.map((el, i) => (
+                      <option value={el.id} key={i}>
+                        {el.a_titulo}
+                      </option>
+                    ))}
                   </Form.Control>
 
                   <Errors message={errors?.a_numeroConsultorio?.message} />

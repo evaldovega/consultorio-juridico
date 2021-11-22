@@ -29,13 +29,19 @@ const AsignarEmpleado = () => {
     const [error, setError] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
     const [personaId, setPersonaId] = useState("");
+    const [personas, setPersonas] = useState([])
     const [jornadas, setJornadas] = useState([])
     const [grupos, setGrupos] = useState([])
+    const [consultorios, setConsultorios] = useState([])
 
     const formPersona = useRef();
     const formAsesoria = useRef();
 
     const loadSelectData = async () => {
+        API.get('usuarios/personas')
+            .then(response => {
+                setPersonas(response.data)
+            })
         API.get('configuracion/jornadas')
             .then(response => {
                 setJornadas(response.data)
@@ -43,6 +49,10 @@ const AsignarEmpleado = () => {
         API.get('configuracion/grupo')
             .then(response => {
                 setGrupos(response.data)
+            })
+        API.get('configuracion/consultorio')
+            .then(response => {
+                setConsultorios(response.data)
             })
     }
 
@@ -157,27 +167,6 @@ const AsignarEmpleado = () => {
                 <Context.Provider
                     value={{ control, watch, errors, setValue, getValues, loading }}
                 >
-                    {/* <Accordion defaultActiveKey="0">
-            <Card>
-              <Card.Header className="d-flex justify-content-end">
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Ciudadano
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body style={{ padding: "2.5rem" }}>
-                  <PerfilMaster
-                    id={personaId}
-                    formRef={formPersona}
-                    showButton={false}
-                    allowSearchPerson={true}
-                    clearOnFinish={true}
-                    callback={personaGuardada}
-                  />
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          </Accordion> */}
                     <br />
                     <br />
                     <Form
@@ -192,6 +181,26 @@ const AsignarEmpleado = () => {
                                 </h2>
 
                                 <Row className="mb-3">
+                                    <Controller
+                                        name="r_usuarios_persona"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Group as={Col} xs="12" md="6">
+                                                <Form.Label>
+                                                    Empleado a asignar
+                                                </Form.Label>
+                                                <Form.Control as="select" {...field}>
+                                                    <option value="">Seleccione...</option>
+                                                    {personas.map((el) => (
+                                                        <option value={el.id}>
+                                                            {`${el.a_primerNombre} ${el.a_segundoNombre} ${el.a_primerApellido} ${el.a_segundoApellido}`}
+                                                        </option>
+                                                    ))}
+                                                </Form.Control>
+                                                <Errors message={errors?.ht_horaAsesoria?.message} />
+                                            </Form.Group>
+                                        )}
+                                    />
                                     <Controller
                                         name="a_anioValidez"
                                         control={control}
@@ -242,14 +251,19 @@ const AsignarEmpleado = () => {
                                         )}
                                     />
                                     <Controller
-                                        name="a_numeroConsultorio"
+                                        name="r_config_numeroConsultorio"
                                         control={control}
                                         render={({ field }) => (
                                             <Form.Group as={Col} xs="12" md="6">
                                                 <Form.Label>
                                                     Número de consultorio
                                                 </Form.Label>
-                                                <Form.Control type="number" {...field} />
+                                                <Form.Control as="select" {...field}>
+                                                    <option value="">Seleccione...</option>
+                                                    {consultorios.map((el) => (
+                                                        <option value={el.id}>{el.a_titulo}</option>
+                                                    ))}
+                                                </Form.Control>
                                                 <Errors message={errors?.ht_horaAsesoria?.message} />
                                             </Form.Group>
                                         )}
