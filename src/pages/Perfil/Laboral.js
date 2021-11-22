@@ -31,7 +31,7 @@ const PerfilLaboral = () => {
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="3">
-              <Form.Label>Servior público</Form.Label>
+              <Form.Label>Servidor público</Form.Label>
               <Form.Check
                 {...field}
                 label="Seleccione si lo es"
@@ -178,24 +178,19 @@ const PerfilLaboral = () => {
           render={({ field }) => (
             <Form.Group as={Col}>
               <Form.Label>Trabaja</Form.Label>
-              <Form.Control
-                as="select"
+              <Form.Check
                 {...field}
                 xs="12"
                 md="6"
                 readOnly={readOnly}
                 disabled={readOnly}
                 plaintext={readOnly}
-              >
-                <option value="">Seleccione</option>
-                <option value="true">Si</option>
-                <option value="false">No</option>
-              </Form.Control>
+              />
             </Form.Group>
           )}
         />
       </Row>
-      {trabaja == "true" ? DatosLaborales() : null}
+      {trabaja == true ? DatosLaborales() : null}
     </div>
   );
 };
