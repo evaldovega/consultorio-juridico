@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR } from "constants/apiContants";
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
 import { Link } from "react-router-dom";
 
 import API from "utils/Axios";
@@ -149,7 +149,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
   }
 
   return (
-    <Policy policy={[ROL_ASESOR]}>
+    <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
