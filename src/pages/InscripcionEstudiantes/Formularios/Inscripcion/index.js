@@ -8,6 +8,7 @@ import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import Context from "./Ctx";
 import { toast } from "react-toastify";
+import AccessDenied from "components/Policy/AccessDenied"
 
 import { useParams, useHistory } from "react-router-dom";
 
@@ -149,7 +150,10 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
   }
 
   return (
-    <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
+    <Policy 
+      policy={[ROL_ASESOR]}
+      feedback={<AccessDenied msn="Usted no tiene acceso a esta función de la página." />}
+    >
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
