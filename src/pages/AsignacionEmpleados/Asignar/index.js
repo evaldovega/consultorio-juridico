@@ -38,7 +38,7 @@ const AsignarEmpleado = () => {
     const formAsesoria = useRef();
 
     const loadSelectData = async () => {
-        API.get('usuarios/personas')
+        API.get('usuarios/personas/?personal_admin=true')
             .then(response => {
                 setPersonas(response.data)
             })
@@ -59,14 +59,13 @@ const AsignarEmpleado = () => {
     const guardarAsesoria = async (data) => {
         setLoading(true);
         const _data = {
-            ...data,
-            mm_estudiantesAsignados: data.mm_estudiantesAsignados.map((e) => e.id),
+            ...data
         };
         console.log(_data);
-        API.post("asesorias/solicitud/", _data)
+        API.post("asignacion/empleados/", _data)
             .then(({ data }) => {
                 setLoading(false);
-                toast.success("Asesoria registrada correctamente!", {
+                toast.success("Empleado registrado correctamente.", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,
@@ -74,7 +73,7 @@ const AsignarEmpleado = () => {
                     pauseOnHover: true,
                     draggable: true,
                 });
-                history.push("/asesoria-juridica");
+                history.push("/asignacion-empleados");
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -98,19 +97,19 @@ const AsignarEmpleado = () => {
 
     //------Enviar el formulario de persona
     const save = () => {
-        const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
-        if (!estudiantesAsignados.length) {
-            toast.info("Asigne estudiantes a la asesoria por favor", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-            return;
-        }
-        formPersona.current.click();
+        // const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
+        // if (!estudiantesAsignados.length) {
+        //     toast.info("Asigne estudiantes a la asesoria por favor", {
+        //         position: "top-center",
+        //         autoClose: 5000,
+        //         hideProgressBar: true,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //     });
+        //     return;
+        // }
+        // formPersona.current.click();
     };
     //-----Enviar el formulario de inscripcion
     const personaGuardada = ({ persona, success }) => {
@@ -299,12 +298,12 @@ const AsignarEmpleado = () => {
                         >
                             Registrar
                         </Button>
+                        <div className="d-flex justify-content-end mt-4">
+                            <Button type="submit" size="lg">
+                                Registrar
+                            </Button>
+                        </div>
                     </Form>
-                    <div className="d-flex justify-content-end mt-4">
-                        <Button onClick={save} size="lg" disabled={loading}>
-                            Registrar
-                        </Button>
-                    </div>
                 </Context.Provider>
             </Page>
         </Policy>
