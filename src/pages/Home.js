@@ -76,7 +76,7 @@ const Home = () => {
                     <Card.Img variant="top" src={m.img} />
                     <Card.Body>
                       <Card.Title>{m.name}</Card.Title>
-                      <Card.Text>Descripción</Card.Text>
+                      <Card.Text>{m.descripcion}</Card.Text>
                     </Card.Body>
                   </Link>
                 </Card>

@@ -15,6 +15,7 @@ export const MODULES = [
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
+    descripcion: "Descripción Asesoría Jurídica",
     policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
   },
   {
@@ -22,6 +23,7 @@ export const MODULES = [
     img: "images/modulo1.jpg",
     name: "Centro de conciliación",
     url: "/centro-de-conciliacion",
+    descripcion: "Descripción Centro de Conciliación",
     policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
   },
   /*{
@@ -36,6 +38,7 @@ export const MODULES = [
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
+    descripcion: "Inscripción de estudiantes",
     policies: [ROL_ADMIN, ROL_ASESOR],
   },
   {
@@ -43,6 +46,7 @@ export const MODULES = [
     name: "Mis asesorias jurídicas",
     policies: [ROL_PERSONA],
     url: "mis-asesorias",
+    descripcion: "",
     img: "images/modulo2.jpg",
   },
   {
@@ -50,13 +54,15 @@ export const MODULES = [
     name: "Solicitar asesoría jurídica",
     policies: [ROL_PERSONA],
     url: "/asesoria-juridica/solicitar",
+    descripcion: "",
     img: "images/modulo2.jpg",
   },
   {
     id: "",
     name: "Asignación de empleados",
-    policies: [ROL_PERSONA, ROL_ASESOR],
+    policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/asignacion-empleados",
+    descripcion: "",
     img: "images/modulo2.jpg",
   },
 ];
