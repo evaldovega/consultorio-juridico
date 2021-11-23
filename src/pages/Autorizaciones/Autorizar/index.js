@@ -36,6 +36,7 @@ const Autorizar = () => {
     const [consultorios, setConsultorios] = useState([])
     const [empleados, setEmpleados] = useState([])
     const [autoridades, setAutoridades] = useState([])
+    const [directores, setDirectores] = useState([])
 
     const formPersona = useRef();
     const formAsesoria = useRef();
@@ -60,6 +61,10 @@ const Autorizar = () => {
         API.get('estudiantes/inscripcion')
             .then(response => {
                 setInscripciones(response.data)
+            })
+        API.get('usuarios/empleados/empleadoscargos/?director=true')
+            .then(response => {
+                setDirectores(response.data)
             })
         API.get('usuarios/empleados/empleadoscargos')
             .then(response => {
@@ -270,7 +275,7 @@ const Autorizar = () => {
                                                 </Form.Label>
                                                 <Form.Control as="select" {...field}>
                                                     <option value="">Seleccione...</option>
-                                                    {empleados.map((el) => (
+                                                    {directores.map((el) => (
                                                         <option value={el.id}>{el.nombres}</option>
                                                     ))}
                                                 </Form.Control>
