@@ -36,6 +36,7 @@ import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
 
 import AutorizacionesHome from "pages/Autorizaciones"
 import Autorizar from "pages/Autorizaciones/Autorizar"
+import ListadoAutorizaciones from "pages/Autorizaciones/Listado"
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -134,6 +135,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/autorizar" exact>
               <Autorizar />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/listado" exact>
+              <ListadoAutorizaciones />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />

@@ -49,8 +49,8 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderOpen}
                 />
               )}
-              title="Listado de casos"
-              link="/autorizaciones/solicitudes"
+              title="Listado de autorizaciones"
+              link="/autorizaciones/listado"
             />
           </Col>
         </Row>
