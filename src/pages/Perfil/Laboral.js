@@ -174,7 +174,6 @@ const PerfilLaboral = () => {
         <Controller
           name="b_trabaja"
           control={control}
-          defaultValue="No"
           render={({ field }) => (
             <Form.Group as={Col}>
               <Form.Label>Trabaja</Form.Label>
@@ -182,9 +181,6 @@ const PerfilLaboral = () => {
                 {...field}
                 xs="12"
                 md="6"
-                readOnly={readOnly}
-                disabled={readOnly}
-                plaintext={readOnly}
               />
             </Form.Group>
           )}
