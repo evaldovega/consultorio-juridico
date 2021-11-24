@@ -36,7 +36,6 @@ const SolicitarAsesoria = () => {
   const [error, setError] = useState(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [personaId, setPersonaId] = useState("");
-
   const formPersona = useRef();
   const formAsesoria = useRef();
 

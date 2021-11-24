@@ -31,8 +31,8 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
-import AsignacionEmpleados from "pages/AsignacionEmpleados"
-import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
+import AsignacionEmpleados from "pages/AsignacionEmpleados";
+import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -40,6 +40,7 @@ import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
+import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
 moment.locale("es");
 
 function App() {
@@ -132,8 +133,15 @@ function App() {
             <PrivateRouter path="/centro-de-conciliacion" exact>
               <CentroDeConciliacionHome />
             </PrivateRouter>
+
+            <PrivateRouter path="/centro-de-conciliacion/registrar/:id" exact>
+              <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/registrar" exact>
               <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/solicitudes" exact>
+              <CentroDeConciliacionListado />
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />

@@ -1,30 +1,43 @@
+import PersonaDetailRow from "components/personaDetailRow";
+import { useEffect } from "react";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { Controller } from "react-hook-form";
 
-const Solicitante = ({
+const Parte = ({
+  name,
+  field,
   index,
-  data,
-  setValue,
-  getValue,
+  getValues,
   control,
   readOnly = false,
   cargando = false,
+  onRemove,
+  id,
+  idConciliacion,
+  setValue,
 }) => {
-  const { persona } = data;
+  const row = getValues(`${name}.${index}`);
+
   return (
     <div>
-      <div className="d-flex align-items-center">
-        <h5 className="mr-4">Solicitante</h5>
-        <h6 style={{ color: "#000" }}>
-          {persona.a_primerNombre} {persona.a_segundoNombre}{" "}
-          {persona.a_primerApellido} {persona.a_segundoApellido}
-        </h6>
-      </div>
+      <Controller
+        name={`${name}.${index}.${id}`}
+        control={control}
+        render={({ field }) => <input type="hidden" {...field} />}
+      />
+      {idConciliacion && row.id ? (
+        <Controller
+          name={`${name}.${index}.id`}
+          control={control}
+          render={({ field }) => <input type="hidden" {...field} />}
+        />
+      ) : null}
+      <PersonaDetailRow allowRemove={true} id={row[id]} onRemove={onRemove} />
 
       <h6>Apoderado</h6>
       <Row className="mb-1">
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_nombreCompleto`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -39,7 +52,7 @@ const Solicitante = ({
           )}
         />
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_numeroIdentificacion`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -53,25 +66,10 @@ const Solicitante = ({
             </Form.Group>
           )}
         />
-        <Controller
-          name="dt_fechaAsesoria"
-          control={control}
-          render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="4">
-              <Form.Label>Lugar de expedición</Form.Label>
-              <Form.Control
-                disabled={cargando || readOnly}
-                readonly={readOnly}
-                plaintext={readOnly}
-                {...field}
-              />
-            </Form.Group>
-          )}
-        />
       </Row>
       <Row className="mb-1">
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_tpNumero`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -86,7 +84,7 @@ const Solicitante = ({
           )}
         />
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_direccion`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -101,7 +99,7 @@ const Solicitante = ({
           )}
         />
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_correoElectronico`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -118,7 +116,7 @@ const Solicitante = ({
       </Row>
       <Row className="mb-1">
         <Controller
-          name="dt_fechaAsesoria"
+          name={`${name}.${index}.a_celular`}
           control={control}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="4">
@@ -138,4 +136,4 @@ const Solicitante = ({
   );
 };
 
-export default Solicitante;
+export default Parte;

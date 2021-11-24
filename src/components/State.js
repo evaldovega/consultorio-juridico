@@ -3,6 +3,8 @@ import { SyncOutlined } from "@ant-design/icons";
 import { emitCustomEvent, useCustomEventListener } from "react-custom-events";
 import API from "utils/Axios";
 import { Form, Button, Alert } from "react-bootstrap";
+import Spin from "components/Spin";
+
 const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -10,6 +12,7 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
   const [country, setCountry] = useState(null);
 
   useCustomEventListener(`load-${field.name}`, (data) => {
+    console.log("Llego pais ", data);
     setCountry(data);
   });
 
@@ -31,7 +34,7 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
       load();
     } else {
       //selected("");
-      setValue(field.name, "");
+      //setValue(field.name, "");
       setDocs([]);
     }
   }, [country]);
@@ -66,20 +69,22 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
   }
 
   return (
-    <Form.Control
-      as="select"
-      {...field}
-      readOnly={readOnly}
-      plaintext={readOnly}
-      disabled={readOnly}
-    >
-      <option value="">Seleccione</option>
-      {docs.map((c) => (
-        <option key={c.id} value={c.id}>
-          {c.a_titulo}
-        </option>
-      ))}
-    </Form.Control>
+    <Spin cargando={loading}>
+      <Form.Control
+        as="select"
+        {...field}
+        readOnly={readOnly}
+        plaintext={readOnly}
+        disabled={readOnly}
+      >
+        <option value={null}>Seleccione</option>
+        {docs.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.a_titulo}
+          </option>
+        ))}
+      </Form.Control>
+    </Spin>
   );
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { useCustomEventListener } from "react-custom-events";
 import API from "utils/Axios";
 import { Alert, Form, Button } from "react-bootstrap";
+import Spin from "components/Spin";
 
 const City = ({ setValue, field = {}, readOnly = false }) => {
   const [state, setState] = useState(null);
@@ -55,20 +55,22 @@ const City = ({ setValue, field = {}, readOnly = false }) => {
   }
 
   return (
-    <Form.Control
-      as="select"
-      {...field}
-      readOnly={readOnly}
-      plaintext={readOnly}
-      disabled={readOnly}
-    >
-      <option value="">Seleccione</option>
-      {docs.map((c) => (
-        <option key={c.id} value={c.id}>
-          {c.a_titulo}
-        </option>
-      ))}
-    </Form.Control>
+    <Spin cargando={loading}>
+      <Form.Control
+        as="select"
+        {...field}
+        readOnly={readOnly}
+        plaintext={readOnly}
+        disabled={readOnly}
+      >
+        <option value={null}>Seleccione</option>
+        {docs.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.a_titulo}
+          </option>
+        ))}
+      </Form.Control>
+    </Spin>
   );
 };
 
