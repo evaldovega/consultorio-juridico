@@ -169,7 +169,7 @@ const ListadoAutorizaciones = () => {
                                         <td>{d.a_nombrePoderante}</td>
                                         <td>{d.a_proceso}</td>
                                         <td>
-                                            <a href={`localhost:8000/doc_autorizacion/${d.id}/`}>
+                                            <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
                                                 <PrinterOutlined />
                                             </a>
                                         </td>

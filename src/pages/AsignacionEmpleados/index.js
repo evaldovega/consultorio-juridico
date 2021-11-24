@@ -50,7 +50,7 @@ const AsignacionEmpleadosHome = () => {
                 />
               )}
               title="Listado de casos"
-              link="/asignacion-empleados/solicitudes"
+              link="/asignacion-empleados/listado"
             />
           </Col>
         </Row>
