@@ -31,8 +31,14 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
-import AsignacionEmpleados from "pages/AsignacionEmpleados";
+import AsignacionEmpleadosHome from "pages/AsignacionEmpleados";
 import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
+
+import AutorizacionesHome from "pages/Autorizaciones";
+import Autorizar from "pages/Autorizaciones/Autorizar";
+import ListadoAutorizaciones from "pages/Autorizaciones/Listado";
+import GenerarCertificado from "pages/Autorizaciones/GenerarCertificado";
+import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -122,10 +128,25 @@ function App() {
               <FormatoRegistro />
             </PrivateRouter>
             <PrivateRouter path="/asignacion-empleados" exact>
-              <AsignacionEmpleados />
+              <AsignacionEmpleadosHome />
             </PrivateRouter>
             <PrivateRouter path="/asignacion-empleados/asignar" exact>
               <AsignarEmpleado />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones" exact>
+              <AutorizacionesHome />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/autorizar" exact>
+              <Autorizar />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/listado" exact>
+              <ListadoAutorizaciones />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/generar-certificado" exact>
+              <GenerarCertificado />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/lista-certificados" exact>
+              <ListadoCertificados />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />
