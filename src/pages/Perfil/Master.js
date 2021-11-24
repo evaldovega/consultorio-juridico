@@ -11,6 +11,7 @@ import PerfilUbicacion from "./Ubicacion";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
+import Spin from "components/Spin";
 const classNames = require("classnames");
 
 const PerfilMaster = ({
@@ -135,33 +136,35 @@ const PerfilMaster = ({
         clearOnFinish,
       }}
     >
-      <Form
-        noValidate
-        onSubmit={enviarFormulario}
-        onKeyDown={(e) => checkKeyDown(e)}
-      >
-        <fieldset disabled={loading}>
-          <div className={classes}>
-            <div>
-              <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
+      <Spin cargando={loading}>
+        <Form
+          noValidate
+          onSubmit={enviarFormulario}
+          onKeyDown={(e) => checkKeyDown(e)}
+        >
+          <fieldset disabled={loading}>
+            <div className={classes}>
+              <div>
+                <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
+              </div>
+              <div>
+                <PerfilDatosPersonales />
+              </div>
             </div>
-            <div>
-              <PerfilDatosPersonales />
-            </div>
-          </div>
-          <PerfilUbicacion />
-          <br /> <br />
-          <PerfilDemografico />
-          <br /> <br />
-          <PerfilDiscapacidad />
-          <br /> <br />
-          <PerfilLaboral />
-          <br /> <br />
-          <Button hidden={!showButton} ref={formRef} type="submit">
-            Guardar
-          </Button>
-        </fieldset>
-      </Form>
+            <PerfilUbicacion />
+            <br /> <br />
+            <PerfilDemografico />
+            <br /> <br />
+            <PerfilDiscapacidad />
+            <br /> <br />
+            <PerfilLaboral />
+            <br /> <br />
+            <Button hidden={!showButton} ref={formRef} type="submit">
+              Guardar
+            </Button>
+          </fieldset>
+        </Form>
+      </Spin>
     </Context.Provider>
   );
 };

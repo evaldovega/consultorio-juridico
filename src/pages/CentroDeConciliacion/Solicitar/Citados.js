@@ -10,13 +10,13 @@ import {
   Modal,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import Solicitante from "./Solicitante";
+import Solicitante from "./Parte";
 
-const Solicitantes = ({ control, setValue, getValues, watch }) => {
+const Citados = ({ control, setValue, getValues, watch }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [listado, setListado] = useState([]);
-  const solicitantes = watch("solicitantes", []);
+  const citados = watch("citados", []);
 
   const abirFormularioPersona = () => {
     setMostrarModal(true);
@@ -40,6 +40,7 @@ const Solicitantes = ({ control, setValue, getValues, watch }) => {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        size="lg"
       >
         <Modal.Header closeButton={!cargando}>
           <Modal.Title>Añadir persona</Modal.Title>
@@ -50,10 +51,11 @@ const Solicitantes = ({ control, setValue, getValues, watch }) => {
       </Modal>
       <Card.Body style={{ padding: "2.5rem" }}>
         <h2 className="title-line">
-          <span>Solicitantes</span>
+          <span>Citados</span>
         </h2>
         {listado.map((l, i) => (
           <Solicitante
+            key={i}
             data={l}
             control={control}
             getValues={getValues}
@@ -61,11 +63,11 @@ const Solicitantes = ({ control, setValue, getValues, watch }) => {
           />
         ))}
         <Button type="button" onClick={abirFormularioPersona}>
-          Añadir solicitante
+          Añadir citado
         </Button>
       </Card.Body>
     </Card>
   );
 };
 
-export default Solicitantes;
+export default Citados;

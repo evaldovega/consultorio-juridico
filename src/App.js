@@ -31,15 +31,20 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
+<<<<<<< HEAD
 import AsignacionEmpleadosHome from "pages/AsignacionEmpleados"
 import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
 import ListadoAsignaciones from "pages/AsignacionEmpleados/Listado"
+=======
+import AsignacionEmpleadosHome from "pages/AsignacionEmpleados";
+import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
+>>>>>>> a7ce095b34419065ea3f3b8954e4bfd2c0491b1a
 
-import AutorizacionesHome from "pages/Autorizaciones"
-import Autorizar from "pages/Autorizaciones/Autorizar"
-import ListadoAutorizaciones from "pages/Autorizaciones/Listado"
-import GenerarCertificado from "pages/Autorizaciones/GenerarCertificado"
-import ListadoCertificados from "pages/Autorizaciones/ListaCertificados"
+import AutorizacionesHome from "pages/Autorizaciones";
+import Autorizar from "pages/Autorizaciones/Autorizar";
+import ListadoAutorizaciones from "pages/Autorizaciones/Listado";
+import GenerarCertificado from "pages/Autorizaciones/GenerarCertificado";
+import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -47,6 +52,7 @@ import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
+import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
 moment.locale("es");
 
 function App() {
@@ -157,8 +163,15 @@ function App() {
             <PrivateRouter path="/centro-de-conciliacion" exact>
               <CentroDeConciliacionHome />
             </PrivateRouter>
+
+            <PrivateRouter path="/centro-de-conciliacion/registrar/:id" exact>
+              <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/registrar" exact>
               <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/solicitudes" exact>
+              <CentroDeConciliacionListado />
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />

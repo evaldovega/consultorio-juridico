@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Alert, Button } from "react-bootstrap";
 import { emitCustomEvent } from "react-custom-events";
 import API from "utils/Axios";
+import Spin from "components/Spin";
 
 const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
   const [docs, setDocs] = useState([]);
@@ -26,6 +27,7 @@ const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
   }, []);
 
   useEffect(() => {
+    console.log("pais ", field.value);
     emitCustomEvent(`load-${child}`, field.value);
     if (!field?.value?.length) {
       //setValue(child, "");
@@ -50,20 +52,22 @@ const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
   }
 
   return (
-    <Form.Control
-      as="select"
-      {...field}
-      readOnly={readOnly}
-      plaintext={readOnly}
-      disabled={readOnly}
-    >
-      <option value="">Seleccione</option>
-      {docs.map((c) => (
-        <option key={c.id} value={c.id}>
-          {c.a_titulo}
-        </option>
-      ))}
-    </Form.Control>
+    <Spin cargando={loading}>
+      <Form.Control
+        as="select"
+        {...field}
+        readOnly={readOnly}
+        plaintext={readOnly}
+        disabled={readOnly}
+      >
+        <option value={null}>Seleccione</option>
+        {docs.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.a_titulo}
+          </option>
+        ))}
+      </Form.Control>
+    </Spin>
   );
 };
 

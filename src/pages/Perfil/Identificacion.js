@@ -1,20 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import { Controller } from "react-hook-form";
-import {
-  Breadcrumb,
-  Card,
-  Row,
-  Col,
-  Image,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Row, Col, Form, Alert } from "react-bootstrap";
 import Errors from "components/Errors";
 import Context from "./Ctx";
 import API from "utils/Axios";
 import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
+import TipoIdentificacion from "./TipoIdentificacion";
 
 const PerfilIdentificacion = () => {
   const {
@@ -32,23 +25,6 @@ const PerfilIdentificacion = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const load = () => {
-    setLoading(true);
-    setError(null);
-    API("configuracion/tipo-documento/")
-      .then(({ data }) => {
-        setTipos(data);
-      })
-      .catch((error) => {
-        setError(error.response ? error.response.statusText : error.toString());
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      });
-  };
-
   const selectedFile = (el) => {
     if (!el.files.length) {
       setValue("f_archivoDocumento", "");
@@ -63,11 +39,9 @@ const PerfilIdentificacion = () => {
   };
 
   const buscarPersona = (e) => {
-    console.log({ allowSearchPerson });
     if (!allowSearchPerson) {
       return;
     }
-    console.log("buscarPersona");
     setLoadingMaster(true);
     API(`usuarios/personas?a_numeroDocumento=${e.target.value}`)
       .then(({ data }) => {
@@ -84,43 +58,16 @@ const PerfilIdentificacion = () => {
       });
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
   return (
     <div>
       <h3 className="title-line">
         <span>Datos del documento</span>
       </h3>
       <Row className="mb-1">
-        <Controller
-          name="r_config_tipoDocumento"
+        <TipoIdentificacion
+          errors={errors}
           control={control}
-          defaultValue=""
-          rules={{ required: "Seleccione un tipo" }}
-          render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
-              <Form.Label>
-                Tipo documento <span className="required" />
-              </Form.Label>
-              <Form.Control
-                as="select"
-                {...field}
-                readOnly={readOnly}
-                plaintext={readOnly}
-                disabled={readOnly}
-              >
-                <option value="">Seleccion</option>
-                {tiposDocumento.map((el, i) => (
-                  <option key={i} value={el.id}>
-                    {el.a_titulo}
-                  </option>
-                ))}
-              </Form.Control>
-              <Errors message={errors.r_config_tipoDocumento?.message} />
-            </Form.Group>
-          )}
+          readOnly={readOnly}
         />
         <Controller
           name="a_numeroDocumento"
