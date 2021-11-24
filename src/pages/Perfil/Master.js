@@ -159,7 +159,11 @@ const PerfilMaster = ({
             <br /> <br />
             <PerfilLaboral />
             <br /> <br />
-            <Button hidden={!showButton} ref={formRef} type="submit">
+            <Button
+              hidden={!showButton || readOnly}
+              ref={formRef}
+              type="submit"
+            >
               Guardar
             </Button>
           </fieldset>

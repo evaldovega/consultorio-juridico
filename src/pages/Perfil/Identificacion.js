@@ -59,23 +59,18 @@ const PerfilIdentificacion = () => {
   };
 
   return (
-    <div>
+    <div className="mb-4">
       <h3 className="title-line">
         <span>Datos del documento</span>
       </h3>
       <Row className="mb-1">
-        <TipoIdentificacion
-          errors={errors}
-          control={control}
-          readOnly={readOnly}
-        />
         <Controller
           name="a_numeroDocumento"
           control={control}
           defaultValue=""
           rules={{ required: "Ingrese su número de identidad" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="4">
               <Form.Label>
                 Número documento <span className="required" />
               </Form.Label>
@@ -89,13 +84,20 @@ const PerfilIdentificacion = () => {
             </Form.Group>
           )}
         />
+        <Col xs="12" md="4">
+          <TipoIdentificacion
+            errors={errors}
+            control={control}
+            readOnly={readOnly}
+          />
+        </Col>
         <Controller
           name="a_fechaExpedicionDocumento"
           control={control}
           defaultValue=""
           rules={{ required: "Ingrese una fecha" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="4">
               <Form.Label>
                 Fecha de expedición <span className="required" />
               </Form.Label>

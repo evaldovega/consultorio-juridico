@@ -9,7 +9,7 @@ const PerfilDatosPersonales = ({}) => {
   const { readOnly, control, errors, setValue } = useContext(Context);
 
   return (
-    <>
+    <div className="mb-3">
       <h3 className="title-line">
         <span>Datos personales</span>
       </h3>
@@ -91,7 +91,7 @@ const PerfilDatosPersonales = ({}) => {
           </Row>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

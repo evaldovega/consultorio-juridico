@@ -122,14 +122,14 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <a
                       target="blank"
                       className="d-block mb-1"
-                      href={`${baseUrl}/correo/${doc.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                      href={`${baseUrl}/correo/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
                     >
                       Citación
                     </a>
                     <a
                       target="blank"
                       className="d-block"
-                      href={`${baseUrl}/inasistencia_unaparte/${doc.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/1`}
+                      href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/1`}
                     >
                       Inasistencia
                     </a>

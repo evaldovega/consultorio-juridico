@@ -10,18 +10,17 @@ const PerfilLaboral = () => {
 
   const trabaja = watch("b_trabaja", false);
 
-  const [profesiones, setProfesiones] = useState([])
+  const [profesiones, setProfesiones] = useState([]);
 
   const getProfesiones = async () => {
-    API('configuracion/profesion/')
-      .then(response => {
-        setProfesiones(response.data)
-      })
-  }
+    API("configuracion/profesion/").then((response) => {
+      setProfesiones(response.data);
+    });
+  };
 
   useEffect(() => {
-    getProfesiones()
-  }, [])
+    getProfesiones();
+  }, []);
 
   const DatosLaborales = () => (
     <>
@@ -162,7 +161,12 @@ const PerfilLaboral = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6">
               <Form.Label>Profesión u oficio</Form.Label>
-              <Form.Control as="select" {...field}>
+              <Form.Control
+                as="select"
+                {...field}
+                disabled={readOnly}
+                plaintext={readOnly}
+              >
                 <option value="">Seleccione...</option>
                 {profesiones.map((el) => (
                   <option value={el.id}>{el.a_titulo}</option>
@@ -181,6 +185,8 @@ const PerfilLaboral = () => {
                 {...field}
                 xs="12"
                 md="6"
+                disabled={readOnly}
+                plaintext={readOnly}
               />
             </Form.Group>
           )}

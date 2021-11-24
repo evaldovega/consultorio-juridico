@@ -17,16 +17,17 @@ import API from "utils/Axios";
 import { useEffect } from "react";
 import { FaEye, FaPenAlt } from "react-icons/fa";
 import CentroDeConciliacionDetalle from "../Detalle";
+import Filtros from "./Filtros";
 
 const CentroDeConciliacionListado = () => {
   const [cargando, setCargando] = useState(false);
   const [docs, setDocs] = useState([]);
   const [id, setId] = useState(null);
 
-  const cargar = async () => {
+  const cargar = async (params) => {
     try {
       setCargando(true);
-      const { data } = await API("/conciliacion/solicitud/");
+      const { data } = await API.get("/conciliacion/solicitud/", { params });
       setDocs(data);
       setCargando(false);
     } catch (error) {
@@ -34,9 +35,9 @@ const CentroDeConciliacionListado = () => {
     }
   };
 
-  useEffect(() => {
-    cargar();
-  }, []);
+  const onFilter = (filtros) => {
+    cargar(filtros);
+  };
 
   return (
     <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
@@ -56,37 +57,46 @@ const CentroDeConciliacionListado = () => {
             </Breadcrumb.Item>
             <Breadcrumb.Item active>Casos</Breadcrumb.Item>
           </Breadcrumb>
-          <Table>
-            <thead>
-              <tr>
-                <th>Fecha solicitud</th>
-                <th>Resumen</th>
-                <th>Intenciones</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {docs.map((d) => (
+          <Filtros onFilter={onFilter} cargando={cargando} />
+
+          <Card>
+            <Table>
+              <thead>
                 <tr>
-                  <td>{d.d_fechaSolicitud}</td>
-                  <td className="crop">{d.t_resumenHechos}</td>
-                  <td className="crop">{d.c_intencionSolicitante}</td>
-                  <td>
-                    <Button onClick={() => setId(d.id)}>
-                      <FaEye />
-                    </Button>
-                    <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
-                      <Link to={`/centro-de-conciliacion/registrar/${d.id}`}>
-                        <Button className="ml-1">
-                          <FaPenAlt />
-                        </Button>
-                      </Link>
-                    </Policy>
-                  </td>
+                  <th>Fecha solicitud</th>
+                  <th>Resumen</th>
+                  <th>Intenciones</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {docs.map((d) => (
+                  <tr>
+                    <td>{d.d_fechaSolicitud}</td>
+                    <td className="crop">{d.t_resumenHechos}</td>
+                    <td className="crop">{d.c_intencionSolicitante}</td>
+                    <td>
+                      <div className="btn-group">
+                        <Button onClick={() => setId(d.id)}>
+                          <FaEye />
+                        </Button>
+                        <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
+                          <Button className="ml-1">
+                            <Link
+                              to={`/centro-de-conciliacion/registrar/${d.id}`}
+                            >
+                              <FaPenAlt color="#ffff" />
+                            </Link>
+                          </Button>
+                        </Policy>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Card.Body></Card.Body>
+          </Card>
         </Spin>
       </Page>
     </Policy>

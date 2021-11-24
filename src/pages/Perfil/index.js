@@ -1,11 +1,21 @@
+import { useState } from "react";
 import Page from "components/Page";
-import { Breadcrumb, Card, Row, Col, Image, Form } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Row,
+  Col,
+  Image,
+  Form,
+  Button,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PerfilMaster from "./Master";
 import { toast } from "react-toastify";
-
+import { FaPenAlt, FaEye } from "react-icons/fa";
 const Perfil = () => {
   const id_persona = localStorage.getItem("id_persona");
+  const [readOnly, setReadOnly] = useState(true);
 
   const callback = ({ persona, success }) => {
     if (success) {
@@ -29,11 +39,17 @@ const Perfil = () => {
       </Breadcrumb>
 
       <Card>
+        <Card.Header className="d-flex justify-content-end">
+          <Button onClick={() => setReadOnly(!readOnly)}>
+            {!readOnly ? <FaPenAlt /> : <FaEye />}
+          </Button>
+        </Card.Header>
         <Card.Body style={{ padding: "2.5rem" }}>
           <PerfilMaster
             id={id_persona}
             callback={callback}
             allowSearchPerson={false}
+            readOnly={readOnly}
           />
         </Card.Body>
       </Card>

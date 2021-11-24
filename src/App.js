@@ -47,6 +47,7 @@ import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
+import ScrollToTop from "components/ScrollTop";
 moment.locale("es");
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
     <>
       <Router>
         <PolicyProvider.Provider>
+          <ScrollToTop />
           <Switch>
             <PrivateRouter path="/" exact>
               <Home />

@@ -156,10 +156,10 @@ const SolicitarAsesoria = () => {
           </Breadcrumb.Item>
           <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
             <Breadcrumb.Item>
-              <Link to="/asesoria-juridica">Asesoria jurídica</Link>
+              <Link to="/asesoria-juridica">Asesoría jurídica</Link>
             </Breadcrumb.Item>
           </Policy>
-          <Breadcrumb.Item active>Solicitar asesoria</Breadcrumb.Item>
+          <Breadcrumb.Item active>Solicitar asesoría</Breadcrumb.Item>
         </Breadcrumb>
 
         <Context.Provider
@@ -199,7 +199,7 @@ const SolicitarAsesoria = () => {
             <Card>
               <Card.Body style={{ padding: "2.5rem" }}>
                 <h2 className="title-line">
-                  <span>Datos de asesoria</span>
+                  <span>Datos de asesoría</span>
                 </h2>
                 <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
                   <Row className="mb-3">
@@ -212,7 +212,7 @@ const SolicitarAsesoria = () => {
                       render={({ field }) => (
                         <Form.Group as={Col} xs="12" md="6">
                           <Form.Label>
-                            Fecha de asesoria <span className="required" />
+                            Fecha de asesoría <span className="required" />
                           </Form.Label>
                           <Form.Control type="date" {...field} />
                           <Errors message={errors?.dt_fechaAsesoria?.message} />
@@ -228,7 +228,7 @@ const SolicitarAsesoria = () => {
                       render={({ field }) => (
                         <Form.Group as={Col} xs="12" md="6">
                           <Form.Label>
-                            Hora de asesoria <span className="required" />
+                            Hora de asesoría <span className="required" />
                           </Form.Label>
                           <Form.Control type="time" {...field} />
                           <Errors message={errors?.ht_horaAsesoria?.message} />

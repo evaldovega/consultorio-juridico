@@ -29,7 +29,7 @@ const AsesoriaJuridicaHome = () => {
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Asesoria jurídica</Breadcrumb.Item>
+          <Breadcrumb.Item active>Asesoría jurídica</Breadcrumb.Item>
         </Breadcrumb>
 
         <Row className="modules">

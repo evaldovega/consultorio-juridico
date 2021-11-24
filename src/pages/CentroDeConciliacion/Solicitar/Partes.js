@@ -63,7 +63,10 @@ const Partes = ({
     const index = fields.findIndex((f) => f[[id]] == idPersona);
     try {
       if (idConciliacion) {
-        console.log({ idPersona, fields, index });
+        if (fields.length - 1 <= 0) {
+          toast.warning("No puedes borrar todas las partes");
+          return;
+        }
         const idRow = fields[index].id;
         setCargando(true);
         await API.delete(`${apiDelete}${idRow}/`);

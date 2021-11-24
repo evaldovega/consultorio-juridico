@@ -57,7 +57,7 @@ const TipoIdentificacion = ({ errors, control, readOnly }) => {
         defaultValue=""
         rules={{ required: "Seleccione un tipo" }}
         render={({ field }) => (
-          <Form.Group as={Col} xs="12" md="6" lg="3">
+          <Form.Group>
             <Form.Label>
               Tipo documento <span className="required" />
             </Form.Label>
@@ -68,7 +68,7 @@ const TipoIdentificacion = ({ errors, control, readOnly }) => {
               plaintext={readOnly}
               disabled={readOnly}
             >
-              <option value="">Seleccion</option>
+              <option value="">Seleccione</option>
               {tiposDocumento.map((el, i) => (
                 <option key={i} value={el.id}>
                   {el.a_titulo}
