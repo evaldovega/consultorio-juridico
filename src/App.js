@@ -31,8 +31,9 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
-import AsignacionEmpleadosHome from "pages/AsignacionEmpleados";
-import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
+import AsignacionEmpleadosHome from "pages/AsignacionEmpleados"
+import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
+import ListadoAsignaciones from "pages/AsignacionEmpleados/Listado"
 
 import AutorizacionesHome from "pages/Autorizaciones";
 import Autorizar from "pages/Autorizaciones/Autorizar";
@@ -134,6 +135,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/asignacion-empleados/asignar" exact>
               <AsignarEmpleado />
+            </PrivateRouter>
+            <PrivateRouter path="/asignacion-empleados/listado" exact>
+              <ListadoAsignaciones />
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones" exact>
               <AutorizacionesHome />

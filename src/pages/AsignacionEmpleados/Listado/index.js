@@ -10,14 +10,14 @@ import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
 
-const ListadoCertificados = () => {
+const ListadoAsignaciones = () => {
     const [docs, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
 
-    const getCertificados = async () => {
-        API.get("autorizaciones/certificacion").then((response) => {
+    const getAutorizaciones = async () => {
+        API.get("asignacion/empleados").then((response) => {
             console.log(JSON.stringify(response.data));
             setDoc(response.data);
         });
@@ -119,7 +119,7 @@ const ListadoCertificados = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            getCertificados();
+            getAutorizaciones();
             setLoading(false);
         }, 1000);
     }, []);
@@ -134,13 +134,13 @@ const ListadoCertificados = () => {
                     <Breadcrumb.Item>
                         <Link to="/autorizaciones">Autorizaciones</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Listado de certificados</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Listado de autorizaciones</Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Card>
                     <Card.Body>
                         <h2 className="title-line" style={{marginTop: 10}}>
-                            <span>Listado de certificados</span>
+                            <span>Listado de autorizaciones</span>
                         </h2>
                         {loading && (
                             <div className="d-flex justify-content-center">
@@ -154,23 +154,19 @@ const ListadoCertificados = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>Fecha de proceso<br /> <small>(AAAA-MM-DD)</small></th>
-                                    <th>Nombre del estudiante</th>
-                                    <th>Elaborado por</th>
-                                    <th>Imprimir</th>
+                                    <th>No. radicado</th>
+                                    <th>Año de validez</th>
+                                    <th>Semestre de validez</th>
+                                    <th>Número de consultorio</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {docs.map((d) => (
                                     <tr>
-                                        <td>{d.dt_fechaProceso}</td>
-                                        <td>{d.r_usuarios_estudiante.a_primerNombre} {d.r_usuarios_estudiante.a_primerApellido} </td>
-                                        <td>{d.r_usuarios_elaboradoPor.a_primerNombre} {d.r_usuarios_elaboradoPor.a_primerApellido} </td>
-                                        <td>
-                                            <a href={`http://localhost:8000/doc_certificacion/${d.id}/`}>
-                                                <PrinterOutlined />
-                                            </a>
-                                        </td>
+                                        <td>{d.id}</td>
+                                        <td>{d.a_anioValidez}</td>
+                                        <td>{d.a_semestreValidez}</td>
+                                        <td>{d.a_numeroConsultorio}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -182,4 +178,4 @@ const ListadoCertificados = () => {
     );
 };
 
-export default ListadoCertificados;
+export default ListadoAsignaciones;

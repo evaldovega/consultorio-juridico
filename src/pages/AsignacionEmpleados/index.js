@@ -49,8 +49,8 @@ const AsignacionEmpleadosHome = () => {
                   IconSecundary={FaFolderOpen}
                 />
               )}
-              title="Listado de casos"
-              link="/asignacion-empleados/solicitudes"
+              title="Listado de asignaciones"
+              link="/asignacion-empleados/listado"
             />
           </Col>
         </Row>
