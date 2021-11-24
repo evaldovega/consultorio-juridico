@@ -31,14 +31,9 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
-<<<<<<< HEAD
 import AsignacionEmpleadosHome from "pages/AsignacionEmpleados"
 import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
 import ListadoAsignaciones from "pages/AsignacionEmpleados/Listado"
-=======
-import AsignacionEmpleadosHome from "pages/AsignacionEmpleados";
-import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
->>>>>>> a7ce095b34419065ea3f3b8954e4bfd2c0491b1a
 
 import AutorizacionesHome from "pages/Autorizaciones";
 import Autorizar from "pages/Autorizaciones/Autorizar";
