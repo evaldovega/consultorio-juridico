@@ -53,6 +53,33 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/listado"
             />
           </Col>
+          <br /><br />
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaPenAlt}
+                  IconSecundary={FaFolderPlus}
+                />
+              )}
+              title="Certificados"
+              link="/autorizaciones/generar-certificado"
+            />
+          </Col>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Listado de certificados"
+              link="/autorizaciones/lista-certificados"
+            />
+          </Col>
         </Row>
       </Page>
     </Policy>

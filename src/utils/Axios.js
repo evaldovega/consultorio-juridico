@@ -6,7 +6,7 @@ const getToken = () => `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`;
 export const baseUrl = "http://179.0.29.155:8000";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+  baseURL: "http://10.0.82.15:8000/api/",
   headers: {
     "Content-Type": "application/json",
   },
