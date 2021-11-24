@@ -19,7 +19,7 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
   const load = () => {
     setLoading(true);
     setError(null);
-    API(`configuracion/departamento?r_config_pais=${country}`)
+    API(`configuracion/departamento/?r_config_pais=${country}`)
       .then(({ data }) => {
         setDocs(data);
       })

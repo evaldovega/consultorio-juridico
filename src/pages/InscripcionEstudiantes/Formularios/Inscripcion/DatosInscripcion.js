@@ -85,7 +85,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Código estudiantil <span className="required" />
                   </Form.Label>
@@ -105,7 +105,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Año
                     <span className="required" />
@@ -127,7 +127,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Semestre <span className="required" />
                   </Form.Label>
@@ -148,7 +148,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Jornada <span className="required" />
                   </Form.Label>
@@ -181,7 +181,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Consultorio <span className="required" />
                   </Form.Label>
@@ -209,7 +209,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Grupo <span className="required" />
                   </Form.Label>
@@ -237,7 +237,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
               defaultValue=""
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
-                <Form.Group as={Col} xs="12" md="6" lg="3">
+                <Form.Group as={Col} xs="12" md="6" lg="6">
                   <Form.Label>
                     Fecha de inscripción <span className="required" />
                   </Form.Label>

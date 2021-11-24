@@ -14,7 +14,7 @@ const City = ({ setValue, field = {}, readOnly = false }) => {
   const load = () => {
     setLoading(true);
     setError(null);
-    API(`configuracion/ciudad?r_config_departamento=${state}`)
+    API(`configuracion/ciudad/?r_config_departamento=${state}`)
       .then(({ data }) => {
         setDocs(data);
       })

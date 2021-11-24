@@ -266,6 +266,10 @@ label {
   font-weight: bold;
 }
 
+a{
+  color: #d07400;
+}
+
 .formulario-curso .ant-space-item {
   flex: 1;
 }

@@ -49,11 +49,11 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderOpen}
                 />
               )}
-              title="Listado de autorizaciones"
+              title="Listado de documentos"
               link="/autorizaciones/listado"
             />
           </Col>
-          <br /><br />
+          <div class="w-100" style={{ marginBottom: 16 }}></div>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={(props) => (

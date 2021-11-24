@@ -19,11 +19,11 @@ const AsignacionEmpleadosHome = () => {
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Asignación de empleados</Breadcrumb.Item>
+          <Breadcrumb.Item active>Asignación de docentes</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="section-title">
-          <h1>Asignación de empleados</h1>
+          <h1>Asignación de docentes</h1>
         </div>
 
         <Row className="modules">

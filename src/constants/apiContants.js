@@ -59,7 +59,7 @@ export const MODULES = [
   },
   {
     id: "",
-    name: "Asignación de empleados",
+    name: "Asignación de docentes",
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/asignacion-empleados",
     descripcion: "",
