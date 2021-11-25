@@ -46,19 +46,19 @@ const GenerarCertificado = () => {
             .then(response => {
                 setPersonas(response.data)
             })
-        API.get('configuracion/jornadas')
+        API.get('configuracion/jornadas/')
             .then(response => {
                 setJornadas(response.data)
             })
-        API.get('configuracion/grupo')
+        API.get('configuracion/grupo/')
             .then(response => {
                 setGrupos(response.data)
             })
-        API.get('configuracion/consultorio')
+        API.get('configuracion/consultorio/')
             .then(response => {
                 setConsultorios(response.data)
             })
-        API.get('estudiantes/inscripcion')
+        API.get('estudiantes/inscripcion/')
             .then(response => {
                 setInscripciones(response.data)
             })
@@ -66,11 +66,11 @@ const GenerarCertificado = () => {
             .then(response => {
                 setDirectores(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos')
+        API.get('usuarios/empleados/empleadoscargos/')
             .then(response => {
                 setEmpleados(response.data)
             })
-        API.get('configuracion/entidad')
+        API.get('configuracion/entidad/')
             .then(response => {
                 setAutoridades(response.data)
             })
@@ -82,10 +82,14 @@ const GenerarCertificado = () => {
             ...data
         };
         console.log(_data);
-        API.post("autorizaciones/certificacion/", _data)
+        API({
+            url: "autorizaciones/certificacion/" + (id ? `${id}/` : ""),
+            method: id ? "PATCH" : "POST",
+            data: _data,
+          })
             .then(({ data }) => {
                 setLoading(false);
-                toast.success("Empleado registrado correctamente.", {
+                toast.success("Se ha generado la certificación.", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,
@@ -113,7 +117,17 @@ const GenerarCertificado = () => {
             draggable: true,
         });
     };
-    const loadDetail = () => { };
+    const loadDetail = () => {
+        setLoadingDetail(true);
+        API.get("autorizaciones/certificacion/" + id + "/")
+          .then(({ data }) => {
+            setValue("r_usuarios_estudiante", data.r_usuarios_estudiante.id);
+            setValue("r_usuarios_director", data.r_usuarios_director.id);
+            setValue("r_usuarios_elaboradoPor", data.r_usuarios_elaboradoPor.id);
+            setValue("dt_fechaProceso", data.dt_fechaProceso);
+          })
+          .finally(() => setLoadingDetail(false));
+      };
 
     //------Enviar el formulario de persona
     const save = () => {

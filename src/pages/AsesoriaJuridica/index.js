@@ -31,7 +31,9 @@ const AsesoriaJuridicaHome = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Asesoría jurídica</Breadcrumb.Item>
         </Breadcrumb>
-
+        <div className="section-title">
+          <h1>Asesoría jurídica</h1>
+        </div>
         <Row className="modules">
           <Col xs={12} md={6}>
             <ItemModule

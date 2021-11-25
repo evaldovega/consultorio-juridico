@@ -67,7 +67,7 @@ export const MODULES = [
   },
   {
     id: "",
-    name: "Autorización",
+    name: "Documentos",
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/autorizaciones",
     descripcion: "",

@@ -46,19 +46,19 @@ const Autorizar = () => {
             .then(response => {
                 setPersonas(response.data)
             })
-        API.get('configuracion/jornadas')
+        API.get('configuracion/jornadas/')
             .then(response => {
                 setJornadas(response.data)
             })
-        API.get('configuracion/grupo')
+        API.get('configuracion/grupo/')
             .then(response => {
                 setGrupos(response.data)
             })
-        API.get('configuracion/consultorio')
+        API.get('configuracion/consultorio/')
             .then(response => {
                 setConsultorios(response.data)
             })
-        API.get('estudiantes/inscripcion')
+        API.get('estudiantes/inscripcion/')
             .then(response => {
                 setInscripciones(response.data)
             })
@@ -66,11 +66,11 @@ const Autorizar = () => {
             .then(response => {
                 setDirectores(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos')
+        API.get('usuarios/empleados/empleadoscargos/')
             .then(response => {
                 setEmpleados(response.data)
             })
-        API.get('configuracion/entidad')
+        API.get('configuracion/entidad/')
             .then(response => {
                 setAutoridades(response.data)
             })
@@ -82,10 +82,14 @@ const Autorizar = () => {
             ...data
         };
         console.log(_data);
-        API.post("autorizaciones/autorizacion/", _data)
+        API({
+            url: "autorizaciones/autorizacion/" + (id ? `${id}/` : ""),
+            method: id ? "PATCH" : "POST",
+            data: _data,
+          })
             .then(({ data }) => {
                 setLoading(false);
-                toast.success("Empleado registrado correctamente.", {
+                toast.success("Autorización registrada correctamente.", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,
@@ -113,7 +117,21 @@ const Autorizar = () => {
             draggable: true,
         });
     };
-    const loadDetail = () => { };
+    const loadDetail = () => {
+        setLoadingDetail(true);
+        API.get("autorizaciones/autorizacion/" + id + "/")
+          .then(({ data }) => {
+            setValue("a_numeroRadicado", data.a_numeroRadicado);
+            setValue("dt_fechaProceso", data.dt_fechaProceso);
+            setValue("a_nombrePoderante", data.a_nombrePoderante);
+            setValue("t_observaciones", data.t_observaciones);
+            setValue("r_estudiante", data.r_estudiante.id);
+            setValue("r_usuarios_director", data.r_usuarios_director);
+            setValue("r_config_autoridad", data.r_config_autoridad);
+            setValue("r_usuarios_elaboradoPor", data.r_usuarios_elaboradoPor);
+          })
+          .finally(() => setLoadingDetail(false));
+      };
 
     //------Enviar el formulario de persona
     const save = () => {
@@ -223,6 +241,24 @@ const Autorizar = () => {
                                                 </Form.Label>
                                                 <Form.Control type="date" {...field} />
                                                 <Errors message={errors?.dt_fechaAsesoria?.message} />
+                                            </Form.Group>
+                                        )}
+                                    />
+                                    <Controller
+                                        name="r_estudiante"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Form.Group as={Col} xs="12" md="6">
+                                                <Form.Label>
+                                                    Estudiante
+                                                </Form.Label>
+                                                <Form.Control as="select" {...field}>
+                                                    <option value="">Seleccione...</option>
+                                                    {inscripciones.map((el) => (
+                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</option>
+                                                    ))}
+                                                </Form.Control>
+                                                <Errors message={errors?.ht_horaAsesoria?.message} />
                                             </Form.Group>
                                         )}
                                     />

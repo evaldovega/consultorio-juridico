@@ -145,10 +145,16 @@ function App() {
             <PrivateRouter path="/autorizaciones/autorizar" exact>
               <Autorizar />
             </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/autorizar/:id" exact>
+              <Autorizar />
+            </PrivateRouter>
             <PrivateRouter path="/autorizaciones/listado" exact>
               <ListadoAutorizaciones />
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/generar-certificado" exact>
+              <GenerarCertificado />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/generar-certificado/:id" exact>
               <GenerarCertificado />
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/lista-certificados" exact>

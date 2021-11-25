@@ -8,7 +8,7 @@ import { Breadcrumb, Card, Table, Spinner } from "react-bootstrap";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
-import { ROL_ASESOR } from "constants/apiContants";
+import { ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
 
 const ListadoIncripciones = () => {
   const [docs, setDoc] = useState([]);
@@ -126,7 +126,7 @@ const ListadoIncripciones = () => {
   }, []);
 
   return (
-    <Policy policy={[ROL_ASESOR]}>
+    <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>

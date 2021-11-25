@@ -19,11 +19,11 @@ const AutorizacionesHome = () => {
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Autorizaciones</Breadcrumb.Item>
+          <Breadcrumb.Item active>Documentos</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="section-title">
-          <h1>Autorizaciones</h1>
+          <h1>Documentos</h1>
         </div>
 
         <Row className="modules">
@@ -36,7 +36,7 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderPlus}
                 />
               )}
-              title="Formato de Registro"
+              title="Registrar autorización"
               link="/autorizaciones/autorizar"
             />
           </Col>
@@ -49,7 +49,7 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderOpen}
                 />
               )}
-              title="Listado de documentos"
+              title="Listado de autorizaciones"
               link="/autorizaciones/listado"
             />
           </Col>
@@ -63,7 +63,7 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderPlus}
                 />
               )}
-              title="Certificados"
+              title="Generar certificado"
               link="/autorizaciones/generar-certificado"
             />
           </Col>
