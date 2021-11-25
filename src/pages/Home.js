@@ -47,7 +47,7 @@ const Home = () => {
 
   return (
     <>
-      <HeaderPage showLogo={false} />
+      <HeaderPage showButton={true} />
       <div
         className="landing-header"
         style={{ backgroundImage: "url(/images/landing.jpg)" }}

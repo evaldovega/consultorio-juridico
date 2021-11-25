@@ -80,6 +80,47 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/lista-certificados"
             />
           </Col>
+          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaPenAlt}
+                  IconSecundary={FaFolderPlus}
+                />
+              )}
+              title="Generar remisión"
+              link="/autorizaciones/generar-remision"
+            />
+          </Col>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Listado de remisiones"
+              link="/autorizaciones/lista-remisiones"
+            />
+          </Col>
+          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaPenAlt}
+                  IconSecundary={FaFolderPlus}
+                />
+              )}
+              title="Registro masivo de remisiones"
+              link="/autorizaciones/remision-masiva"
+            />
+          </Col>
         </Row>
       </Page>
     </Policy>

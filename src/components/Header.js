@@ -14,7 +14,7 @@ import { FaAccessibleIcon, FaCog } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
 
-const HeaderPage = ({ showLogo = true }) => {
+const HeaderPage = ({ showButton }) => {
   const history = useHistory();
   const logout = () => {
     localStorage.removeItem(ACCESS_TOKEN_NAME);
@@ -26,7 +26,11 @@ const HeaderPage = ({ showLogo = true }) => {
   return (
     <Navbar bg="dark" fixed="top" variant="dark" expand="lg">
       <Container fluid>
-        <GoSite style={{ marginRight: 8 }} />
+        {showButton ? (
+          <GoSite style={{ marginRight: 8 }} />
+        ) : (
+          <img src="/images/logow.png" style={{width: "80px"}} />
+        )}
         <Navbar.Brand href="/"></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

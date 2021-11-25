@@ -40,6 +40,9 @@ import Autorizar from "pages/Autorizaciones/Autorizar";
 import ListadoAutorizaciones from "pages/Autorizaciones/Listado";
 import GenerarCertificado from "pages/Autorizaciones/GenerarCertificado";
 import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
+import GenerarRemision from "pages/Autorizaciones/GenerarRemision"
+import ListadoRemisiones from "pages/Autorizaciones/ListaRemisiones"
+import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva"
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -159,6 +162,18 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/lista-certificados" exact>
               <ListadoCertificados />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/generar-remision" exact>
+              <GenerarRemision />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/generar-remision/:id" exact>
+              <GenerarRemision />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/remision-masiva" exact>
+              <RemisionMasiva />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/lista-remisiones" exact>
+              <ListadoRemisiones />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />

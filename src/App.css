@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 body {
+  font-family: 'Calibri' !important;
   background-color: #ffff;
   overflow-x: hidden;
 }
@@ -18,7 +19,12 @@ table tr:nth-child(odd) {
   padding: 10px;
 }
 
+.bg-dark {
+  background-color: #000 !important;
+}
+
 .content-body {
+  font-family: 'Calibri-Regular' !important;
   width: 70%;
   margin: 0 auto;
   margin-top: 80px;
