@@ -22,12 +22,7 @@ const ListadoRemisiones = () => {
     const getRemisiones = async () => {
         await API.get("autorizaciones/remision/").then((response) => {
             console.log(JSON.stringify(response.data));
-            setCedulas(response.data)
-            cedulaEstudiante === "" ? (
-                setDoc(response.data)
-            ) : (
-                setDoc(response.data.filter(i => i.r_usuarios_estudiante.a_numeroDocumento === cedulaEstudiante))
-            )
+            setDoc(response.data)
         });
     };
 
@@ -197,7 +192,20 @@ const ListadoRemisiones = () => {
                                 </select>
                             </Col>
                         </Row> */}
-                        <br /><br />
+                        {/* <br /><br /> */}
+                        <Row style={{marginBottom: "15px"}}>
+                            <Col md={4}>
+                                <label>Cédula del estudiante</label>
+                                <input 
+                                    className="form-control"
+                                    value={cedulaEstudiante}
+                                    onChange={e => {
+                                        setCedulaEstudiante(e.target.value)
+                                    }}
+                                    placeholder="Buscar..."
+                                />
+                            </Col>
+                        </Row>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
@@ -213,11 +221,11 @@ const ListadoRemisiones = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {docs.map((d) => (
+                                {docs.filter(d => d.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento.includes(cedulaEstudiante)).map((d) => (
                                     <tr>
                                         <td>
                                             <a href={`./generar-remision/${d.id}`}>
-                                                {d.id}
+                                                {d.a_numeroRemision}
                                             </a>
                                         </td>
                                         <td>{d.r_usuarios_estudiante.a_anioInscripcion}-{d.r_usuarios_estudiante.a_semestreInscripcion}</td>
