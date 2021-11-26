@@ -61,6 +61,10 @@ label {
   font-weight: 700;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
 .section-title h4.ant-typography,
 .ant-typography h4 {
   font-size: 30px;

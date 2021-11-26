@@ -9,11 +9,10 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 import Policy from "./Policy";
 import GoSite from "components/goSite";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { FaAccessibleIcon, FaCog } from "react-icons/fa";
+import { Button, Card, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { FaChild, FaCog, FaDownload, FaUserCircle } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
-import { Button } from "bootstrap";
 
 const HeaderPage = ({ showButton, homePage }) => {
   const history = useHistory();
@@ -60,20 +59,43 @@ const HeaderPage = ({ showButton, homePage }) => {
                     justifyItems: "center",
                   }}
                 >
-                  <FaAccessibleIcon /> <span>Accesibilidad</span>
+                  <FaChild /> <span><b>Accesibilidad</b></span>
                 </span>
               }
               id="basic-nav-dropdown0"
             >
-              <NavDropdown.ItemText>
-                Herramienta de política de acceso para las personas que presentan discapacidad visual o auditiva
+              <NavDropdown.ItemText style={{width: "250px" }}>
+                Herramienta de política de acceso para
+                las personas que presentan discapacidad
+                visual o auditiva.
+                <br />
+                <Button
+                  type="primary"
+                  href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
+                  target="blank"
+                  style={{marginTop: "10px"}}
+                >
+                  <FaDownload /> <b>Descargar</b>
+                </Button>
               </NavDropdown.ItemText>
-              <NavDropdown.Item href="#action/3.1">Descargar</NavDropdown.Item>
+              {/* <NavDropdown.ItemText>
+                Herramienta de política de acceso para las personas que presentan discapacidad visual o auditiva
+
+              </NavDropdown.ItemText>
+              <NavDropdown.Item href="#action/3.1">
+                <Button
+                  type="primary"
+                  href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
+                  target="blank"
+                >
+                  <FaDownload /> Descargar herramientas
+                </Button>
+              </NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown
               title={
                 <span>
-                  <FaCog /> Configuración
+                  <FaCog /> <b>Configuración</b>
                 </span>
               }
               id="basic-nav-dropdown1"
@@ -81,9 +103,16 @@ const HeaderPage = ({ showButton, homePage }) => {
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title={fullname} id="basic-nav-dropdown">
-              <NavDropdown.Item>
-                <Link to="/perfil">Perfil</Link>
+            <NavDropdown 
+              title={
+                <span>
+                  <FaUserCircle /> <b>{fullname}</b>
+                </span>
+              } 
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item href="/perfil">
+                Perfil
               </NavDropdown.Item>
 
               <NavDropdown.Divider />

@@ -50,7 +50,7 @@ const InscripcionEstudiantes = ({ params }) => {
               Icon={(props) => (
                 <Icon
                   IconPrimary={FaPencilAlt}
-                  IconSecundary={FaUserPlus}
+                  IconSecundary={FaPencilAlt}
                   {...props}
                 />
               )}
@@ -63,7 +63,7 @@ const InscripcionEstudiantes = ({ params }) => {
               Icon={(props) => (
                 <Icon
                   IconPrimary={FaClipboard}
-                  IconSecundary={FaClipboardList}
+                  IconSecundary={FaClipboard}
                   {...props}
                 />
               )}
@@ -78,7 +78,7 @@ const InscripcionEstudiantes = ({ params }) => {
                 Icon={(props) => (
                   <Icon
                     IconPrimary={FaUserAlt}
-                    IconSecundary={FaUserPlus}
+                    IconSecundary={FaUserAlt}
                     {...props}
                   />
                 )}
@@ -94,7 +94,7 @@ const InscripcionEstudiantes = ({ params }) => {
                 Icon={(props) => (
                   <Icon
                     IconPrimary={FaFolder}
-                    IconSecundary={FaClipboardList}
+                    IconSecundary={FaFolder}
                     {...props}
                   />
                 )}
@@ -110,7 +110,7 @@ const InscripcionEstudiantes = ({ params }) => {
                 Icon={(props) => (
                   <Icon
                     IconPrimary={FaClipboard}
-                    IconSecundary={FaClipboardList}
+                    IconSecundary={FaClipboard}
                     {...props}
                   />
                 )}
