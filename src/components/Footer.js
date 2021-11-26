@@ -3,7 +3,7 @@ import { Space, Typography } from "antd";
 import { SendOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { FaTelegram, FaPhone, FaDownload } from "react-icons/fa";
+import { FaTelegram, FaPhone, FaDownload, FaEnvelope } from "react-icons/fa";
 
 const Foot = () => {
   const bg = true;
@@ -63,7 +63,7 @@ const Foot = () => {
             <p>
               {" "}
               <a href={`mailto:correo@corre.com`}>
-                <FaTelegram /> correo@corre.com
+                <FaEnvelope /> correo@corre.com
               </a>
             </p>
           </Col>

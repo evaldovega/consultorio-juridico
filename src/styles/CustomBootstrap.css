@@ -6,10 +6,11 @@
 }
 .card-title {
   color: #003789;
+  font-size: 22px;
 }
 .form-label {
   font-weight: 600;
-  font-size: 14px !important;
+  font-size: 16px !important;
 }
 .card-header-tabs {
   border-bottom: 1px solid #dee2e6;

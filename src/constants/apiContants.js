@@ -5,6 +5,7 @@ export const ROL_PERSONA = "CIUDADANO";
 export const ROL_ESTUDIANTE = "ESTUDIANTE";
 export const ROL_ASESOR = "ASESOR";
 export const ROL_ADMIN = "ADMINISTRADOR";
+export const ROL_DOCENTE = "DOCENTE";
 export const POLITICA_DATOS =
   "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500";
 
@@ -39,7 +40,7 @@ export const MODULES = [
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
     descripcion: "Inscripción de estudiantes",
-    policies: [ROL_ADMIN, ROL_ASESOR],
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE],
   },
   {
     id: "",

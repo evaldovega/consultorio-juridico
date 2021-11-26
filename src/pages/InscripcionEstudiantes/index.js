@@ -20,6 +20,8 @@ import {
   FaPlus,
   FaUserAlt,
   FaUserPlus,
+  FaPencilAlt,
+  FaFolder,
 } from "react-icons/fa";
 import AccessDenied from "components/Policy/AccessDenied";
 
@@ -47,7 +49,7 @@ const InscripcionEstudiantes = ({ params }) => {
             <ItemModule
               Icon={(props) => (
                 <Icon
-                  IconPrimary={FaUserAlt}
+                  IconPrimary={FaPencilAlt}
                   IconSecundary={FaUserPlus}
                   {...props}
                 />
@@ -66,7 +68,7 @@ const InscripcionEstudiantes = ({ params }) => {
                 />
               )}
               link="/inscripcion-estudiantes/listado"
-              title="Listado de incripciones"
+              title="Listado de inscripciones"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 16 }}></div>
@@ -91,7 +93,7 @@ const InscripcionEstudiantes = ({ params }) => {
               <ItemModule
                 Icon={(props) => (
                   <Icon
-                    IconPrimary={FaClipboard}
+                    IconPrimary={FaFolder}
                     IconSecundary={FaClipboardList}
                     {...props}
                   />
