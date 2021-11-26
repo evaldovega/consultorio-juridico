@@ -69,6 +69,10 @@ label {
   border-radius: 14px !important;
 }
 
+[data-test="table-foot"] {
+  display: none
+}
+
 .section-title h4.ant-typography,
 .ant-typography h4 {
   font-size: 30px;
@@ -146,6 +150,14 @@ label {
   align-items: center;
   flex-wrap: wrap;
   background-size: cover;
+}
+
+.ml-auto .navbar-nav {
+  gap: 10px;
+}
+
+.navbar-expand-lg .navbar-nav {
+  gap: 10px;
 }
 
 .landing-header::before {

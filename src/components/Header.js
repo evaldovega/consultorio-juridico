@@ -57,6 +57,7 @@ const HeaderPage = ({ showButton, homePage }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     justifyItems: "center",
+                    fontSize: "16px"
                   }}
                 >
                   <FaChild /> <span><b>Accesibilidad</b></span>
@@ -94,7 +95,9 @@ const HeaderPage = ({ showButton, homePage }) => {
             </NavDropdown>
             <NavDropdown
               title={
-                <span>
+                <span style={{
+                  fontSize: "16px"
+                }}>
                   <FaCog /> <b>Configuración</b>
                 </span>
               }
@@ -105,7 +108,9 @@ const HeaderPage = ({ showButton, homePage }) => {
 
             <NavDropdown 
               title={
-                <span>
+                <span style={{
+                  fontSize: "16px"
+                }}>
                   <FaUserCircle /> <b>{fullname}</b>
                 </span>
               } 
