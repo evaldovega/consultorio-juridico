@@ -71,7 +71,7 @@ const InscripcionEstudiantes = ({ params }) => {
               title="Listado de inscripciones"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
               <ItemModule
@@ -103,7 +103,7 @@ const InscripcionEstudiantes = ({ params }) => {
               />
             </Link>
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
               <ItemModule

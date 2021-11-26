@@ -65,6 +65,10 @@ label {
   display: none;
 }
 
+.dropdown-menu {
+  border-radius: 14px !important;
+}
+
 .section-title h4.ant-typography,
 .ant-typography h4 {
   font-size: 30px;
@@ -454,3 +458,4 @@ a{
   border: 0;
   background-color: transparent !important;
 }
+

@@ -53,7 +53,7 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/listado"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={(props) => (
@@ -80,7 +80,7 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/lista-certificados"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={(props) => (
@@ -107,7 +107,7 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/lista-remisiones"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={(props) => (

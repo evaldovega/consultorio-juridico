@@ -70,7 +70,11 @@ const Home = () => {
                 <Card
                   key={index2}
                   className="animate__animated animate__fadeInLeft"
-                  style={{ animationDelay: `${index + index2 * 0.02}s` }}
+                  style={{ 
+                    animationDelay: `${index + index2 * 0.02}s`,
+                    boxShadow: "3px 3px 3px 3px rgba(156, 156, 156, 0.1)",
+                    border: 0,
+                  }}
                 >
                   <Link to={m.url} className="link-card">
                     <Card.Img variant="top" src={m.img} />

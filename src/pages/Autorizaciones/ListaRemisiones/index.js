@@ -10,6 +10,7 @@ import { SearchOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/ico
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
+import { MDBDataTableV5 } from 'mdbreact';
 
 const ListadoRemisiones = () => {
     const [docs, setDoc] = useState([]);
@@ -19,19 +20,90 @@ const ListadoRemisiones = () => {
     const [searchedColumn, setSearchedColumn] = useState("");
     const [cedulaEstudiante, setCedulaEstudiante] = useState("")
 
+    const [headerTable, setHeaderTable] = useState([
+        {
+            label: 'Número',
+            field: 'numero'
+        },
+        {
+            label: 'Periodo',
+            field: 'periodo'
+        },
+        {
+            label: 'Documento de identidad',
+            field: 'documento'
+        },
+        {
+            label: 'Nombre del estudiante',
+            field: 'nombre_estudiante'
+        },
+        {
+            label: 'Fecha',
+            field: 'fecha'
+        },
+        {
+            label: 'Director',
+            field: 'director'
+        },
+        {
+            label: 'Elaborado por',
+            field: 'elaborado_por'
+        },
+        {
+            label: 'Destinatario',
+            field: 'destinatario'
+        },
+        {
+            label: 'Acciones',
+            field: 'acciones'
+        }
+    ])
+    const [tableData, setTableData] = useState([])
+
     const getRemisiones = async () => {
         await API.get("autorizaciones/remision/").then((response) => {
             console.log(JSON.stringify(response.data));
             setDoc(response.data)
+            setTableData(response.data.map((el) => ({
+                "numero": <a href={`./generar-remision/${el.id}`}>{el.a_numeroRemision}</a>,
+                "periodo": `${el.r_usuarios_estudiante.a_anioInscripcion}-${el.r_usuarios_estudiante.a_semestreInscripcion}`,
+                "documento": el.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento,
+                "nombre_estudiante": `${el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre} ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido} `,
+                "fecha": el.dt_fechaRemision,
+                "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
+                "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
+                "destinatario": el.r_config_autoridad.a_titulo,
+                "acciones": <>
+                    <a href={`http://localhost:8000/doc_remision/${el.id}/`}>
+                        <span title="Imprimir">
+                            <PrinterOutlined
+                                style={{
+                                    fontSize: "20px",
+                                    marginRight: "20px"
+                                }}
+                            />
+                        </span>
+                    </a>
+                    <span title="Eliminar">
+                        <DeleteOutlined
+                            onClick={() => eliminarRemision(el.id)}
+                            style={{
+                                fontSize: "20px",
+                                color: 'red'
+                            }}
+                        />
+                    </span>
+                </>
+            })))
         });
     };
 
     const eliminarRemision = async (id_delete) => {
         if (window.confirm('¿Seguro que desea eliminar esta remisión?')) {
             API.delete(`autorizaciones/remision/${id_delete}/`)
-            .then(response => {
-                window.location.reload()
-            })
+                .then(response => {
+                    window.location.reload()
+                })
         }
     }
 
@@ -177,91 +249,18 @@ const ListadoRemisiones = () => {
                                     variant="primary"
                                 ></Spinner>
                             </div>
-                        )}
-                        {/* <Row>
-                            <Col md={4}>
-                                <label>Cédula del estudiante</label>
-                                <select 
-                                    className="form-control"
-                                    value={cedulaEstudiante}
-                                    onChange={e => {
-                                        setCedulaEstudiante(e.target.value)
-                                    }}
-                                >
-                                    {cedulas.map((el, i) => (
-                                        <option value={el.r_usuarios_estudiante.a_numeroDocumento}>{el.r_usuarios_estudiante.a_numeroDocumento}</option>
-                                    ))}
-                                </select>
-                            </Col>
-                        </Row> */}
-                        {/* <br /><br /> */}
-                        <Row style={{marginBottom: "15px"}}>
-                            <Col md={4}>
-                                <label>Cédula del estudiante</label>
-                                <input 
-                                    className="form-control"
-                                    value={cedulaEstudiante}
-                                    onChange={e => {
-                                        setCedulaEstudiante(e.target.value)
-                                    }}
-                                    placeholder="Buscar..."
-                                />
-                            </Col>
-                        </Row>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Número</th>
-                                    <th>Periodo</th>
-                                    <th>Documento de identidad</th>
-                                    <th>Nombre del estudiante</th>
-                                    <th>Fecha</th>
-                                    <th>Director</th>
-                                    <th>Elaborado por</th>
-                                    <th>Destinatario</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {docs.filter(d => d.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento.includes(cedulaEstudiante)).map((d) => (
-                                    <tr>
-                                        <td>
-                                            <a href={`./generar-remision/${d.id}`}>
-                                                {d.a_numeroRemision}
-                                            </a>
-                                        </td>
-                                        <td>{d.r_usuarios_estudiante.a_anioInscripcion}-{d.r_usuarios_estudiante.a_semestreInscripcion}</td>
-                                        <td>{d.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento}</td>
-                                        <td>{d.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre} {d.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre} {d.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} {d.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido}</td>
-                                        <td>{d.dt_fechaRemision}</td>
-                                        <td>{d.r_usuarios_director.a_primerNombre} {d.r_usuarios_director.a_segundoNombre} {d.r_usuarios_director.a_primerApellido} {d.r_usuarios_director.a_segundoApellido}</td>
-                                        <td>{d.r_usuarios_elaboradoPor.a_primerNombre} {d.r_usuarios_elaboradoPor.a_segundoNombre} {d.r_usuarios_elaboradoPor.a_primerApellido} {d.r_usuarios_elaboradoPor.a_segundoApellido} </td>
-                                        <td>{d.r_config_autoridad.a_titulo}</td>
-                                        <td>
-                                            <a href={`http://localhost:8000/doc_remision/${d.id}/`}>
-                                                <span title="Imprimir">
-                                                    <PrinterOutlined
-                                                        style={{
-                                                            fontSize: "20px",
-                                                            marginRight: "20px"
-                                                        }} 
-                                                    />
-                                                </span>
-                                            </a>
-                                            <span title="Eliminar">
-                                                <DeleteOutlined
-                                                    onClick={() => eliminarRemision(d.id)}
-                                                    style={{
-                                                        fontSize: "20px",
-                                                        color: 'red'
-                                                    }}
-                                                />
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        )}  
+                        <MDBDataTableV5
+                            hover
+                            entriesOptions={[5, 20, 25]}
+                            entries={5}
+                            pagesAmount={4}
+                            data={{
+                                columns: headerTable,
+                                rows: tableData
+                            }}
+                            fullPagination
+                        />
                     </Card.Body>
                 </Card>
             </Page>

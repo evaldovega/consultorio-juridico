@@ -11,14 +11,16 @@ const ItemModule = ({ Icon, title, link }) => {
       onMouseLeave={() => setHover(false)}
     >
       <Card style={{
+        height: "60px",
         boxShadow: "4px 4px 4px 4px rgba(194, 194, 194, 0.1)",
+        borderRadius: "6px",
         border: 0
       }}>
         <Card.Body
           className="d-flex justify-content-start align-items-center"
         >
           {Icon({ hover })}
-          <Card.Title level={5} style={{ margin: 0, color: "#000", fontSize: "18px" }}>{title}</Card.Title>
+          <Card.Title level={5} style={{ margin: 0, color: "#000", fontSize: "18px", fontWeight: 600 }}>{title}</Card.Title>
         </Card.Body>
       </Card>
     </Link>
