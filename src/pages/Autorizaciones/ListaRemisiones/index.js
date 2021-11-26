@@ -10,7 +10,7 @@ import { SearchOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/ico
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
-import { MDBDataTableV5 } from 'mdbreact';
+import { MDBDataTable } from 'mdbreact';
 
 const ListadoRemisiones = () => {
     const [docs, setDoc] = useState([]);
@@ -73,12 +73,12 @@ const ListadoRemisiones = () => {
                 "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
                 "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
                 "destinatario": el.r_config_autoridad.a_titulo,
-                "acciones": <>
+                "acciones": <span>
                     <a href={`http://localhost:8000/doc_remision/${el.id}/`}>
                         <span title="Imprimir">
                             <PrinterOutlined
                                 style={{
-                                    fontSize: "20px",
+                                    fontSize: "18px",
                                     marginRight: "20px"
                                 }}
                             />
@@ -88,12 +88,12 @@ const ListadoRemisiones = () => {
                         <DeleteOutlined
                             onClick={() => eliminarRemision(el.id)}
                             style={{
-                                fontSize: "20px",
+                                fontSize: "18px",
                                 color: 'red'
                             }}
                         />
                     </span>
-                </>
+                </span>
             })))
         });
     };
@@ -250,10 +250,14 @@ const ListadoRemisiones = () => {
                                 ></Spinner>
                             </div>
                         )}  
-                        <MDBDataTableV5
+                        <MDBDataTable
                             hover
                             entriesOptions={[5, 20, 25]}
                             entries={5}
+                            entriesLabel="Mostrar entradas"
+                            searchLabel="Buscar"
+                            infoLabel={["Mostrando", "a", "de", "entradas"]}
+                            noRecordsFoundLabel="No se han encontrado registros."
                             pagesAmount={4}
                             data={{
                                 columns: headerTable,
