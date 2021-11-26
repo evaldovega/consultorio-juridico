@@ -139,7 +139,7 @@ const ListadoAutorizaciones = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/autorizaciones">Autorizaciones</Link>
+                        <Link to="/autorizaciones">Documentos</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Listado de autorizaciones</Breadcrumb.Item>
                 </Breadcrumb>
@@ -187,12 +187,14 @@ const ListadoAutorizaciones = () => {
                                         <td>
                                             <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
                                                 <PrinterOutlined style={{
-                                                    marginRight: "20px"
+                                                    marginRight: "20px",
+                                                    fontSize: "20px",
                                                 }} />
                                             </a>
                                             <DeleteOutlined
                                                 onClick={() => eliminarAutorizacion(d.id)}
                                                 style={{
+                                                    fontSize: "20px",
                                                     color: 'red'
                                                 }}
                                             />

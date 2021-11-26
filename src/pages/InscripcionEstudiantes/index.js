@@ -72,38 +72,49 @@ const InscripcionEstudiantes = ({ params }) => {
           <div class="w-100" style={{ marginBottom: 16 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/user.png" width={42} />
-                  <Card.Title>Asignación de estudiantes</Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaUserAlt}
+                    IconSecundary={FaUserPlus}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Asignación de estudiantes"
+              />
             </Link>
           </Col>
 
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/folder.png" width={42} />
-                  <Card.Title level={5} style={{ margin: 0 }}>
-                    Reportes
-                  </Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaClipboard}
+                    IconSecundary={FaClipboardList}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Reportes"
+              />
             </Link>
           </Col>
           <div class="w-100" style={{ marginBottom: 16 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/file.png" width={42} />
-                  <Card.Title level={5} style={{ margin: 0 }}>
-                    Formatos
-                  </Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaClipboard}
+                    IconSecundary={FaClipboardList}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Formatos"
+              />
             </Link>
           </Col>
           <Col></Col>

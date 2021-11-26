@@ -27,10 +27,12 @@ const ListadoRemisiones = () => {
     };
 
     const eliminarRemision = async (id_delete) => {
-        API.delete(`autorizaciones/remision/${id_delete}/`)
-        .then(response => {
-            window.location.reload()
-        })
+        if (window.confirm('¿Seguro que desea eliminar esta remisión?')) {
+            API.delete(`autorizaciones/remision/${id_delete}/`)
+            .then(response => {
+                window.location.reload()
+            })
+        }
     }
 
     const getColumnSearchProps = (dataIndex) => {
@@ -237,16 +239,24 @@ const ListadoRemisiones = () => {
                                         <td>{d.r_config_autoridad.a_titulo}</td>
                                         <td>
                                             <a href={`http://localhost:8000/doc_remision/${d.id}/`}>
-                                                <PrinterOutlined style={{
-                                                    marginRight: "20px"
-                                                }} />
+                                                <span title="Imprimir">
+                                                    <PrinterOutlined
+                                                        style={{
+                                                            fontSize: "20px",
+                                                            marginRight: "20px"
+                                                        }} 
+                                                    />
+                                                </span>
                                             </a>
-                                            <DeleteOutlined
-                                                onClick={() => eliminarRemision(d.id)}
-                                                style={{
-                                                    color: 'red'
-                                                }}
-                                            />
+                                            <span title="Eliminar">
+                                                <DeleteOutlined
+                                                    onClick={() => eliminarRemision(d.id)}
+                                                    style={{
+                                                        fontSize: "20px",
+                                                        color: 'red'
+                                                    }}
+                                                />
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}

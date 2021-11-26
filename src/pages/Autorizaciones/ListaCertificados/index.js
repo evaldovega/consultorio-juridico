@@ -33,9 +33,9 @@ const ListadoCertificados = () => {
 
     const eliminarCertificado = async (id_delete) => {
         API.delete(`autorizaciones/certificacion/${id_delete}/`)
-        .then(response => {
-            window.location.reload()
-        })
+            .then(response => {
+                window.location.reload()
+            })
     }
 
     const getColumnSearchProps = (dataIndex) => {
@@ -162,7 +162,7 @@ const ListadoCertificados = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/autorizaciones">Autorizaciones</Link>
+                        <Link to="/autorizaciones">Documentos</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Listado de certificados</Breadcrumb.Item>
                 </Breadcrumb>
@@ -184,7 +184,7 @@ const ListadoCertificados = () => {
                         <Row>
                             <Col md={4}>
                                 <label>Cédula del estudiante</label>
-                                <select 
+                                <select
                                     className="form-control"
                                     value={cedulaEstudiante}
                                     onChange={e => {
@@ -214,7 +214,7 @@ const ListadoCertificados = () => {
                                     <tr>
                                         <td>
                                             <a href={`./generar-certificado/${d.id}`}>
-                                                {d.r_usuarios_estudiante.a_primerNombre} {d.r_usuarios_estudiante.a_primerApellido} 
+                                                {d.r_usuarios_estudiante.a_primerNombre} {d.r_usuarios_estudiante.a_primerApellido}
                                             </a>
                                         </td>
                                         <td>{d.r_usuarios_estudiante.a_numeroDocumento}</td>
@@ -224,12 +224,14 @@ const ListadoCertificados = () => {
                                         <td>
                                             <a href={`http://localhost:8000/doc_certificacion/${d.id}/`}>
                                                 <PrinterOutlined style={{
+                                                    fontSize: "20px",
                                                     marginRight: "20px"
                                                 }} />
                                             </a>
                                             <DeleteOutlined
                                                 onClick={() => eliminarCertificado(d.id)}
                                                 style={{
+                                                    fontSize: "20px",
                                                     color: 'red'
                                                 }}
                                             />

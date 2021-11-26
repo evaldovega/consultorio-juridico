@@ -11,6 +11,7 @@ import {
     Accordion,
     Row,
     Col,
+    Table,
 } from "react-bootstrap";
 import PerfilMaster from "pages/Perfil/Master";
 import { useForm } from "react-hook-form";
@@ -81,7 +82,8 @@ const RemisionMasiva = () => {
             .then(response => {
                 setInscripciones(response.data.map((el) => ({
                     label: `${el.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_persona.a_segundoNombre} ${el.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_persona.a_segundoApellido} `,
-                    value: el.id
+                    value: el.id,
+                    documento: el.r_usuarios_persona.a_numeroDocumento
                 })))
             })
         API.get('usuarios/empleados/empleadoscargos/?director=true')
@@ -111,18 +113,18 @@ const RemisionMasiva = () => {
             "r_usuarios_estudiante_list": data.r_usuarios_estudiante
         };
         console.log(_data);
-            API({
-                url: "autorizaciones/remision/" + (id ? `${id}/` : ""),
-                method: id ? "PATCH" : "POST",
-                data: _data
-            })
-                .then(({ data }) => {
+        API({
+            url: "autorizaciones/remision/" + (id ? `${id}/` : ""),
+            method: id ? "PATCH" : "POST",
+            data: _data
+        })
+            .then(({ data }) => {
 
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                    setLoading(false);
-                })
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+                setLoading(false);
+            })
         setLoading(false);
         toast.success("Se han generado las remisiones.", {
             position: "top-center",
@@ -340,21 +342,38 @@ const RemisionMasiva = () => {
                                             </Form.Group>
                                         )}
                                     />
-
+                                </Row>
+                                <h2 className="title-line" style={{ marginTop: "20px" }}>
+                                    <span>Estudiantes para remisión</span>
+                                </h2>
+                                <Row className="mb-3">
                                     <Form.Group as={Col} xs="12" md="12">
-                                        <Form.Label>
-                                            Estudiantes
-                                        </Form.Label>
-                                        {inscripciones.map((el) => (
-                                            <Form.Check
-                                                type="checkbox"
-                                                disabled={readOnly}
-                                                label={el.label}
-                                                checked={checked?.some((c) => c == el.value)}
-                                                onChange={(e) => onChange(e.target)}
-                                                value={el.value}
-                                            />
-                                        ))}
+                                        <Table striped bordered hover>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Documento</th>
+                                                    <th>Estudiante</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {inscripciones.map((el) => (
+                                                    <tr>
+                                                        <td>
+                                                            <Form.Check
+                                                                type="checkbox"
+                                                                disabled={readOnly}
+                                                                checked={checked?.some((c) => c == el.value)}
+                                                                onChange={(e) => onChange(e.target)}
+                                                                value={el.value}
+                                                            />
+                                                        </td>
+                                                        <td>{el.documento}</td>
+                                                        <td>{el.label}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </Table>
                                     </Form.Group>
                                 </Row>
                             </Card.Body>

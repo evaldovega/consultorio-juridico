@@ -11,7 +11,7 @@ export const POLITICA_DATOS =
 export const MODULES = [
   {
     id: 0,
-    img: "images/modulo1.jpg",
+    img: "images/modulo2.jpg",
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
@@ -20,7 +20,7 @@ export const MODULES = [
   },
   {
     id: 5,
-    img: "images/modulo1.jpg",
+    img: "images/modulo4.jpg",
     name: "Centro de conciliación",
     url: "/centro-de-conciliacion",
     descripcion: "Descripción Centro de Conciliación",
@@ -34,7 +34,7 @@ export const MODULES = [
   },*/
   {
     id: 1,
-    img: "images/modulo2.jpg",
+    img: "images/modulo3.jpg",
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
@@ -63,7 +63,7 @@ export const MODULES = [
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/asignacion-empleados",
     descripcion: "",
-    img: "images/modulo2.jpg",
+    img: "images/modulo5.jpg",
   },
   {
     id: "",
@@ -71,6 +71,6 @@ export const MODULES = [
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/autorizaciones",
     descripcion: "",
-    img: "images/modulo2.jpg",
+    img: "images/modulo6.jpg",
   },
 ];

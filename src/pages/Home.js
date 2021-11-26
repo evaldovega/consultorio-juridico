@@ -47,7 +47,7 @@ const Home = () => {
 
   return (
     <>
-      <HeaderPage showButton={true} />
+      <HeaderPage showButton={true} homePage={true} />
       <div
         className="landing-header"
         style={{ backgroundImage: "url(/images/landing.jpg)" }}
@@ -75,7 +75,7 @@ const Home = () => {
                   <Link to={m.url} className="link-card">
                     <Card.Img variant="top" src={m.img} />
                     <Card.Body>
-                      <Card.Title>{m.name}</Card.Title>
+                      <Card.Title style={{fontWeight: 600}}>{m.name}</Card.Title>
                       <Card.Text>{m.descripcion}</Card.Text>
                     </Card.Body>
                   </Link>

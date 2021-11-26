@@ -10,10 +10,14 @@ const ItemModule = ({ Icon, title, link }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Card>
-        <Card.Body className="d-flex justify-content-start align-items-center">
+      <Card style={{
+        boxShadow: "4px 4px 4px 4px rgba(194, 194, 194, 0.1)"
+      }}>
+        <Card.Body
+          className="d-flex justify-content-start align-items-center"
+        >
           {Icon({ hover })}
-          <Card.Title>{title}</Card.Title>
+          <Card.Title level={5} style={{ margin: 0, color: "#000" }}>{title}</Card.Title>
         </Card.Body>
       </Card>
     </Link>
