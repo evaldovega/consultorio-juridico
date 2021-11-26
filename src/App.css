@@ -160,6 +160,8 @@ label {
   gap: 10px;
 }
 
+.breadcrumb-item+.breadcrumb-item::before{content:var(--bs-breadcrumb-divider,">") !important ;}
+
 .landing-header::before {
   content: "";
   position: absolute;

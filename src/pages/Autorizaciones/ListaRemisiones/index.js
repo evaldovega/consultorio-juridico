@@ -258,6 +258,7 @@ const ListadoRemisiones = () => {
                             searchLabel="Buscar"
                             infoLabel={["Mostrando", "a", "de", "entradas"]}
                             noRecordsFoundLabel="No se han encontrado registros."
+                            paginationLabel={["Anterior", "Siguiente"]}
                             pagesAmount={4}
                             data={{
                                 columns: headerTable,

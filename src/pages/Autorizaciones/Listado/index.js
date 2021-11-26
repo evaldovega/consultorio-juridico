@@ -9,17 +9,71 @@ import { SearchOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/ico
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
+import { MDBDataTable } from 'mdbreact'
 
 const ListadoAutorizaciones = () => {
     const [docs, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
+    const [headerTable, setHeaderTable] = useState([
+        {
+            label: 'Nombres y apellidos',
+            field: 'nombres_apellidos'
+        },
+        {
+            label: 'Documento de identidad',
+            field: 'documento'
+        },
+        {
+            label: 'Clase proceso',
+            field: 'clase_proceso'
+        },
+        {
+            label: 'Fecha de proceso',
+            field: 'fecha'
+        },
+        {
+            label: 'No. autorizacion',
+            field: 'nro_autorizacion'
+        },
+        {
+            label: 'Observaciones',
+            field: 'observaciones'
+        },
+        {
+            label: 'Acciones',
+            field: 'acciones'
+        }
+    ])
+    const [tableData, setTableData] = useState([])
 
     const getAutorizaciones = async () => {
         API.get("autorizaciones/autorizacion").then((response) => {
             console.log(JSON.stringify(response.data));
-            setDoc(response.data);
+            setTableData(response.data.map((d) => ({
+                "nombres_apellidos": `${d.r_estudiante.r_usuarios_persona.a_primerNombre} ${d.r_estudiante.r_usuarios_persona.a_segundoNombre} ${d.r_estudiante.r_usuarios_persona.a_primerApellido} ${d.r_estudiante.r_usuarios_persona.a_segundoApellido}`,
+                "documento": d.r_estudiante.r_usuarios_persona.a_numeroDocumento,
+                "clase_proceso": d.a_proceso,
+                "fecha": d.dt_fechaProceso,
+                "nro_autorizacion": d.a_numeroRadicado,
+                "observaciones": d.t_observaciones,
+                "acciones": <span>
+                    <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
+                        <PrinterOutlined style={{
+                            marginRight: "20px",
+                            fontSize: "20px",
+                        }} />
+                    </a>
+                    <DeleteOutlined
+                        onClick={() => eliminarAutorizacion(d.id)}
+                        style={{
+                            fontSize: "20px",
+                            color: 'red'
+                        }}
+                    />
+                </span>
+            })))
         });
     };
 
@@ -158,51 +212,22 @@ const ListadoAutorizaciones = () => {
                                 ></Spinner>
                             </div>
                         )}
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Nombres y apellidos</th>
-                                    <th>Documento identidad</th>
-                                    <th>Clase proceso</th>
-                                    <th>Fecha de proceso</th>
-                                    <th>No. autorización</th>
-                                    <th>Observaciones</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {docs.map((d) => (
-                                    <tr>
-                                        <td>
-                                            <a href={`./autorizar/${d.id}`}>
-
-                                                {d.r_estudiante.r_usuarios_persona.a_primerNombre} {d.r_estudiante.r_usuarios_persona.a_segundoNombre} {d.r_estudiante.r_usuarios_persona.a_primerApellido} {d.r_estudiante.r_usuarios_persona.a_segundoApellido}
-                                            </a>
-                                        </td>
-                                        <td>{d.r_estudiante.r_usuarios_persona.a_numeroDocumento}</td>
-                                        <td>{d.a_proceso}</td>
-                                        <td>{d.dt_fechaProceso}</td>
-                                        <td>{d.a_numeroRadicado}</td>
-                                        <td>{d.t_observaciones}</td>
-                                        <td>
-                                            <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
-                                                <PrinterOutlined style={{
-                                                    marginRight: "20px",
-                                                    fontSize: "20px",
-                                                }} />
-                                            </a>
-                                            <DeleteOutlined
-                                                onClick={() => eliminarAutorizacion(d.id)}
-                                                style={{
-                                                    fontSize: "20px",
-                                                    color: 'red'
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <MDBDataTable
+                            hover
+                            entriesOptions={[5, 20, 25]}
+                            entries={5}
+                            entriesLabel="Mostrar entradas"
+                            searchLabel="Buscar"
+                            infoLabel={["Mostrando", "a", "de", "entradas"]}
+                            noRecordsFoundLabel="No se han encontrado registros."
+                            paginationLabel={["Anterior", "Siguiente"]}
+                            pagesAmount={4}
+                            data={{
+                                columns: headerTable,
+                                rows: tableData
+                            }}
+                            fullPagination
+                        />
                     </Card.Body>
                 </Card>
             </Page>

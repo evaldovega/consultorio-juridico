@@ -9,7 +9,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { SearchOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
-import { ROL_ASESOR } from "constants/apiContants";
+import { ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
+import { MDBDataTable } from 'mdbreact'
 
 const ListadoCertificados = () => {
     const [docs, setDoc] = useState([]);
@@ -17,17 +18,60 @@ const ListadoCertificados = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
-    const [cedulaEstudiante, setCedulaEstudiante] = useState("")
+    const [headerTable, setHeaderTable] = useState([
+        {
+            label: 'Nombre del estudiante',
+            field: 'nombre_estudiante'
+        },
+        {
+            label: 'Documento de identidad',
+            field: 'documento'
+        },
+        {
+            label: 'Elaborado por',
+            field: 'elaborado_por'
+        },
+        {
+            label: 'Director',
+            field: 'director'
+        },
+        {
+            label: 'Fecha',
+            field: 'fecha'
+        },
+        {
+            label: 'Acciones',
+            field: 'acciones'
+        }
+    ])
+    const [tableData, setTableData] = useState([])
+
 
     const getCertificados = async () => {
         await API.get("autorizaciones/certificacion").then((response) => {
-            console.log(JSON.stringify(response.data));
-            setCedulas(response.data)
-            cedulaEstudiante === "" ? (
-                setDoc(response.data)
-            ) : (
-                setDoc(response.data.filter(i => i.r_usuarios_estudiante.a_numeroDocumento === cedulaEstudiante))
-            )
+            // console.log(JSON.stringify(response.data));
+            setTableData(response.data.map((el) => ({
+                "nombre_estudiante": <a href={`./generar-certificado/${el.id}`}>{el.r_usuarios_estudiante.a_primerNombre} {el.r_usuarios_estudiante.a_segundoNombre} {el.r_usuarios_estudiante.a_primerApellido} {el.r_usuarios_estudiante.a_segundoApellido}</a>,
+                "documento": el.r_usuarios_estudiante.a_numeroDocumento,
+                "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
+                "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
+                "fecha": el.dt_fechaProceso,
+                "acciones": <span>
+                    <a href={`http://localhost:8000/doc_certificacion/${el.id}/`}>
+                        <PrinterOutlined style={{
+                            fontSize: "20px",
+                            marginRight: "20px"
+                        }} />
+                    </a>
+                    <DeleteOutlined
+                        onClick={() => eliminarCertificado(el.id)}
+                        style={{
+                            fontSize: "20px",
+                            color: 'red'
+                        }}
+                    />
+                </span>
+            })))
         });
     };
 
@@ -152,10 +196,10 @@ const ListadoCertificados = () => {
             getCertificados();
             setLoading(false);
         }, 1000);
-    }, [cedulaEstudiante]);
+    }, []);
 
     return (
-        <Policy policy={[]}>
+        <Policy policy={[ROL_ADMIN]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -181,65 +225,22 @@ const ListadoCertificados = () => {
                                 ></Spinner>
                             </div>
                         )}
-                        <Row>
-                            <Col md={4}>
-                                <label>Cédula del estudiante</label>
-                                <select
-                                    className="form-control"
-                                    value={cedulaEstudiante}
-                                    onChange={e => {
-                                        setCedulaEstudiante(e.target.value)
-                                    }}
-                                >
-                                    {cedulas.map((el, i) => (
-                                        <option value={el.r_usuarios_estudiante.a_numeroDocumento}>{el.r_usuarios_estudiante.a_numeroDocumento}</option>
-                                    ))}
-                                </select>
-                            </Col>
-                        </Row>
-                        <br /><br />
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Nombre del estudiante</th>
-                                    <th>Documento de identidad</th>
-                                    <th>Elaborado por</th>
-                                    <th>Director</th>
-                                    <th>Fecha del certificado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {docs.map((d) => (
-                                    <tr>
-                                        <td>
-                                            <a href={`./generar-certificado/${d.id}`}>
-                                                {d.r_usuarios_estudiante.a_primerNombre} {d.r_usuarios_estudiante.a_primerApellido}
-                                            </a>
-                                        </td>
-                                        <td>{d.r_usuarios_estudiante.a_numeroDocumento}</td>
-                                        <td>{d.r_usuarios_director.a_primerNombre} {d.r_usuarios_director.a_primerApellido}</td>
-                                        <td>{d.r_usuarios_elaboradoPor.a_primerNombre} {d.r_usuarios_elaboradoPor.a_primerApellido} </td>
-                                        <td>{d.dt_fechaProceso}</td>
-                                        <td>
-                                            <a href={`http://localhost:8000/doc_certificacion/${d.id}/`}>
-                                                <PrinterOutlined style={{
-                                                    fontSize: "20px",
-                                                    marginRight: "20px"
-                                                }} />
-                                            </a>
-                                            <DeleteOutlined
-                                                onClick={() => eliminarCertificado(d.id)}
-                                                style={{
-                                                    fontSize: "20px",
-                                                    color: 'red'
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <MDBDataTable
+                            hover
+                            entriesOptions={[5, 20, 25]}
+                            entries={5}
+                            entriesLabel="Mostrar entradas"
+                            searchLabel="Buscar"
+                            infoLabel={["Mostrando", "a", "de", "entradas"]}
+                            noRecordsFoundLabel="No se han encontrado registros."
+                            paginationLabel={["Anterior", "Siguiente"]}
+                            pagesAmount={4}
+                            data={{
+                                columns: headerTable,
+                                rows: tableData
+                            }}
+                            fullPagination
+                        />
                     </Card.Body>
                 </Card>
             </Page>
