@@ -1,12 +1,13 @@
 .card {
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
   border: 1px solid #ebebeb;
 }
 .card-title {
   color: #003789;
   font-size: 22px;
+  text-align: left;
 }
 .form-label {
   font-weight: 600;

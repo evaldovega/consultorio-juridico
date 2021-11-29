@@ -252,8 +252,8 @@ const ListadoRemisiones = () => {
                         )}  
                         <MDBDataTable
                             hover
-                            entriesOptions={[5, 20, 25]}
-                            entries={5}
+                            entriesOptions={[3, 5, 20, 25]}
+                            entries={3}
                             entriesLabel="Mostrar entradas"
                             searchLabel="Buscar"
                             infoLabel={["Mostrando", "a", "de", "entradas"]}

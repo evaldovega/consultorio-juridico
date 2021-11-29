@@ -40,7 +40,10 @@ const HeaderPage = ({ showButton, homePage }) => {
     <Navbar bg={homePage ? (scrollPos > 639 ? "dark" : "light") : "dark"} fixed="top" variant="dark" expand="lg">
       <Container fluid>
         {showButton ? (
-          <GoSite style={{ marginRight: 8 }} />
+          <img
+            src="https://www.uniatlantico.edu.co/uatlantico/sites/default/files/docencia/facultades/img/Consultorio%20Juridico.jpg"
+            style={{ width: "8%", borderRadius: 8 }}
+          />
         ) : (
           <a href="/">
             <img src="/images/logow.png" style={{ width: "80px" }} />
@@ -65,7 +68,7 @@ const HeaderPage = ({ showButton, homePage }) => {
               }
               id="basic-nav-dropdown0"
             >
-              <NavDropdown.ItemText style={{width: "250px" }}>
+              <NavDropdown.ItemText style={{ width: "250px" }}>
                 Herramienta de política de acceso para
                 las personas que presentan discapacidad
                 visual o auditiva.
@@ -74,7 +77,7 @@ const HeaderPage = ({ showButton, homePage }) => {
                   type="primary"
                   href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
                   target="blank"
-                  style={{marginTop: "10px"}}
+                  style={{ marginTop: "10px" }}
                 >
                   <FaDownload /> <b>Descargar</b>
                 </Button>
@@ -106,14 +109,14 @@ const HeaderPage = ({ showButton, homePage }) => {
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown 
+            <NavDropdown
               title={
                 <span style={{
                   fontSize: "16px"
                 }}>
                   <FaUserCircle /> <b>{fullname}</b>
                 </span>
-              } 
+              }
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item href="/perfil">

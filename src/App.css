@@ -28,7 +28,12 @@ table tr:nth-child(odd) {
 }
 
 .card-text:last-child {
-  color: #000 !important
+  color: #000 !important;
+  text-align: left
+}
+
+.card-title {
+  margin-bottom: 0.25rem;
 }
 
 .content-body {
@@ -142,12 +147,14 @@ label {
 }
 .landing-header {
   width: 100%;
+  height: 100vh;
+  background-size: cover;
+}
+
+.landing-header-buttons {
   position: relative;
-  border-bottom: 6px solid #d07400;
-  display: flex;
-  min-height: 700px;
   justify-content: center;
-  align-items: center;
+  padding-top: 10vh;
   flex-wrap: wrap;
   background-size: cover;
 }
@@ -348,6 +355,7 @@ a{
   font-weight: bold;
   font-size: 20px;
 }
+
 .link-blue {
   color: #00378b;
 }
@@ -388,6 +396,30 @@ a{
 
 #tabla-listado-solicitudes th {
   background-color: #ffffff;
+}
+
+.footer-home {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  position: fixed;
+  bottom: 0vh;
+  padding-left: 22vh;
+  width: 100%;
+  display: flex;
+}
+
+.page-item.active .page-link {
+  background-color: #003789;
+  border-radius: 8px;
+}
+
+.page-link {
+  border: none;
+  color: #000;  
+}
+
+[data-test="datatable-info"] {
+  margin-top: 5px;
 }
 
 .ant-collapse {
@@ -465,6 +497,19 @@ a{
 @media only screen and (min-width: 1900px) {
   .content-body {
     width: 70%;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .container {
+    max-width: 960px;
+    max-height: 500px;
   }
 }
 

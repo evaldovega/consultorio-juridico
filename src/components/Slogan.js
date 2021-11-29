@@ -2,12 +2,12 @@
 const Slogan=()=>{
     return (
         <h1
-              style={{lineHeight: "35px" ,textAlign:'center',color:"#ffff"}}
+              style={{lineHeight: "35px",fontSize: "28px" ,textAlign:'center',color:"#ffff", paddingBottom: "20px"}}
               italic
             >
-              Bienvenido al <strong>Consultorio Jurídico</strong> y <br></br>
-              <strong>Centro de Conciliación</strong> de la <br></br>Universidad
-              del Atlántico
+              <strong>Consultorio Jurídico</strong> y <strong>Centro de Conciliación</strong>
+              <br /> 
+              de la Universidad del Atlántico
             </h1>
     )
 }
