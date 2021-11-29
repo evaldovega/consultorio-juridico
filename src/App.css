@@ -429,6 +429,11 @@ a{
   background-color: #fff;
 }
 
+.logo-home {
+  border-radius: 8px;
+  width: 10%;
+}
+
 .navbar-dark .navbar-nav .nav-link {
   color: rgba(255, 255, 255, 0.9) !important
 }
@@ -469,22 +474,47 @@ a{
     position: unset !important;
   }
 }
+
+/* Opciones para pantallas de celular */
 @media only screen and (max-width: 800px) {
   .content-body {
     width: 80%;
   }
+
   .info {
-    width: 80%;
+    padding-left: 15px;
+    padding-right: 15px;
   }
-  .grid-2,
-  .grid-3 {
+
+  .landing-header-buttons {
+    margin-bottom: 100px;
+  }
+
+  .grid-2, .grid-3 {
     grid-template-columns: repeat(1, 1fr);
     row-gap: 1em;
+  }
+
+  .landing-header {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
   }
 
   .footer-content {
     padding-top: 24px;
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .logo-home {
+    width: 120px;
+  }
+
+  .footer-home {
+    padding-left: 0;
+  }
+
+  .bg-light {
+    background-color: #000 !important;
   }
 }
 

@@ -42,7 +42,7 @@ const HeaderPage = ({ showButton, homePage }) => {
         {showButton ? (
           <img
             src="https://www.uniatlantico.edu.co/uatlantico/sites/default/files/docencia/facultades/img/Consultorio%20Juridico.jpg"
-            style={{ width: "8%", borderRadius: 8 }}
+            className="logo-home"
           />
         ) : (
           <a href="/">
