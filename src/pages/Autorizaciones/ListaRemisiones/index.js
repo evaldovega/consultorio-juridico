@@ -74,7 +74,7 @@ const ListadoRemisiones = () => {
                 "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
                 "destinatario": el.r_config_autoridad.a_titulo,
                 "acciones": <span>
-                    <a href={`http://localhost:8000/doc_remision/${el.id}/`}>
+                    <a href={`http://179.0.29.155:8000/doc_remision/${el.id}/`}>
                         <span title="Imprimir">
                             <PrinterOutlined
                                 style={{

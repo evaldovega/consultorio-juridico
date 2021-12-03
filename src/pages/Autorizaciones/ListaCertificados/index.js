@@ -57,7 +57,7 @@ const ListadoCertificados = () => {
                 "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
                 "fecha": el.dt_fechaProceso,
                 "acciones": <span>
-                    <a href={`http://localhost:8000/doc_certificacion/${el.id}/`}>
+                    <a href={`http://179.0.29.155:8000/doc_certificacion/${el.id}/`}>
                         <PrinterOutlined style={{
                             fontSize: "20px",
                             marginRight: "20px"

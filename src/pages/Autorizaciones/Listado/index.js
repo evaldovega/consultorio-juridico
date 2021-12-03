@@ -59,7 +59,7 @@ const ListadoAutorizaciones = () => {
                 "nro_autorizacion": d.a_numeroRadicado,
                 "observaciones": d.t_observaciones,
                 "acciones": <span>
-                    <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
+                    <a href={`http://179.0.29.155:8000/doc_autorizacion/${d.id}/`}>
                         <PrinterOutlined style={{
                             marginRight: "20px",
                             fontSize: "20px",
