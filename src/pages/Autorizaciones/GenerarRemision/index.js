@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
+import Select from 'react-select';
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
