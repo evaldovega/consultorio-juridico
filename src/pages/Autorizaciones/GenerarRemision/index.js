@@ -229,7 +229,7 @@ const GenerarRemision = () => {
                                                 <Form.Control as="select" {...field}>
                                                     <option value="">Seleccione...</option>
                                                     {inscripciones.map((el) => (
-                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.id}</option>
+                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_primerNombre} </option>
                                                     ))}
                                                 </Form.Control>
                                                 <Errors message={errors?.ht_horaAsesoria?.message} />
