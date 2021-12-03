@@ -68,10 +68,10 @@ const ListadoRemisiones = () => {
                 "numero": <a href={`./generar-remision/${el.id}`}>{el.a_numeroRemision}</a>,
                 "periodo": `${el.r_usuarios_estudiante.a_anioInscripcion}-${el.r_usuarios_estudiante.a_semestreInscripcion}`,
                 "documento": el.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento,
-                "nombre_estudiante": `${el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre} ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido} `,
+                "nombre_estudiante": `${el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre !== null ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre : ""} ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido !== null ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido : ""} `,
                 "fecha": el.dt_fechaRemision,
-                "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
-                "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
+                "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre !== null ? el.r_usuarios_director.a_segundoNombre : ""} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido !== null ? el.r_usuarios_director.a_segundoApellido : ""}`,
+                "elaborado_por": `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre !== null ? el.r_usuarios_elaboradoPor.a_segundoNombre : ""} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido !== null ? el.r_usuarios_elaboradoPor.a_segundoApellido : ""}`,
                 "destinatario": el.r_config_autoridad.a_titulo,
                 "acciones": <span>
                     <a href={`http://179.0.29.155:8000/doc_remision/${el.id}/`}>
@@ -252,8 +252,8 @@ const ListadoRemisiones = () => {
                         )}  
                         <MDBDataTable
                             hover
-                            entriesOptions={[3, 5, 20, 25]}
-                            entries={3}
+                            entriesOptions={[5, 15, 25]}
+                            entries={15}
                             entriesLabel="Mostrar entradas"
                             searchLabel="Buscar"
                             infoLabel={["Mostrando", "a", "de", "entradas"]}

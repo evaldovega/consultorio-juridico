@@ -21,7 +21,7 @@ import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 const AsesoriaJuridicaHome = () => {
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
+      policy={[]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>

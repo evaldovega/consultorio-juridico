@@ -81,9 +81,9 @@ const RemisionMasiva = () => {
         API.get('estudiantes/inscripcion/')
             .then(response => {
                 setInscripciones(response.data.map((el) => ({
-                    // label: `${el.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_persona.a_segundoNombre} ${el.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_persona.a_segundoApellido} `,
+                    label: `${el.r_usuarios_persona.a_primerNombre} ${el.r_usuarios_persona.a_segundoNombre} ${el.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_persona.a_segundoApellido} `,
                     value: el.id,
-                    // documento: el.r_usuarios_persona.a_numeroDocumento
+                    documento: el.r_usuarios_persona.a_numeroDocumento
                 })))
             })
         API.get('usuarios/empleados/empleadoscargos/?director=true')
@@ -368,8 +368,8 @@ const RemisionMasiva = () => {
                                                                 value={el.value}
                                                             />
                                                         </td>
-                                                        <td>{el.value}</td>
-                                                        {/* <td>{el.label}</td> */}
+                                                        <td>{el.documento}</td>
+                                                        <td>{el.label}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
