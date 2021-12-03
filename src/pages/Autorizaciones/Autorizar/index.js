@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
+import AccessDenied from "components/Policy/AccessDenied";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -42,35 +43,36 @@ const Autorizar = () => {
     const formAsesoria = useRef();
 
     const loadSelectData = async () => {
-        API.get('usuarios/personas/?personal_admin=true')
+        await API.get('usuarios/personas/?personal_admin=true')
             .then(response => {
                 setPersonas(response.data)
             })
-        API.get('configuracion/jornadas/')
+        await API.get('configuracion/jornadas/')
             .then(response => {
                 setJornadas(response.data)
             })
-        API.get('configuracion/grupo/')
+        await API.get('configuracion/grupo/')
             .then(response => {
                 setGrupos(response.data)
             })
-        API.get('configuracion/consultorio/')
+        await API.get('configuracion/consultorio/')
             .then(response => {
                 setConsultorios(response.data)
             })
-        API.get('estudiantes/inscripcion/')
+        await API.get('estudiantes/inscripcion/')
             .then(response => {
+                console.log(response.data)
                 setInscripciones(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos/?director=true')
+        await API.get('usuarios/empleados/empleadoscargos/?director=true')
             .then(response => {
                 setDirectores(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos/')
+        await API.get('usuarios/empleados/empleadoscargos/')
             .then(response => {
                 setEmpleados(response.data)
             })
-        API.get('configuracion/entidad/')
+        await API.get('configuracion/entidad/')
             .then(response => {
                 setAutoridades(response.data)
             })
@@ -190,7 +192,7 @@ const Autorizar = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN]}>
+        <Policy policy={[ROL_ADMIN]} feedback={<AccessDenied msn="Acceso denegado" />}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -255,7 +257,7 @@ const Autorizar = () => {
                                                 <Form.Control as="select" {...field}>
                                                     <option value="">Seleccione...</option>
                                                     {inscripciones.map((el) => (
-                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</option>
+                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.id}</option>
                                                     ))}
                                                 </Form.Control>
                                                 <Errors message={errors?.ht_horaAsesoria?.message} />
