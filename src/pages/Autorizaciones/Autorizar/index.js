@@ -192,7 +192,7 @@ const Autorizar = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN]} feedback={<AccessDenied msn="Acceso denegado" />}>
+        <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>

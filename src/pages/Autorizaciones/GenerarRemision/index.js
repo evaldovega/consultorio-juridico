@@ -191,7 +191,7 @@ const GenerarRemision = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
+        <Policy policy={[]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>

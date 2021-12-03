@@ -186,7 +186,7 @@ const GenerarCertificado = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN]}>
+        <Policy policy={[]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
