@@ -43,6 +43,7 @@ import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
 import GenerarRemision from "pages/Autorizaciones/GenerarRemision"
 import ListadoRemisiones from "pages/Autorizaciones/ListaRemisiones"
 import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva"
+import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha"
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -174,6 +175,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/lista-remisiones" exact>
               <ListadoRemisiones />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/reporte-fecha" exact>
+              <AutorizacionesPorFecha />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />

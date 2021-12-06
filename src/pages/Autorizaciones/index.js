@@ -121,6 +121,19 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/remision-masiva"
             />
           </Col>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reporte autorizaciones por fecha"
+              link="/autorizaciones/reporte-fecha"
+            />
+          </Col>
         </Row>
       </Page>
     </Policy>
