@@ -134,6 +134,20 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/reporte-fecha"
             />
           </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reporte remisiones por fecha"
+              link="/autorizaciones/reporte-remisiones-fecha"
+            />
+          </Col>
         </Row>
       </Page>
     </Policy>
