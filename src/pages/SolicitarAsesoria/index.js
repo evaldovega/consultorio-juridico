@@ -59,7 +59,7 @@ const SolicitarAsesoria = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        history.push(`asesoria-juridica/caso/${data.id}/`);
+        history.push(`/asesoria-juridica/`);
       })
       .catch((err) => {
         console.log(err.response.data);
