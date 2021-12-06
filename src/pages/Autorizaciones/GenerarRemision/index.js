@@ -86,9 +86,7 @@ const GenerarRemision = () => {
         .then(response => {
             console.log(response.data)
             setInscripciones(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento.includes(cedula)))
-            response.data.map((el) => (
-                setIdEstudiante(el.id)
-            ))
+            setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.id))[0])
         })
     }
 
