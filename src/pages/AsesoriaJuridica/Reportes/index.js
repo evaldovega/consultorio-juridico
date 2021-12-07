@@ -115,7 +115,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por desempleo"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/desempleo"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
