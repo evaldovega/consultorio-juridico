@@ -33,7 +33,7 @@ const ReportePorSexo = () => {
                 label: 'Géneros',
                 data: [datos.hombres, datos.mujeres],
                 backgroundColor: [
-                    'rgb(67, 67, 72)',
+                    'rgb(153, 153, 153)',
                     'rgb(124, 181, 236)'
                 ],
             },
@@ -48,9 +48,12 @@ const ReportePorSexo = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/autorizaciones">Documentos</Link>
+                        <Link to="/asesoria-juridica">Asesoría jurídica</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Autorizaciones por fecha</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <Link to="/asesoria-juridica/reportes">Reportes</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>Por sexo</Breadcrumb.Item>
                 </Breadcrumb>
                 <Card>
                     <Card.Body style={{ padding: "2.5rem" }}>
@@ -88,20 +91,24 @@ const ReportePorSexo = () => {
                         </Row>
                         {datos !== "" && (
                             <div style={{
-                                height: "300px",
-                                width: "300px",
-                                marginTop: "20px",
+                                marginTop: "40px",
+                                width: "100%",
                                 display: 'flex',
                                 alignItems: 'center',
+                                justifyContent: 'center',
+                                marginLeft: "70px"
                             }}>
-                                <Pie
-                                    data={chartdata}
-                                    style={{
-                                        width: "40%",
-                                        height: "35%",
-                                        marginRight: "100px"
-                                    }}
-                                />
+                                <div style={{
+                                    height: "40%",
+                                    width: "40%"
+                                }}>
+                                    <Pie
+                                        data={chartdata}
+                                        style={{
+                                            marginRight: "30px"
+                                        }}
+                                    />
+                                </div>
                                 <div>
                                     <div style={{
                                         display: 'flex',
@@ -125,7 +132,7 @@ const ReportePorSexo = () => {
                                             height: "20px",
                                             width: "20px",
                                             borderRadius: "100px",
-                                            backgroundColor: 'rgb(67, 67, 72)',
+                                            backgroundColor: 'rgb(153, 153, 153)',
                                             marginRight: "10px"
                                         }} />
                                         <span>Masculino: {datos.hombres}</span>
