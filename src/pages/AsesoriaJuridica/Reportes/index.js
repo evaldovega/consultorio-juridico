@@ -48,7 +48,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Listado de Registrados"
-              link="/asesoria-juridica/solicitar"
+              link="/asesoria-juridica/reportes/registrados"
             />
           </Col>
           <Col xs={12} md={6}>

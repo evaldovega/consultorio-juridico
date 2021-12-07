@@ -49,6 +49,7 @@ import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha"
 import ReportesIndex from "pages/AsesoriaJuridica/Reportes"
 import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo"
 import ReportePorDesempleo from "pages/AsesoriaJuridica/Reportes/ReportePorDesempleo";
+import ReporteRegistrados from "pages/AsesoriaJuridica/Reportes/ReporteRegistrados";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -147,6 +148,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/reportes/desempleo" exact>
               <ReportePorDesempleo />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/registrados" exact>
+              <ReporteRegistrados />
             </PrivateRouter>
 
             <PrivateRouter path="/asignacion-empleados" exact>
