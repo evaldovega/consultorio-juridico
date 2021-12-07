@@ -46,6 +46,9 @@ import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva"
 import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha"
 import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha"
 
+import ReportesIndex from "pages/AsesoriaJuridica/Reportes"
+import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo"
+
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
@@ -135,6 +138,13 @@ function App() {
             <PrivateRouter path="/asesoria-juridica/formato-registro" exact>
               <FormatoRegistro />
             </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes" exact>
+              <ReportesIndex />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/sexo" exact>
+              <ReportePorSexo />
+            </PrivateRouter>
+
             <PrivateRouter path="/asignacion-empleados" exact>
               <AsignacionEmpleadosHome />
             </PrivateRouter>

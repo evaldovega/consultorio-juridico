@@ -61,6 +61,20 @@ const AsesoriaJuridicaHome = () => {
               link="/asesoria-juridica/solicitudes"
             />
           </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reportes"
+              link="/asesoria-juridica/reportes"
+            />
+          </Col>
         </Row>
       </Page>
     </Policy>
