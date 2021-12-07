@@ -30,7 +30,7 @@ const ListadoRemisiones = () => {
                 <Card>
                     <Card.Body style={{ padding: "2.5rem" }}>
                         <h2 className="title-line">
-                            <span>Remisiones por fecha</span>
+                            <span>Listado de remitidos por rango de fecha</span>
                         </h2>
                         <Row className="mb-3">
                             <Col xs="12" md="6">
