@@ -142,7 +142,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por lugar de práctica"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/lugar-practicas"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
