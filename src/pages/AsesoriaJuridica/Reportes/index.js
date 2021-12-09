@@ -75,7 +75,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por edad"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/edad"
             />
           </Col>
           <Col xs={12} md={6}>
