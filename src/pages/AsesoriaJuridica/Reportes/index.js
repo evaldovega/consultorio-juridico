@@ -129,7 +129,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por profesión"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/profesion"
             />
           </Col>
           <Col xs={12} md={6}>
