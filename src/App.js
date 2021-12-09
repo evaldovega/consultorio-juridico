@@ -53,6 +53,7 @@ import ReporteRegistrados from "pages/AsesoriaJuridica/Reportes/ReporteRegistrad
 import ReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
 import ReporteLugarPractica from "pages/AsesoriaJuridica/Reportes/ReporteLugarPractica";
 import ReportePorEdad from "pages/AsesoriaJuridica/Reportes/ReportePorEdad";
+import ReporteOrientacion from "pages/AsesoriaJuridica/Reportes/ReporteOrientacion";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -163,6 +164,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/reportes/edad" exact>
               <ReportePorEdad />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/orientacion" exact>
+              <ReporteOrientacion />
             </PrivateRouter>
 
             <PrivateRouter path="/asignacion-empleados" exact>

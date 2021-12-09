@@ -102,7 +102,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por orientación sexual"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/orientacion"
             />
           </Col>
           <Col xs={12} md={6}>
