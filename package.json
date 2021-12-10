@@ -16,6 +16,7 @@
     "classnames": "^2.3.1",
     "components": "^0.1.0",
     "craco-less": "^1.17.1",
+    "file-saver": "^2.0.5",
     "jquery": "^3.6.0",
     "mdbreact": "^5.2.0",
     "moment": "^2.29.1",
@@ -38,7 +39,8 @@
     "styled": "^1.0.0",
     "use-between": "0.0.18",
     "use-immer": "^0.5.2",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "xlsx": "^0.17.4"
   },
   "scripts": {
     "deploy": "aws s3 sync build/ s3://consultorio-juridico --acl public-read",
