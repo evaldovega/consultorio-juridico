@@ -13,8 +13,10 @@ import {
 } from "constants/apiContants";
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
+import ArchivosDemanda from "./Archivos";
 
 const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     control,
@@ -31,10 +33,28 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
   });
   const [cargando, setCargando] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
+  const [anexos, setAnexos] = useState("")
   const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
+  };
+
+  const onChange = (e) => {
+    var reader = new FileReader();
+    const file = e.target.files[0];
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setAnexos({
+        a_titulo: file.name,
+        f_archivo: reader.result,
+        b_reservaLegal: false,
+        r_asesoria_solicitudAsesoria: asesoriaId,
+        r_usuarios_persona: 2,
+      });
+      e.target.value = "";
+      console.log(anexos)
+    };
   };
 
   const guardar = async (payload) => {
@@ -54,6 +74,12 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
           ...payload,
         },
       });
+      API.post('/asesorias/docsanexos/', anexos)
+        .then(response => {
+          console.log(response.data)
+        }).catch(err => {
+          console.log(err.response.data)
+        })
       setCargando(false);
       setValue("t_observacion", "");
       setValue("t_respuesta", "");
@@ -98,136 +124,153 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
           <Modal.Title>Presentar demanda</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row className="mb-2">
-            <Col xs="12" md="6">
-              <Controller
-                name="dt_fechaRadicacion"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Ingrese información" }}
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>
-                      Fecha de radicación <span className="required" />
-                    </Form.Label>
-                    <Form.Control
-                      {...field}
-                      type="date"
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                    />
-                    <Errors message={errors?.dt_fechaRadicacion?.message} />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-            <Col xs="12" md="6">
-              <Controller
-                name="a_contraQuien"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Ingrese información" }}
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>
-                      Contra quien <span className="required" />
-                    </Form.Label>
-                    <Form.Control
-                      {...field}
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                    />
-                    <Errors message={errors?.a_contraQuien?.message} />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-          </Row>
+          <Context.Provider
+            value={{ control, watch, errors, setValue, getValues, loading }}
+          >
+            <Row className="mb-2">
+              <Col xs="12" md="6">
+                <Controller
+                  name="dt_fechaRadicacion"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Ingrese información" }}
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>
+                        Fecha de radicación <span className="required" />
+                      </Form.Label>
+                      <Form.Control
+                        {...field}
+                        type="date"
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                      />
+                      <Errors message={errors?.dt_fechaRadicacion?.message} />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+              <Col xs="12" md="6">
+                <Controller
+                  name="a_contraQuien"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Ingrese información" }}
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>
+                        Contra quien <span className="required" />
+                      </Form.Label>
+                      <Form.Control
+                        {...field}
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                      />
+                      <Errors message={errors?.a_contraQuien?.message} />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+            </Row>
 
-          <Row>
-            <Col xs="12" md="6">
-              <Controller
-                name="a_reparto"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>Reparto</Form.Label>
-                    <Form.Control
-                      {...field}
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                    />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-            <Col xs="12" md="6">
-              <Controller
-                name="dt_fechaFallo"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>Fallo</Form.Label>
-                    <Form.Control
-                      {...field}
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                      type="date"
-                    />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-          </Row>
+            <Row>
+              <Col xs="12" md="6">
+                <Controller
+                  name="a_reparto"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>Reparto</Form.Label>
+                      <Form.Control
+                        {...field}
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                      />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+              <Col xs="12" md="6">
+                <Controller
+                  name="dt_fechaFallo"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>Fallo</Form.Label>
+                      <Form.Control
+                        {...field}
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                        type="date"
+                      />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+            </Row>
 
-          <Row>
-            <Col xs="12">
-              <Controller
-                name="t_observacion"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Ingrese información" }}
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>
-                      Observaciones <span className="required" />
-                    </Form.Label>
-                    <Form.Control
-                      {...field}
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                      as="textarea"
-                      rows="6"
-                    />
-                    <Errors message={errors?.t_observacion?.message} />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs="12">
-              <Controller
-                name="t_respuesta"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Group>
-                    <Form.Label>Respuesta</Form.Label>
-                    <Form.Control
-                      {...field}
-                      disabled={cargando || readOnly}
-                      plaintext={readOnly}
-                      as="textarea"
-                      rows="6"
-                    />
-                  </Form.Group>
-                )}
-              />
-            </Col>
-          </Row>
+            <Row>
+              <Col xs="12">
+                <Controller
+                  name="t_observacion"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Ingrese información" }}
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>
+                        Observaciones <span className="required" />
+                      </Form.Label>
+                      <Form.Control
+                        {...field}
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                        as="textarea"
+                        rows="6"
+                      />
+                      <Errors message={errors?.t_observacion?.message} />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="12">
+                <Controller
+                  name="t_respuesta"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.Label>Respuesta</Form.Label>
+                      <Form.Control
+                        {...field}
+                        // disabled={cargando || readOnly}
+                        // plaintext={readOnly}
+                        as="textarea"
+                        rows="6"
+                      />
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+              <Col xs="12">
+                <Controller
+                  name="documentos"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <Form.Group>
+                      <Form.File {...field} label="Adjuntar documento" onChange={onChange}/>
+                    </Form.Group>
+                  )}
+                />
+              </Col>
+
+            </Row>
+          </Context.Provider>
         </Modal.Body>
         <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
           <Modal.Footer>

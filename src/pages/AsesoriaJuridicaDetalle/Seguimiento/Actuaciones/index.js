@@ -23,6 +23,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const [mostrarDemanda, setMostrarDemanda] = useState(false);
 
   const [seguimientos, setSeguimientos] = useState([]);
+  const [docsanexos, setDocsAnexos] = useState([])
   const [cargando, setCargando] = useState(false);
   const [doc, setDoc] = useState(null);
 
@@ -49,11 +50,20 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const cargar = async () => {
     try {
       setCargando(true);
-      const { data } = await API(
+      await API.get(
         `asesorias/seguimiento/?num_asesoria=${asesoriaId}`
-      );
-      setSeguimientos(data);
+      ).then(response => {
+        setSeguimientos(response.data)
+        console.log(response.data)
+        
+      });
       setCargando(false);
+      await API.get('/asesorias/docsanexos/')
+        .then(response => {
+          console.log(response.data)
+          setDocsAnexos(response.data)
+          console.log(response.data.filter(el => el.r_asesoria_seguimientoAsesoria === 11))
+        })
     } catch (error) {
       setCargando(false);
     }
@@ -147,6 +157,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
           </Policy>
         )}
         {seguimientos.map((s) => {
+          
           switch (s.c_tipoSeguimientoAccion) {
             case "NOTA":
               return (
@@ -155,7 +166,6 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                     <FcComments />
                     Nota
                   </div>
-
                   <p>
                     <b>{moment(s.sys_fechaCreacion).format("LLL")}</b>{" "}
                     {s.t_observacion}{" "}
@@ -167,6 +177,13 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                       <FaPenAlt />
                     </Button>
                   </p>
+                  <b>Documentos</b>
+                  {docsanexos.filter(el => el.r_asesoria_seguimientoAsesoria === s.id).map((el) => (
+                    <>
+                      <p>dfjkslfjdsfjls</p>
+                      <a href={el.f_archivoDocumento}>{el.a_titulo}</a>
+                    </>
+                  ))}
                 </div>
               );
               break;
@@ -188,6 +205,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                       <FaPenAlt />
                     </Button>
                   </p>
+                  <b>Documentos</b>
+                  {docsanexos.filter(el => el.r_asesoria_seguimientoAsesoria === s.r_asesoria_solicitudAsesoria).map((el) => (
+                    <a href={el.f_archivoDocumento}>{el.a_titulo}</a>
+                  ))}
                 </div>
               );
               break;
@@ -197,7 +218,6 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
                     Derecho de petición
                   </div>
-
                   <p className="text-justify">
                     <b>{moment(s.dt_fechaRadicacion).format("LLL")}</b>{" "}
                     {s.t_observacion}
@@ -212,6 +232,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                       <FaPenAlt />
                     </Button>
                   </p>
+                  <b>Documentos</b>
+                  {docsanexos.filter(el => el.r_asesoria_seguimientoAsesoria === s.r_asesoria_solicitudAsesoria).map((el) => (
+                    <a href={el.f_archivoDocumento}>{el.a_titulo}</a>
+                  ))}
                 </div>
               );
               break;
@@ -221,7 +245,6 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center ">
                     Tutela
                   </div>
-
                   <p className="text-justify">
                     <b>
                       <i>{moment(s.dt_fechaRadicacionTutela).format("LLL")}</i>
@@ -238,6 +261,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                       <FaPenAlt />
                     </Button>
                   </p>
+                  <b>Documentos</b>
+                  {docsanexos.filter(el => el.r_asesoria_seguimientoAsesoria === s.r_asesoria_solicitudAsesoria).map((el) => (
+                    <a href={el.f_archivoDocumento}>{el.a_titulo}</a>
+                  ))}
                 </div>
               );
               break;
@@ -259,10 +286,16 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                       <FaPenAlt />
                     </Button>
                   </p>
+                  <b>Documentos</b>
+                  <br />
+                  {docsanexos.filter(el => el.r_asesoria_seguimientoAsesoria === s.id).map((el) => (
+                    <a href={el.f_archivoDocumento}>{el.a_titulo}</a>
+                  ))}
                 </div>
               );
               break;
           }
+
         })}
       </Card.Body>
 
