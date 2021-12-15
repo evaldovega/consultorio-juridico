@@ -20,6 +20,8 @@ import {
   FaPlus,
   FaUserAlt,
   FaUserPlus,
+  FaPencilAlt,
+  FaFolder,
 } from "react-icons/fa";
 import AccessDenied from "components/Policy/AccessDenied";
 
@@ -29,7 +31,7 @@ const InscripcionEstudiantes = ({ params }) => {
   const [form] = useForm();
 
   return (
-    <Policy policy={[ROL_ASESOR, ROL_ADMIN]} feedback={<AccessDenied />}>
+    <Policy policy={[]} feedback={<AccessDenied />}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -47,8 +49,8 @@ const InscripcionEstudiantes = ({ params }) => {
             <ItemModule
               Icon={(props) => (
                 <Icon
-                  IconPrimary={FaUserAlt}
-                  IconSecundary={FaUserPlus}
+                  IconPrimary={FaPencilAlt}
+                  IconSecundary={FaPencilAlt}
                   {...props}
                 />
               )}
@@ -61,49 +63,60 @@ const InscripcionEstudiantes = ({ params }) => {
               Icon={(props) => (
                 <Icon
                   IconPrimary={FaClipboard}
-                  IconSecundary={FaClipboardList}
+                  IconSecundary={FaClipboard}
                   {...props}
                 />
               )}
               link="/inscripcion-estudiantes/listado"
-              title="Listado de incripciones"
+              title="Listado de inscripciones"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/user.png" width={42} />
-                  <Card.Title>Asignación de estudiantes</Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaUserAlt}
+                    IconSecundary={FaUserAlt}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Asignación de estudiantes"
+              />
             </Link>
           </Col>
 
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/folder.png" width={42} />
-                  <Card.Title level={5} style={{ margin: 0 }}>
-                    Reportes
-                  </Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaFolder}
+                    IconSecundary={FaFolder}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Reportes"
+              />
             </Link>
           </Col>
-          <div class="w-100" style={{ marginBottom: 16 }}></div>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col>
             <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <Card>
-                <Card.Body className="d-flex justify-content-start align-items-center">
-                  <img src="/icons/file.png" width={42} />
-                  <Card.Title level={5} style={{ margin: 0 }}>
-                    Formatos
-                  </Card.Title>
-                </Card.Body>
-              </Card>
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaClipboard}
+                    IconSecundary={FaClipboard}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/listado"
+                title="Formatos"
+              />
             </Link>
           </Col>
           <Col></Col>

@@ -70,7 +70,7 @@ const PerfilIdentificacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese su número de identidad" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="4">
+            <Form.Group as={Col} xs="12" md="6">
               <Form.Label>
                 Número documento <span className="required" />
               </Form.Label>
@@ -84,7 +84,7 @@ const PerfilIdentificacion = () => {
             </Form.Group>
           )}
         />
-        <Col xs="12" md="4">
+        <Col xs="12" md="6">
           <TipoIdentificacion
             errors={errors}
             control={control}
@@ -97,7 +97,7 @@ const PerfilIdentificacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese una fecha" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="4">
+            <Form.Group as={Col} xs="12" md="6">
               <Form.Label>
                 Fecha de expedición <span className="required" />
               </Form.Label>
@@ -146,7 +146,7 @@ const PerfilIdentificacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese su pais de expedición" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Pais <span className="required" />
               </Form.Label>
@@ -167,7 +167,7 @@ const PerfilIdentificacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese su departamento de expedición" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Departamento o Estado <span className="required" />
               </Form.Label>
@@ -189,7 +189,7 @@ const PerfilIdentificacion = () => {
           defaultValue=""
           rules={{ required: "Seleccione la ciudad de expedición" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Ciudad <span className="required" />
               </Form.Label>

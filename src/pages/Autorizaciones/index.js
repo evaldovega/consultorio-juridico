@@ -19,11 +19,11 @@ const AutorizacionesHome = () => {
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Autorizaciones</Breadcrumb.Item>
+          <Breadcrumb.Item active>Documentos</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="section-title">
-          <h1>Autorizaciones</h1>
+          <h1>Documentos</h1>
         </div>
 
         <Row className="modules">
@@ -36,7 +36,7 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderPlus}
                 />
               )}
-              title="Formato de Registro"
+              title="Registrar autorización"
               link="/autorizaciones/autorizar"
             />
           </Col>
@@ -53,7 +53,7 @@ const AutorizacionesHome = () => {
               link="/autorizaciones/listado"
             />
           </Col>
-          <br /><br />
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={(props) => (
@@ -63,7 +63,7 @@ const AutorizacionesHome = () => {
                   IconSecundary={FaFolderPlus}
                 />
               )}
-              title="Certificados"
+              title="Generar certificado"
               link="/autorizaciones/generar-certificado"
             />
           </Col>
@@ -78,6 +78,74 @@ const AutorizacionesHome = () => {
               )}
               title="Listado de certificados"
               link="/autorizaciones/lista-certificados"
+            />
+          </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaPenAlt}
+                  IconSecundary={FaFolderPlus}
+                />
+              )}
+              title="Generar remisión"
+              link="/autorizaciones/generar-remision"
+            />
+          </Col>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Listado de remisiones"
+              link="/autorizaciones/lista-remisiones"
+            />
+          </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaPenAlt}
+                  IconSecundary={FaFolderPlus}
+                />
+              )}
+              title="Registro masivo de remisiones"
+              link="/autorizaciones/remision-masiva"
+            />
+          </Col>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reporte autorizaciones por fecha"
+              link="/autorizaciones/reporte-fecha"
+            />
+          </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reporte remisiones por fecha"
+              link="/autorizaciones/reporte-remisiones-fecha"
             />
           </Col>
         </Row>

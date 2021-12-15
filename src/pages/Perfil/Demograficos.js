@@ -58,7 +58,7 @@ const PerfilDemografico = () => {
             required: "Ingrese fecha de nacimiento",
           }}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
                 Fecha de nacimiento <span className="required" />
               </Form.Label>
@@ -76,7 +76,7 @@ const PerfilDemografico = () => {
           name="a_lugarNacimiento"
           control={control}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="12" lg="6">
               <Form.Label>Lugar de nacimiento</Form.Label>
               <Form.Control
                 {...field}
@@ -90,7 +90,7 @@ const PerfilDemografico = () => {
           name="c_genero"
           control={control}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
                 Genero <span className="required" />
               </Form.Label>
@@ -114,7 +114,7 @@ const PerfilDemografico = () => {
           name="r_config_orientacion"
           control={control}
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>Orientación sexual</Form.Label>
               <Form.Control
                 as="select"
@@ -140,7 +140,7 @@ const PerfilDemografico = () => {
           control={control}
           defaultValue=""
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>Etnia</Form.Label>
               <Form.Control
                 as="select"
@@ -164,7 +164,7 @@ const PerfilDemografico = () => {
           control={control}
           defaultValue=""
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>Estado civil</Form.Label>
               <Form.Control
                 as="select"
@@ -185,7 +185,7 @@ const PerfilDemografico = () => {
           control={control}
           defaultValue=""
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
+            <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>Número de hijos</Form.Label>
               <Form.Control
                 type="number"

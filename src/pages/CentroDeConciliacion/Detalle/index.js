@@ -122,7 +122,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <a
                       target="blank"
                       className="d-block mb-1"
-                      href={`${baseUrl}/correo/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                      href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
                     >
                       Citación
                     </a>
@@ -175,7 +175,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <a
                       target="blank"
                       className="d-block mb-1"
-                      href={`${baseUrl}/correo/${doc.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${c.r_usuarios_citado.id}/`}
+                      href={`${baseUrl}/doc_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${c.r_usuarios_citado.id}/`}
                     >
                       Citación
                     </a>

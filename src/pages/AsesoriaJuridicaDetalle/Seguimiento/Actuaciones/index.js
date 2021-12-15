@@ -26,6 +26,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const [mostrarDemanda, setMostrarDemanda] = useState(false);
 
   const [seguimientos, setSeguimientos] = useState([]);
+  const [docsanexos, setDocsAnexos] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [doc, setDoc] = useState(null);
 
@@ -52,11 +53,20 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const cargar = async () => {
     try {
       setCargando(true);
-      const { data } = await API(
-        `asesorias/seguimiento/?num_asesoria=${asesoriaId}`
+      await API.get(`asesorias/seguimiento/?num_asesoria=${asesoriaId}`).then(
+        (response) => {
+          setSeguimientos(response.data);
+          console.log(response.data);
+        }
       );
-      setSeguimientos(data);
       setCargando(false);
+      await API.get("/asesorias/docsanexos/").then((response) => {
+        console.log(response.data);
+        setDocsAnexos(response.data);
+        console.log(
+          response.data.filter((el) => el.r_asesoria_seguimientoAsesoria === 11)
+        );
+      });
     } catch (error) {
       setCargando(false);
     }

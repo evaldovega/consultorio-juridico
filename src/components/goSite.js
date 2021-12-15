@@ -16,7 +16,8 @@ const GoSite = ({ style }) => {
         style={{ color: "#fff", alignSelf: "center" }}
         href="https://www.uniatlantico.edu.co/uatlantico/node/3080"
       >
-        Ir al sitio institucional
+        <img width={18} style={{ marginRight: 7 }} src="/images/logow2.png" />
+        <span style={{fontWeight: 700}}>Ir al sitio institucional</span>
       </a>
     </Button>
   );

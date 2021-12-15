@@ -25,7 +25,7 @@ const AsesoriaJuridicaDetalle = () => {
 
   const cargarAsesoria = () => {
     setLoading(true);
-    API(`asesorias/solicitud/${asesoriaId}`)
+    API(`asesorias/solicitud/${asesoriaId}/`)
       .then(({ data }) => {
         console.log({ data });
         setCaso(data);

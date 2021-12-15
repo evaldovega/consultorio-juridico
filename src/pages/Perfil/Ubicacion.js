@@ -21,7 +21,7 @@ const PerfilUbicacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese su pais de nacimiento" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Pais <span className="required" />
               </Form.Label>
@@ -41,7 +41,7 @@ const PerfilUbicacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese su pais de nacimiento" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Departamento o Estado <span className="required" />
               </Form.Label>
@@ -61,7 +61,7 @@ const PerfilUbicacion = () => {
           defaultValue=""
           rules={{ required: "Seleccione la ciudad de nacimiento" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Ciudad <span className="required" />
               </Form.Label>
@@ -70,15 +70,13 @@ const PerfilUbicacion = () => {
             </Form.Group>
           )}
         />
-      </Row>
-      <Row className="mb-1">
         <Controller
           name="a_barrio"
           control={control}
           defaultValue=""
           rules={{ required: "Ingrese un barrio" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Barrio <span className="required" />
               </Form.Label>
@@ -97,7 +95,7 @@ const PerfilUbicacion = () => {
           defaultValue=""
           rules={{ required: "Ingrese una dirección" }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Dirección <span className="required" />
               </Form.Label>
@@ -110,14 +108,12 @@ const PerfilUbicacion = () => {
             </Form.Group>
           )}
         />
-      </Row>
-      <Row className="mb-1">
         <Controller
           name="a_telefonoFijo"
           control={control}
           defaultValue=""
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>Teléfono</Form.Label>
               <Form.Control
                 {...field}
@@ -135,7 +131,7 @@ const PerfilUbicacion = () => {
             required: "Ingrese un número de celular",
           }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Celular <span className="required" />
               </Form.Label>
@@ -156,7 +152,7 @@ const PerfilUbicacion = () => {
             required: "Ingrese un correo eletrónico",
           }}
           render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={4}>
+            <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
                 Correo eletrónico <span className="required" />
               </Form.Label>

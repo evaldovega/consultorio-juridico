@@ -159,7 +159,7 @@ const AsignarEmpleado = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/asignacion-empleados">Asignación de empleados</Link>
+                        <Link to="/asignacion-empleados">Asignación de docentes</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Asignar</Breadcrumb.Item>
                 </Breadcrumb>

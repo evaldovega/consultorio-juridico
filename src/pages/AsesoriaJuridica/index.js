@@ -21,7 +21,7 @@ import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 const AsesoriaJuridicaHome = () => {
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
+      policy={[]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>
@@ -31,7 +31,9 @@ const AsesoriaJuridicaHome = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Asesoría jurídica</Breadcrumb.Item>
         </Breadcrumb>
-
+        <div className="section-title">
+          <h1>Asesoría jurídica</h1>
+        </div>
         <Row className="modules">
           <Col xs={12} md={6}>
             <ItemModule
@@ -57,6 +59,20 @@ const AsesoriaJuridicaHome = () => {
               )}
               title="Listado de casos"
               link="/asesoria-juridica/solicitudes"
+            />
+          </Col>
+          <div class="w-100" style={{ marginBottom: 22 }}></div>
+          <Col xs={12} md={6}>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  {...props}
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolderOpen}
+                />
+              )}
+              title="Reportes"
+              link="/asesoria-juridica/reportes"
             />
           </Col>
         </Row>

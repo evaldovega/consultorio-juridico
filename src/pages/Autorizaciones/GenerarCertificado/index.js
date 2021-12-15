@@ -11,6 +11,7 @@ import {
     Accordion,
     Row,
     Col,
+    Table
 } from "react-bootstrap";
 import PerfilMaster from "pages/Perfil/Master";
 import { useForm } from "react-hook-form";
@@ -37,6 +38,8 @@ const GenerarCertificado = () => {
     const [empleados, setEmpleados] = useState([])
     const [autoridades, setAutoridades] = useState([])
     const [directores, setDirectores] = useState([])
+    const [cedula, setCedula] = useState("")
+    const [idEstudiante, setIdEstudiante] = useState("")
 
     const formPersona = useRef();
     const formAsesoria = useRef();
@@ -46,46 +49,61 @@ const GenerarCertificado = () => {
             .then(response => {
                 setPersonas(response.data)
             })
-        API.get('configuracion/jornadas')
+        API.get('configuracion/jornadas/')
             .then(response => {
                 setJornadas(response.data)
             })
-        API.get('configuracion/grupo')
+        API.get('configuracion/grupo/')
             .then(response => {
                 setGrupos(response.data)
             })
-        API.get('configuracion/consultorio')
+        API.get('configuracion/consultorio/')
             .then(response => {
                 setConsultorios(response.data)
-            })
-        API.get('estudiantes/inscripcion')
-            .then(response => {
-                setInscripciones(response.data)
             })
         API.get('usuarios/empleados/empleadoscargos/?director=true')
             .then(response => {
                 setDirectores(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos')
+        API.get('usuarios/empleados/empleadoscargos/')
             .then(response => {
                 setEmpleados(response.data)
             })
-        API.get('configuracion/entidad')
+        API.get('configuracion/entidad/')
             .then(response => {
                 setAutoridades(response.data)
             })
     }
 
+    const getInscripciones = async () => {
+        setInscripciones([])
+        console.log(cedula)
+        await API.get('/estudiantes/inscripcion/')
+        .then(response => {
+            setInscripciones(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula))
+            setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.r_usuarios_persona.id))[0])
+        })
+        // inscripciones.map((el) => (
+        //     console.log(el),
+        //     setIdEstudiante(el.id)
+        // ))
+    }
+
     const guardarAsesoria = async (data) => {
         setLoading(true);
         const _data = {
-            ...data
+            ...data,
+            "r_usuarios_estudiante": idEstudiante
         };
         console.log(_data);
-        API.post("autorizaciones/certificacion/", _data)
+        API({
+            url: "autorizaciones/certificacion/" + (id ? `${id}/` : ""),
+            method: id ? "PATCH" : "POST",
+            data: _data,
+          })
             .then(({ data }) => {
                 setLoading(false);
-                toast.success("Empleado registrado correctamente.", {
+                toast.success("Se ha generado la certificación.", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: true,
@@ -113,7 +131,17 @@ const GenerarCertificado = () => {
             draggable: true,
         });
     };
-    const loadDetail = () => { };
+    const loadDetail = () => {
+        setLoadingDetail(true);
+        API.get("autorizaciones/certificacion/" + id + "/")
+          .then(({ data }) => {
+            setValue("r_usuarios_estudiante", data.r_usuarios_estudiante.id);
+            setValue("r_usuarios_director", data.r_usuarios_director.id);
+            setValue("r_usuarios_elaboradoPor", data.r_usuarios_elaboradoPor.id);
+            setValue("dt_fechaProceso", data.dt_fechaProceso);
+          })
+          .finally(() => setLoadingDetail(false));
+      };
 
     //------Enviar el formulario de persona
     const save = () => {
@@ -172,7 +200,7 @@ const GenerarCertificado = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN]}>
+        <Policy policy={[]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -199,24 +227,45 @@ const GenerarCertificado = () => {
                                     <span>Datos del certificado</span>
                                 </h2>
                                 <Row className="mb-3">
-                                    <Controller
-                                        name="r_usuarios_estudiante"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Form.Group as={Col} xs="12" md="6">
-                                                <Form.Label>
-                                                    Estudiante
-                                                </Form.Label>
-                                                <Form.Control as="select" {...field}>
-                                                    <option value="">Seleccione...</option>
-                                                    {personas.map((el) => (
-                                                        <option value={el.id}>{el.a_primerNombre} {el.a_segundoNombre} {el.a_primerApellido} {el.a_segundoApellido}</option>
+                                    <Form.Group as={Col} xs="12" md="7">
+                                        <label>Cédula del estudiante</label>
+                                        <span style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            gap: "20px"
+                                        }}>
+                                            <input 
+                                                className="form-control"
+                                                value={cedula}
+                                                onChange={e => setCedula(e.target.value)}
+                                            />
+                                            <Button onClick={() => getInscripciones()}>
+                                                Buscar
+                                            </Button>
+                                        </span>
+                                    </Form.Group>
+                                    {inscripciones.length > 0 && (
+                                        <Form.Group as={Col} xs="12" md="12">
+                                            <Table striped bordered hover>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Documento</th>
+                                                        <th>Nombre del estudiante</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {inscripciones.map((el) => (
+                                                        <tr>
+                                                            <td>{el.r_usuarios_persona.a_numeroDocumento}</td>
+                                                            <td>{el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</td>
+                                                        </tr>
                                                     ))}
-                                                </Form.Control>
-                                                <Errors message={errors?.ht_horaAsesoria?.message} />
-                                            </Form.Group>
-                                        )}
-                                    />
+                                                </tbody>
+                                            </Table>
+                                        </Form.Group>
+                                    )}
+                                </Row>
+                                <Row className="mb-3">
                                     <Controller
                                         name="dt_fechaProceso"
                                         control={control}

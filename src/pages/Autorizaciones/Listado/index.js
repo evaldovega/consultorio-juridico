@@ -5,23 +5,84 @@ import Page from "components/Page";
 import API from "utils/Axios";
 import { Breadcrumb, Card, Table, Spinner } from "react-bootstrap";
 
-import { SearchOutlined, PrinterOutlined } from "@ant-design/icons";
+import { SearchOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR } from "constants/apiContants";
+import { MDBDataTable } from 'mdbreact'
 
 const ListadoAutorizaciones = () => {
     const [docs, setDoc] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
+    const [headerTable, setHeaderTable] = useState([
+        {
+            label: 'Nombres y apellidos',
+            field: 'nombres_apellidos'
+        },
+        {
+            label: 'Documento de identidad',
+            field: 'documento'
+        },
+        {
+            label: 'Clase proceso',
+            field: 'clase_proceso'
+        },
+        {
+            label: 'Fecha de proceso',
+            field: 'fecha'
+        },
+        {
+            label: 'No. autorizacion',
+            field: 'nro_autorizacion'
+        },
+        {
+            label: 'Observaciones',
+            field: 'observaciones'
+        },
+        {
+            label: 'Acciones',
+            field: 'acciones'
+        }
+    ])
+    const [tableData, setTableData] = useState([])
 
     const getAutorizaciones = async () => {
         API.get("autorizaciones/autorizacion").then((response) => {
             console.log(JSON.stringify(response.data));
-            setDoc(response.data);
+            setTableData(response.data.map((d) => ({
+                "nombres_apellidos": `${d.r_estudiante.r_usuarios_persona.a_primerNombre} ${d.r_estudiante.r_usuarios_persona.a_segundoNombre} ${d.r_estudiante.r_usuarios_persona.a_primerApellido} ${d.r_estudiante.r_usuarios_persona.a_segundoApellido}`,
+                "documento": d.r_estudiante.r_usuarios_persona.a_numeroDocumento,
+                "clase_proceso": d.a_proceso,
+                "fecha": d.dt_fechaProceso,
+                "nro_autorizacion": d.a_numeroRadicado,
+                "observaciones": d.t_observaciones,
+                "acciones": <span>
+                    <a href={`http://179.0.29.155:8000/doc_autorizacion/${d.id}/`}>
+                        <PrinterOutlined style={{
+                            marginRight: "20px",
+                            fontSize: "20px",
+                        }} />
+                    </a>
+                    <DeleteOutlined
+                        onClick={() => eliminarAutorizacion(d.id)}
+                        style={{
+                            fontSize: "20px",
+                            color: 'red'
+                        }}
+                    />
+                </span>
+            })))
         });
     };
+
+    const eliminarAutorizacion = async (id_delete) => {
+        API.delete(`autorizaciones/autorizacion/${id_delete}/`)
+            .then(response => {
+                window.location.reload()
+            })
+    }
 
     const getColumnSearchProps = (dataIndex) => {
         let searchInput;
@@ -132,14 +193,14 @@ const ListadoAutorizaciones = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/autorizaciones">Autorizaciones</Link>
+                        <Link to="/autorizaciones">Documentos</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Listado de autorizaciones</Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Card>
                     <Card.Body>
-                        <h2 className="title-line" style={{marginTop: 10}}>
+                        <h2 className="title-line" style={{ marginTop: 10 }}>
                             <span>Listado de autorizaciones</span>
                         </h2>
                         {loading && (
@@ -151,32 +212,22 @@ const ListadoAutorizaciones = () => {
                                 ></Spinner>
                             </div>
                         )}
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>No. radicado</th>
-                                    <th>Fecha de proceso<br /> <small>(AAAA-MM-DD)</small></th>
-                                    <th>Nombre del poderante</th>
-                                    <th>Tipo de proceso</th>
-                                    <th>Imprimir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {docs.map((d) => (
-                                    <tr>
-                                        <td>{d.a_numeroRadicado}</td>
-                                        <td>{d.dt_fechaProceso}</td>
-                                        <td>{d.a_nombrePoderante}</td>
-                                        <td>{d.a_proceso}</td>
-                                        <td>
-                                            <a href={`http://localhost:8000/doc_autorizacion/${d.id}/`}>
-                                                <PrinterOutlined />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <MDBDataTable
+                            hover
+                            entriesOptions={[5, 20, 25]}
+                            entries={5}
+                            entriesLabel="Mostrar entradas"
+                            searchLabel="Buscar"
+                            infoLabel={["Mostrando", "a", "de", "entradas"]}
+                            noRecordsFoundLabel="No se han encontrado registros."
+                            paginationLabel={["Anterior", "Siguiente"]}
+                            pagesAmount={4}
+                            data={{
+                                columns: headerTable,
+                                rows: tableData
+                            }}
+                            fullPagination
+                        />
                     </Card.Body>
                 </Card>
             </Page>

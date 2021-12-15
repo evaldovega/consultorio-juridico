@@ -5,13 +5,14 @@ export const ROL_PERSONA = "CIUDADANO";
 export const ROL_ESTUDIANTE = "ESTUDIANTE";
 export const ROL_ASESOR = "ASESOR";
 export const ROL_ADMIN = "ADMINISTRADOR";
+export const ROL_DOCENTE = "DOCENTE";
 export const POLITICA_DATOS =
   "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500";
 
 export const MODULES = [
   {
     id: 0,
-    img: "images/modulo1.jpg",
+    img: "images/modulo2.jpg",
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
@@ -20,7 +21,7 @@ export const MODULES = [
   },
   {
     id: 5,
-    img: "images/modulo1.jpg",
+    img: "images/modulo4.jpg",
     name: "Centro de conciliación",
     url: "/centro-de-conciliacion",
     descripcion: "Descripción Centro de Conciliación",
@@ -34,12 +35,12 @@ export const MODULES = [
   },*/
   {
     id: 1,
-    img: "images/modulo2.jpg",
+    img: "images/modulo3.jpg",
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
     descripcion: "Inscripción de estudiantes",
-    policies: [ROL_ADMIN, ROL_ASESOR],
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE],
   },
   {
     id: "",
@@ -59,18 +60,18 @@ export const MODULES = [
   },
   {
     id: "",
-    name: "Asignación de empleados",
+    name: "Asignación de docentes",
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/asignacion-empleados",
     descripcion: "",
-    img: "images/modulo2.jpg",
+    img: "images/modulo5.jpg",
   },
   {
     id: "",
-    name: "Autorización",
+    name: "Documentos",
     policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
     url: "/autorizaciones",
     descripcion: "",
-    img: "images/modulo2.jpg",
+    img: "images/modulo6.jpg",
   },
 ];

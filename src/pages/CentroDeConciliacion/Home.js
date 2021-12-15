@@ -31,7 +31,9 @@ const CentroDeConciliacionHome = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Centro de conciliación</Breadcrumb.Item>
         </Breadcrumb>
-
+        <div className="section-title">
+          <h1>Centro de Conciliación</h1>
+        </div>
         <Row className="modules">
           <Col xs={12} md={6}>
             <ItemModule
