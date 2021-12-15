@@ -32,10 +32,9 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
-  const [readOnly, setReadOnly] = useState(true);
-  const [anexos, setAnexos] = useState("");
-  const { policies } = useContext(Context);
-
+  const [readOnly, setReadOnly] = useState(false);
+  const { policies, persona } = useContext(Context);
+  const archivo = watch("f_archivo");
   const handleClose = () => {
     setShow(false);
   };
@@ -44,13 +43,41 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
     var reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = function () {
-      setValue("f_archivo", reader.result);
+      setValue("f_archivo", {
+        f_archivo: reader.result,
+        a_titulo: e.target.files[0].name,
+      });
       e.target.value = "";
     };
   };
 
+  const subirArchivo = async ({
+    f_archivo,
+    a_titulo,
+    asesoriaId,
+    seguimiento,
+  }) => {
+    try {
+      const { data } = await API.post(`asesorias/docsanexos/`, {
+        f_archivo,
+        a_titulo,
+        b_reservaLegal: false,
+        r_usuarios_persona: persona,
+        r_asesoria_solicitudAsesoria: asesoriaId,
+        r_asesoria_seguimientoAsesoria: seguimiento,
+      });
+      return data;
+    } catch (error) {
+      toast.error(error.toString());
+    }
+  };
+
   const guardar = async (payload) => {
     try {
+      const archivoASubir = payload.f_archivo;
+      delete payload.f_archivo;
+      let archivoSubido = null;
+
       setCargando(true);
       const method = doc ? "patch" : "post";
       const url = doc
@@ -66,14 +93,15 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
           ...payload,
         },
       });
-      API.post("/asesorias/docsanexos/", anexos)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err.response.data);
+      if (archivoASubir) {
+        archivoSubido = await subirArchivo({
+          ...archivoASubir,
+          asesoriaId: data.r_asesoria_solicitudAsesoria,
+          seguimiento: data.id,
         });
+      }
       setCargando(false);
+      setValue("f_archivo", "");
       setValue("t_observacion", "");
       setValue("t_respuesta", "");
       setValue("a_reparto", "");
@@ -81,19 +109,21 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
       setValue("a_contraQuien", "");
       setValue("dt_fechaFallo", "");
       setShow(false);
-      onSave(data);
+      onSave({ ...data, archivoSubido });
     } catch (error) {
       console.log(error);
       toast.error(error.toString());
       setCargando(false);
     }
   };
+
   const onError = () => {
     toast.warn("Error al ingresar información");
   };
 
   useEffect(() => {
     if (show && doc) {
+      setValue("f_archivo", "");
       setValue("t_observacion", doc.t_observacion);
       setValue("t_respuesta", doc.t_respuesta);
       setValue("a_reparto", doc.a_reparto);
@@ -101,6 +131,7 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
       setValue("a_contraQuien", doc.a_contraQuien);
       setValue("dt_fechaFallo", doc.dt_fechaFallo);
     } else {
+      setValue("f_archivo", "");
       setValue("t_observacion", "");
       setValue("t_respuesta", "");
       setValue("a_reparto", "");
@@ -249,22 +280,6 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                   )}
                 />
               </Col>
-              <Col xs="12">
-                <Controller
-                  name="documentos"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <Form.Group>
-                      <Form.File
-                        {...field}
-                        label="Adjuntar documento"
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                  )}
-                />
-              </Col>
             </Row>
             <Row>
               <Col xs="12">
@@ -314,9 +329,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Row>
             <Row>
               <Col>
-                <Form.Label>
-                  Anexo <span className="required" />
-                </Form.Label>
+                <Form.Label>Anexo</Form.Label>
+                {archivo ? <p>{archivo.a_titulo}</p> : ""}
                 <Form.Control
                   type="file"
                   onChange={anexoSeleccionado}
@@ -327,10 +341,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                   name="f_archivo"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Seleccione un anexo" }}
                   render={({ field }) => <input {...field} type="hidden" />}
                 />
-                <Errors message={errors?.f_archivo?.message} />
               </Col>
             </Row>
           </Context.Provider>

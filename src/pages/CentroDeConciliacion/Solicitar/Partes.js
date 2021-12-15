@@ -109,7 +109,7 @@ const Partes = ({
             <Parte
               id={id}
               idConciliacion={idConciliacion}
-              key={`${id}-${i}`}
+              key={field.id}
               name={name}
               field={field}
               index={i}

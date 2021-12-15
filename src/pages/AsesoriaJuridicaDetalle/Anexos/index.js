@@ -22,7 +22,6 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const [cargando, setCargando] = useState(false);
   const [puedeRemover, setPuedeRemover] = useState(false);
   const { policies, persona } = useContext(Context);
-
   const edit = async (anexo, anexos) => {
     try {
       setCargando(true);

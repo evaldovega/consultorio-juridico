@@ -70,6 +70,7 @@ const CentroDeConciliacionSolicitar = () => {
   };
 
   const guardar = async (data) => {
+    console.log(data);
     try {
       const solicitantes = getValues("r_solicitante");
       if (!solicitantes.length) {
@@ -101,18 +102,20 @@ const CentroDeConciliacionSolicitar = () => {
         ? `/conciliacion/solicitud/${idConciliacion}/`
         : `/conciliacion/solicitud/`;
       const method = idConciliacion ? "PATCH" : "POST";
+      const payload = {
+        ...data,
+        t_pruebasAnexos: data.t_pruebasAnexos.map((a) => ({
+          ...a,
+          r_usuarios_persona: persona,
+        })),
+      };
+      if (method == "POST") {
+        payload.d_fechaSolicitud = moment().format("YYYY-MM-DD");
+      }
       const { data: response } = await API({
         method,
         url,
-        data: {
-          ...data,
-          d_fechaSolicitud: moment().format("YYYY-MM-DD"),
-          // r_asesoria_casoJuridico: 10,
-          t_pruebasAnexos: data.t_pruebasAnexos.map((a) => ({
-            ...a,
-            r_usuarios_persona: persona,
-          })),
-        },
+        data: payload,
       });
       setCargando(false);
       history.push(`/centro-de-conciliacion/solicitudes`);
@@ -133,7 +136,6 @@ const CentroDeConciliacionSolicitar = () => {
     try {
       setCargando(true);
       const { data } = await API(`/conciliacion/solicitud/${idConciliacion}/`);
-      console.log(data);
       if (data) {
         Object.keys(data).forEach((k) => setValue(k, data[k]));
       }

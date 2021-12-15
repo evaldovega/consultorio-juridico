@@ -72,8 +72,28 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
     }
   };
 
+  const onArchivo = (archivo) => {
+    const index = docsanexos.findIndex((s) => s.id == archivo.id);
+    if (index < 0) {
+      setDocsAnexos([...docsanexos, archivo]);
+    } else {
+      setDocsAnexos(
+        docsanexos.map((s, i) => {
+          if (i == index) {
+            return archivo;
+          }
+          return s;
+        })
+      );
+    }
+  };
+
   const onSave = (seguimiento) => {
     const index = seguimientos.findIndex((s) => s.id == seguimiento.id);
+    if (seguimiento.archivoSubido) {
+      onArchivo(seguimiento.archivoSubido);
+      delete seguimiento.archivoSubido;
+    }
     if (index < 0) {
       setSeguimientos([...seguimientos, seguimiento]);
     } else {
@@ -86,6 +106,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
         })
       );
     }
+  };
+
+  const anexoBorrado = (id) => {
+    setDocsAnexos(docsanexos.filter((d) => d.id != id));
   };
 
   const setEdit = (seguimiento) => {
@@ -160,23 +184,58 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
           </Policy>
         )}
         {seguimientos.map((s) => {
+          const anexos = docsanexos.filter(
+            (a) => a.r_asesoria_seguimientoAsesoria == s.id
+          );
+
           switch (s.c_tipoSeguimientoAccion) {
             case "NOTA":
-              return <Actuacion.Nota actuacion={s} setEdit={setEdit} />;
+              return (
+                <Actuacion.Nota
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                />
+              );
               break;
             case "CITA":
-              return <Actuacion.Cita actuacion={s} setEdit={setEdit} />;
+              return (
+                <Actuacion.Cita
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                />
+              );
               break;
             case "DERECHO_PETICION":
               return (
-                <Actuacion.DerechoPeticion actuacion={s} setEdit={setEdit} />
+                <Actuacion.DerechoPeticion
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
               );
               break;
             case "TUTELA":
-              return <Actuacion.Tutela actuacion={s} setEdit={setEdit} />;
+              return (
+                <Actuacion.Tutela
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
+              );
               break;
             case "DEMANDA":
-              return <Actuacion.Demanda actuacion={s} setEdit={setEdit} />;
+              return (
+                <Actuacion.Demanda
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
+              );
               break;
           }
         })}
