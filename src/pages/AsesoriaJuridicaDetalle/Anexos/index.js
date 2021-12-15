@@ -14,14 +14,14 @@ import {
   Table,
 } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
-import API from "utils/Axios";
-
+import API, { baseUrl } from "utils/Axios";
+import Spin from "components/Spin";
 const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const name = "mm_documentosAnexos";
   const { mm_documentosAnexos = [] } = caso;
   const [cargando, setCargando] = useState(false);
   const [puedeRemover, setPuedeRemover] = useState(false);
-  const { policies } = useContext(Context);
+  const { policies, persona } = useContext(Context);
 
   const edit = async (anexo, anexos) => {
     try {
@@ -43,13 +43,14 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
         f_archivo,
         a_titulo,
         b_reservaLegal: false,
-        r_usuarios_persona: 1,
+        r_usuarios_persona: persona,
         r_asesoria_solicitudAsesoria: asesoriaId,
       });
       setCaso({
         ...caso,
         mm_documentosAnexos: [...caso.mm_documentosAnexos, data],
       });
+      setCargando(false);
     } catch (error) {
       setCargando(false);
     }
@@ -96,38 +97,44 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   }, [policies]);
 
   return (
-    <div>
-      <Table className="mb-3">
-        <thead>
-          <th>Documento</th>
-          <th>Reserva legal</th>
-          {puedeRemover ? <th></th> : null}
-        </thead>
-        <tbody>
-          {mm_documentosAnexos?.map((d, i) => (
-            <tr key={i}>
-              <td>{d.a_titulo}</td>
-              <td>
-                <Form.Check
-                  checked={d.b_reservaLegal}
-                  onChange={(e) => onCheck(e, i)}
-                />
-              </td>
-              {puedeRemover ? (
+    <Spin cargando={cargando}>
+      <div>
+        <Table className="mb-3">
+          <thead>
+            <th>Documento</th>
+            <th>Reserva legal</th>
+            {puedeRemover ? <th></th> : null}
+          </thead>
+          <tbody>
+            {mm_documentosAnexos?.map((d, i) => (
+              <tr key={i}>
                 <td>
-                  <Button type="button" size="sm" onClick={() => remove(i)}>
-                    <FaTimes />
-                  </Button>
+                  <a target="blank" href={`${d.f_archivoDocumento}`}>
+                    {d.a_titulo}
+                  </a>
                 </td>
-              ) : null}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Form.Group>
-        <Form.File onChange={onChange} label="Adjuntar" />
-      </Form.Group>
-    </div>
+                <td>
+                  <Form.Check
+                    checked={d.b_reservaLegal}
+                    onChange={(e) => onCheck(e, i)}
+                  />
+                </td>
+                {puedeRemover ? (
+                  <td>
+                    <Button type="button" size="sm" onClick={() => remove(i)}>
+                      <FaTimes />
+                    </Button>
+                  </td>
+                ) : null}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Form.Group>
+          <Form.File onChange={onChange} label="Adjuntar" />
+        </Form.Group>
+      </div>
+    </Spin>
   );
 };
 

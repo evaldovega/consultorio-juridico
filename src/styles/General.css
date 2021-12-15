@@ -27,6 +27,9 @@ h3 {
 h3 {
   font-size: 18px;
 }
+img {
+  max-width: 100%;
+}
 .link-card:hover {
   text-decoration: none;
 }

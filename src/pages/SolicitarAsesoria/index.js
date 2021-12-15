@@ -19,9 +19,12 @@ import Context from "./Ctx";
 import Errors from "components/Errors";
 import ArchivosAsesoria from "./Archivos";
 import AsesoriaEstudiantes from "./Estudiantes";
+import { useContext } from "react";
+import { Context as ContextPolicy } from "components/Policy/Ctx";
 
 const { default: Page } = require("components/Page");
 const { default: Policy, policyAllow } = require("components/Policy");
+
 const {
   ROL_PERSONA,
   ROL_ESTUDIANTE,
@@ -38,6 +41,7 @@ const SolicitarAsesoria = () => {
   const [personaId, setPersonaId] = useState("");
   const formPersona = useRef();
   const formAsesoria = useRef();
+  const { policies } = useContext(ContextPolicy);
 
   const guardarAsesoria = async (data) => {
     setLoading(true);
@@ -59,7 +63,7 @@ const SolicitarAsesoria = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        history.push(`asesoria-juridica/caso/${data.id}/`);
+        history.push(`/asesoria-juridica/caso/${data.id}/`);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -91,17 +95,19 @@ const SolicitarAsesoria = () => {
   };
   //------Enviar el formulario de persona
   const save = () => {
-    const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
-    if (!estudiantesAsignados.length) {
-      toast.info("Asigne estudiantes a la asesoria por favor", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      return;
+    if (policyAllow(policies, [ROL_ADMIN, ROL_ASESOR])) {
+      const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
+      if (!estudiantesAsignados.length) {
+        toast.info("Asigne estudiantes a la asesoria por favor", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        return;
+      }
     }
     formPersona.current.click();
   };
@@ -142,10 +148,6 @@ const SolicitarAsesoria = () => {
       loadDetail();
     }
   }, [id]);
-
-  useEffect(() => {
-    policyAllow();
-  }, []);
 
   return (
     <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_ADMIN, ROL_ASESOR]}>
@@ -288,6 +290,7 @@ const SolicitarAsesoria = () => {
                 Registrar
               </Button>
             </Policy>
+
             <Policy policy={[ROL_PERSONA]}>
               <Button onClick={guardarComoPersona} size="lg" disabled={loading}>
                 Registrar

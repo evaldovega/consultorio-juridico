@@ -107,7 +107,7 @@ const CentroDeConciliacionSolicitar = () => {
         data: {
           ...data,
           d_fechaSolicitud: moment().format("YYYY-MM-DD"),
-          r_asesoria_casoJuridico: 1,
+          // r_asesoria_casoJuridico: 10,
           t_pruebasAnexos: data.t_pruebasAnexos.map((a) => ({
             ...a,
             r_usuarios_persona: persona,

@@ -12,6 +12,9 @@ import moment from "moment";
 import Nota from "../Nota";
 import Tutela from "../Tutela";
 import Demanda from "../Demanda";
+
+import Actuacion from "./Actuacion";
+
 import Policy from "components/Policy";
 import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
@@ -134,7 +137,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
 
       <Card.Body style={{ height: 400, overflowY: "scroll" }}>
         {!seguimientos.length && (
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
             <div className="text-center h-100 d-flex flex-column justify-content-center">
               <h5 className="mb-4">Aquí inicia el proceso!</h5>
               <p>Añade actuaciones para llevar el seguimiento del caso</p>
@@ -149,124 +152,27 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
         {seguimientos.map((s) => {
           switch (s.c_tipoSeguimientoAccion) {
             case "NOTA":
-              return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    <FcComments />
-                    Nota
-                  </div>
-
-                  <p>
-                    <b>{moment(s.sys_fechaCreacion).format("LLL")}</b>{" "}
-                    {s.t_observacion}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
-              );
+              return <Actuacion.Nota actuacion={s} setEdit={setEdit} />;
               break;
             case "CITA":
-              return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    <FcAlarmClock />
-                    Cita
-                  </div>
-                  <p>
-                    <b>{moment(s.dt_fechaNuevaCita).format("LLL")}</b>{" "}
-                    {s.t_observacion}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
-              );
+              return <Actuacion.Cita actuacion={s} setEdit={setEdit} />;
               break;
             case "DERECHO_PETICION":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    Derecho de petición
-                  </div>
-
-                  <p className="text-justify">
-                    <b>{moment(s.dt_fechaRadicacion).format("LLL")}</b>{" "}
-                    {s.t_observacion}
-                  </p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.DerechoPeticion actuacion={s} setEdit={setEdit} />
               );
               break;
             case "TUTELA":
-              return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center ">
-                    Tutela
-                  </div>
-
-                  <p className="text-justify">
-                    <b>
-                      <i>{moment(s.dt_fechaRadicacionTutela).format("LLL")}</i>
-                    </b>{" "}
-                    {s.t_observacion}
-                  </p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
-              );
+              return <Actuacion.Tutela actuacion={s} setEdit={setEdit} />;
               break;
             case "DEMANDA":
-              return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    Demanda
-                  </div>
-                  <h5>{moment(s.dt_fechaRadicaciona).format("LLL")}</h5>
-                  <p className="text-justify">{s.t_observacion}</p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
-              );
+              return <Actuacion.Demanda actuacion={s} setEdit={setEdit} />;
               break;
           }
         })}
       </Card.Body>
 
-      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
         <Card.Footer>
           <div className="text-center mt-4">
             <Dropdown>

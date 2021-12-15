@@ -37,6 +37,15 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
     setShow(false);
   };
 
+  const anexoSeleccionado = (e) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function () {
+      setValue("f_archivo", reader.result);
+      e.target.value = "";
+    };
+  };
+
   const guardar = async (payload) => {
     try {
       setCargando(true);
@@ -196,6 +205,27 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
                   </Form.Group>
                 )}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>
+                Anexo <span className="required" />
+              </Form.Label>
+              <Form.Control
+                type="file"
+                onChange={anexoSeleccionado}
+                disabled={cargando || readOnly}
+                plaintext={readOnly}
+              />
+              <Controller
+                name="f_archivo"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Seleccione un anexo" }}
+                render={({ field }) => <input {...field} type="hidden" />}
+              />
+              <Errors message={errors?.f_archivo?.message} />
             </Col>
           </Row>
         </Modal.Body>
