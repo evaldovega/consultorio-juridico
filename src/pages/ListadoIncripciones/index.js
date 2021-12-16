@@ -9,12 +9,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
-<<<<<<< HEAD
-import { MDBDataTable } from 'mdbreact'
-=======
 import { MDBDataTable } from 'mdbreact';
 import { ExportToExcel } from 'components/ExportToExcel'
->>>>>>> 6ab06b4f3163468e6e333ab645e32890177f6826
 
 const ListadoIncripciones = () => {
   const [docs, setDoc] = useState([]);
@@ -46,31 +42,6 @@ const ListadoIncripciones = () => {
       field: "turno"
     },
   ])
-  const [tableData, setTableData] = useState([])
-
-  const [headerTable, setHeaderTable] = useState([
-    {
-      label: 'No. de inscripción',
-      field: 'no_inscripcion'
-    },
-    {
-      label: 'Nombres y apellidos',
-      field: 'nombres_apellidos'
-    },
-    {
-      label: 'Tipo de documento',
-      field: 'tipo_documento'
-    },
-    {
-      label: 'Documento de identidad',
-      field: 'documento_identidad'
-    },
-    {
-      label: 'Fecha de expedición',
-      field: 'fecha_expedicion'
-    },
-  ])
-
   const [tableData, setTableData] = useState([])
 
   const getInscripciones = async () => {
