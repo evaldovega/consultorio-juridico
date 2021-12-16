@@ -16,9 +16,14 @@ import Demanda from "../Demanda";
 import Actuacion from "./Actuacion";
 
 import Policy from "components/Policy";
-import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_ESTUDIANTE,
+  ROL_PERSONA,
+} from "constants/apiContants";
 
-const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
+const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
   const [mostrarAgendarCita, setMostrarAgendarCita] = useState(false);
   const [mostrarPresentarDerecho, setMostrarPresentarDerecho] = useState(false);
   const [mostrarNota, setMostrarNota] = useState(false);
@@ -195,6 +200,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   actuacion={s}
                   setEdit={setEdit}
                   anexos={anexos}
+                  persona={persona}
                 />
               );
               break;
@@ -204,6 +210,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   actuacion={s}
                   setEdit={setEdit}
                   anexos={anexos}
+                  persona={persona}
                 />
               );
               break;
@@ -214,6 +221,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   setEdit={setEdit}
                   anexos={anexos}
                   anexoBorrado={anexoBorrado}
+                  persona={persona}
                 />
               );
               break;
@@ -224,6 +232,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   setEdit={setEdit}
                   anexos={anexos}
                   anexoBorrado={anexoBorrado}
+                  persona={persona}
                 />
               );
               break;
@@ -234,6 +243,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                   setEdit={setEdit}
                   anexos={anexos}
                   anexoBorrado={anexoBorrado}
+                  persona={persona}
                 />
               );
               break;
@@ -241,7 +251,9 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
         })}
       </Card.Body>
 
-      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
+      <Policy
+        policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN, ROL_PERSONA]}
+      >
         <Card.Footer>
           <div className="text-center mt-4">
             <Dropdown>
@@ -258,39 +270,42 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
                 >
                   Añadir nota
                 </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    action("CITA");
-                    setDoc(null);
-                  }}
-                >
-                  Agendar cita
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  onClick={() => {
-                    action("DERECHO_PETICION");
-                    setDoc(null);
-                  }}
-                >
-                  Presentar derecho de petición
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    action("TUTELA");
-                    setDoc(null);
-                  }}
-                >
-                  Presentar tutela
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    action("DEMANDA");
-                    setDoc(null);
-                  }}
-                >
-                  Presentar demanda
-                </Dropdown.Item>
+
+                <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+                  <Dropdown.Item
+                    onClick={() => {
+                      action("CITA");
+                      setDoc(null);
+                    }}
+                  >
+                    Agendar cita
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    onClick={() => {
+                      action("DERECHO_PETICION");
+                      setDoc(null);
+                    }}
+                  >
+                    Presentar derecho de petición
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      action("TUTELA");
+                      setDoc(null);
+                    }}
+                  >
+                    Presentar tutela
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      action("DEMANDA");
+                      setDoc(null);
+                    }}
+                  >
+                    Presentar demanda
+                  </Dropdown.Item>
+                </Policy>
               </Dropdown.Menu>
             </Dropdown>
           </div>

@@ -88,6 +88,7 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
         data: {
           c_tipoSeguimientoAccion: "DERECHO_PETICION",
           r_asesoria_solicitudAsesoria: asesoriaId,
+          r_usuarios_persona: persona,
           ...payload,
         },
       });

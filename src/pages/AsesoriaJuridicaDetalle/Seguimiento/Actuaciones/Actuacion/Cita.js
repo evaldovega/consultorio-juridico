@@ -1,8 +1,8 @@
 import Header from "./Header";
 import moment from "moment";
+import Footer from "./Footer";
 
 const Cita = ({ actuacion, setEdit }) => {
-  console.log({ actuacion });
   return (
     <div className="mb-3 mt-3">
       <Header actuacion={actuacion} titulo="cita" setEdit={setEdit} />
@@ -10,6 +10,7 @@ const Cita = ({ actuacion, setEdit }) => {
         <b>{moment(actuacion.dt_fechaNuevaCita).format("LLL")}</b>{" "}
         {actuacion.t_observacion}
       </p>
+      <Footer actuacion={actuacion} />
       <div className="divider"></div>
     </div>
   );

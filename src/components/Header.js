@@ -9,7 +9,14 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 import Policy from "./Policy";
 import GoSite from "components/goSite";
-import { Button, Card, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Navbar,
+  Container,
+  Nav,
+  NavDropdown,
+} from "react-bootstrap";
 import { FaChild, FaCog, FaDownload, FaUserCircle } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
@@ -21,23 +28,28 @@ const HeaderPage = ({ showButton, homePage }) => {
     localStorage.removeItem(USER_FULL_NAME);
     history.replace("/login");
   };
-  const { fullname } = useContext(Context);
-  const [scrollPos, setScrollPos] = useState(0)
+  const { fullname, policies = [] } = useContext(Context);
+  const [scrollPos, setScrollPos] = useState(0);
 
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setScrollPos(position)
-  }
+    setScrollPos(position);
+  };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [])
+  }, []);
 
   return (
-    <Navbar bg={homePage ? (scrollPos > 639 ? "dark" : "light") : "dark"} fixed="top" variant="dark" expand="lg">
+    <Navbar
+      bg={homePage ? (scrollPos > 639 ? "dark" : "light") : "dark"}
+      fixed="top"
+      variant="dark"
+      expand="lg"
+    >
       <Container fluid>
         {showButton ? (
           <img
@@ -60,18 +72,20 @@ const HeaderPage = ({ showButton, homePage }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     justifyItems: "center",
-                    fontSize: "16px"
+                    fontSize: "16px",
                   }}
                 >
-                  <FaChild /> <span><b>Accesibilidad</b></span>
+                  <FaChild />{" "}
+                  <span>
+                    <b>Accesibilidad</b>
+                  </span>
                 </span>
               }
               id="basic-nav-dropdown0"
             >
               <NavDropdown.ItemText style={{ width: "250px" }}>
-                Herramienta de política de acceso para
-                las personas que presentan discapacidad
-                visual o auditiva.
+                Herramienta de política de acceso para las personas que
+                presentan discapacidad visual o auditiva.
                 <br />
                 <Button
                   type="primary"
@@ -98,9 +112,11 @@ const HeaderPage = ({ showButton, homePage }) => {
             </NavDropdown>
             <NavDropdown
               title={
-                <span style={{
-                  fontSize: "16px"
-                }}>
+                <span
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
                   <FaCog /> <b>Configuración</b>
                 </span>
               }
@@ -111,17 +127,22 @@ const HeaderPage = ({ showButton, homePage }) => {
 
             <NavDropdown
               title={
-                <span style={{
-                  fontSize: "16px"
-                }}>
+                <span
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
                   <FaUserCircle /> <b>{fullname}</b>
+                  <small
+                    style={{ fontSize: 8, display: "block", marginLeft: 18 }}
+                  >
+                    {policies.join(",")}
+                  </small>
                 </span>
               }
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item href="/perfil">
-                Perfil
-              </NavDropdown.Item>
+              <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
 
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logout}>Salir</NavDropdown.Item>

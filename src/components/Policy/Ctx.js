@@ -15,7 +15,7 @@ export const Provider = ({ children }) => {
   const location = useLocation();
 
   const [allPolicies, setAllPolcies] = useState([]);
-  const [policies, setPolcies] = useState([ROL_ASESOR]);
+  const [policies, setPolcies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingReal, setLoadingReal] = useState(true);
   const [username, setUsername] = useState("");
@@ -30,7 +30,7 @@ export const Provider = ({ children }) => {
     setFullname("");
     Promise.all([API.get("/auth-user/")])
       .then((response) => {
-        console.log(response[0].data)
+        console.log(response[0].data);
         //response[0].data.roles
         setPolcies(response[0].data.roles);
         setPersona(response[0].data.id_persona);
@@ -57,7 +57,10 @@ export const Provider = ({ children }) => {
 
   useEffect(() => {
     if (location.pathname == "/login") {
-      //setPolcies([])
+      setPolcies([]);
+      setUsername("");
+      setPersona("");
+      setFullname("");
     }
     if (!policies.length && location.pathname != "/login") {
       loadPolicies();

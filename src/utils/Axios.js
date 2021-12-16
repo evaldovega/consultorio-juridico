@@ -2,7 +2,7 @@ import axios from "axios";
 import { ACCESS_TOKEN_NAME } from "constants/apiContants";
 console.log(ACCESS_TOKEN_NAME);
 const getToken = () => `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`;
-//10.0.82.15 179.0.29.155
+//http://10.0.82.187 179.0.29.155
 export const baseUrl = "http://10.0.82.187:8000";
 
 const API = axios.create({

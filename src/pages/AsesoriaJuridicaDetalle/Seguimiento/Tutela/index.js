@@ -88,6 +88,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
         data: {
           c_tipoSeguimientoAccion: "TUTELA",
           r_asesoria_solicitudAsesoria: asesoriaId,
+          r_usuarios_persona: persona,
           ...payload,
         },
       });
@@ -118,6 +119,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
       setCargando(false);
     }
   };
+
   const onError = () => {
     toast.warn("Error al ingresar información");
   };
@@ -150,8 +152,10 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
   }, [show, doc]);
 
   useEffect(() => {
+    console.log({ actuacion: doc, persona });
     if (policies && policies.length) {
-      if (policyAllow([ROL_PERSONA], policies)) {
+      //policyAllow([ROL_PERSONA], policies) && doc && doc.r_usuarios_persona!=persona ||
+      if (doc && doc.r_usuarios_persona != persona) {
         setReadOnly(true);
       } else {
         setReadOnly(false);
@@ -159,7 +163,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
     } else {
       setReadOnly(true);
     }
-  }, [policies]);
+  }, [policies, doc]);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>

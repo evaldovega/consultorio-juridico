@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import Page from "components/Page";
 
 import PerfilMaster from "pages/Perfil/Master";
@@ -12,10 +13,13 @@ import Estudiantes from "./Estudiantes";
 import Actuaciones from "./Seguimiento/Actuaciones";
 import Compromisos from "./Compromiso";
 import { FcSerialTasks } from "react-icons/fc";
-import Policy from "components/Policy";
+import Policy, { policyAllow } from "components/Policy";
 import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
+import { Context } from "components/Policy/Ctx";
+
 const AsesoriaJuridicaDetalle = () => {
+  const { policies = [], persona } = useContext(Context);
   const { id: asesoriaId } = useParams();
   const [solicitanteId, setSolicitanteId] = useState("");
   const [caso, setCaso] = useState({});
@@ -112,16 +116,18 @@ const AsesoriaJuridicaDetalle = () => {
             </Card.Body>
           </Tab>
 
-          <Tab eventKey="asignados" title="Estudiantes asignados">
-            <br />
-            <Card.Body>
-              <Estudiantes
-                asesoriaId={asesoriaId}
-                caso={caso}
-                setCaso={setCaso}
-              />
-            </Card.Body>
-          </Tab>
+          {policies.includes(ROL_ESTUDIANTE) ? (
+            <Tab eventKey="asignados" title="Estudiantes asignados">
+              <br />
+              <Card.Body>
+                <Estudiantes
+                  asesoriaId={asesoriaId}
+                  caso={caso}
+                  setCaso={setCaso}
+                />
+              </Card.Body>
+            </Tab>
+          ) : null}
 
           <Tab eventKey="solicitante" title="Solicitante">
             <br />
@@ -149,16 +155,13 @@ const AsesoriaJuridicaDetalle = () => {
           {compromisoEstablecido ? (
             <Tab
               eventKey="seguimiento"
-              title={
-                <span>
-                  <FcSerialTasks /> Seguimiento
-                </span>
-              }
+              title={<span>Seguimiento / Muro de publicaciones</span>}
             >
               <Actuaciones
                 asesoriaId={asesoriaId}
                 caso={caso}
                 setCaso={setCaso}
+                persona={persona}
               />
             </Tab>
           ) : null}

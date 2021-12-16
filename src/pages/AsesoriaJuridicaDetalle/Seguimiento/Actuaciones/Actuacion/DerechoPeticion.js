@@ -5,8 +5,15 @@ import { Button, Card } from "react-bootstrap";
 import Spin from "../../../../../components/Spin";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
+import Footer from "./Footer";
 
-const DerechoPeticion = ({ actuacion, setEdit, anexos, anexoBorrado }) => {
+const DerechoPeticion = ({
+  actuacion,
+  setEdit,
+  anexos,
+  anexoBorrado,
+  persona = "",
+}) => {
   const borrarArchivo = async (archivo) => {
     console.log(archivo);
     setCargando(true);
@@ -31,8 +38,12 @@ const DerechoPeticion = ({ actuacion, setEdit, anexos, anexoBorrado }) => {
         />
 
         <p className="text-justify">
-          Radicado el:{" "}
-          <b>{moment(actuacion.dt_fechaRadicacion).format("LLL")}</b>{" "}
+          <b>Fecha radicado: </b>
+          {moment(actuacion.dt_fechaRadicacion).format("LLL")}
+          <br />
+          <b>Presentado a: </b>
+          {actuacion.a_entidadPresentacion}
+          <br />
           {actuacion.t_observacion}
         </p>
         <p className="text-justify">{actuacion.t_respuesta}</p>
@@ -45,18 +56,21 @@ const DerechoPeticion = ({ actuacion, setEdit, anexos, anexoBorrado }) => {
                   <a target="blank" href={a.f_archivoDocumento}>
                     {a.a_titulo}
                   </a>
-                  <Button
-                    size="sm"
-                    variant="danger"
-                    onClick={() => borrarArchivo(a)}
-                  >
-                    Borrar
-                  </Button>
+                  {a.r_usuarios_persona == persona ? (
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => borrarArchivo(a)}
+                    >
+                      Borrar
+                    </Button>
+                  ) : null}
                 </li>
               ))}
             </ul>
           </Card>
         ) : null}
+        <Footer actuacion={actuacion} />
         <div className="divider"></div>
       </div>
     </Spin>

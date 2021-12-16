@@ -31,23 +31,23 @@ import SolicitarAsesoria from "pages/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
-import AsignacionEmpleadosHome from "pages/AsignacionEmpleados"
-import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar"
-import ListadoAsignaciones from "pages/AsignacionEmpleados/Listado"
+import AsignacionEmpleadosHome from "pages/AsignacionEmpleados";
+import AsignarEmpleado from "pages/AsignacionEmpleados/Asignar";
+import ListadoAsignaciones from "pages/AsignacionEmpleados/Listado";
 
 import AutorizacionesHome from "pages/Autorizaciones";
 import Autorizar from "pages/Autorizaciones/Autorizar";
 import ListadoAutorizaciones from "pages/Autorizaciones/Listado";
 import GenerarCertificado from "pages/Autorizaciones/GenerarCertificado";
 import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
-import GenerarRemision from "pages/Autorizaciones/GenerarRemision"
-import ListadoRemisiones from "pages/Autorizaciones/ListaRemisiones"
-import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva"
-import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha"
-import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha"
+import GenerarRemision from "pages/Autorizaciones/GenerarRemision";
+import ListadoRemisiones from "pages/Autorizaciones/ListaRemisiones";
+import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva";
+import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha";
+import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha";
 
-import ReportesIndex from "pages/AsesoriaJuridica/Reportes"
-import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo"
+import ReportesIndex from "pages/AsesoriaJuridica/Reportes";
+import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo";
 import ReportePorDesempleo from "pages/AsesoriaJuridica/Reportes/ReportePorDesempleo";
 import ReporteRegistrados from "pages/AsesoriaJuridica/Reportes/ReporteRegistrados";
 import ReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
@@ -60,14 +60,15 @@ import ReporteProfesion from "pages/AsesoriaJuridica/Reportes/ReporteProfesion";
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
+import "moment/locale/es";
 import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
 import ScrollToTop from "components/ScrollTop";
-moment.locale("es");
 
 function App() {
+  moment.locale("es");
   return (
     <>
       <Router>
@@ -161,7 +162,10 @@ function App() {
             <PrivateRouter path="/asesoria-juridica/reportes/casos" exact>
               <ReporteCasosFecha />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/lugar-practicas" exact>
+            <PrivateRouter
+              path="/asesoria-juridica/reportes/lugar-practicas"
+              exact
+            >
               <ReporteLugarPractica />
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/reportes/edad" exact>
@@ -222,7 +226,10 @@ function App() {
             <PrivateRouter path="/autorizaciones/reporte-fecha" exact>
               <AutorizacionesPorFecha />
             </PrivateRouter>
-            <PrivateRouter path="/autorizaciones/reporte-remisiones-fecha" exact>
+            <PrivateRouter
+              path="/autorizaciones/reporte-remisiones-fecha"
+              exact
+            >
               <RemisionesPorFecha />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>

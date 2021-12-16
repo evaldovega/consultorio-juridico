@@ -45,7 +45,6 @@ const Login = ({ location, history }) => {
     setLoading(true);
     API.post("auth-user/", data)
       .then(({ data }) => {
-        console.log(JSON.stringify(data));
         localStorage.setItem(ACCESS_TOKEN_NAME, data.access_token);
         localStorage.setItem(USER_FULL_NAME, data.fullname);
         localStorage.setItem("username_id", data.id);

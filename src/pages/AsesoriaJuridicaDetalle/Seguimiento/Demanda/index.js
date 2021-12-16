@@ -90,6 +90,7 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
         data: {
           c_tipoSeguimientoAccion: "DEMANDA",
           r_asesoria_solicitudAsesoria: asesoriaId,
+          r_usuarios_persona: persona,
           ...payload,
         },
       });

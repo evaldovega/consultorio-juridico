@@ -11,7 +11,7 @@ const Header = ({ actuacion, titulo = "", setEdit }) => {
         variant="link"
         onClick={() => setEdit(actuacion)}
       >
-        Editar {titulo}
+        Ver {titulo}
       </Button>
     </div>
   );
