@@ -9,6 +9,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
+import { MDBDataTable } from 'mdbreact'
 
 const ListadoIncripciones = () => {
   const [docs, setDoc] = useState([]);
@@ -16,10 +17,42 @@ const ListadoIncripciones = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
+  const [headerTable, setHeaderTable] = useState([
+    {
+      label: 'No. de inscripción',
+      field: 'no_inscripcion'
+    },
+    {
+      label: 'Nombres y apellidos',
+      field: 'nombres_apellidos'
+    },
+    {
+      label: 'Tipo de documento',
+      field: 'tipo_documento'
+    },
+    {
+      label: 'Documento de identidad',
+      field: 'documento_identidad'
+    },
+    {
+      label: 'Fecha de expedición',
+      field: 'fecha_expedicion'
+    },
+  ])
+
+  const [tableData, setTableData] = useState([])
+
   const getInscripciones = async () => {
     API.get("estudiantes/inscripcion/").then((response) => {
       console.log(JSON.stringify(response.data));
       setDoc(response.data);
+      setTableData(response.data.map((d) => ({
+        "no_inscripcion": d.id,
+        "nombres_apellidos": `${d.r_usuarios_persona.a_primerNombre} ${d.r_usuarios_persona.a_segundoNombre} ${d.r_usuarios_persona.a_primerApellido} ${d.r_usuarios_persona.a_segundoApellido}`,
+        "tipo_documento": d.r_usuarios_persona.r_config_tipoDocumento,
+        "documento_identidad": d.r_usuarios_persona.a_numeroDocumento,
+        "fecha_expedicion": d.r_usuarios_persona.a_fechaExpedicionDocumento
+      })))
     });
   };
 
@@ -82,9 +115,9 @@ const ListadoIncripciones = () => {
       onFilter: (value, record) =>
         record[dataIndex]
           ? record[dataIndex]
-              .toString()
-              .toLowerCase()
-              .includes(value.toLowerCase())
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
           : "",
       onFilterDropdownVisibleChange: (visible) => {
         if (visible) {
@@ -149,35 +182,22 @@ const ListadoIncripciones = () => {
                 ></Spinner>
               </div>
             )}
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>No. inscripción</th>
-                  <th>Fecha inscripción</th>
-                  <th>Nombres y apellidos</th>
-                  <th>Consultorio</th>
-                  <th>Turno</th>
-                </tr>
-              </thead>
-              <tbody>
-                {docs.map((d) => (
-                  <tr>
-                    <td>{d.id}</td>
-                    <td>{d.dt_fechaInscripcion}</td>
-                    <td>
-                      <Link
-                        to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
-                      >
-                        {d.r_usuarios_persona.a_primerNombre}{" "}
-                        {d.r_usuarios_persona.a_primerApellido}
-                      </Link>
-                    </td>
-                    <td>{d.a_numeroConsultorio}</td>
-                    <td>{d.a_turno}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <MDBDataTable
+              hover
+              entriesOptions={[3, 5, 20, 25]}
+              entries={3}
+              entriesLabel="Mostrar entradas"
+              searchLabel="Buscar"
+              infoLabel={["Mostrando", "a", "de", "entradas"]}
+              noRecordsFoundLabel="No se han encontrado registros."
+              paginationLabel={["Anterior", "Siguiente"]}
+              pagesAmount={4}
+              data={{
+                columns: headerTable,
+                rows: tableData
+              }}
+              fullPagination
+            />
           </Card.Body>
         </Card>
       </Page>

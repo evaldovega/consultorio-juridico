@@ -3,10 +3,10 @@ import { ACCESS_TOKEN_NAME } from "constants/apiContants";
 console.log(ACCESS_TOKEN_NAME);
 const getToken = () => `Bearer ${localStorage.getItem(ACCESS_TOKEN_NAME)}`;
 //10.0.82.89 179.0.29.155
-export const baseUrl = "http://10.0.82.15:8000";
+export const baseUrl = "http://192.168.0.108:8000";
 
 const API = axios.create({
-  baseURL: "http://10.0.82.15:8000/api/",
+  baseURL: "http://192.168.0.108:8000/api/",
   headers: {
     "Content-Type": "application/json",
   },
