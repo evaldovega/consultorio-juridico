@@ -16,8 +16,8 @@ const Parte = ({
   idConciliacion,
   setValue,
 }) => {
-  const row = getValues(`${name}.${index}`);
-
+  //const row = getValues(`${name}.${index}`);
+  console.log({ field });
   return (
     <div>
       <Controller
@@ -25,14 +25,16 @@ const Parte = ({
         control={control}
         render={({ field }) => <input type="hidden" {...field} />}
       />
-      {idConciliacion && row.id ? (
+      {field.id && !isNaN(field.id) ? (
         <Controller
           name={`${name}.${index}.id`}
           control={control}
           render={({ field }) => <input type="hidden" {...field} />}
         />
-      ) : null}
-      <PersonaDetailRow allowRemove={true} id={row[id]} onRemove={onRemove} />
+      ) : (
+        <p className="text-success">Nuevo!</p>
+      )}
+      <PersonaDetailRow allowRemove={true} id={field[id]} onRemove={onRemove} />
 
       <h6>Apoderado</h6>
       <Row className="mb-1">

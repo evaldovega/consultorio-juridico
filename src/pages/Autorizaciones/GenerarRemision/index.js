@@ -11,12 +11,14 @@ import {
     Accordion,
     Row,
     Col,
+    Table
 } from "react-bootstrap";
 import PerfilMaster from "pages/Perfil/Master";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
+import Select from 'react-select';
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -28,7 +30,7 @@ const GenerarRemision = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
-    const [personaId, setPersonaId] = useState("");
+    const [personaId, setPersonaId] = useState([""]);
     const [personas, setPersonas] = useState([])
     const [inscripciones, setInscripciones] = useState([])
     const [jornadas, setJornadas] = useState([])
@@ -37,6 +39,8 @@ const GenerarRemision = () => {
     const [empleados, setEmpleados] = useState([])
     const [autoridades, setAutoridades] = useState([])
     const [directores, setDirectores] = useState([])
+    const [cedula, setCedula] = useState("")
+    const [idEstudiante, setIdEstudiante] = useState("")
 
     const formPersona = useRef();
     const formAsesoria = useRef();
@@ -58,10 +62,10 @@ const GenerarRemision = () => {
             .then(response => {
                 setConsultorios(response.data)
             })
-        API.get('estudiantes/inscripcion/')
-            .then(response => {
-                setInscripciones(response.data)
-            })
+        // API.get('estudiantes/inscripcion/')
+        //     .then(response => {
+        //         setInscripciones(response.data)
+        //     })
         API.get('usuarios/empleados/empleadoscargos/?director=true')
             .then(response => {
                 setDirectores(response.data)
@@ -76,10 +80,21 @@ const GenerarRemision = () => {
             })
     }
 
+    const getInscripciones = async () => {
+        setInscripciones([])
+        await API.get('/estudiantes/inscripcion/')
+        .then(response => {
+            console.log(response.data)
+            setInscripciones(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento.includes(cedula)))
+            setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.id))[0])
+        })
+    }
+
     const guardarAsesoria = async (data) => {
         setLoading(true);
         const _data = {
-            ...data
+            ...data,
+            "r_usuarios_estudiante": idEstudiante
         };
         console.log(_data);
         API({
@@ -190,7 +205,7 @@ const GenerarRemision = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
+        <Policy policy={[]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -217,7 +232,46 @@ const GenerarRemision = () => {
                                     <span>Datos de la remisión</span>
                                 </h2>
                                 <Row className="mb-3">
-                                    <Controller
+                                    <Form.Group as={Col} xs="12" md="7">
+                                        <label>Cédula del estudiante</label>
+                                        <span style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            gap: "20px"
+                                        }}>
+                                            <input 
+                                                className="form-control"
+                                                value={cedula}
+                                                onChange={e => setCedula(e.target.value)}
+                                            />
+                                            <Button onClick={() => getInscripciones()}>
+                                                Buscar
+                                            </Button>
+                                        </span>
+                                    </Form.Group>
+                                    {inscripciones.length > 0 && (
+                                        <Form.Group as={Col} xs="12" md="12">
+                                            <Table striped bordered hover>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Documento</th>
+                                                        <th>Nombre del estudiante</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {inscripciones.map((el) => (
+                                                        <tr>
+                                                            <td>{el.r_usuarios_persona.a_numeroDocumento}</td>
+                                                            <td>{el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </Table>
+                                        </Form.Group>
+                                    )}
+                                </Row>
+                                <Row className="mb-3">
+                                    {/* <Controller
                                         name="r_usuarios_estudiante"
                                         control={control}
                                         render={({ field }) => (
@@ -228,13 +282,13 @@ const GenerarRemision = () => {
                                                 <Form.Control as="select" {...field}>
                                                     <option value="">Seleccione...</option>
                                                     {inscripciones.map((el) => (
-                                                        <option value={el.id}>{el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</option>
+                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido} </option>
                                                     ))}
                                                 </Form.Control>
                                                 <Errors message={errors?.ht_horaAsesoria?.message} />
                                             </Form.Group>
                                         )}
-                                    />
+                                    /> */}
                                     <Controller
                                         name="a_numeroRemision"
                                         control={control}

@@ -43,6 +43,19 @@ import ListadoCertificados from "pages/Autorizaciones/ListaCertificados";
 import GenerarRemision from "pages/Autorizaciones/GenerarRemision"
 import ListadoRemisiones from "pages/Autorizaciones/ListaRemisiones"
 import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva"
+import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha"
+import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha"
+
+import ReportesIndex from "pages/AsesoriaJuridica/Reportes"
+import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo"
+import ReportePorDesempleo from "pages/AsesoriaJuridica/Reportes/ReportePorDesempleo";
+import ReporteRegistrados from "pages/AsesoriaJuridica/Reportes/ReporteRegistrados";
+import ReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
+import ReporteLugarPractica from "pages/AsesoriaJuridica/Reportes/ReporteLugarPractica";
+import ReportePorEdad from "pages/AsesoriaJuridica/Reportes/ReportePorEdad";
+import ReporteOrientacion from "pages/AsesoriaJuridica/Reportes/ReporteOrientacion";
+import ReportePorEtnia from "pages/AsesoriaJuridica/Reportes/ReportePorEtnia";
+import ReporteProfesion from "pages/AsesoriaJuridica/Reportes/ReporteProfesion";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -133,6 +146,37 @@ function App() {
             <PrivateRouter path="/asesoria-juridica/formato-registro" exact>
               <FormatoRegistro />
             </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes" exact>
+              <ReportesIndex />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/sexo" exact>
+              <ReportePorSexo />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/desempleo" exact>
+              <ReportePorDesempleo />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/registrados" exact>
+              <ReporteRegistrados />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/casos" exact>
+              <ReporteCasosFecha />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/lugar-practicas" exact>
+              <ReporteLugarPractica />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/edad" exact>
+              <ReportePorEdad />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/orientacion" exact>
+              <ReporteOrientacion />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/etnia" exact>
+              <ReportePorEtnia />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/profesion" exact>
+              <ReporteProfesion />
+            </PrivateRouter>
+
             <PrivateRouter path="/asignacion-empleados" exact>
               <AsignacionEmpleadosHome />
             </PrivateRouter>
@@ -174,6 +218,12 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones/lista-remisiones" exact>
               <ListadoRemisiones />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/reporte-fecha" exact>
+              <AutorizacionesPorFecha />
+            </PrivateRouter>
+            <PrivateRouter path="/autorizaciones/reporte-remisiones-fecha" exact>
+              <RemisionesPorFecha />
             </PrivateRouter>
             <PrivateRouter path="/perfil" exact>
               <Perfil />

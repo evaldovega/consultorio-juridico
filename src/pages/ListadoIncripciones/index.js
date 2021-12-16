@@ -3,19 +3,50 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
-import { Breadcrumb, Card, Table, Spinner } from "react-bootstrap";
+import { Breadcrumb, Card, Table, Spinner, Row, Col } from "react-bootstrap";
 
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
+<<<<<<< HEAD
 import { MDBDataTable } from 'mdbreact'
+=======
+import { MDBDataTable } from 'mdbreact';
+import { ExportToExcel } from 'components/ExportToExcel'
+>>>>>>> 6ab06b4f3163468e6e333ab645e32890177f6826
 
 const ListadoIncripciones = () => {
   const [docs, setDoc] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [fechaInicial, setFechaInicial] = useState("")
+  const [fechaFinal, setFechaFinal] = useState("")
+
+  const [headerTable, setHeaderTable] = useState([
+    {
+      label: "No. inscripción",
+      field: "no_inscripcion"
+    },
+    {
+      label: "Fecha inscripción",
+      field: "fecha_inscripcion"
+    },
+    {
+      label: "Nombres y apellidos",
+      field: "nombres_apellidos"
+    },
+    {
+      label: "Consultorio",
+      field: "consultorio"
+    },
+    {
+      label: "Turno",
+      field: "turno"
+    },
+  ])
+  const [tableData, setTableData] = useState([])
 
   const [headerTable, setHeaderTable] = useState([
     {
@@ -44,17 +75,21 @@ const ListadoIncripciones = () => {
 
   const getInscripciones = async () => {
     API.get("estudiantes/inscripcion/").then((response) => {
-      console.log(JSON.stringify(response.data));
-      setDoc(response.data);
       setTableData(response.data.map((d) => ({
         "no_inscripcion": d.id,
+        "fecha_inscripcion": d.dt_fechaInscripcion,
         "nombres_apellidos": `${d.r_usuarios_persona.a_primerNombre} ${d.r_usuarios_persona.a_segundoNombre} ${d.r_usuarios_persona.a_primerApellido} ${d.r_usuarios_persona.a_segundoApellido}`,
-        "tipo_documento": d.r_usuarios_persona.r_config_tipoDocumento,
-        "documento_identidad": d.r_usuarios_persona.a_numeroDocumento,
-        "fecha_expedicion": d.r_usuarios_persona.a_fechaExpedicionDocumento
-      })))
+        "consultorio": d.a_numeroConsultorio,
+        "turno": d.a_turno
+      })));
     });
   };
+
+  const testdates = () => {
+    console.log(Date.parse(fechaInicial))
+    console.log(Date.parse(fechaFinal))
+    console.log(Date.parse('2021-08-16'))
+  }
 
   const getColumnSearchProps = (dataIndex) => {
     let searchInput;
@@ -173,6 +208,33 @@ const ListadoIncripciones = () => {
 
         <Card>
           <Card.Body>
+            <h2 className="title-line" style={{ marginTop: 10 }}>
+              <span>Listado de inscripciones</span>
+            </h2>
+            <Row className="mb-3">
+              <Col xs="12" md="6">
+                <label><b>Desde</b></label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="fecha-inicio"
+                  onChange={e => setFechaInicial(e.target.value)}
+                />
+              </Col>
+              <Col xs="12" md="6">
+                <label><b>Hasta</b></label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="fecha-inicio"
+                  onChange={e => setFechaFinal(e.target.value)}
+                />
+              </Col>
+            </Row>
+            <ExportToExcel 
+              apiData={tableData.filter(el => Date.parse(fechaInicial) < Date.parse(el.fecha_inscripcion) && Date.parse(el.fecha_inscripcion) < Date.parse(fechaFinal))}
+              fileName="documento" 
+            />
             {loading && (
               <div className="d-flex justify-content-center">
                 <Spinner
@@ -184,8 +246,8 @@ const ListadoIncripciones = () => {
             )}
             <MDBDataTable
               hover
-              entriesOptions={[3, 5, 20, 25]}
-              entries={3}
+              entriesOptions={[5, 15, 25]}
+              entries={15}
               entriesLabel="Mostrar entradas"
               searchLabel="Buscar"
               infoLabel={["Mostrando", "a", "de", "entradas"]}

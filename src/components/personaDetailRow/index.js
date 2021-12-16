@@ -1,7 +1,7 @@
 import { Row, Col, Form, Image, Button } from "react-bootstrap";
 import { useEffect } from "react";
 import { useState } from "react";
-import API from "utils/Axios";
+import API, { baseUrl } from "utils/Axios";
 import { FaTrash } from "react-icons/fa";
 
 const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
@@ -29,7 +29,7 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
     <Row className="mb-2 align-items-center">
       <Col>
         <div className="circle-profile" style={{ width: 64, height: 64 }}>
-          <Image src={doc.f_archivoFotoPerfil} />
+          <Image src={`${baseUrl}/${doc.f_archivoFotoPerfil}`} />
         </div>
       </Col>
       <Col xs="6" md="3">

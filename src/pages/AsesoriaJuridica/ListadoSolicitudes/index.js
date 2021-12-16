@@ -31,7 +31,7 @@ const ListadoSolicitudes = () => {
   }, []);
 
   return (
-    <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+    <Policy policy={[]}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>

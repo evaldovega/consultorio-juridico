@@ -11,12 +11,14 @@ import {
     Accordion,
     Row,
     Col,
+    Table
 } from "react-bootstrap";
 import PerfilMaster from "pages/Perfil/Master";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
+import AccessDenied from "components/Policy/AccessDenied";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -37,49 +39,58 @@ const Autorizar = () => {
     const [empleados, setEmpleados] = useState([])
     const [autoridades, setAutoridades] = useState([])
     const [directores, setDirectores] = useState([])
+    const [cedula, setCedula] = useState("")
+    const [idEstudiante, setIdEstudiante] = useState("")
 
     const formPersona = useRef();
     const formAsesoria = useRef();
 
     const loadSelectData = async () => {
-        API.get('usuarios/personas/?personal_admin=true')
+        await API.get('usuarios/personas/?personal_admin=true')
             .then(response => {
                 setPersonas(response.data)
             })
-        API.get('configuracion/jornadas/')
+        await API.get('configuracion/jornadas/')
             .then(response => {
                 setJornadas(response.data)
             })
-        API.get('configuracion/grupo/')
+        await API.get('configuracion/grupo/')
             .then(response => {
                 setGrupos(response.data)
             })
-        API.get('configuracion/consultorio/')
+        await API.get('configuracion/consultorio/')
             .then(response => {
                 setConsultorios(response.data)
             })
-        API.get('estudiantes/inscripcion/')
-            .then(response => {
-                setInscripciones(response.data)
-            })
-        API.get('usuarios/empleados/empleadoscargos/?director=true')
+        await API.get('usuarios/empleados/empleadoscargos/?director=true')
             .then(response => {
                 setDirectores(response.data)
             })
-        API.get('usuarios/empleados/empleadoscargos/')
+        await API.get('usuarios/empleados/empleadoscargos/')
             .then(response => {
                 setEmpleados(response.data)
             })
-        API.get('configuracion/entidad/')
+        await API.get('configuracion/entidad/')
             .then(response => {
                 setAutoridades(response.data)
             })
     }
 
+    const getInscripciones = async () => {
+        setInscripciones([])
+        await API.get('/estudiantes/inscripcion/')
+        .then(response => {
+            console.log(response.data)
+            setInscripciones(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento.includes(cedula)))
+            setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.id))[0])
+        })
+    }
+
     const guardarAsesoria = async (data) => {
         setLoading(true);
         const _data = {
-            ...data
+            ...data,
+            "r_estudiante": idEstudiante
         };
         console.log(_data);
         API({
@@ -190,7 +201,7 @@ const Autorizar = () => {
     }, [id]);
 
     return (
-        <Policy policy={[ROL_ADMIN]}>
+        <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -216,7 +227,45 @@ const Autorizar = () => {
                                 <h2 className="title-line">
                                     <span>Datos de la autorización</span>
                                 </h2>
-
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} xs="12" md="7">
+                                        <label>Cédula del estudiante</label>
+                                        <span style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            gap: "20px"
+                                        }}>
+                                            <input 
+                                                className="form-control"
+                                                value={cedula}
+                                                onChange={e => setCedula(e.target.value)}
+                                            />
+                                            <Button onClick={() => getInscripciones()}>
+                                                Buscar
+                                            </Button>
+                                        </span>
+                                    </Form.Group>
+                                    {inscripciones.length > 0 && (
+                                        <Form.Group as={Col} xs="12" md="12">
+                                            <Table striped bordered hover>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Documento</th>
+                                                        <th>Nombre del estudiante</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {inscripciones.map((el) => (
+                                                        <tr>
+                                                            <td>{el.r_usuarios_persona.a_numeroDocumento}</td>
+                                                            <td>{el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </Table>
+                                        </Form.Group>
+                                    )}
+                                </Row>
                                 <Row className="mb-3">
                                     <Controller
                                         name="a_numeroRadicado"
@@ -241,24 +290,6 @@ const Autorizar = () => {
                                                 </Form.Label>
                                                 <Form.Control type="date" {...field} />
                                                 <Errors message={errors?.dt_fechaAsesoria?.message} />
-                                            </Form.Group>
-                                        )}
-                                    />
-                                    <Controller
-                                        name="r_estudiante"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Form.Group as={Col} xs="12" md="6">
-                                                <Form.Label>
-                                                    Estudiante
-                                                </Form.Label>
-                                                <Form.Control as="select" {...field}>
-                                                    <option value="">Seleccione...</option>
-                                                    {inscripciones.map((el) => (
-                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido}</option>
-                                                    ))}
-                                                </Form.Control>
-                                                <Errors message={errors?.ht_horaAsesoria?.message} />
                                             </Form.Group>
                                         )}
                                     />

@@ -203,7 +203,7 @@ label {
   height: 2px;
   margin-top: 16px;
   margin-bottom: 16px;
-  background-color: #d07400;
+  background-color: #d0740038;
 }
 
 .landing-footer {
@@ -543,7 +543,6 @@ a{
 @media only screen and (max-height: 700px) {
   .container {
     max-width: 960px;
-    max-height: 500px;
   }
 }
 

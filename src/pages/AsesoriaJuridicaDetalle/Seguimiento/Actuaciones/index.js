@@ -12,6 +12,9 @@ import moment from "moment";
 import Nota from "../Nota";
 import Tutela from "../Tutela";
 import Demanda from "../Demanda";
+
+import Actuacion from "./Actuacion";
+
 import Policy from "components/Policy";
 import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 
@@ -23,6 +26,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const [mostrarDemanda, setMostrarDemanda] = useState(false);
 
   const [seguimientos, setSeguimientos] = useState([]);
+  const [docsanexos, setDocsAnexos] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [doc, setDoc] = useState(null);
 
@@ -49,18 +53,47 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
   const cargar = async () => {
     try {
       setCargando(true);
-      const { data } = await API(
-        `asesorias/seguimiento/?num_asesoria=${asesoriaId}`
+      await API.get(`asesorias/seguimiento/?num_asesoria=${asesoriaId}`).then(
+        (response) => {
+          setSeguimientos(response.data);
+          console.log(response.data);
+        }
       );
-      setSeguimientos(data);
       setCargando(false);
+      await API.get("/asesorias/docsanexos/").then((response) => {
+        console.log(response.data);
+        setDocsAnexos(response.data);
+        console.log(
+          response.data.filter((el) => el.r_asesoria_seguimientoAsesoria === 11)
+        );
+      });
     } catch (error) {
       setCargando(false);
     }
   };
 
+  const onArchivo = (archivo) => {
+    const index = docsanexos.findIndex((s) => s.id == archivo.id);
+    if (index < 0) {
+      setDocsAnexos([...docsanexos, archivo]);
+    } else {
+      setDocsAnexos(
+        docsanexos.map((s, i) => {
+          if (i == index) {
+            return archivo;
+          }
+          return s;
+        })
+      );
+    }
+  };
+
   const onSave = (seguimiento) => {
     const index = seguimientos.findIndex((s) => s.id == seguimiento.id);
+    if (seguimiento.archivoSubido) {
+      onArchivo(seguimiento.archivoSubido);
+      delete seguimiento.archivoSubido;
+    }
     if (index < 0) {
       setSeguimientos([...seguimientos, seguimiento]);
     } else {
@@ -73,6 +106,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
         })
       );
     }
+  };
+
+  const anexoBorrado = (id) => {
+    setDocsAnexos(docsanexos.filter((d) => d.id != id));
   };
 
   const setEdit = (seguimiento) => {
@@ -134,7 +171,7 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
 
       <Card.Body style={{ height: 400, overflowY: "scroll" }}>
         {!seguimientos.length && (
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
             <div className="text-center h-100 d-flex flex-column justify-content-center">
               <h5 className="mb-4">Aquí inicia el proceso!</h5>
               <p>Añade actuaciones para llevar el seguimiento del caso</p>
@@ -147,126 +184,64 @@ const Actuaciones = ({ asesoriaId, caso, setCaso }) => {
           </Policy>
         )}
         {seguimientos.map((s) => {
+          const anexos = docsanexos.filter(
+            (a) => a.r_asesoria_seguimientoAsesoria == s.id
+          );
+
           switch (s.c_tipoSeguimientoAccion) {
             case "NOTA":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    <FcComments />
-                    Nota
-                  </div>
-
-                  <p>
-                    <b>{moment(s.sys_fechaCreacion).format("LLL")}</b>{" "}
-                    {s.t_observacion}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.Nota
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                />
               );
               break;
             case "CITA":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    <FcAlarmClock />
-                    Cita
-                  </div>
-                  <p>
-                    <b>{moment(s.dt_fechaNuevaCita).format("LLL")}</b>{" "}
-                    {s.t_observacion}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.Cita
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                />
               );
               break;
             case "DERECHO_PETICION":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    Derecho de petición
-                  </div>
-
-                  <p className="text-justify">
-                    <b>{moment(s.dt_fechaRadicacion).format("LLL")}</b>{" "}
-                    {s.t_observacion}
-                  </p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.DerechoPeticion
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
               );
               break;
             case "TUTELA":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center ">
-                    Tutela
-                  </div>
-
-                  <p className="text-justify">
-                    <b>
-                      <i>{moment(s.dt_fechaRadicacionTutela).format("LLL")}</i>
-                    </b>{" "}
-                    {s.t_observacion}
-                  </p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.Tutela
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
               );
               break;
             case "DEMANDA":
               return (
-                <div className="mb-3 mt-3">
-                  <div className="header-notebook mb-2 font-weight-bold d-flex align-items-center">
-                    Demanda
-                  </div>
-                  <h5>{moment(s.dt_fechaRadicaciona).format("LLL")}</h5>
-                  <p className="text-justify">{s.t_observacion}</p>
-                  <p className="text-justify">
-                    {s.t_respuesta}{" "}
-                    <Button
-                      className="btn-sm"
-                      variant="link"
-                      onClick={() => setEdit(s)}
-                    >
-                      <FaPenAlt />
-                    </Button>
-                  </p>
-                </div>
+                <Actuacion.Demanda
+                  actuacion={s}
+                  setEdit={setEdit}
+                  anexos={anexos}
+                  anexoBorrado={anexoBorrado}
+                />
               );
               break;
           }
         })}
       </Card.Body>
 
-      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
         <Card.Footer>
           <div className="text-center mt-4">
             <Dropdown>

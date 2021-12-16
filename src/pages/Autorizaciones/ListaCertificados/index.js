@@ -57,7 +57,7 @@ const ListadoCertificados = () => {
                 "director": `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
                 "fecha": el.dt_fechaProceso,
                 "acciones": <span>
-                    <a href={`http://localhost:8000/doc_certificacion/${el.id}/`}>
+                    <a href={`http://179.0.29.155:8000/doc_certificacion/${el.id}/`}>
                         <PrinterOutlined style={{
                             fontSize: "20px",
                             marginRight: "20px"
@@ -199,7 +199,7 @@ const ListadoCertificados = () => {
     }, []);
 
     return (
-        <Policy policy={[ROL_ADMIN]}>
+        <Policy policy={[]}>
             <Page>
                 <Breadcrumb>
                     <Breadcrumb.Item>
@@ -227,8 +227,8 @@ const ListadoCertificados = () => {
                         )}
                         <MDBDataTable
                             hover
-                            entriesOptions={[5, 20, 25]}
-                            entries={5}
+                            entriesOptions={[5, 15, 20, 25]}
+                            entries={15}
                             entriesLabel="Mostrar entradas"
                             searchLabel="Buscar"
                             infoLabel={["Mostrando", "a", "de", "entradas"]}

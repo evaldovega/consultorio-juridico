@@ -132,15 +132,15 @@ const ListadoAsignaciones = () => {
                         <Link to="/">Inicio</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        <Link to="/autorizaciones">Autorizaciones</Link>
+                        <Link to="/asignacion-empleados">Asignaciones</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Listado de autorizaciones</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Listado de asignaciones</Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Card>
                     <Card.Body>
                         <h2 className="title-line" style={{marginTop: 10}}>
-                            <span>Listado de autorizaciones</span>
+                            <span>Listado de asignaciones</span>
                         </h2>
                         {loading && (
                             <div className="d-flex justify-content-center">

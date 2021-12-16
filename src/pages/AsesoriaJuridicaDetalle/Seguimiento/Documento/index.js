@@ -14,7 +14,7 @@ import {
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
 
-const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
+const Documento = ({ show, setShow, asesoriaId, onSave, doc }) => {
   const {
     register,
     control,
@@ -31,125 +31,71 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
   });
   const [cargando, setCargando] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
-  const { policies, persona } = useContext(Context);
-  const archivo = watch("f_archivo");
+  const { policies } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
   };
 
-  const anexoSeleccionado = (e) => {
-    var reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = function () {
-      setValue("f_archivo", {
-        f_archivo: reader.result,
-        a_titulo: e.target.files[0].name,
-      });
-      e.target.value = "";
-    };
-  };
-
-  const subirArchivo = async ({
-    f_archivo,
-    a_titulo,
-    asesoriaId,
-    seguimiento,
-  }) => {
-    try {
-      const { data } = await API.post(`asesorias/docsanexos/`, {
-        f_archivo,
-        a_titulo,
-        b_reservaLegal: false,
-        r_usuarios_persona: persona,
-        r_asesoria_solicitudAsesoria: asesoriaId,
-        r_asesoria_seguimientoAsesoria: seguimiento,
-      });
-      return data;
-    } catch (error) {
-      toast.error(error.toString());
-    }
-  };
-
   const guardar = async (payload) => {
     try {
-      const archivoASubir = payload.f_archivo;
-      delete payload.f_archivo;
-      let archivoSubido = null;
-
       setCargando(true);
       const method = doc ? "patch" : "post";
       const url = doc
         ? `asesorias/seguimiento/${doc.id}/`
         : "asesorias/seguimiento/";
+
       const { data } = await API({
         url,
         method,
         data: {
-          c_tipoSeguimientoAccion: "DERECHO_PETICION",
+          c_tipoSeguimientoAccion: "DEMANDA",
           r_asesoria_solicitudAsesoria: asesoriaId,
           ...payload,
         },
       });
-      if (archivoASubir) {
-        archivoSubido = await subirArchivo({
-          ...archivoASubir,
-          asesoriaId: data.r_asesoria_solicitudAsesoria,
-          seguimiento: data.id,
-        });
-      }
       setCargando(false);
-      setValue("f_archivo", "");
       setValue("t_observacion", "");
       setValue("t_respuesta", "");
+      setValue("a_reparto", "");
       setValue("dt_fechaRadicacion", "");
-      setValue("a_entidadPresentacion", "");
+      setValue("a_contraQuien", "");
+      setValue("dt_fechaFallo", "");
       setShow(false);
-      onSave({ ...data, archivoSubido });
+      onSave(data);
     } catch (error) {
       console.log(error);
       toast.error(error.toString());
       setCargando(false);
     }
   };
-
   const onError = () => {
     toast.warn("Error al ingresar información");
   };
 
   useEffect(() => {
     if (show && doc) {
-      setValue("f_archivo", "");
       setValue("t_observacion", doc.t_observacion);
       setValue("t_respuesta", doc.t_respuesta);
+      setValue("a_reparto", doc.a_reparto);
       setValue("dt_fechaRadicacion", doc.dt_fechaRadicacion);
-      setValue("a_entidadPresentacion", doc.a_entidadPresentacion);
+      setValue("a_contraQuien", doc.a_contraQuien);
+      setValue("dt_fechaFallo", doc.dt_fechaFallo);
     } else {
-      setValue("f_archivo", "");
       setValue("t_observacion", "");
       setValue("t_respuesta", "");
+      setValue("a_reparto", "");
       setValue("dt_fechaRadicacion", "");
-      setValue("a_entidadPresentacion", "");
+      setValue("a_contraQuien", "");
+      setValue("dt_fechaFallo", "");
     }
   }, [show, doc]);
-
-  useEffect(() => {
-    if (policies && policies.length) {
-      if (policyAllow([ROL_PERSONA], policies)) {
-        setReadOnly(true);
-      } else {
-        setReadOnly(false);
-      }
-    } else {
-      setReadOnly(true);
-    }
-  }, [policies]);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
       <Form noValidate onSubmit={handleSubmit(guardar, onError)}>
         <Modal.Header closeButton={!cargando}>
-          <Modal.Title>Presentar Derecho de petición</Modal.Title>
+          <Modal.Title>Presentar demanda</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-2">
@@ -177,26 +123,65 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
             <Col xs="12" md="6">
               <Controller
-                name="a_entidadPresentacion"
+                name="a_contraQuien"
                 control={control}
                 defaultValue=""
                 rules={{ required: "Ingrese información" }}
                 render={({ field }) => (
                   <Form.Group>
                     <Form.Label>
-                      Entidad a la que se presenta <span className="required" />
+                      Contra quien <span className="required" />
                     </Form.Label>
                     <Form.Control
                       {...field}
                       disabled={cargando || readOnly}
                       plaintext={readOnly}
                     />
-                    <Errors message={errors?.a_entidadPresentacion?.message} />
+                    <Errors message={errors?.a_contraQuien?.message} />
                   </Form.Group>
                 )}
               />
             </Col>
           </Row>
+
+          <Row>
+            <Col xs="12" md="6">
+              <Controller
+                name="a_reparto"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Form.Group>
+                    <Form.Label>Reparto</Form.Label>
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                    />
+                  </Form.Group>
+                )}
+              />
+            </Col>
+            <Col xs="12" md="6">
+              <Controller
+                name="dt_fechaFallo"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Form.Group>
+                    <Form.Label>Fallo</Form.Label>
+                    <Form.Control
+                      {...field}
+                      disabled={cargando || readOnly}
+                      plaintext={readOnly}
+                      type="date"
+                    />
+                  </Form.Group>
+                )}
+              />
+            </Col>
+          </Row>
+
           <Row>
             <Col xs="12">
               <Controller
@@ -213,8 +198,8 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       {...field}
                       disabled={cargando || readOnly}
                       plaintext={readOnly}
-                      rows="6"
                       as="textarea"
+                      rows="6"
                     />
                     <Errors message={errors?.t_observacion?.message} />
                   </Form.Group>
@@ -230,9 +215,7 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
                 defaultValue=""
                 render={({ field }) => (
                   <Form.Group>
-                    <Form.Label>
-                      Respuesta <span className="required" />
-                    </Form.Label>
+                    <Form.Label>Respuesta</Form.Label>
                     <Form.Control
                       {...field}
                       disabled={cargando || readOnly}
@@ -240,29 +223,8 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       as="textarea"
                       rows="6"
                     />
-                    <Errors message={errors?.t_respuesta?.message} />
                   </Form.Group>
                 )}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Label>
-                Anexo <span className="required" />
-              </Form.Label>
-              {archivo ? <p>{archivo.a_titulo}</p> : ""}
-              <Form.Control
-                type="file"
-                onChange={anexoSeleccionado}
-                disabled={cargando || readOnly}
-                plaintext={readOnly}
-              />
-              <Controller
-                name="f_archivo"
-                control={control}
-                defaultValue=""
-                render={({ field }) => <input {...field} type="hidden" />}
               />
             </Col>
           </Row>
@@ -279,4 +241,4 @@ const PresentarDerecho = ({ show, setShow, asesoriaId, onSave, doc }) => {
   );
 };
 
-export default PresentarDerecho;
+export default Documento;

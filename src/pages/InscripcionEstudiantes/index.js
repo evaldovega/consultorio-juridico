@@ -31,7 +31,7 @@ const InscripcionEstudiantes = ({ params }) => {
   const [form] = useForm();
 
   return (
-    <Policy policy={[ROL_ASESOR, ROL_ADMIN]} feedback={<AccessDenied />}>
+    <Policy policy={[]} feedback={<AccessDenied />}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>

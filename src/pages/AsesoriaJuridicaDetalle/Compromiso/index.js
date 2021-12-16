@@ -50,6 +50,7 @@ const Compromisos = ({ asesoriaId, caso, setCaso }) => {
   //const readOnly = caso?.t_recomendaciones?.length ? true : false;
 
   useEffect(() => {
+    console.log(caso.mm_estudiantesAsignados, personaId);
     if (caso) {
       console.log(caso);
       setValue("t_recomendaciones", caso.t_recomendaciones);

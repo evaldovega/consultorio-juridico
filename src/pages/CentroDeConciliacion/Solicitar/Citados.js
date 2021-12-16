@@ -16,7 +16,6 @@ const Citados = ({ control, setValue, getValues, watch }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [listado, setListado] = useState([]);
-  const citados = watch("citados", []);
 
   const abirFormularioPersona = () => {
     setMostrarModal(true);
