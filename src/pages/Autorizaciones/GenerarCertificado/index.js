@@ -84,10 +84,10 @@ const GenerarCertificado = () => {
         //     setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.r_usuarios_persona.id))[0])
         // })
 
-        await API.get('/academusoft/estudiantes/')
+        await API.post('/academusoft/estudiantes/', {estudiante: cedula})
         .then(response => {
-            setInscripciones(response.data)
-            setIdEstudiante(response.data.map(el => (el.id))[0])
+            setInscripciones([response.data])
+            setIdEstudiante([response.data].map(el => (el.id))[0])
         })
 
         // inscripciones.map((el) => (
