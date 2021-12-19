@@ -6,18 +6,21 @@ import Spin from "../../../../../components/Spin";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Footer from "./Footer";
+import { CONFIRM_BORRAR_ARCHIVO } from "constants/apiContants";
 
 const Tutela = ({ actuacion, setEdit, anexos, anexoBorrado, persona = "" }) => {
   const borrarArchivo = async (archivo) => {
-    setCargando(true);
-    try {
-      await API.delete(`asesorias/docsanexos/${archivo.id}`);
-      toast.success("Archivo borrado");
-      setCargando(false);
-      anexoBorrado(archivo.id);
-    } catch (error) {
-      setCargando(false);
-      toast.error(error.toString());
+    if (window.confirm(CONFIRM_BORRAR_ARCHIVO)) {
+      setCargando(true);
+      try {
+        await API.delete(`asesorias/docsanexos/${archivo.id}`);
+        toast.success("Archivo borrado");
+        setCargando(false);
+        anexoBorrado(archivo.id);
+      } catch (error) {
+        setCargando(false);
+        toast.error(error.toString());
+      }
     }
   };
   const [cargando, setCargando] = useState(false);
@@ -27,7 +30,7 @@ const Tutela = ({ actuacion, setEdit, anexos, anexoBorrado, persona = "" }) => {
         <Header actuacion={actuacion} titulo="tutela" setEdit={setEdit} />
         <p className="text-justify">
           <b>Fecha radicado: </b>
-          {moment(actuacion.dt_fechaRadicacionTutela).format("LLL")}
+          {moment(actuacion.dt_fechaRadicacionTutela).format("YYYY-MM-DD")}
           <br />
           <b>Presentado a: </b>
           {actuacion.a_entidadTutela}

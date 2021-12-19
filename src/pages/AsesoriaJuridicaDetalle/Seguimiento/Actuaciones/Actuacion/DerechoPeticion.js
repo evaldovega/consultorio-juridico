@@ -6,6 +6,7 @@ import Spin from "../../../../../components/Spin";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Footer from "./Footer";
+import { CONFIRM_BORRAR_ARCHIVO } from "constants/apiContants";
 
 const DerechoPeticion = ({
   actuacion,
@@ -15,16 +16,17 @@ const DerechoPeticion = ({
   persona = "",
 }) => {
   const borrarArchivo = async (archivo) => {
-    console.log(archivo);
-    setCargando(true);
-    try {
-      await API.delete(`asesorias/docsanexos/${archivo.id}`);
-      toast.success("Archivo borrado");
-      setCargando(false);
-      anexoBorrado(archivo.id);
-    } catch (error) {
-      setCargando(false);
-      toast.error(error.toString());
+    if (window.confirm(CONFIRM_BORRAR_ARCHIVO)) {
+      setCargando(true);
+      try {
+        await API.delete(`asesorias/docsanexos/${archivo.id}`);
+        toast.success("Archivo borrado");
+        setCargando(false);
+        anexoBorrado(archivo.id);
+      } catch (error) {
+        setCargando(false);
+        toast.error(error.toString());
+      }
     }
   };
   const [cargando, setCargando] = useState(false);
@@ -39,7 +41,7 @@ const DerechoPeticion = ({
 
         <p className="text-justify">
           <b>Fecha radicado: </b>
-          {moment(actuacion.dt_fechaRadicacion).format("LLL")}
+          {moment(actuacion.dt_fechaRadicacion).format("YYYY-MM-DD")}
           <br />
           <b>Presentado a: </b>
           {actuacion.a_entidadPresentacion}

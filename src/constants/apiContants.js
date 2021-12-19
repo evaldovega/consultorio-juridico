@@ -8,7 +8,8 @@ export const ROL_ADMIN = "ADMINISTRADOR";
 export const ROL_DOCENTE = "DOCENTE";
 export const POLITICA_DATOS =
   "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500";
-
+export const PAGE_SIZE = 10;
+export const CONFIRM_BORRAR_ARCHIVO = "¿Seguro que quiere borrar este archivo?";
 export const MODULES = [
   {
     id: 0,
@@ -16,37 +17,31 @@ export const MODULES = [
     name: "Asesoría Jurídica",
     parent: "Asesoría Jurídica",
     url: "/asesoria-juridica",
-    descripcion: "Descripción Asesoría Jurídica",
-    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
+    descripcion: "",
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE],
   },
   {
     id: 5,
     img: "images/modulo4.jpg",
     name: "Centro de conciliación",
     url: "/centro-de-conciliacion",
-    descripcion: "Descripción Centro de Conciliación",
-    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE],
+    descripcion: "",
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE],
   },
-  /*{
-    id: 2,
-    img: "images/modulo3.jpg",
-    name: "Centro de conciliación",
-    parent: "",
-  },*/
   {
     id: 1,
     img: "images/modulo3.jpg",
     name: "Inscripción Estudiantes",
     parent: "Incripción de estudiantes",
     url: "/inscripcion-estudiantes",
-    descripcion: "Inscripción de estudiantes",
+    descripcion: "",
     policies: [ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE],
   },
   {
     id: "",
-    name: "Mis asesorias jurídicas",
+    name: "Mis asesorias",
     policies: [ROL_PERSONA],
-    url: "mis-asesorias",
+    url: "/asesoria-juridica/solicitudes",
     descripcion: "",
     img: "images/modulo2.jpg",
   },
@@ -61,15 +56,15 @@ export const MODULES = [
   {
     id: "",
     name: "Asignación de docentes",
-    policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
-    url: "/asignacion-empleados",
+    policies: [ROL_ASESOR, ROL_ADMIN],
+    url: "/asignacion-docentes",
     descripcion: "",
     img: "images/modulo5.jpg",
   },
   {
     id: "",
     name: "Documentos",
-    policies: [ROL_PERSONA, ROL_ASESOR, ROL_ADMIN],
+    policies: [ROL_ADMIN, ROL_ASESOR],
     url: "/autorizaciones",
     descripcion: "",
     img: "images/modulo6.jpg",

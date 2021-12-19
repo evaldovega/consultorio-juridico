@@ -5,7 +5,13 @@ import API from "utils/Axios";
 import { Form, Button, Alert } from "react-bootstrap";
 import Spin from "components/Spin";
 
-const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
+const State = ({
+  child = "",
+  field = {},
+  setValue,
+  readOnly = false,
+  plaintext = false,
+}) => {
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,6 +35,8 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
       .finally(() => setLoading(false));
   };
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (country) {
       load();
@@ -40,7 +48,9 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
   }, [country]);
 
   useEffect(() => {
-    emitCustomEvent(`load-${child}`, field.value);
+    setTimeout(() => {
+      emitCustomEvent(`load-${child}`, field.value);
+    }, 500);
     if (!field?.value?.length) {
       //setValue(child, "");
     }
@@ -66,6 +76,11 @@ const State = ({ child = "", field = {}, setValue, readOnly = false }) => {
         </Button>
       </div>
     );
+  }
+
+  if (plaintext) {
+    const dep = docs.find((d) => d.id == field.value);
+    return dep?.a_titulo || "...";
   }
 
   return (

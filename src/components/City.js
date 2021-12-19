@@ -5,7 +5,12 @@ import API from "utils/Axios";
 import { Alert, Form, Button } from "react-bootstrap";
 import Spin from "components/Spin";
 
-const City = ({ setValue, field = {}, readOnly = false }) => {
+const City = ({
+  setValue,
+  field = {},
+  readOnly = false,
+  plaintext = false,
+}) => {
   const [state, setState] = useState(null);
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,6 +30,7 @@ const City = ({ setValue, field = {}, readOnly = false }) => {
   };
 
   useCustomEventListener(`load-${field.name}`, (data) => {
+    console.log("Llego departamento ", data);
     setState(data);
   });
 
@@ -33,7 +39,7 @@ const City = ({ setValue, field = {}, readOnly = false }) => {
       load();
     } else {
       setDocs([]);
-      setValue(field.name, "");
+      //setValue(field.name, "");
     }
   }, [state]);
 
@@ -52,6 +58,11 @@ const City = ({ setValue, field = {}, readOnly = false }) => {
         </Button>
       </div>
     );
+  }
+
+  if (plaintext) {
+    const dep = docs.find((d) => d.id == field.value);
+    return dep?.a_titulo || "...";
   }
 
   return (

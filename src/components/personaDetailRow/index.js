@@ -61,12 +61,14 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
             plaintext={true}
           />
         </Form.Group>
-        {allowRemove ? (
+      </Col>
+      {allowRemove ? (
+        <Col>
           <Button variant="danger" onClick={remove}>
             <FaTrash />
           </Button>
-        ) : null}
-      </Col>
+        </Col>
+      ) : null}
     </Row>
   );
 };

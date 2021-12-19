@@ -9,6 +9,7 @@ import * as PolicyProvider from "components/Policy/Ctx";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import InscripcionEstudiantes from "./pages/InscripcionEstudiantes";
+import InscripcionEstudiantesReporte from "pages/InscripciónEstudiantesReporte";
 import InscripcionPracticasConsultorioJuridico from "./pages/InscripcionEstudiantes/Formularios/Inscripcion";
 import Registro from "./pages/Registro";
 import Configuraciones from "pages/configuraciones";
@@ -56,6 +57,7 @@ import ReportePorEdad from "pages/AsesoriaJuridica/Reportes/ReportePorEdad";
 import ReporteOrientacion from "pages/AsesoriaJuridica/Reportes/ReporteOrientacion";
 import ReportePorEtnia from "pages/AsesoriaJuridica/Reportes/ReportePorEtnia";
 import ReporteProfesion from "pages/AsesoriaJuridica/Reportes/ReporteProfesion";
+import ReportePorDiscapacidad from "pages/AsesoriaJuridica/Reportes/ReportePorDiscapacidad";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -66,6 +68,7 @@ import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
 import ScrollToTop from "components/ScrollTop";
+import RecuperarClave from "pages/RecuperarClave";
 
 function App() {
   moment.locale("es");
@@ -80,6 +83,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/inscripcion-estudiantes" exact>
               <InscripcionEstudiantes />
+            </PrivateRouter>
+            <PrivateRouter path="/inscripcion-estudiantes/reporte" exact>
+              <InscripcionEstudiantesReporte />
             </PrivateRouter>
             <PrivateRouter
               path="/inscripcion-estudiantes/inscripcion-practicas"
@@ -150,8 +156,15 @@ function App() {
             <PrivateRouter path="/asesoria-juridica/reportes" exact>
               <ReportesIndex />
             </PrivateRouter>
+
             <PrivateRouter path="/asesoria-juridica/reportes/sexo" exact>
               <ReportePorSexo />
+            </PrivateRouter>
+            <PrivateRouter
+              path="/asesoria-juridica/reportes/discapacidad"
+              exact
+            >
+              <ReportePorDiscapacidad />
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/reportes/desempleo" exact>
               <ReportePorDesempleo />
@@ -181,13 +194,16 @@ function App() {
               <ReporteProfesion />
             </PrivateRouter>
 
-            <PrivateRouter path="/asignacion-empleados" exact>
+            <PrivateRouter path="/asignacion-docentes" exact>
               <AsignacionEmpleadosHome />
             </PrivateRouter>
-            <PrivateRouter path="/asignacion-empleados/asignar" exact>
+            <PrivateRouter path="/asignacion-docentes/asignar/:id" exact>
               <AsignarEmpleado />
             </PrivateRouter>
-            <PrivateRouter path="/asignacion-empleados/listado" exact>
+            <PrivateRouter path="/asignacion-docentes/asignar" exact>
+              <AsignarEmpleado />
+            </PrivateRouter>
+            <PrivateRouter path="/asignacion-docentes/listado" exact>
               <ListadoAsignaciones />
             </PrivateRouter>
             <PrivateRouter path="/autorizaciones" exact>
@@ -250,6 +266,7 @@ function App() {
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
+            <Route path="/recuperar-clave" exact component={RecuperarClave} />
           </Switch>
         </PolicyProvider.Provider>
       </Router>

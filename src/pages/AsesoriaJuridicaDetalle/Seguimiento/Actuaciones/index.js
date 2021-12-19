@@ -1,20 +1,15 @@
-import Errors from "components/Errors";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Form, Row, Col, Button, Dropdown, Card } from "react-bootstrap";
-import { useForm, Controller } from "react-hook-form";
-import { FaPenAlt, FaPlus, FaStickyNote } from "react-icons/fa";
+import { Dropdown, Card } from "react-bootstrap";
 import API from "utils/Axios";
 import AgendarCita from "../AgendarCita";
 import PresentarDerecho from "../PresentarDerecho";
-import { FcAlarmClock, FcComments } from "react-icons/fc";
-import moment from "moment";
 import Nota from "../Nota";
 import Tutela from "../Tutela";
 import Demanda from "../Demanda";
-
+import { toast } from "react-toastify";
 import Actuacion from "./Actuacion";
-
+import { FaPlus } from "react-icons/fa";
 import Policy from "components/Policy";
 import {
   ROL_ADMIN,
@@ -100,8 +95,10 @@ const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
       delete seguimiento.archivoSubido;
     }
     if (index < 0) {
-      setSeguimientos([...seguimientos, seguimiento]);
+      toast.success("Actuación agregada correctamente");
+      setSeguimientos([seguimiento, ...seguimientos]);
     } else {
+      toast.success("Actuación modificada correctamente");
       setSeguimientos(
         seguimientos.map((s, i) => {
           if (i == index) {

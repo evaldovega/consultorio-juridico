@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ACCESS_TOKEN_NAME, MODULES, ROL_ASESOR, ROL_ADMIN } from "constants/apiContants";
+import {
+  ACCESS_TOKEN_NAME,
+  MODULES,
+  ROL_ASESOR,
+  ROL_ADMIN,
+} from "constants/apiContants";
 import { Link } from "react-router-dom";
 
 import API from "utils/Axios";
@@ -8,7 +13,7 @@ import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import Context from "./Ctx";
 import { toast } from "react-toastify";
-import AccessDenied from "components/Policy/AccessDenied"
+import AccessDenied from "components/Policy/AccessDenied";
 
 import { useParams, useHistory } from "react-router-dom";
 
@@ -63,6 +68,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
       .then(({ data }) => {
         setPersonaId(data.r_usuarios_persona.id);
         //------------------------------Inscripcion-----------------
+        sessionStorage.setItem("inscripcion", data.a_codigoEstudiantil);
         setValue("a_codigoEstudiantil", data.a_codigoEstudiantil);
         setValue("a_anioInscripcion", data.a_anioInscripcion);
         setValue("a_semestreInscripcion", data.a_semestreInscripcion);
@@ -73,7 +79,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
         setValue("a_numeroConsultorio", data.a_numeroConsultorio);
         setValue("r_config_grupo", data.r_config_grupo);
         setValue("a_turno", data.a_turno);
-        setValue("r_config_lugarPracticas", data.r_config_lugarPracticas);
+        setValue("r_config_lugarPracticas", data.r_config_lugarPracticas?.id);
         setValue("dt_fechaInscripcion", data.dt_fechaInscripcion);
       })
       .finally(() => setLoadingDetail(false));
@@ -100,7 +106,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
             draggable: true,
           }
         );
-        history.push("/inscripcion-estudiantes");
+        history.push("/inscripcion-estudiantes/listado");
       })
       .catch((error) => {
         setLoading(false);
@@ -150,9 +156,11 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
   }
 
   return (
-    <Policy 
-      policy={[]}
-      feedback={<AccessDenied msn="Usted no tiene acceso a esta función de la página." />}
+    <Policy
+      policy={[ROL_ADMIN]}
+      feedback={
+        <AccessDenied msn="Usted no tiene acceso a esta función de la página." />
+      }
     >
       <Page>
         <Breadcrumb>
@@ -162,6 +170,11 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
           <Breadcrumb.Item>
             <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
           </Breadcrumb.Item>
+          {id ? (
+            <Breadcrumb.Item>
+              <Link to="/inscripcion-estudiantes/listado">Inscripciones</Link>
+            </Breadcrumb.Item>
+          ) : null}
           <Breadcrumb.Item active>
             Inscripción a practicas consultorio jurídico
           </Breadcrumb.Item>

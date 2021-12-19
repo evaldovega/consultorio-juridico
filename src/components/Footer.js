@@ -24,7 +24,9 @@ const Foot = () => {
             />
           </Col>
           <Col className="d-flex flex-column">
-            <h4><b>Contacto</b></h4>
+            <h4>
+              <b>Contacto</b>
+            </h4>
             <h5>Barranquilla, Colombia</h5>
             <h5>
               <FaPhone /> 3008010515

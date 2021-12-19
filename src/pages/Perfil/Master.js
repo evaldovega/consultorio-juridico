@@ -22,6 +22,7 @@ const PerfilMaster = ({
   allowSearchPerson = true,
   clearOnFinish = false,
   readOnly = false,
+  policies = [],
 }) => {
   const [loading, setLoading] = useState(false);
   const [persona, setPersona] = useState(null);
@@ -87,6 +88,7 @@ const PerfilMaster = ({
         if (callback) {
           callback({ persona: data, success: true });
         }
+        setPersona(data);
       })
       .catch((error) => {
         callback({ persona: data, success: false, error });
@@ -100,7 +102,7 @@ const PerfilMaster = ({
 
   const classes = classNames({
     "d-flex": true,
-    "flex-column-reverse": readOnly,
+    "flex-column-reverse": false,
     "flex-column": !readOnly,
   });
 
@@ -118,6 +120,12 @@ const PerfilMaster = ({
   useEffect(() => {
     load();
   }, [id]);
+
+  useEffect(() => {
+    if (persona) {
+      Object.keys(persona).forEach((k) => setValue(k, persona[k]));
+    }
+  }, [persona, readOnly]);
   return (
     <Context.Provider
       value={{
@@ -134,6 +142,7 @@ const PerfilMaster = ({
         setLoading,
         allowSearchPerson,
         clearOnFinish,
+        policies,
       }}
     >
       <Spin cargando={loading}>
@@ -143,7 +152,7 @@ const PerfilMaster = ({
           onKeyDown={(e) => checkKeyDown(e)}
         >
           <fieldset disabled={loading}>
-            <div className={classes}>
+            <div>
               <div>
                 <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
               </div>

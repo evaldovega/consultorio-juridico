@@ -20,10 +20,7 @@ import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 
 const ReportesIndex = () => {
   return (
-    <Policy
-      policy={[]}
-      feedback={<AccessDenied msn="Acceso denegado" />}
-    >
+    <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
@@ -88,7 +85,7 @@ const ReportesIndex = () => {
                 />
               )}
               title="Por discapacidad"
-              link="/asesoria-juridica/reportes"
+              link="/asesoria-juridica/reportes/discapacidad"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>

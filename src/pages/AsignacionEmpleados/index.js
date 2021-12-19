@@ -37,7 +37,7 @@ const AsignacionEmpleadosHome = () => {
                 />
               )}
               title="Formato de Registro"
-              link="/asignacion-empleados/asignar"
+              link="/asignacion-docentes/asignar"
             />
           </Col>
           <Col xs={12} md={6}>
@@ -50,7 +50,7 @@ const AsignacionEmpleadosHome = () => {
                 />
               )}
               title="Listado de asignaciones"
-              link="/asignacion-empleados/listado"
+              link="/asignacion-docentes/listado"
             />
           </Col>
         </Row>

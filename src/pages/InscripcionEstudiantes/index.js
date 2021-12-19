@@ -7,6 +7,7 @@ import {
   MODULES,
   ROL_ASESOR,
   ROL_ADMIN,
+  ROL_DOCENTE,
 } from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import { useForm } from "antd/lib/form/Form";
@@ -26,17 +27,20 @@ import {
 import AccessDenied from "components/Policy/AccessDenied";
 
 const InscripcionEstudiantes = ({ params }) => {
-  console.log({ params });
   const [loading, setLoading] = useState(true);
   const [form] = useForm();
 
   return (
-    <Policy policy={[]} feedback={<AccessDenied />}>
+    <Policy
+      policy={[ROL_ADMIN, ROL_DOCENTE, ROL_ASESOR]}
+      feedback={<AccessDenied />}
+    >
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
+
           <Breadcrumb.Item active>Inscripción estudiantes</Breadcrumb.Item>
         </Breadcrumb>
 
@@ -44,7 +48,7 @@ const InscripcionEstudiantes = ({ params }) => {
           <h1>Inscripción a estudiantes</h1>
         </div>
 
-        <Row className="modules">
+        <Row className="modules mb-4">
           <Col>
             <ItemModule
               Icon={(props) => (
@@ -71,53 +75,20 @@ const InscripcionEstudiantes = ({ params }) => {
               title="Listado de inscripciones"
             />
           </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
+        </Row>
+        <Row className="modules">
           <Col>
-            <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <ItemModule
-                Icon={(props) => (
-                  <Icon
-                    IconPrimary={FaUserAlt}
-                    IconSecundary={FaUserAlt}
-                    {...props}
-                  />
-                )}
-                link="/inscripcion-estudiantes/listado"
-                title="Asignación de estudiantes"
-              />
-            </Link>
-          </Col>
-
-          <Col>
-            <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <ItemModule
-                Icon={(props) => (
-                  <Icon
-                    IconPrimary={FaFolder}
-                    IconSecundary={FaFolder}
-                    {...props}
-                  />
-                )}
-                link="/inscripcion-estudiantes/listado"
-                title="Reportes"
-              />
-            </Link>
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col>
-            <Link to="/inscripcion-estudiantes/inscripcion-practicas">
-              <ItemModule
-                Icon={(props) => (
-                  <Icon
-                    IconPrimary={FaClipboard}
-                    IconSecundary={FaClipboard}
-                    {...props}
-                  />
-                )}
-                link="/inscripcion-estudiantes/listado"
-                title="Formatos"
-              />
-            </Link>
+            <ItemModule
+              Icon={(props) => (
+                <Icon
+                  IconPrimary={FaFolder}
+                  IconSecundary={FaFolder}
+                  {...props}
+                />
+              )}
+              link="/inscripcion-estudiantes/reporte"
+              title="Reportes"
+            />
           </Col>
           <Col></Col>
         </Row>

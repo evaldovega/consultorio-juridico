@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: 'Calibri', sans-serif !important;
+  font-family: "Calibri", sans-serif !important;
 }
 body {
   background-color: #ffff;
@@ -29,7 +29,7 @@ table tr:nth-child(odd) {
 
 .card-text:last-child {
   color: #000 !important;
-  text-align: left
+  text-align: left;
 }
 
 .card-title {
@@ -75,7 +75,7 @@ label {
 }
 
 [data-test="table-foot"] {
-  display: none
+  display: none;
 }
 
 .section-title h4.ant-typography,
@@ -167,7 +167,9 @@ label {
   gap: 10px;
 }
 
-.breadcrumb-item+.breadcrumb-item::before{content:var(--bs-breadcrumb-divider,">") !important ;}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: var(--bs-breadcrumb-divider, ">") !important ;
+}
 
 .landing-header::before {
   content: "";
@@ -313,7 +315,7 @@ label {
   font-weight: bold;
 }
 
-a{
+a {
   color: #d07400;
 }
 
@@ -419,7 +421,7 @@ a{
 
 .page-link {
   border: none;
-  color: #000;  
+  color: #000;
 }
 
 [data-test="datatable-info"] {
@@ -439,7 +441,7 @@ a{
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: rgba(255, 255, 255, 0.9) !important
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .ant-btn-dangerous.ant-btn-primary {
@@ -494,7 +496,8 @@ a{
     margin-bottom: 100px;
   }
 
-  .grid-2, .grid-3 {
+  .grid-2,
+  .grid-3 {
     grid-template-columns: repeat(1, 1fr);
     row-gap: 1em;
   }
@@ -550,4 +553,3 @@ a{
   border: 0;
   background-color: transparent !important;
 }
-

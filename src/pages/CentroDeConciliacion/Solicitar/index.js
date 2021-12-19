@@ -183,6 +183,7 @@ const CentroDeConciliacionSolicitar = () => {
               id="r_usuarios_solicitante"
               apiDelete="conciliacion/solicitante/"
               idConciliacion={idConciliacion}
+              btnTextAdd="Añadir Solicitate"
             />
             <Partes
               name="r_citados"
@@ -194,6 +195,7 @@ const CentroDeConciliacionSolicitar = () => {
               getValues={getValues}
               idConciliacion={idConciliacion}
               apiDelete="conciliacion/citado/"
+              btnTextAdd="Añadir Citado"
             />
             <Card className="mt-1 mb-1">
               <Card.Body style={{ padding: "2.5rem" }}>

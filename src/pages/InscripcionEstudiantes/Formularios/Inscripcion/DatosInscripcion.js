@@ -9,7 +9,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
   const [jornadas, setJornadas] = useState([]);
   const [lugarPracticas, setLugarPracticas] = useState([]);
   const [grupos, setGrupos] = useState([]);
-  const [consultorios, setConsultorios] = useState([])
+  const [consultorios, setConsultorios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { readOnly, control, errors, setValue } = useContext(Context);
@@ -231,6 +231,27 @@ const DatosInscripcion = ({ showShadow = true }) => {
                 </Form.Group>
               )}
             />
+
+            <Controller
+              name="r_config_lugarPracticas"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Ingrese información" }}
+              render={({ field }) => (
+                <Form.Group as={Col} xs="12" md="6" lg="6">
+                  <Form.Label>
+                    Lugar de las practicas <span className="required" />
+                  </Form.Label>
+                  <Form.Control {...field} as="select">
+                    {lugarPracticas.map((el, i) => (
+                      <option value={el.id}>{el.a_titulo}</option>
+                    ))}
+                  </Form.Control>
+                  <Errors message={errors?.r_config_lugarPracticas?.message} />
+                </Form.Group>
+              )}
+            />
+
             <Controller
               name="dt_fechaInscripcion"
               control={control}

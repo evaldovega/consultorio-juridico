@@ -2,7 +2,6 @@ import Errors from "components/Errors";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Form, Image } from "react-bootstrap";
-import { FaCamera } from "react-icons/fa";
 import { Controller } from "react-hook-form";
 import { useContext } from "react";
 import Context from "./Ctx";
@@ -27,7 +26,7 @@ const FotoPerfil = () => {
   useEffect(() => {
     console.log({ url });
     if (url) {
-      setSrc(url);
+      setSrc(`${baseUrl}${url}`);
     }
   }, [url]);
   return (
@@ -42,21 +41,9 @@ const FotoPerfil = () => {
           border: "1px solid silver",
         }}
       >
-        <Image className="img-fluid" src={`${baseUrl}${src}`} />
-        <Form.Control
-          type="file"
-          style={{
-            opacity: 0,
-            position: "absolute",
-            width: 128,
-            height: 128,
-            top: 0,
-            left: 0,
-            zIndex: 2,
-          }}
-          onChange={onChange}
-        />
+        <Image className="img-fluid" src={src} />
       </div>
+      {!readOnly ? <Form.Control type="file" onChange={onChange} /> : null}
       <Controller
         name="f_archivoFotoPerfil"
         control={control}

@@ -16,7 +16,7 @@ const TipoIdentificacion = ({ errors, control, readOnly }) => {
     setError(null);
     API("configuracion/tipo-documento/")
       .then(({ data }) => {
-        setTipos(data);
+        setTipos(data || []);
       })
       .catch((error) => {
         setError(error.response ? error.response.statusText : error.toString());

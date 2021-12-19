@@ -13,7 +13,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import Errors from "components/Errors";
 
-const Filtros = ({ cargando = false, onFilter }) => {
+const Filtros = ({ cargando = false, setParams, params }) => {
   const {
     register,
     control,
@@ -32,6 +32,9 @@ const Filtros = ({ cargando = false, onFilter }) => {
       fecha_final: moment().endOf("month").format("YYYY-MM-DD"),
     },
   });
+  const onFilter = (filtros) => {
+    setParams({ ...params, page: 1, ...filtros });
+  };
   const refButton = useRef();
   useEffect(() => {
     if (refButton && refButton.current) {

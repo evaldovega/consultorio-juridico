@@ -2,29 +2,43 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
-import { FaFilter } from "react-icons/fa";
 import Policy from "components/Policy";
 import { Button, Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
+import { FaFilter } from "react-icons/fa";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 Chart.register(ChartDataLabels);
+
+var _ = require("lodash");
+
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReportePorEtnia = () => {
+const ReportePorDiscapacidad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
 
   const consultar = async () => {
-    API(
-      `estudiantes/inscripcion/etnias/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+    await API(
+      `estudiantes/inscripcion/discapacidades/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
-        setDatos(response.data);
+        let datosgroup = _(response.data)
+          .groupBy("nombre")
+          .map((value, key) => ({
+            nombre: key,
+            cantidad: value.length,
+            color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+              Math.random() * 256
+            )}, ${Math.floor(Math.random() * 256)}, 0.5)`,
+          }));
+        let groupArray = _.toArray(datosgroup);
+        console.log(groupArray);
+        setDatos(groupArray);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -32,10 +46,10 @@ const ReportePorEtnia = () => {
   };
 
   const chartdata = {
-    labels: ["Masculino", "Femenino"],
+    labels: ["Menores de 25", "Entre 26 y 60", "Mayores de 60"],
     datasets: [
       {
-        label: "Etnias",
+        label: "Discapacidades",
         data: datos.map((el) => el.cantidad),
         backgroundColor: datos.map((el) => el.color),
       },
@@ -55,12 +69,14 @@ const ReportePorEtnia = () => {
           <Breadcrumb.Item>
             <Link to="/asesoria-juridica/reportes">Reportes</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>Por etnia</Breadcrumb.Item>
+          <Breadcrumb.Item active>Por discapacidad</Breadcrumb.Item>
         </Breadcrumb>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
             <h2 className="title-line">
-              <span>Cantidad de estudiantes por etnia y rango de fechas</span>
+              <span>
+                Cantidad de estudiantes por discapacidad y rango de fechas
+              </span>
             </h2>
             <Row className="mb-3">
               <Col xs="12" md="5">
@@ -205,7 +221,7 @@ const ReportePorEtnia = () => {
                           }}
                         />
                         <span>
-                          {el.nombre_etnia} {el.cantidad}
+                          {el.nombre} {el.cantidad}
                         </span>
                       </div>
                       <br />
@@ -221,4 +237,4 @@ const ReportePorEtnia = () => {
   );
 };
 
-export default ReportePorEtnia;
+export default ReportePorDiscapacidad;

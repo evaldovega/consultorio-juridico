@@ -4,10 +4,43 @@ import { useContext } from "react";
 import Context from "./Ctx";
 import Errors from "components/Errors";
 import FotoPerfil from "./Foto";
+import { ROL_ESTUDIANTE } from "constants/apiContants";
+import { baseUrl } from "utils/Axios";
 
 const PerfilDatosPersonales = ({}) => {
-  const { readOnly, control, errors, setValue } = useContext(Context);
+  const { readOnly, control, errors, setValue, policies, persona } =
+    useContext(Context);
 
+  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+    return (
+      <div className="mb-4">
+        <h3 className="title-line">
+          <span>Datos personales</span>
+        </h3>
+        <table width={"100%"}>
+          <tr>
+            <th></th>
+            <th>Primer nombre</th>
+            <th>Segundo nombre</th>
+            <th>Primer apellido</th>
+            <th>Segundo apellido</th>
+          </tr>
+          <tr>
+            <td>
+              <img
+                src={`${baseUrl}${persona?.f_archivoFotoPerfil}`}
+                width={92}
+              />
+            </td>
+            <td>{persona?.a_primerNombre}</td>
+            <td>{persona?.a_segundoNombre}</td>
+            <td>{persona?.a_primerApellido}</td>
+            <td>{persona?.a_segundoApellido}</td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
   return (
     <div className="mb-3">
       <h3 className="title-line">

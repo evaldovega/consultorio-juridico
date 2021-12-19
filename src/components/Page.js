@@ -7,7 +7,7 @@ const Page = ({ children, fullWidth = false }) => {
   return (
     <>
       <HeaderPage />
-      <div style={{ marginTop: 70 }}>
+      <div style={{ marginTop: 75, paddingBottom: 75 }}>
         {!fullWidth && <Container>{children}</Container>}
         {fullWidth && <Container fluid>{children}</Container>}
       </div>

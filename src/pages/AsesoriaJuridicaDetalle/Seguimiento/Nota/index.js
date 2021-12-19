@@ -12,6 +12,7 @@ import {
   ROL_ASESOR,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
+  ROL_DOCENTE,
 } from "constants/apiContants";
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
@@ -32,8 +33,8 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
     shouldFocusError: true,
   });
   const [cargando, setCargando] = useState(false);
-  const [readOnly, setReadOnly] = useState(true);
-  const { policies } = useContext(Context);
+  const [readOnly, setReadOnly] = useState(false);
+  const { policies, persona } = useContext(Context);
 
   const handleClose = () => {
     setShow(false);
@@ -53,6 +54,7 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
           c_tipoSeguimientoAccion: "NOTA",
           dt_fechaNuevaCita: moment().format("YYYY-MM-DD HH:mm"),
           r_asesoria_solicitudAsesoria: asesoriaId,
+          r_usuarios_persona: persona,
           ...payload,
         },
       });
@@ -74,22 +76,16 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
   useEffect(() => {
     if (show && doc) {
       setValue("t_observacion", doc.t_observacion);
-    } else {
-      setValue("t_observacion", "");
-    }
-  }, [show, doc]);
-
-  useEffect(() => {
-    if (policies && policies.length) {
-      if (policyAllow([ROL_PERSONA], policies)) {
+      if (doc && doc.r_usuarios_persona != persona) {
         setReadOnly(true);
       } else {
         setReadOnly(false);
       }
     } else {
-      setReadOnly(true);
+      setValue("t_observacion", "");
+      setReadOnly(false);
     }
-  }, [policies]);
+  }, [show, doc, persona]);
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
@@ -124,7 +120,7 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
+        {!readOnly ? (
           <Modal.Footer>
             <Button
               variant="primary"
@@ -134,7 +130,7 @@ const Nota = ({ show, setShow, asesoriaId, onSave, doc }) => {
               Agregar
             </Button>
           </Modal.Footer>
-        </Policy>
+        ) : null}
       </Form>
     </Modal>
   );

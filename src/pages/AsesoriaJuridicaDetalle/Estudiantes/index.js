@@ -3,12 +3,14 @@ import { useState } from "react";
 
 import API from "utils/Axios";
 import PersonaDetailRow from "components/personaDetailRow";
-import BuscadorEstudiante from "components/buscadorEstudiante";
+
 import { toast } from "react-toastify";
 import Policy, { policyAllow } from "components/Policy";
-import { ROL_ADMIN, ROL_ASESOR } from "constants/apiContants";
+import { ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE } from "constants/apiContants";
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
+import { Button } from "react-bootstrap";
+import AsignarEstudiante from "./Asignar";
 
 const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
   const { mm_estudiantesAsignados = [] } = caso;
@@ -16,6 +18,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
   const [loading, setLoading] = useState(false);
   const [listado, setListado] = useState([]);
   const [allowRemove, setAllowRemove] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const onRemoveEstudiante = async (id) => {
     try {
@@ -46,6 +49,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
       if (!estudiantes.length) {
         return;
       }
+      setVisible(false);
       const listadoTemporal = [...listado];
       listadoTemporal.push(estudiantes[0].id);
       await API.patch(`asesorias/solicitud/${asesoriaId}/`, {
@@ -84,7 +88,6 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
     <div>
       {listado?.map((e, i) => (
         <>
-          {" "}
           <PersonaDetailRow
             id={e}
             allowRemove={allowRemove}
@@ -93,8 +96,16 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
           {i < listado.length - 1 && <hr />}
         </>
       ))}
-      <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
-        <BuscadorEstudiante onSelect={onSelect} />
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
+        <div className="d-flex justify-content-center">
+          <Button onClick={() => setVisible(true)}>Asignar estudiante</Button>
+        </div>
+
+        <AsignarEstudiante
+          visible={visible}
+          setVisible={setVisible}
+          onSelect={onSelect}
+        />
       </Policy>
     </div>
   );

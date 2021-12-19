@@ -4,49 +4,88 @@ import { Breadcrumb, Card, Row, Col, Image, Form } from "react-bootstrap";
 import Context from "./Ctx";
 import Errors from "components/Errors";
 import API from "utils/Axios";
+import { ROL_ESTUDIANTE } from "constants/apiContants";
+import moment from "moment";
 
 const PerfilDemografico = () => {
-  const { readOnly, control, errors, setValue } = useContext(Context);
+  const { readOnly, control, errors, setValue, policies, persona } =
+    useContext(Context);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [orientaciones, setOrientaciones] = useState([]);
   const [etnias, setEtnias] = useState([]);
+  const [estadosCiviles, setEstadosCiviles] = useState([]);
 
   const load = () => {
     setLoading(true);
     setError(null);
-    API("configuracion/orientacion/")
-      .then(({ data }) => {
-        setOrientaciones(data);
-      })
-      .catch((error) => {
-        setError(error.response ? error.response.statusText : error.toString());
-      })
-      .finally(() => {
-        setTimeout(() => {
+    Promise.all([
+      API("configuracion/orientacion/"),
+      API("configuracion/etnia/"),
+      API("configuracion/estado-civil/"),
+    ])
+      .then(
+        ([
+          { data: r_orientaciones },
+          { data: r_etnias },
+          { data: r_estadoCivil },
+        ]) => {
+          setOrientaciones(r_orientaciones);
+          setEtnias(r_etnias);
+          setEstadosCiviles(r_estadoCivil);
           setLoading(false);
-        }, 1000);
-      });
-    API("configuracion/etnia/")
-      .then(({ data }) => {
-        setEtnias(data);
-      })
+        }
+      )
       .catch((error) => {
+        setLoading(false);
         setError(error.response ? error.response.statusText : error.toString());
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       });
   };
 
   useEffect(() => {
     load();
-  }, []);
+  }, [readOnly]);
+
+  if (readOnly) {
+    const orientacion = orientaciones.find(
+      (o) => o.id == persona?.r_config_orientacion
+    );
+    const etnia = etnias.find((o) => o.id == persona?.r_config_etnia);
+    return (
+      <div className="mb-4">
+        <h3 className="title-line">
+          <span>Datos Demográficos</span>
+        </h3>
+        <table width={"100%"}>
+          <tr>
+            <th>Fecha de nacimiento</th>
+            <th>Lugar de nacimiento</th>
+            <th>Genero</th>
+            <th>Orientación sexual</th>
+          </tr>
+          <tr>
+            <td>{moment(persona?.a_fechaNacimiento).format("YYYY-MM-DD")}</td>
+            <td>{persona?.a_lugarNacimiento || "No especificado"}</td>
+            <td>{persona?.c_genero || "No especificado"}</td>
+            <td>{orientacion?.a_titulo || "No especificada"}</td>
+          </tr>
+          <tr>
+            <th>Etnia</th>
+            <th>Número de hijos</th>
+            <th>Estado civil</th>
+          </tr>
+          <tr>
+            <td>{etnia?.a_titulo || "No especificada"}</td>
+            <td>{persona?.a_numeroHijos || "No especificado"}</td>
+            <td>{persona?.a_numeroHijos || "No especificado"}</td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div className="mb-4">
       <h3 className="title-line">
         <span>Datos Demográficos</span>
       </h3>
@@ -174,14 +213,14 @@ const PerfilDemografico = () => {
                 plaintext={readOnly}
               >
                 <option value="">Seleccione</option>
-                <option value="F">Soltero</option>
-                <option value="M">Casado</option>
+                <option value="Soltero">Soltero</option>
+                <option value="Casado">Casado</option>
               </Form.Control>
             </Form.Group>
           )}
         />
         <Controller
-          name="c_numeroHijos"
+          name="a_numeroHijos"
           control={control}
           defaultValue=""
           render={({ field }) => (
@@ -198,7 +237,7 @@ const PerfilDemografico = () => {
           )}
         />
       </Row>
-    </>
+    </div>
   );
 };
 

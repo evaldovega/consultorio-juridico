@@ -14,14 +14,21 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
   const handleSearch = (query) => {
     setLoading(true);
 
-    API(`/estudiantes/inscripcion?q=${query}`).then(({ data }) => {
+    API.get(`/estudiantes/inscripcion?q=${query}`, {
+      page: 1,
+      page_size: 10,
+    }).then(({ data }) => {
       setOptions(
-        data.map((d) => ({
+        data.results.map((d) => ({
           id: d.r_usuarios_persona.id,
           label:
             d.r_usuarios_persona.a_primerNombre +
             " " +
-            d.r_usuarios_persona.a_primerApellido,
+            d.r_usuarios_persona.a_segundoNombre +
+            " " +
+            d.r_usuarios_persona.a_primerApellido +
+            " " +
+            d.r_usuarios_persona.a_segundoApellido,
         }))
       );
       setLoading(false);

@@ -72,11 +72,12 @@ const Autorizar = () => {
   const getInscripciones = async () => {
     setInscripciones([]);
 
-    await API.post('/academusoft/estudiantes/', {estudiante: cedula})
-    .then(response => {
-        setInscripciones([response.data])
-        setIdEstudiante([response.data].map(el => (el.id))[0])
-    })
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+      (response) => {
+        setInscripciones([response.data]);
+        setIdEstudiante([response.data].map((el) => el.id)[0]);
+      }
+    );
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
     //   console.log(response.data);
@@ -215,7 +216,7 @@ const Autorizar = () => {
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to="/autorizaciones">Autorizaciones</Link>
+            <Link to="/autorizaciones">Documentos</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Autorizar</Breadcrumb.Item>
         </Breadcrumb>
@@ -266,10 +267,8 @@ const Autorizar = () => {
                             <tr>
                               <td>{el.a_numeroDocumento}</td>
                               <td>
-                                {el.a_primerNombre}{" "}
-                                {el.a_segundoNombre}{" "}
-                                {el.a_primerApellido}{" "}
-                                {el.a_segundoApellido}
+                                {el.a_primerNombre} {el.a_segundoNombre}{" "}
+                                {el.a_primerApellido} {el.a_segundoApellido}
                               </td>
                             </tr>
                           ))}

@@ -1,6 +1,11 @@
-import { policyAllow } from "components/Policy";
+import Policy, { policyAllow } from "components/Policy";
 import { Context } from "components/Policy/Ctx";
-import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_DOCENTE,
+  ROL_ESTUDIANTE,
+} from "constants/apiContants";
 import { useEffect } from "react";
 import { useState, useContext } from "react";
 import {
@@ -30,6 +35,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
         a_titulo: anexo.a_titulo,
       });
       setCaso({ ...caso, mm_documentosAnexos: anexos });
+      setCargando(false);
     } catch (error) {
       setCargando(false);
     }
@@ -72,16 +78,18 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   };
 
   const remove = async (index) => {
-    const anexo = mm_documentosAnexos[index];
-    const _anexos = [...mm_documentosAnexos];
-    _anexos.splice(index, 1);
-    try {
-      setCargando(true);
-      const { data } = await API.delete(`asesorias/docsanexos/${anexo.id}`);
-      setCaso({ ...caso, mm_documentosAnexos: _anexos });
-      setCargando(false);
-    } catch (error) {
-      setCargando(false);
+    if (window.confirm("¿Seguro que quiere borrar este archivo?")) {
+      const anexo = mm_documentosAnexos[index];
+      const _anexos = [...mm_documentosAnexos];
+      _anexos.splice(index, 1);
+      try {
+        setCargando(true);
+        const { data } = await API.delete(`asesorias/docsanexos/${anexo.id}`);
+        setCaso({ ...caso, mm_documentosAnexos: _anexos });
+        setCargando(false);
+      } catch (error) {
+        setCargando(false);
+      }
     }
   };
 
@@ -101,7 +109,11 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
         <Table className="mb-3">
           <thead>
             <th>Documento</th>
-            <th>Reserva legal</th>
+            <Policy
+              policy={[ROL_ESTUDIANTE, ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}
+            >
+              <th>Reserva legal</th>
+            </Policy>
             {puedeRemover ? <th></th> : null}
           </thead>
           <tbody>
@@ -112,12 +124,16 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
                     {d.a_titulo}
                   </a>
                 </td>
-                <td>
-                  <Form.Check
-                    checked={d.b_reservaLegal}
-                    onChange={(e) => onCheck(e, i)}
-                  />
-                </td>
+                <Policy
+                  policy={[ROL_ESTUDIANTE, ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}
+                >
+                  <td>
+                    <Form.Check
+                      checked={d.b_reservaLegal}
+                      onChange={(e) => onCheck(e, i)}
+                    />
+                  </td>
+                </Policy>
                 {puedeRemover ? (
                   <td>
                     <Button type="button" size="sm" onClick={() => remove(i)}>

@@ -10,6 +10,7 @@ import Policy, { policyAllow } from "components/Policy";
 import {
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
 } from "constants/apiContants";
@@ -268,6 +269,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
                     <Form.Label>Fecha impugnación</Form.Label>
                     <Form.Control
                       {...field}
+                      type="date"
                       disabled={cargando || readOnly}
                       plaintext={readOnly}
                     />
@@ -341,7 +343,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
           </Row>
           <Row>
             <Col>
-              <Form.Label>Anexo</Form.Label>
+              <Form.Label>Añadir nuevo archivo</Form.Label>
               <Form.Control
                 type="file"
                 onChange={anexoSeleccionado}
@@ -357,13 +359,15 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Col>
           </Row>
         </Modal.Body>
-        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
-          <Modal.Footer>
-            <Button variant="primary" type="submit" disabled={cargando}>
-              Guardar
-            </Button>
-          </Modal.Footer>
-        </Policy>
+        {!readOnly ? (
+          <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
+            <Modal.Footer>
+              <Button variant="primary" type="submit" disabled={cargando}>
+                Guardar
+              </Button>
+            </Modal.Footer>
+          </Policy>
+        ) : null}
       </Form>
     </Modal>
   );

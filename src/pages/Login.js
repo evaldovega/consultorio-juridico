@@ -150,7 +150,7 @@ const Login = ({ location, history }) => {
                       Registrarse
                     </a>
                     <span className="ml-4 mr-4">⍿</span>
-                    <Link to="recuperar-clave" className="link-blue">
+                    <Link to="/recuperar-clave" className="link-blue">
                       Olvidé la contraseña
                     </Link>
                   </div>

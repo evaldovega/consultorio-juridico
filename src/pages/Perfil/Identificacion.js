@@ -8,6 +8,8 @@ import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
 import TipoIdentificacion from "./TipoIdentificacion";
+import { ROL_ESTUDIANTE } from "constants/apiContants";
+import moment from "moment";
 
 const PerfilIdentificacion = () => {
   const {
@@ -20,10 +22,8 @@ const PerfilIdentificacion = () => {
     persona,
     setLoading: setLoadingMaster,
     allowSearchPerson,
+    policies,
   } = useContext(Context);
-  const [tiposDocumento, setTipos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const selectedFile = (el) => {
     if (!el.files.length) {
@@ -38,25 +38,106 @@ const PerfilIdentificacion = () => {
     };
   };
 
-  const buscarPersona = (e) => {
+  const buscarPersona = async (e) => {
     if (!allowSearchPerson) {
       return;
     }
+    let encontrado = false;
+    const cedula = e.target.value;
     setLoadingMaster(true);
-    API(`usuarios/personas?a_numeroDocumento=${e.target.value}`)
-      .then(({ data }) => {
-        if (data.length) {
-          console.log(Object.keys(data[0]));
-          setPersona(data[0]);
-          Object.keys(data[0]).forEach((k) => setValue(k, data[0][k]));
-        } else {
-          setPersona(null);
-        }
-      })
-      .finally(() => {
-        setLoadingMaster(false);
-      });
+
+    try {
+      const { data } = await API(
+        `usuarios/personas?a_numeroDocumento=${cedula}`
+      );
+      if (data.length) {
+        setPersona(data[0]);
+        Object.keys(data[0]).forEach((k) => setValue(k, data[0][k]));
+        encontrado = true;
+      } else {
+        setPersona(null);
+      }
+      setLoadingMaster(false);
+    } catch (error) {
+      setLoadingMaster(false);
+    }
+    if (encontrado) {
+      return;
+    }
+    try {
+      const { data: respuestaAcademusoft } = await API.post(
+        "/academusoft/estudiantes/",
+        { estudiante: cedula }
+      );
+      if (respuestaAcademusoft) {
+        setPersona(respuestaAcademusoft);
+        Object.keys(respuestaAcademusoft).forEach((k) =>
+          setValue(k, respuestaAcademusoft[k])
+        );
+      }
+      setLoadingMaster(false);
+    } catch (err) {
+      setLoadingMaster(false);
+      setPersona(null);
+    }
   };
+
+  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+    return (
+      <div className="mb-4">
+        <h3 className="title-line">
+          <span>Datos del documento</span>
+        </h3>
+        <table width={"100%"}>
+          <tr>
+            <th>Número documento</th>
+            <th>Fecha expedición</th>
+            <th>Pais expedición</th>
+            <th>Departamento expedición</th>
+            <th>Ciudad expedición</th>
+          </tr>
+          <tr>
+            <td>{persona?.a_numeroDocumento}</td>
+            <td>
+              {moment(persona?.a_fechaExpedicionDocumento).format("YYYY-MM-DD")}
+            </td>
+            <td>
+              <Country
+                field={{ value: persona?.r_config_paisExpedicion }}
+                child="str_config_departamentoExpedicion"
+                setValue={setValue}
+                readOnly={true}
+                plaintext={true}
+              />
+            </td>
+            <td>
+              <State
+                field={{
+                  value: persona?.r_config_departamentoExpedicion,
+                  name: "str_config_departamentoExpedicion",
+                }}
+                child="str_config_ciudadExpedicion"
+                setValue={setValue}
+                readOnly={readOnly}
+                plaintext={true}
+              />
+            </td>
+            <td>
+              <City
+                field={{
+                  value: persona?.r_config_ciudadExpedicion,
+                  name: "str_config_ciudadExpedicion",
+                }}
+                setValue={setValue}
+                readOnly={true}
+                plaintext={true}
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-4">

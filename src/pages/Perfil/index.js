@@ -1,19 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Page from "components/Page";
-import {
-  Breadcrumb,
-  Card,
-  Row,
-  Col,
-  Image,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PerfilMaster from "./Master";
 import { toast } from "react-toastify";
 import { FaPenAlt, FaEye } from "react-icons/fa";
+import { Context } from "components/Policy/Ctx";
+
 const Perfil = () => {
+  const { policies, persona } = useContext(Context);
   const id_persona = localStorage.getItem("id_persona");
   const [readOnly, setReadOnly] = useState(true);
 
@@ -50,6 +45,7 @@ const Perfil = () => {
             callback={callback}
             allowSearchPerson={false}
             readOnly={readOnly}
+            policies={policies}
           />
         </Card.Body>
       </Card>

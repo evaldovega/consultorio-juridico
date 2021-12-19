@@ -6,11 +6,49 @@ import State from "components/State";
 import City from "components/City";
 import Errors from "components/Errors";
 import Context from "./Ctx";
+import { ROL_ESTUDIANTE } from "constants/apiContants";
 
 const PerfilUbicacion = () => {
-  const { readOnly, control, errors, setValue } = useContext(Context);
+  const { readOnly, control, errors, setValue, policies, persona } =
+    useContext(Context);
+
+  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+    return (
+      <div className="mb-3">
+        <h3 className="title-line">
+          <span>Datos de ubicación</span>
+        </h3>
+        <table width={"100%"}>
+          <tr>
+            <th>Pais de nacimiento</th>
+            <th>Departamento de nacimiento</th>
+            <th>Ciudad de nacimiento</th>
+            <th>Barrio</th>
+          </tr>
+          <tr>
+            <td>{persona?.r_config_paisNacimiento}</td>
+            <td>{persona?.r_config_departamento}</td>
+            <td>{persona?.r_config_ciudadNacimiento}</td>
+            <td>{persona?.a_barrio}</td>
+          </tr>
+          <tr>
+            <th>Dirección</th>
+            <th>Teléfono fijo</th>
+            <th>Celular</th>
+            <th>Correo electrónico</th>
+          </tr>
+          <tr>
+            <td>{persona?.a_direccion}</td>
+            <td>{persona?.a_telefonoFijo}</td>
+            <td>{persona?.a_celular}</td>
+            <td>{persona?.a_correoElectronico}</td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
   return (
-    <div>
+    <div className="mb-3">
       <h3 className="title-line">
         <span>Datos de ubicación</span>
       </h3>

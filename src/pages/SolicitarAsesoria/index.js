@@ -30,6 +30,7 @@ const {
   ROL_ESTUDIANTE,
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
 } = require("constants/apiContants");
 
 const SolicitarAsesoria = () => {
@@ -41,12 +42,13 @@ const SolicitarAsesoria = () => {
   const [personaId, setPersonaId] = useState("");
   const formPersona = useRef();
   const formAsesoria = useRef();
-  const { policies } = useContext(ContextPolicy);
+  const { policies, persona: usuarioEnSession } = useContext(ContextPolicy);
 
   const guardarAsesoria = async (data) => {
     setLoading(true);
     const _data = {
       ...data,
+      r_usuarios_persona: usuarioEnSession,
       mm_estudiantesAsignados: data.mm_estudiantesAsignados
         ? data.mm_estudiantesAsignados.map((e) => e.id)
         : [],
@@ -150,13 +152,15 @@ const SolicitarAsesoria = () => {
   }, [id]);
 
   return (
-    <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_ADMIN, ROL_ASESOR]}>
+    <Policy
+      policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}
+    >
       <Page>
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/">Inicio</Link>
           </Breadcrumb.Item>
-          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
             <Breadcrumb.Item>
               <Link to="/asesoria-juridica">Asesoría jurídica</Link>
             </Breadcrumb.Item>
@@ -167,7 +171,7 @@ const SolicitarAsesoria = () => {
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >
-          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
             <Accordion defaultActiveKey="0">
               <Card>
                 <Card.Header className="d-flex justify-content-end">
@@ -203,7 +207,9 @@ const SolicitarAsesoria = () => {
                 <h2 className="title-line">
                   <span>Datos de asesoría</span>
                 </h2>
-                <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+                <Policy
+                  policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}
+                >
                   <Row className="mb-3">
                     <Controller
                       name="dt_fechaAsesoria"
@@ -269,7 +275,7 @@ const SolicitarAsesoria = () => {
                 <ArchivosAsesoria />
               </Card.Body>
             </Card>
-            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
               <br />
               <br />
               <AsesoriaEstudiantes />

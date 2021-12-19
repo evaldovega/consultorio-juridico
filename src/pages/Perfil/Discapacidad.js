@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import API from "utils/Axios";
-import { Form, Alert, Button, Col } from "react-bootstrap";
+import { Form, Alert, Button, Col, Badge } from "react-bootstrap";
 import { useContext } from "react";
 import Context from "./Ctx";
 import { Controller } from "react-hook-form";
+import { ROL_ESTUDIANTE } from "constants/apiContants";
 
 const PerfilDiscapacidad = () => {
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { control, setValue, getValues, readOnly, watch } = useContext(Context);
+  const { control, setValue, getValues, readOnly, watch, policies } =
+    useContext(Context);
   const checked = watch("mm_discapacidad", []);
 
   const load = () => {
@@ -32,9 +34,9 @@ const PerfilDiscapacidad = () => {
 
   const onChange = (check) => {
     let values = getValues("mm_discapacidad") || [];
-    const index = values.indexOf(check.value);
+    const index = values.indexOf(parseInt(check.value));
     if (index < 0) {
-      values.push(check.value);
+      values.push(parseInt(check.value));
     } else {
       values.splice(index, 1);
     }
@@ -56,8 +58,35 @@ const PerfilDiscapacidad = () => {
     );
   }
 
+  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+    const discapacidadesSeleccionadas = docs.filter((d) =>
+      checked?.some((c) => c == d.value)
+    );
+
+    if (discapacidadesSeleccionadas.length) {
+      return (
+        <div className="mb-4">
+          <h3 className="title-line">
+            <span>Discapacidad</span>
+          </h3>
+          {discapacidadesSeleccionadas.map((d) => (
+            <Badge variant="primary">{d.label}</Badge>
+          ))}
+        </div>
+      );
+    }
+    return (
+      <div className="mb-4">
+        <h3 className="title-line">
+          <span>Discapacidad</span>
+        </h3>
+        <p>Ningúna</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="mb-4">
       <h3 className="title-line">
         <span>Discapacidad</span>
       </h3>
@@ -67,9 +96,9 @@ const PerfilDiscapacidad = () => {
             inline
             type="checkbox"
             disabled={readOnly}
-            checked={checked?.some((c) => c == d.value)}
+            checked={checked?.some((c) => parseInt(c) == parseInt(d.value))}
             onChange={(e) => onChange(e.target)}
-            value={d.value}
+            value={parseInt(d.value)}
             label={d.label}
           />
         ))}

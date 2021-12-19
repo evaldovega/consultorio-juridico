@@ -1,3 +1,10 @@
+import Policy from "components/Policy";
+import {
+  ROL_ADMIN,
+  ROL_ASESOR,
+  ROL_DOCENTE,
+  ROL_ESTUDIANTE,
+} from "constants/apiContants";
 import { useEffect } from "react";
 import { useState, useContext } from "react";
 import {
@@ -28,7 +35,7 @@ const ArchivosAsesoria = () => {
       _anexos.push({
         a_titulo: file.name,
         f_archivo: reader.result,
-        reserva_legal: false,
+        b_reservaLegal: false,
       });
       setValue(name, _anexos);
       e.target.value = "";
@@ -36,7 +43,7 @@ const ArchivosAsesoria = () => {
   };
 
   const onCheck = (event, index) => {
-    setValue(`${name}.${index}.reserva_legal`, event.target.checked);
+    setValue(`${name}.${index}.b_reservaLegal`, event.target.checked);
   };
 
   const remove = (index) => {
@@ -54,19 +61,26 @@ const ArchivosAsesoria = () => {
       <Table className="mb-3">
         <thead>
           <th>Documento</th>
-          <th>Reserva legal</th>
+
+          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}>
+            <th>Reserva legal</th>
+          </Policy>
           <th></th>
         </thead>
         <tbody>
           {anexos?.map((d, i) => (
             <tr key={i}>
               <td>{d.a_titulo}</td>
-              <td>
-                <Form.Check
-                  checked={d.reserva_legal}
-                  onChange={(e) => onCheck(e, i)}
-                />
-              </td>
+              <Policy
+                policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
+              >
+                <td>
+                  <Form.Check
+                    checked={d.b_reservaLegal}
+                    onChange={(e) => onCheck(e, i)}
+                  />
+                </td>
+              </Policy>
               <td>
                 <Button type="button" size="sm" onClick={() => remove(i)}>
                   <FaTimes />

@@ -25,6 +25,7 @@ const Partes = ({
   getValues,
   idConciliacion,
   apiDelete,
+  btnTextAdd = "Añadir",
 }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [cargando, setCargando] = useState(false);
@@ -119,9 +120,9 @@ const Partes = ({
               onRemove={onRemove}
             />
           ))}
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-center">
             <Button type="button" onClick={abirFormularioPersona}>
-              {fields.length > 0 ? "Añadir otro" : "Añadir"}
+              {btnTextAdd}
             </Button>
           </div>
         </Spin>

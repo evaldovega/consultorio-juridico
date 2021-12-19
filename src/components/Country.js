@@ -4,7 +4,13 @@ import { emitCustomEvent } from "react-custom-events";
 import API from "utils/Axios";
 import Spin from "components/Spin";
 
-const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
+const Country = ({
+  child = "",
+  field = {},
+  setValue,
+  readOnly = false,
+  plaintext = false,
+}) => {
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,8 +33,10 @@ const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
   }, []);
 
   useEffect(() => {
-    console.log("pais ", field.value);
-    emitCustomEvent(`load-${child}`, field.value);
+    console.log("enviar pais ", field.value);
+    setTimeout(() => {
+      emitCustomEvent(`load-${child}`, field.value);
+    }, 500);
     if (!field?.value?.length) {
       //setValue(child, "");
     }
@@ -50,7 +58,10 @@ const Country = ({ child = "", field = {}, setValue, readOnly = false }) => {
       </div>
     );
   }
-
+  if (plaintext) {
+    const pais = docs.find((d) => d.id == field.value);
+    return pais?.a_titulo || "...";
+  }
   return (
     <Spin cargando={loading}>
       <Form.Control

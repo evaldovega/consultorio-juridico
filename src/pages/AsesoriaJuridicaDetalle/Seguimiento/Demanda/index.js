@@ -8,6 +8,7 @@ import Policy, { policyAllow } from "components/Policy";
 import {
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
 } from "constants/apiContants";
@@ -142,6 +143,19 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
     }
   }, [show, doc]);
 
+  useEffect(() => {
+    if (policies && policies.length) {
+      //policyAllow([ROL_PERSONA], policies) && doc && doc.r_usuarios_persona!=persona ||
+      if (doc && doc.r_usuarios_persona != persona) {
+        setReadOnly(true);
+      } else {
+        setReadOnly(false);
+      }
+    } else {
+      setReadOnly(true);
+    }
+  }, [policies, doc]);
+
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
       <Form noValidate onSubmit={handleSubmit(guardar, onError)}>
@@ -167,8 +181,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       <Form.Control
                         {...field}
                         type="date"
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
+                        disabled={cargando || readOnly}
+                        plaintext={readOnly}
                       />
                       <Errors message={errors?.dt_fechaRadicacion?.message} />
                     </Form.Group>
@@ -188,8 +202,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       </Form.Label>
                       <Form.Control
                         {...field}
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
+                        disabled={cargando || readOnly}
+                        plaintext={readOnly}
                       />
                       <Errors message={errors?.a_contraQuien?.message} />
                     </Form.Group>
@@ -209,8 +223,8 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       <Form.Label>Reparto</Form.Label>
                       <Form.Control
                         {...field}
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
+                        disabled={cargando || readOnly}
+                        plaintext={readOnly}
                       />
                     </Form.Group>
                   )}
@@ -226,56 +240,9 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
                       <Form.Label>Fallo</Form.Label>
                       <Form.Control
                         {...field}
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
+                        disabled={cargando || readOnly}
+                        plaintext={readOnly}
                         type="date"
-                      />
-                    </Form.Group>
-                  )}
-                />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs="12">
-                <Controller
-                  name="t_observacion"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Ingrese información" }}
-                  render={({ field }) => (
-                    <Form.Group>
-                      <Form.Label>
-                        Observaciones <span className="required" />
-                      </Form.Label>
-                      <Form.Control
-                        {...field}
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
-                        as="textarea"
-                        rows="6"
-                      />
-                      <Errors message={errors?.t_observacion?.message} />
-                    </Form.Group>
-                  )}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs="12">
-                <Controller
-                  name="t_respuesta"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <Form.Group>
-                      <Form.Label>Respuesta</Form.Label>
-                      <Form.Control
-                        {...field}
-                        // disabled={cargando || readOnly}
-                        // plaintext={readOnly}
-                        as="textarea"
-                        rows="6"
                       />
                     </Form.Group>
                   )}
@@ -330,7 +297,7 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Row>
             <Row>
               <Col>
-                <Form.Label>Anexo</Form.Label>
+                <Form.Label>Añadir nuevo archivo</Form.Label>
                 {archivo ? <p>{archivo.a_titulo}</p> : ""}
                 <Form.Control
                   type="file"
@@ -348,13 +315,15 @@ const Demanda = ({ show, setShow, asesoriaId, onSave, doc }) => {
             </Row>
           </Context.Provider>
         </Modal.Body>
-        <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE]}>
-          <Modal.Footer>
-            <Button variant="primary" type="submit" disabled={cargando}>
-              Guardar
-            </Button>
-          </Modal.Footer>
-        </Policy>
+        {!readOnly ? (
+          <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
+            <Modal.Footer>
+              <Button variant="primary" type="submit" disabled={cargando}>
+                Guardar
+              </Button>
+            </Modal.Footer>
+          </Policy>
+        ) : null}
       </Form>
     </Modal>
   );
