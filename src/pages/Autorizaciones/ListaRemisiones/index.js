@@ -18,6 +18,7 @@ import Spin from "components/Spin";
 import Policy from "components/Policy";
 import { ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import { FaPrint, FaTrash } from "react-icons/fa";
+import Filtros from "./Filtros";
 
 const ListadoRemisiones = () => {
   const [docs, setDocs] = useState([]);
@@ -196,6 +197,7 @@ const ListadoRemisiones = () => {
               ) : (
                 ""
               )}
+              <Filtros setParams={setParams} params={params} />
               <Table striped bordered hover>
                 <thead>
                   <tr>
