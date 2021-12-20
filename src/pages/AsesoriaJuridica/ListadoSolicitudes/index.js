@@ -25,6 +25,7 @@ import {
 import Spin from "components/Spin";
 import moment from "moment";
 import { FaEye } from "react-icons/fa";
+import Filtros from "./Filtros";
 
 const ListadoSolicitudes = () => {
   const [docs, setDocs] = useState([]);
@@ -116,15 +117,8 @@ const ListadoSolicitudes = () => {
           </Breadcrumb>
 
           <Card>
+            <Filtros params={params} setParams={setParams} />
             <Card.Body>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Form style={{ flex: 1 }}>
-                  <Form.Group>
-                    <Form.Control placeholder="Buscar..." />
-                  </Form.Group>
-                </Form>
-                <div style={{ flex: 1 }}></div>
-              </div>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
@@ -164,7 +158,9 @@ const ListadoSolicitudes = () => {
                       >
                         <td>
                           {d?.r_usuarios_solicitante?.a_primerNombre}{" "}
-                          {d?.r_usuarios_solicitante?.a_primerApellido}
+                          {d?.r_usuarios_solicitante?.a_segundoNombre}{" "}
+                          {d?.r_usuarios_solicitante?.a_primerApellido}{" "}
+                          {d?.r_usuarios_solicitante?.a_segundoApellido}
                         </td>
                         <td>{d?.r_usuarios_solicitante?.a_numeroDocumento}</td>
                       </Policy>

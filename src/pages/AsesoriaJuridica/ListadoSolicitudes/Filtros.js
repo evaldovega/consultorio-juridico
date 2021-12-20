@@ -3,15 +3,17 @@ import { useRef } from "react";
 import { ExportToExcel } from "components/ExportToExcel";
 import { useForm, Controller } from "react-hook-form";
 import { FaFilter } from "react-icons/fa";
+import API from "utils/Axios";
 const { Row, Col, Button, Form, Accordion, Card } = require("react-bootstrap");
 
-const InscripcionesFiltros = ({
+const Filtros = ({
   docs = [],
   totalRegistros = 0,
   params,
   setParams,
   discapacidades,
 }) => {
+  const [areas, setAreas] = useState([]);
   const {
     register,
     control,
@@ -28,60 +30,46 @@ const InscripcionesFiltros = ({
   });
   const btn = useRef();
   const btnCollapsed = useRef();
-  const checked = watch("discapacida", []);
-  const filtrar = (data) => {
-    console.log(data);
-    const filtros = { ...data };
-    filtros.discapacidad = filtros.discapacidad.length
-      ? filtros.discapacidad.join(",")
-      : "";
 
+  const filtrar = (data) => {
+    const filtros = { ...data };
     setParams({ ...params, page: 1, ...filtros });
   };
 
+  const cargarAreas = () => {
+    API("configuracion/area-asesoria/").then(({ data }) => {
+      setAreas(data);
+    });
+  };
+
   const limpiar = () => {
-    setValue("cedula", "");
-    setValue("codestudiante", "");
     setValue("fechainicio", "");
     setValue("fechafin", "");
     setValue("primer_nombre", "");
     setValue("segundo_nombre", "");
     setValue("primer_apellido", "");
     setValue("segundo_apellido", "");
-    setValue("semestre", "");
-    setValue("discapacidad", []);
+    setValue("area_asesoria", "");
     btn.current.click();
   };
 
-  const onChange = (check) => {
-    let values = getValues("discapacidad") || [];
-    const index = values.indexOf(parseInt(check.value));
-    if (index < 0) {
-      values.push(parseInt(check.value));
-    } else {
-      values.splice(index, 1);
-    }
-    setValue("discapacidad", values);
-  };
-
   useEffect(() => {
-    setValue("cedula", "");
-    setValue("codestudiante", "");
     setValue("fechainicio", "");
     setValue("fechafin", "");
     setValue("primer_nombre", "");
     setValue("segundo_nombre", "");
     setValue("primer_apellido", "");
     setValue("segundo_apellido", "");
-    setValue("semestre", "");
-    setValue("discapacidad", []);
+    setValue("area_asesoria", "");
   }, []);
 
   useEffect(() => {
     if (btnCollapsed && btnCollapsed.current) {
       setTimeout(() => btnCollapsed.current.click(), 600);
     }
+    cargarAreas();
   }, [btnCollapsed]);
+
   return (
     <Accordion defaultActiveKey="0">
       <Card>
@@ -98,33 +86,6 @@ const InscripcionesFiltros = ({
         <Accordion.Collapse eventKey="0">
           <Card.Body>
             <Form noValidate onSubmit={handleSubmit(filtrar)} className="mb-4">
-              <h4>Por documento</h4>
-              <Row className="mb-1">
-                <Col xs="12" md="6">
-                  <Controller
-                    name="cedula"
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Group>
-                        <Form.Label>Cédula</Form.Label>
-                        <Form.Control {...field} size="sm" />
-                      </Form.Group>
-                    )}
-                  />
-                </Col>
-                <Col xs="12" md="6">
-                  <Controller
-                    name="codestudiante"
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Group>
-                        <Form.Label>Código estudiantil</Form.Label>
-                        <Form.Control {...field} size="sm" />
-                      </Form.Group>
-                    )}
-                  />
-                </Col>
-              </Row>
               <h4>Por rango de fecha</h4>
               <Row className="mb-1">
                 <Col xs="12" md="6">
@@ -203,31 +164,24 @@ const InscripcionesFiltros = ({
                   />
                 </Col>
               </Row>
-              <h4>Por discapacidades</h4>
-              <Form.Group>
-                {discapacidades.map((d, i) => (
-                  <Form.Check
-                    inline
-                    type="checkbox"
-                    checked={checked?.some(
-                      (c) => parseInt(c) == parseInt(d.value)
-                    )}
-                    onChange={(e) => onChange(e.target)}
-                    value={parseInt(d.value)}
-                    label={d.label}
-                  />
-                ))}
-              </Form.Group>
+
               <h4>Otros</h4>
               <Row className="mb-1">
                 <Col xs="12" md="6">
                   <Controller
-                    name="semestre"
+                    name="area_asesoria"
                     control={control}
                     render={({ field }) => (
                       <Form.Group>
-                        <Form.Label>Semestre</Form.Label>
-                        <Form.Control {...field} size="sm" />
+                        <Form.Label>Area</Form.Label>
+                        <Form.Control {...field} size="sm" as="select">
+                          <option value="">Todas</option>
+                          {areas?.map((a) => (
+                            <option key={a.id} value={a.id}>
+                              {a.a_titulo}
+                            </option>
+                          ))}
+                        </Form.Control>
                       </Form.Group>
                     )}
                   />
@@ -252,4 +206,4 @@ const InscripcionesFiltros = ({
   );
 };
 
-export default InscripcionesFiltros;
+export default Filtros;

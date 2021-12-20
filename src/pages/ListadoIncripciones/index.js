@@ -133,14 +133,14 @@ const ListadoIncripciones = () => {
           </Breadcrumb>
 
           <Card>
+            <InscripcionesFiltros
+              totalRegistros={totalRegistros}
+              params={params}
+              setParams={setParams}
+              discapacidades={discapacidades}
+              docs={docs}
+            />
             <Card.Body>
-              <InscripcionesFiltros
-                totalRegistros={totalRegistros}
-                params={params}
-                setParams={setParams}
-                discapacidades={discapacidades}
-                docs={docs}
-              />
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
