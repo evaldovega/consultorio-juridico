@@ -314,3 +314,13 @@ img {
   justify-content: center;
   align-items: center;
 }
+.table-inside {
+  border: none !important;
+  margin-bottom: 0px !important;
+}
+.table-inside tr:last-child td {
+  border-bottom: 0 !important;
+}
+.card-header h2 {
+  margin: 0;
+}
