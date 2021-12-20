@@ -11,19 +11,14 @@ import {
   Alert,
   Pagination,
   Form,
+  Button,
 } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-
-import {
-  SearchOutlined,
-  PrinterOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
+import { FaPrint, FaTrash } from "react-icons/fa";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
-import Spin from "components/Spin";
 import { ExportToExcel } from "components/ExportToExcel";
+import Spin from "components/Spin";
 
 const ListadoCertificados = () => {
   const [docs, setDocs] = useState([]);
@@ -97,23 +92,19 @@ const ListadoCertificados = () => {
             director: `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
             fecha: el.dt_fechaProceso,
             acciones: (
-              <span>
+              <div className="d-flex justify-content-between">
                 <a href={`${baseUrl}/doc_certificacion/${el.id}/`}>
-                  <PrinterOutlined
-                    style={{
-                      fontSize: "20px",
-                      marginRight: "20px",
-                    }}
-                  />
+                  <Button variant="primary">
+                    <FaPrint />
+                  </Button>
                 </a>
-                <DeleteOutlined
+                <Button
+                  variant="danger"
                   onClick={() => eliminarCertificado(el.id)}
-                  style={{
-                    fontSize: "20px",
-                    color: "red",
-                  }}
-                />
-              </span>
+                >
+                  <FaTrash />
+                </Button>
+              </div>
             ),
           }))
         );
@@ -176,9 +167,6 @@ const ListadoCertificados = () => {
 
           <Card>
             <Card.Body>
-              <h2 className="title-line" style={{ marginTop: 10 }}>
-                <span>Listado de certificados</span>
-              </h2>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
