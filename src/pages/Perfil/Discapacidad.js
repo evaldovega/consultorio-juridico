@@ -80,7 +80,7 @@ const PerfilDiscapacidad = () => {
         <h3 className="title-line">
           <span>Discapacidad</span>
         </h3>
-        <p>Ningúna</p>
+        <p>Ninguna</p>
       </div>
     );
   }
