@@ -21,6 +21,15 @@
 .nav-tabs .nav-link {
   border-top-left-radius: 16px;
 }
+.page-item.active .page-link {
+  background-color: #d07400 !important;
+}
+.card-group > .card {
+  margin-right: 1.5rem;
+}
+.link-card {
+  text-decoration: none;
+}
 /*-----------------------------BOTON PRIMARIO-----------------------*/
 
 .btn-primary {
