@@ -144,16 +144,20 @@ const CentroDeConciliacionListado = () => {
                       <td className="crop">{d.t_resumenHechos}</td>
                       <td className="crop">{d.c_intencionSolicitante}</td>
                       <td>
-                        <div className="btn-group">
-                          <Button onClick={() => setId(d.id)}>
+                        <div className="d-flex justify-content-end">
+                          <Button
+                            variant="primary"
+                            className="mr-1"
+                            onClick={() => setId(d.id)}
+                          >
                             <FaEye />
                           </Button>
                           <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
                             <Link
                               to={`/centro-de-conciliacion/registrar/${d.id}`}
                             >
-                              <Button className="ml-1">
-                                <FaPenAlt color="#ffff" />{" "}
+                              <Button variant="primary">
+                                <FaPenAlt />
                               </Button>
                             </Link>
                           </Policy>
