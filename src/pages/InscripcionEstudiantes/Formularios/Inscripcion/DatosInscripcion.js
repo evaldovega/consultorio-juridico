@@ -243,6 +243,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
                     Lugar de las practicas <span className="required" />
                   </Form.Label>
                   <Form.Control {...field} as="select">
+                    <option value="">Seleccione</option>
                     {lugarPracticas.map((el, i) => (
                       <option value={el.id}>{el.a_titulo}</option>
                     ))}
