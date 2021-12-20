@@ -53,7 +53,7 @@ const ListadoRemisiones = () => {
                             </Col>
                         </Row>
                         <div className="d-flex justify-content-end mt-4">
-                            <a href={`http://localhost:8000/autorizaciones_fecha/${fechaInicial}/${fechaFinal}`}>
+                            <a href={`http://179.0.29.155:8000/autorizaciones_fecha/${fechaInicial}/${fechaFinal}`}>
                                 <Button size="lg">
                                     Consultar
                                 </Button>
