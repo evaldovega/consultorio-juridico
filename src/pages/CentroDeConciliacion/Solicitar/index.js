@@ -59,7 +59,7 @@ const CentroDeConciliacionSolicitar = () => {
   });
 
   const onError = (e) => {
-    toast.info("😥 Ingresa la información faltante por favor!", {
+    toast.info("Ingresa la información faltante por favor!", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: true,
@@ -121,7 +121,7 @@ const CentroDeConciliacionSolicitar = () => {
       history.push(`/centro-de-conciliacion/solicitudes`);
     } catch (error) {
       setCargando(false);
-      toast.error("😥 " + error.toString(), {
+      toast.error(error.toString(), {
         position: "top-center",
         autoClose: 10000,
         hideProgressBar: true,

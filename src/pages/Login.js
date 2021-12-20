@@ -60,7 +60,7 @@ const Login = ({ location, history }) => {
           error.response && error.response.data
             ? error.response.data.detail
             : error.toString();
-        toast.error(`😥 ${e}`, {
+        toast.error(`${e}`, {
           position: "top-center",
           autoClose: 10000,
           hideProgressBar: true,

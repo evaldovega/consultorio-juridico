@@ -60,7 +60,7 @@ const PerfilMaster = ({
   };
 
   const onError = (e) => {
-    toast.info("😥 Ingresa la información faltante por favor!", {
+    toast.info("Ingresa la información faltante por favor!", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: true,

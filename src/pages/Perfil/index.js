@@ -14,7 +14,7 @@ const Perfil = () => {
 
   const callback = ({ persona, success }) => {
     if (success) {
-      toast.success("🙌 Perfil actualizado correctamente", {
+      toast.success("Perfil actualizado correctamente", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,

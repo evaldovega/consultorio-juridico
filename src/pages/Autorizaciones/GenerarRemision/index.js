@@ -78,11 +78,12 @@ const GenerarRemision = () => {
   const getInscripciones = async () => {
     setInscripciones([]);
 
-    await API.post('/academusoft/estudiantes/', {estudiante: cedula})
-    .then(response => {
-        setInscripciones([response.data])
-        setIdEstudiante([response.data].map(el => (el.id))[0])
-    })
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+      (response) => {
+        setInscripciones([response.data]);
+        setIdEstudiante([response.data].map((el) => el.id)[0]);
+      }
+    );
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
     //   console.log(response.data);
@@ -132,7 +133,7 @@ const GenerarRemision = () => {
     if (e.code === "Enter") e.preventDefault();
   };
   const onError = (e) => {
-    toast.info("😥 Ingresa la información faltante por favor!", {
+    toast.info("Ingresa la información faltante por favor!", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: true,
