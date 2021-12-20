@@ -27,19 +27,19 @@ const Perfil = () => {
   };
   return (
     <Page>
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <Link to="/">Inicio</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
-      </Breadcrumb>
+      <div className="d-flex justify-content-between align-items-center">
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/">Inicio</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
+        </Breadcrumb>
+        <Button onClick={() => setReadOnly(!readOnly)}>
+          {!readOnly ? <FaPenAlt /> : <FaEye />}
+        </Button>
+      </div>
 
       <Card>
-        <Card.Header className="d-flex justify-content-end">
-          <Button onClick={() => setReadOnly(!readOnly)}>
-            {!readOnly ? <FaPenAlt /> : <FaEye />}
-          </Button>
-        </Card.Header>
         <Card.Body style={{ padding: "2.5rem" }}>
           <PerfilMaster
             id={id_persona}
