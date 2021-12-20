@@ -26,7 +26,8 @@ const FotoPerfil = () => {
   useEffect(() => {
     console.log({ url });
     if (url) {
-      setSrc(`${baseUrl}${url}`);
+      const nuevaUrl = url.includes(baseUrl) ? url : `${baseUrl}${url}`;
+      setSrc(nuevaUrl);
     }
   }, [url]);
   return (

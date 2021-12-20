@@ -37,6 +37,7 @@ const PerfilLaboral = () => {
                 {...field}
                 label="Seleccione si lo es"
                 readOnly={readOnly}
+                checked={field.value}
                 disabled={readOnly}
                 plaintext={readOnly}
               />

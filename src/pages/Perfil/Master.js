@@ -48,6 +48,7 @@ const PerfilMaster = ({
       setLoading(true);
       API(`usuarios/personas/${id}/`)
         .then(({ data }) => {
+          console.log({ persona: data });
           setPersona(data);
           Object.keys(data).forEach((k) => setValue(k, data[k]));
         })
