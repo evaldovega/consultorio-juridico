@@ -166,16 +166,16 @@ const RemisionMasiva = () => {
     <Policy policy={[ROL_ADMIN]}>
       <Spin cargando={loading}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/autorizaciones">Documentos</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Generar remisión</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="d-flex justify-content-end mb-1">
+          <div className="d-flex justify-content-between align-items-center">
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                <Link to="/">Inicio</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/autorizaciones">Documentos</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item active>Generar remisión</Breadcrumb.Item>
+            </Breadcrumb>
             <Button
               variant={modo == 1 ? "primary" : "secondary"}
               onClick={() => setModo(modo == 1 ? 0 : 1)}

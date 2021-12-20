@@ -1,3 +1,4 @@
+import { useState, useContext, useEffect } from "react";
 import Policy, { policyAllow } from "components/Policy";
 import { Context } from "components/Policy/Ctx";
 import {
@@ -5,9 +6,9 @@ import {
   ROL_ASESOR,
   ROL_DOCENTE,
   ROL_ESTUDIANTE,
+  CONFIRM_BORRAR_ARCHIVO,
 } from "constants/apiContants";
-import { useEffect } from "react";
-import { useState, useContext } from "react";
+
 import {
   Card,
   Form,
@@ -22,11 +23,10 @@ import { FaTimes } from "react-icons/fa";
 import API, { baseUrl } from "utils/Axios";
 import Spin from "components/Spin";
 const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
-  const name = "mm_documentosAnexos";
   const { mm_documentosAnexos = [] } = caso;
   const [cargando, setCargando] = useState(false);
-  const [puedeRemover, setPuedeRemover] = useState(false);
-  const { policies, persona } = useContext(Context);
+  const { policies, persona: usuarioEnSesion } = useContext(Context);
+
   const edit = async (anexo, anexos) => {
     try {
       setCargando(true);
@@ -48,7 +48,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
         f_archivo,
         a_titulo,
         b_reservaLegal: false,
-        r_usuarios_persona: persona,
+        r_usuarios_persona: usuarioEnSesion,
         r_asesoria_solicitudAsesoria: asesoriaId,
       });
       setCaso({
@@ -59,6 +59,16 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
     } catch (error) {
       setCargando(false);
     }
+  };
+
+  const puedeRemover = (archivo) => {
+    if (policies && policies.length) {
+      return (
+        policyAllow([ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE], policies) ||
+        archivo.r_usuarios_persona == usuarioEnSesion
+      );
+    }
+    return false;
   };
 
   const onChange = (e) => {
@@ -78,7 +88,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   };
 
   const remove = async (index) => {
-    if (window.confirm("¿Seguro que quiere borrar este archivo?")) {
+    if (window.confirm(CONFIRM_BORRAR_ARCHIVO)) {
       const anexo = mm_documentosAnexos[index];
       const _anexos = [...mm_documentosAnexos];
       _anexos.splice(index, 1);
@@ -93,16 +103,6 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
     }
   };
 
-  useEffect(() => {
-    if (policies && policies.length) {
-      setPuedeRemover(
-        policyAllow([ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE], policies)
-      );
-    } else {
-      setPuedeRemover(false);
-    }
-  }, [policies]);
-
   return (
     <Spin cargando={cargando}>
       <div>
@@ -114,7 +114,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
             >
               <th>Reserva legal</th>
             </Policy>
-            {puedeRemover ? <th></th> : null}
+            <th></th>
           </thead>
           <tbody>
             {mm_documentosAnexos?.map((d, i) => (
@@ -134,7 +134,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
                     />
                   </td>
                 </Policy>
-                {puedeRemover ? (
+                {puedeRemover(d) ? (
                   <td>
                     <Button type="button" size="sm" onClick={() => remove(i)}>
                       <FaTimes />
@@ -146,7 +146,8 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
           </tbody>
         </Table>
         <Form.Group>
-          <Form.File onChange={onChange} label="Adjuntar" />
+          <Form.Label>Cargar otro archivo</Form.Label>
+          <Form.File onChange={onChange} />
         </Form.Group>
       </div>
     </Spin>
