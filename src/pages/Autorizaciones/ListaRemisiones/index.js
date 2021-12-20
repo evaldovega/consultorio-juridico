@@ -5,25 +5,19 @@ import API, { baseUrl } from "utils/Axios";
 import {
   Breadcrumb,
   Card,
-  Col,
-  Row,
   Table,
   Form,
   Pagination,
   Alert,
+  Button,
 } from "react-bootstrap";
 import { ExportToExcel } from "components/ExportToExcel";
 import { Controller, useForm } from "react-hook-form";
 import Spin from "components/Spin";
 
-import {
-  SearchOutlined,
-  PrinterOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
 import Policy from "components/Policy";
 import { ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
+import { FaPrint, FaTrash } from "react-icons/fa";
 
 const ListadoRemisiones = () => {
   const [docs, setDocs] = useState([]);
@@ -82,27 +76,19 @@ const ListadoRemisiones = () => {
             }`,
             destinatario: el.r_config_autoridad.a_titulo,
             acciones: (
-              <span>
+              <div className="d-flex justify-content-between">
                 <a target="_blank" href={`${baseUrl}/doc_remision/${el.id}/`}>
-                  <span title="Imprimir">
-                    <PrinterOutlined
-                      style={{
-                        fontSize: "18px",
-                        marginRight: "20px",
-                      }}
-                    />
-                  </span>
+                  <Button variant="primary">
+                    <FaPrint />
+                  </Button>
                 </a>
-                <span title="Eliminar">
-                  <DeleteOutlined
-                    onClick={() => eliminarRemision(el.id)}
-                    style={{
-                      fontSize: "18px",
-                      color: "red",
-                    }}
-                  />
-                </span>
-              </span>
+                <Button
+                  variant="danger"
+                  onClick={() => eliminarRemision(el.id)}
+                >
+                  <FaTrash />
+                </Button>
+              </div>
             ),
           }))
         );
@@ -205,9 +191,6 @@ const ListadoRemisiones = () => {
 
           <Card>
             <Card.Body>
-              <h2 className="title-line" style={{ marginTop: 10 }}>
-                <span>Listado de remisiones</span>
-              </h2>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
