@@ -6,6 +6,7 @@ import { Controller } from "react-hook-form";
 import { useContext } from "react";
 import Context from "./Ctx";
 import { baseUrl } from "utils/Axios";
+import Img from "components/Img";
 
 const FotoPerfil = () => {
   const { readOnly, watch, control, errors, setValue } = useContext(Context);
@@ -24,12 +25,16 @@ const FotoPerfil = () => {
   };
 
   useEffect(() => {
-    console.log({ url });
     if (url) {
-      const nuevaUrl = url.includes(baseUrl) ? url : `${baseUrl}${url}`;
+      const nuevaUrl = url.includes(baseUrl)
+        ? url
+        : url.includes("base64")
+        ? url
+        : `${baseUrl}${url}`;
       setSrc(nuevaUrl);
     }
   }, [url]);
+
   return (
     <>
       <div
@@ -42,7 +47,7 @@ const FotoPerfil = () => {
           border: "1px solid silver",
         }}
       >
-        <Image className="img-fluid" src={src} />
+        <Img originalSrc={src} />
       </div>
       {!readOnly ? <Form.Control type="file" onChange={onChange} /> : null}
       <Controller

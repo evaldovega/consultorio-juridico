@@ -6,6 +6,7 @@ import Errors from "components/Errors";
 import FotoPerfil from "./Foto";
 import { ROL_ESTUDIANTE } from "constants/apiContants";
 import { baseUrl } from "utils/Axios";
+import Img from "components/Img";
 
 const PerfilDatosPersonales = ({}) => {
   const { readOnly, control, errors, setValue, policies, persona } =
@@ -27,9 +28,12 @@ const PerfilDatosPersonales = ({}) => {
           </tr>
           <tr>
             <td>
-              <img
-                src={`${baseUrl}${persona?.f_archivoFotoPerfil}`}
+              <Img
                 width={92}
+                style={{ border: "1px solid #d07400" }}
+                roundedCircle={true}
+                className="img-fluid img-round"
+                originalSrc={`${baseUrl}${persona?.f_archivoFotoPerfil}`}
               />
             </td>
             <td>{persona?.a_primerNombre}</td>

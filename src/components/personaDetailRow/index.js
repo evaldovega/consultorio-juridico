@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import API, { baseUrl } from "utils/Axios";
 import { FaTrash } from "react-icons/fa";
+import { useRef } from "react";
+import Img from "components/Img";
 
 const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
   const [cargnado, setCargando] = useState(false);
@@ -11,7 +13,12 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
   const cargar = () => {
     setCargando(true);
     API(`/usuarios/personas/${id}/`)
-      .then(({ data }) => setDoc(data))
+      .then(({ data }) =>
+        setDoc({
+          ...data,
+          f_archivoFotoPerfil: `${baseUrl}${data.f_archivoFotoPerfil}`,
+        })
+      )
       .finally(() => setCargando(false));
   };
 
@@ -29,7 +36,11 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
     <Row className="mb-2 align-items-center">
       <Col>
         <div className="circle-profile" style={{ width: 64, height: 64 }}>
-          <Image src={`${baseUrl}/${doc.f_archivoFotoPerfil}`} />
+          <Img
+            originalSrc={doc.f_archivoFotoPerfil}
+            style={{ border: "1px solid #d07400" }}
+            roundedCircle={true}
+          />
         </div>
       </Col>
       <Col xs="6" md="3">
