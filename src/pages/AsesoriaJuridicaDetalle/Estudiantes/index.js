@@ -72,7 +72,9 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
 
   useEffect(() => {
     if (policies && policies.length > 0) {
-      setAllowRemove(policyAllow([ROL_ADMIN, ROL_ASESOR], policies));
+      setAllowRemove(
+        policyAllow([ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE], policies)
+      );
     } else {
       setAllowRemove(false);
     }
