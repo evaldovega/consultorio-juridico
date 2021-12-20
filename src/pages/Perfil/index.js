@@ -22,6 +22,7 @@ const Perfil = () => {
         pauseOnHover: true,
         draggable: true,
       });
+      setReadOnly(true);
     }
   };
   return (

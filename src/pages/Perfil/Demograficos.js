@@ -51,6 +51,10 @@ const PerfilDemografico = () => {
       (o) => o.id == persona?.r_config_orientacion
     );
     const etnia = etnias.find((o) => o.id == persona?.r_config_etnia);
+    const estadoCivil = estadosCiviles.find(
+      (o) => o.id == persona?.r_config_estadoCivil
+    );
+
     return (
       <div className="mb-4">
         <h3 className="title-line">
@@ -77,7 +81,7 @@ const PerfilDemografico = () => {
           <tr>
             <td>{etnia?.a_titulo || "No especificada"}</td>
             <td>{persona?.a_numeroHijos || "No especificado"}</td>
-            <td>{persona?.a_numeroHijos || "No especificado"}</td>
+            <td>{estadoCivil?.a_titulo || "No especificado"}</td>
           </tr>
         </table>
       </div>
@@ -199,7 +203,7 @@ const PerfilDemografico = () => {
           )}
         />
         <Controller
-          name="c_estadoCivil"
+          name="r_config_estadoCivil"
           control={control}
           defaultValue=""
           render={({ field }) => (
@@ -213,8 +217,11 @@ const PerfilDemografico = () => {
                 plaintext={readOnly}
               >
                 <option value="">Seleccione</option>
-                <option value="Soltero">Soltero</option>
-                <option value="Casado">Casado</option>
+                {estadosCiviles.map((ec) => (
+                  <option key={ec.id} value={ec.id}>
+                    {ec.a_titulo}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
           )}
