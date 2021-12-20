@@ -172,7 +172,9 @@ const ListadoIncripciones = () => {
                       <td>{d.a_codigoEstudiantil}</td>
                       <td>
                         {d.r_usuarios_persona.a_primerNombre}{" "}
-                        {d.r_usuarios_persona.a_primerApellido}
+                        {d.r_usuarios_persona.a_segundoNombre}{" "}
+                        {d.r_usuarios_persona.a_primerApellido}{" "}
+                        {d.r_usuarios_persona.a_segundoApellido}
                       </td>
 
                       <td>{d.a_anioInscripcion}</td>
