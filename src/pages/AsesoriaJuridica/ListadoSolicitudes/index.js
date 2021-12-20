@@ -12,8 +12,6 @@ import { ExportToExcel } from "components/ExportToExcel";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import { useImmer } from "use-immer";
-import TextNew from "components/TextNew";
 import API from "utils/Axios";
 import Policy from "components/Policy";
 import {
@@ -26,6 +24,7 @@ import {
 } from "constants/apiContants";
 import Spin from "components/Spin";
 import moment from "moment";
+import { FaEye } from "react-icons/fa";
 
 const ListadoSolicitudes = () => {
   const [docs, setDocs] = useState([]);
@@ -148,16 +147,13 @@ const ListadoSolicitudes = () => {
                     </Policy>
                     <th>Fecha</th>
                     <th>Asunto</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {docs.map((d, i) => (
                     <tr key={i}>
-                      <td>
-                        <Link to={`/asesoria-juridica/caso/${d.id}`}>
-                          {d.id}
-                        </Link>
-                      </td>
+                      <td>{d.id} </td>
                       <Policy
                         policy={[
                           ROL_ADMIN,
@@ -180,6 +176,13 @@ const ListadoSolicitudes = () => {
                           : "No definida"}
                       </td>
                       <td className="crop">{d?.t_asuntoConsulta}</td>
+                      <td>
+                        <Link to={`/asesoria-juridica/caso/${d.id}`}>
+                          <Button variant="primary">
+                            <FaEye />
+                          </Button>
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
