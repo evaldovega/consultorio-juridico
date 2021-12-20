@@ -185,7 +185,7 @@ const ListadoIncripciones = () => {
                         {d?.r_config_numeroConsultorio?.a_titulo ||
                           "No especificado"}
                       </td>
-                      <td>{d.a_turno}</td>
+                      <td>{d.a_turno || "No especificado"}</td>
                       <td>
                         {d?.r_usuarios_persona?.mm_discapacidad.map((di) => {
                           const _d = discapacidades.find(
@@ -201,13 +201,15 @@ const ListadoIncripciones = () => {
                         })}
                       </td>
                       <Policy policy={[ROL_ADMIN]}>
-                        <Link
-                          to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
-                        >
-                          <Button variant="link">
-                            <FaPenAlt />
-                          </Button>
-                        </Link>
+                        <td>
+                          <Link
+                            to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
+                          >
+                            <Button variant="primary">
+                              <FaPenAlt />
+                            </Button>
+                          </Link>
+                        </td>
                       </Policy>
                     </tr>
                   ))}
