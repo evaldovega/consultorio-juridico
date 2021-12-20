@@ -1,4 +1,3 @@
-import { Button, Input, Space } from "antd";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
@@ -10,16 +9,14 @@ import {
   Pagination,
   Alert,
   Form,
+  Button,
 } from "react-bootstrap";
 import { ExportToExcel } from "components/ExportToExcel";
-import {
-  SearchOutlined,
-  PrinterOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { FaPrint, FaTrash } from "react-icons/fa";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import Spin from "components/Spin";
+import Filtros from "./Filtros";
 
 const ListadoAutorizaciones = () => {
   const [docs, setDocs] = useState([]);
@@ -42,26 +39,22 @@ const ListadoAutorizaciones = () => {
             nro_autorizacion: d.a_numeroRadicado,
             observaciones: d.t_observaciones,
             acciones: (
-              <span>
+              <div className="d-flex justify-content-between">
                 <a
                   target="_blank"
                   href={`${baseUrl}/doc_autorizacion/${d.id}/`}
                 >
-                  <PrinterOutlined
-                    style={{
-                      marginRight: "20px",
-                      fontSize: "20px",
-                    }}
-                  />
+                  <Button variant="primary">
+                    <FaPrint />
+                  </Button>
                 </a>
-                <DeleteOutlined
+                <Button
+                  variant="danger"
                   onClick={() => eliminarAutorizacion(d.id)}
-                  style={{
-                    fontSize: "20px",
-                    color: "red",
-                  }}
-                />
-              </span>
+                >
+                  <FaTrash />
+                </Button>
+              </div>
             ),
           }))
         );
@@ -150,15 +143,13 @@ const ListadoAutorizaciones = () => {
 
           <Card>
             <Card.Body>
-              <h2 className="title-line" style={{ marginTop: 10 }}>
-                <span>Listado de autorizaciones</span>
-              </h2>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
                 ""
               )}
-              <Table striped bordered hover>
+              <Filtros params={params} setParams={setParams} />
+              <Table striped hover>
                 <thead>
                   <tr>
                     <th>Nombres y apellidos</th>
