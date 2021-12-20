@@ -134,13 +134,13 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
                     />
                   </td>
                 </Policy>
-                {puedeRemover(d) ? (
-                  <td>
+                <td>
+                  {puedeRemover(d) ? (
                     <Button type="button" size="sm" onClick={() => remove(i)}>
                       <FaTimes />
                     </Button>
-                  </td>
-                ) : null}
+                  ) : null}
+                </td>
               </tr>
             ))}
           </tbody>

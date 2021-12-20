@@ -26,9 +26,32 @@ const PerfilUbicacion = () => {
             <th>Barrio</th>
           </tr>
           <tr>
-            <td>{persona?.r_config_paisNacimiento}</td>
-            <td>{persona?.r_config_departamento}</td>
-            <td>{persona?.r_config_ciudadNacimiento}</td>
+            <td>
+              <Country
+                field={{ value: persona?.r_config_paisNacimiento }}
+                child="str_config_departamento"
+                plaintext={true}
+              />
+            </td>
+            <td>
+              <State
+                field={{
+                  name: "str_config_departamento",
+                  value: persona?.r_config_departamento,
+                }}
+                child="str_config_ciudadNacimiento"
+                plaintext={true}
+              />
+            </td>
+            <td>
+              <City
+                field={{
+                  value: persona?.r_config_ciudadNacimiento,
+                  name: "str_config_ciudadNacimiento",
+                }}
+                plaintext={true}
+              />
+            </td>
             <td>{persona?.a_barrio}</td>
           </tr>
           <tr>
