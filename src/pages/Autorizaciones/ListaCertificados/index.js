@@ -19,6 +19,7 @@ import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import { ExportToExcel } from "components/ExportToExcel";
 import Spin from "components/Spin";
+import Filtros from "./Filtros";
 
 const ListadoCertificados = () => {
   const [docs, setDocs] = useState([]);
@@ -172,6 +173,7 @@ const ListadoCertificados = () => {
               ) : (
                 ""
               )}
+              <Filtros setParams={setParams} params={params} />
               <Table striped bordered hover>
                 <thead>
                   <tr>
