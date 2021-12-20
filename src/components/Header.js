@@ -6,17 +6,7 @@ import {
   ROL_ADMIN,
   USER_FULL_NAME,
 } from "../constants/apiContants";
-import { UserOutlined } from "@ant-design/icons";
-import Policy from "./Policy";
-import GoSite from "components/goSite";
-import {
-  Button,
-  Card,
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import { Button, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { FaChild, FaCog, FaDownload, FaUserCircle } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
@@ -75,7 +65,7 @@ const HeaderPage = ({ showButton, homePage }) => {
                     fontSize: "16px",
                   }}
                 >
-                  <FaChild />{" "}
+                  <FaChild />
                   <span>
                     <b>Accesibilidad</b>
                   </span>
@@ -96,33 +86,6 @@ const HeaderPage = ({ showButton, homePage }) => {
                   <FaDownload /> <b>Descargar</b>
                 </Button>
               </NavDropdown.ItemText>
-              {/* <NavDropdown.ItemText>
-                Herramienta de política de acceso para las personas que presentan discapacidad visual o auditiva
-
-              </NavDropdown.ItemText>
-              <NavDropdown.Item href="#action/3.1">
-                <Button
-                  type="primary"
-                  href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
-                  target="blank"
-                >
-                  <FaDownload /> Descargar herramientas
-                </Button>
-              </NavDropdown.Item> */}
-            </NavDropdown>
-            <NavDropdown
-              title={
-                <span
-                  style={{
-                    fontSize: "16px",
-                  }}
-                >
-                  <FaCog /> <b>Configuración</b>
-                </span>
-              }
-              id="basic-nav-dropdown1"
-            >
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown

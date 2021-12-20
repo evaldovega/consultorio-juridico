@@ -21,7 +21,7 @@ const RecuperarClave = () => {
     try {
       setCargando(true);
       const { data: respuesta } = await axios.post(
-        baseUrl + "/accounts/password_reset/",
+        baseUrl + "/rest-auth/password/reset/",
         data
       );
       setCargando(false);
