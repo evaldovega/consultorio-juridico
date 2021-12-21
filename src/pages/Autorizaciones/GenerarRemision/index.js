@@ -271,12 +271,10 @@ const GenerarRemision = () => {
                         <tbody>
                           {inscripciones.map((el) => (
                             <tr>
-                              <td>{el.r_usuarios_persona.a_numeroDocumento}</td>
+                              <td>{el?.a_numeroDocumento}</td>
                               <td>
-                                {el.r_usuarios_persona.a_primerNombre}{" "}
-                                {el.r_usuarios_persona.a_segundoNombre}{" "}
-                                {el.r_usuarios_persona.a_primerApellido}{" "}
-                                {el.r_usuarios_persona.a_segundoApellido}
+                                {el?.a.a_primerNombre} {el?.a_segundoNombre}{" "}
+                                {el?.a_primerApellido} {el?.a_segundoApellido}
                               </td>
                             </tr>
                           ))}
@@ -286,24 +284,6 @@ const GenerarRemision = () => {
                   )}
                 </Row>
                 <Row className="mb-3">
-                  {/* <Controller
-                                        name="r_usuarios_estudiante"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Form.Group as={Col} xs="12" md="6">
-                                                <Form.Label>
-                                                    Estudiante
-                                                </Form.Label>
-                                                <Form.Control as="select" {...field}>
-                                                    <option value="">Seleccione...</option>
-                                                    {inscripciones.map((el) => (
-                                                        <option value={el.id}>({el.a_anioInscripcion}{el.a_semestreInscripcion}) - {el.r_usuarios_persona.a_primerNombre} {el.r_usuarios_persona.a_segundoNombre} {el.r_usuarios_persona.a_primerApellido} {el.r_usuarios_persona.a_segundoApellido} </option>
-                                                    ))}
-                                                </Form.Control>
-                                                <Errors message={errors?.ht_horaAsesoria?.message} />
-                                            </Form.Group>
-                                        )}
-                                    /> */}
                   <Controller
                     name="a_numeroRemision"
                     control={control}
