@@ -77,6 +77,7 @@ const PerfilMaster = ({
 
     delete data.f_archivoFotoPerfil;
     delete data.f_archivoDocumento;
+    data.mm_discapacidad = !data.mm_discapacidad ? [] : data.mm_discapacidad;
     //data.r_user = 2;
     API({
       url: `usuarios/personas/` + (persona ? `${persona.id}/` : ""),

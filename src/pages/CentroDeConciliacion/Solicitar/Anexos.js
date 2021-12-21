@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Card, Form, Table, Button } from "react-bootstrap";
+import { Card, Form, Table, Button, Alert } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import API from "utils/Axios";
 import { toast } from "react-toastify";
@@ -16,9 +16,14 @@ const Anexos = ({
   const anexos = watch("t_pruebasAnexos", []);
   const [docs, setDocs] = useState([]);
   const [cargando, setCargando] = useState(false);
+  const MAX_FILE_SIZE = 200000;
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      toast.warn("El archivo es muy pesado, no debe superar los 200 MB");
+      return;
+    }
     reader.readAsDataURL(file);
     reader.onload = async function () {
       if (idConciliacion) {
@@ -94,38 +99,42 @@ const Anexos = ({
           <h2 className="title-line">
             <span>Pruebas y anexos</span>
           </h2>
-          <Table className="mb-3">
-            <thead>
-              <th>Documento</th>
-              <th></th>
-            </thead>
-            <tbody>
-              {docs?.map((d, i) => (
-                <tr key={`anexo-remoto${i}`}>
-                  <td>{d.a_titulo}</td>
-                  <td>
-                    <Button
-                      type="button"
-                      size="sm"
-                      onClick={() => removeRemote(i)}
-                    >
-                      <FaTimes />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-              {anexos?.map((d, i) => (
-                <tr key={`anexo${i}`}>
-                  <td>{d.a_titulo}</td>
-                  <td>
-                    <Button type="button" size="sm" onClick={() => remove(i)}>
-                      <FaTimes />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          {docs?.length ? (
+            <Table className="mb-3">
+              <thead>
+                <th>Documento</th>
+                <th></th>
+              </thead>
+              <tbody>
+                {docs?.map((d, i) => (
+                  <tr key={`anexo-remoto${i}`}>
+                    <td>{d.a_titulo}</td>
+                    <td>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => removeRemote(i)}
+                      >
+                        <FaTimes />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+                {anexos?.map((d, i) => (
+                  <tr key={`anexo${i}`}>
+                    <td>{d.a_titulo}</td>
+                    <td>
+                      <Button type="button" size="sm" onClick={() => remove(i)}>
+                        <FaTimes />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <Alert variant="info">No ha cargado ningún archivo.</Alert>
+          )}
           <Form.Group>
             <Form.File onChange={onChange} label="Adjuntar" />
           </Form.Group>

@@ -16,19 +16,27 @@ import {
   Row,
   Col,
   Table,
+  Alert,
 } from "react-bootstrap";
+import { Controller } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import Context from "./Ctx";
+import { toast } from "react-toastify";
 
 const ArchivosAsesoria = () => {
   const name = "mm_documentosAnexos";
   const { readOnly, control, errors, setValue, watch, getValues } =
     useContext(Context);
   const anexos = watch(name, []);
-
+  const MAX_FILE_SIZE = 200000;
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];
+    console.log(file);
+    if (file.size > MAX_FILE_SIZE) {
+      toast.warn("El archivo es muy pesado, no debe superar los 200 MB");
+      return;
+    }
     reader.readAsDataURL(file);
     reader.onload = function () {
       const _anexos = getValues(name) || [];
@@ -58,40 +66,46 @@ const ArchivosAsesoria = () => {
 
   return (
     <div>
-      <Table className="mb-3">
-        <thead>
-          <th>Documento</th>
+      {anexos?.length ? (
+        <Table className="mb-3">
+          <thead>
+            <th>Documento</th>
 
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}>
-            <th>Reserva legal</th>
-          </Policy>
-          <th></th>
-        </thead>
-        <tbody>
-          {anexos?.map((d, i) => (
-            <tr key={i}>
-              <td>{d.a_titulo}</td>
-              <Policy
-                policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
-              >
+            <Policy
+              policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
+            >
+              <th>Reserva legal</th>
+            </Policy>
+            <th></th>
+          </thead>
+          <tbody>
+            {anexos?.map((d, i) => (
+              <tr key={i}>
+                <td>{d.a_titulo}</td>
+                <Policy
+                  policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
+                >
+                  <td>
+                    <Form.Check
+                      checked={d.b_reservaLegal}
+                      onChange={(e) => onCheck(e, i)}
+                    />
+                  </td>
+                </Policy>
                 <td>
-                  <Form.Check
-                    checked={d.b_reservaLegal}
-                    onChange={(e) => onCheck(e, i)}
-                  />
+                  <Button type="button" size="sm" onClick={() => remove(i)}>
+                    <FaTimes />
+                  </Button>
                 </td>
-              </Policy>
-              <td>
-                <Button type="button" size="sm" onClick={() => remove(i)}>
-                  <FaTimes />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <Alert variant="info">No ha cargado ningún archivo.</Alert>
+      )}
       <Form.Group>
-        <Form.File onChange={onChange} label="Adjuntar" />
+        <Form.File onChange={onChange} label="Cargar archivos" />
       </Form.Group>
     </div>
   );

@@ -15,6 +15,7 @@ const Img = ({ originalSrc, style = {}, ...otrasPropiedades }) => {
     setTimeout(() => setCargando(false), 500);
   };
   useEffect(() => {
+    console.log({ originalSrc });
     setCargando(true);
     setSrc(originalSrc);
   }, [originalSrc]);

@@ -183,6 +183,12 @@ const ListadoSolicitudes = () => {
                   ))}
                 </tbody>
               </Table>
+
+              <div className="d-flex justify-content-center">
+                <Link to="/" className="mr-4">
+                  Volver al inicio
+                </Link>
+              </div>
             </Card.Body>
             <Card.Footer className="d-flex justify-content-between">
               <Form.Group className="d-flex align-items-center">

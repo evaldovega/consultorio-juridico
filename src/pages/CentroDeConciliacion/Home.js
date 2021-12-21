@@ -5,6 +5,7 @@ import {
   MODULES,
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
 } from "../../constants/apiContants";
@@ -21,7 +22,7 @@ import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
 const CentroDeConciliacionHome = () => {
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
+      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>

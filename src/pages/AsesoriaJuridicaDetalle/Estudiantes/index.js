@@ -9,7 +9,7 @@ import Policy, { policyAllow } from "components/Policy";
 import { ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE } from "constants/apiContants";
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import AsignarEstudiante from "./Asignar";
 
 const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
@@ -88,6 +88,9 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
 
   return (
     <div>
+      {listado?.length == 0 ? (
+        <Alert variant="info">No hay estudiantes asignados</Alert>
+      ) : null}
       {listado?.map((e, i) => (
         <>
           <PersonaDetailRow

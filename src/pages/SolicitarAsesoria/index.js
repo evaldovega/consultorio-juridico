@@ -70,6 +70,7 @@ const SolicitarAsesoria = () => {
       .catch((err) => {
         console.log(err.response.data);
         setLoading(false);
+        toast.error("Error al registrar asesoria");
       });
   };
 

@@ -149,6 +149,16 @@ const AsesoriaJuridicaDetalle = () => {
               </Tab>
             ) : null}
           </Tabs>
+          <Card.Body>
+            <div className="d-flex justify-content-center">
+              <Link to="/" className="mr-4">
+                Volver al inicio
+              </Link>
+              <Link to="/asesoria-juridica/solicitudes">
+                Ver mis solicitudes de asesorias
+              </Link>
+            </div>
+          </Card.Body>
         </Card>
       </Spin>
     </Page>

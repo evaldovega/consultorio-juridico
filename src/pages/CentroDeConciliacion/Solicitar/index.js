@@ -5,6 +5,7 @@ import {
   MODULES,
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
 } from "../../../constants/apiContants";
@@ -118,6 +119,7 @@ const CentroDeConciliacionSolicitar = () => {
         data: payload,
       });
       setCargando(false);
+      sessionStorage.setItem("conciliacion", response.id);
       history.push(`/centro-de-conciliacion/solicitudes`);
     } catch (error) {
       setCargando(false);
@@ -153,7 +155,7 @@ const CentroDeConciliacionSolicitar = () => {
 
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR]}
+      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>

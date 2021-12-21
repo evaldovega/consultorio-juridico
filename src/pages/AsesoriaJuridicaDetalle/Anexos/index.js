@@ -8,7 +8,7 @@ import {
   ROL_ESTUDIANTE,
   CONFIRM_BORRAR_ARCHIVO,
 } from "constants/apiContants";
-
+import { toast } from "react-toastify";
 import {
   Card,
   Form,
@@ -26,6 +26,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const { mm_documentosAnexos = [] } = caso;
   const [cargando, setCargando] = useState(false);
   const { policies, persona: usuarioEnSesion } = useContext(Context);
+  const MAX_FILE_SIZE = 200000;
 
   const edit = async (anexo, anexos) => {
     try {
@@ -74,6 +75,10 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      toast.warn("El archivo es muy pesado, no debe superar los 200 MB");
+      return;
+    }
     reader.readAsDataURL(file);
     reader.onload = function () {
       save(reader.result, file.name);

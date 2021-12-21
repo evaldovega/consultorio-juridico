@@ -12,7 +12,14 @@ import {
 import { Link } from "react-router-dom";
 import { useForm } from "antd/lib/form/Form";
 import Page from "components/Page";
-import { Breadcrumb, Row, Col, Container, Card } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Row,
+  Col,
+  Container,
+  Card,
+  CardDeck,
+} from "react-bootstrap";
 import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
 import {
@@ -48,21 +55,24 @@ const InscripcionEstudiantes = ({ params }) => {
           <h1>Inscripción a estudiantes</h1>
         </div>
 
-        <Row className="modules mb-4">
-          <Col>
-            <ItemModule
-              Icon={(props) => (
-                <Icon
-                  IconPrimary={FaPencilAlt}
-                  IconSecundary={FaPencilAlt}
-                  {...props}
-                />
-              )}
-              link="/inscripcion-estudiantes/inscripcion-practicas"
-              title="Inscripción a prácticas de Consultorio Jurídico"
-            />
-          </Col>
-          <Col>
+        <Row className="modules">
+          <Policy policy={[ROL_ADMIN]}>
+            <Col xs="12" md="6" className="mb-4">
+              <ItemModule
+                Icon={(props) => (
+                  <Icon
+                    IconPrimary={FaPencilAlt}
+                    IconSecundary={FaPencilAlt}
+                    {...props}
+                  />
+                )}
+                link="/inscripcion-estudiantes/inscripcion-practicas"
+                title="Inscripción a prácticas de Consultorio Jurídico"
+              />
+            </Col>
+          </Policy>
+
+          <Col xs="12" md="6" className="mb-4">
             <ItemModule
               Icon={(props) => (
                 <Icon
@@ -75,9 +85,8 @@ const InscripcionEstudiantes = ({ params }) => {
               title="Listado de inscripciones"
             />
           </Col>
-        </Row>
-        <Row className="modules">
-          <Col>
+
+          <Col xs="12" md="6" className="mb-4">
             <ItemModule
               Icon={(props) => (
                 <Icon
@@ -90,7 +99,7 @@ const InscripcionEstudiantes = ({ params }) => {
               title="Reportes"
             />
           </Col>
-          <Col></Col>
+          <Col xs="12" md="6" className="mb-4"></Col>
         </Row>
       </Page>
     </Policy>

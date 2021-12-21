@@ -36,7 +36,11 @@ const Registro = ({ location, history }) => {
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.non_field_errors
+        ) {
           toast.error(error.response.data.non_field_errors.join(","));
         } else {
           toast.error(error.toString());

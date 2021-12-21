@@ -4,6 +4,7 @@ import {
   PAGE_SIZE,
   ROL_ADMIN,
   ROL_ASESOR,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
 } from "constants/apiContants";
 import Spin from "components/Spin";
@@ -94,11 +95,19 @@ const CentroDeConciliacionListado = () => {
   };
 
   useEffect(() => {
+    const ids = sessionStorage.getItem("conciliacion");
+    if (ids) {
+      sessionStorage.removeItem("conciliacion");
+      setId(ids);
+    }
+  }, []);
+
+  useEffect(() => {
     cargar();
   }, [params]);
 
   return (
-    <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+    <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
       <Page>
         <CentroDeConciliacionDetalle
           id={id}
