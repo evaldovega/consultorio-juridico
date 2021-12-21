@@ -35,7 +35,7 @@ import { useContext } from "react";
 const CentroDeConciliacionSolicitar = () => {
   const history = useHistory();
   const { id: idConciliacion } = useParams();
-
+  const [conciliadores, setConciliadores] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
   const { persona } = useContext(ContextPolicy);
@@ -152,6 +152,12 @@ const CentroDeConciliacionSolicitar = () => {
       setTimeout(() => cargarDetalle(), 400);
     }
   }, [idConciliacion]);
+
+  useEffect(() => {
+    API.get("usuarios/personas/?conciliador=1").then((response) => {
+      setConciliadores(response.data);
+    });
+  }, []);
 
   return (
     <Policy
@@ -357,6 +363,34 @@ const CentroDeConciliacionSolicitar = () => {
               idConciliacion={idConciliacion}
               persona={persona}
             />
+            <Card>
+              <Card.Body>
+                <Controller
+                  name="r_usuarios_conciliador"
+                  control={control}
+                  rules={{
+                    required: "Ingrese información",
+                  }}
+                  render={({ field }) => (
+                    <Form.Group as={Col} xs="12" md="6">
+                      <Form.Label>Conciliador</Form.Label>
+                      <Form.Control as="select" {...field}>
+                        <option value="">Seleccione...</option>
+                        {conciliadores.map((el) => (
+                          <option value={el.id}>
+                            {el.a_primerNombre} {el.a_segundoNombre}{" "}
+                            {el.a_primerApellido} {el.a_segundoApellido}
+                          </option>
+                        ))}
+                      </Form.Control>
+                      <Errors
+                        message={errors?.r_usuarios_conciliador?.message}
+                      />
+                    </Form.Group>
+                  )}
+                />
+              </Card.Body>
+            </Card>
             <Button type="primary">Registrar</Button>
           </Form>
         </Spin>
