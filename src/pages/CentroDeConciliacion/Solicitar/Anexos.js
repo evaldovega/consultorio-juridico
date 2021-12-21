@@ -16,7 +16,7 @@ const Anexos = ({
   const anexos = watch("t_pruebasAnexos", []);
   const [docs, setDocs] = useState([]);
   const [cargando, setCargando] = useState(false);
-  const MAX_FILE_SIZE = 200000;
+  const MAX_FILE_SIZE = 200000000;
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];

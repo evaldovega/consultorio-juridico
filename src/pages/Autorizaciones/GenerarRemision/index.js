@@ -273,7 +273,7 @@ const GenerarRemision = () => {
                             <tr>
                               <td>{el?.a_numeroDocumento}</td>
                               <td>
-                                {el?.a.a_primerNombre} {el?.a_segundoNombre}{" "}
+                                {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
                                 {el?.a_primerApellido} {el?.a_segundoApellido}
                               </td>
                             </tr>

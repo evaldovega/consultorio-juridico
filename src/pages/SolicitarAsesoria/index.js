@@ -115,19 +115,36 @@ const SolicitarAsesoria = () => {
     formPersona.current.click();
   };
   //-----Enviar el formulario de inscripcion
-  const personaGuardada = ({ persona, success }) => {
+  const personaGuardada = ({ persona, success, error }) => {
     if (success) {
       setValue("r_usuarios_solicitante", persona.id);
       formAsesoria.current.click();
     } else {
-      toast.error("🦄 No se pudo guardar los datos del ciudadano!", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      console.log(error.response);
+      if (
+        error &&
+        error.response &&
+        error.response.data &&
+        error.response.data.non_field_errors
+      ) {
+        toast.warn(error.response.data.non_field_errors.join(", "), {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error("No se pudo guardar los datos del ciudadano!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     }
   };
 

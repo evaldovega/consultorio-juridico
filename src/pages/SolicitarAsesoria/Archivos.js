@@ -28,11 +28,11 @@ const ArchivosAsesoria = () => {
   const { readOnly, control, errors, setValue, watch, getValues } =
     useContext(Context);
   const anexos = watch(name, []);
-  const MAX_FILE_SIZE = 200000;
+  const MAX_FILE_SIZE = 200000000;
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];
-    console.log(file);
+    console.log(file.size, MAX_FILE_SIZE);
     if (file.size > MAX_FILE_SIZE) {
       toast.warn("El archivo es muy pesado, no debe superar los 200 MB");
       return;

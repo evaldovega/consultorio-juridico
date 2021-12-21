@@ -26,7 +26,7 @@ const ArchivosAsesoria = ({ asesoriaId, caso = {}, setCaso }) => {
   const { mm_documentosAnexos = [] } = caso;
   const [cargando, setCargando] = useState(false);
   const { policies, persona: usuarioEnSesion } = useContext(Context);
-  const MAX_FILE_SIZE = 200000;
+  const MAX_FILE_SIZE = 200000000;
 
   const edit = async (anexo, anexos) => {
     try {
