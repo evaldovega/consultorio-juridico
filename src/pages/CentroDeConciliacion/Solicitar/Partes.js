@@ -1,4 +1,6 @@
+import { policyAllow } from "components/Policy";
 import Spin from "components/Spin";
+import { ROL_PERSONA } from "constants/apiContants";
 import PerfilMaster from "pages/Perfil/Master";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -10,6 +12,7 @@ import {
   Form,
   Button,
   Modal,
+  Alert,
 } from "react-bootstrap";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -26,6 +29,9 @@ const Partes = ({
   idConciliacion,
   apiDelete,
   btnTextAdd = "Añadir",
+  policies,
+  persona,
+  autoIncluir = false,
 }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [cargando, setCargando] = useState(false);
@@ -45,11 +51,11 @@ const Partes = ({
     setMostrarModal(false);
   };
 
-  const personaGuardada = ({ persona, success }) => {
+  const personaGuardada = ({ persona, success, feedback = true }) => {
     if (success) {
       setMostrarModal(false);
       const existe = fields.some((f) => f[[id]] == persona.id);
-      if (existe) {
+      if (existe && feedback) {
         toast.warn("Ya lo has añadido antes");
         return;
       }
@@ -82,11 +88,21 @@ const Partes = ({
   };
 
   useEffect(() => {
-    console.log({ fields });
-  }, [fields]);
+    if (
+      autoIncluir &&
+      !idConciliacion &&
+      policyAllow([ROL_PERSONA], policies)
+    ) {
+      personaGuardada({
+        persona: { id: persona },
+        success: true,
+        feedback: false,
+      });
+    }
+  }, [persona, policies]);
 
   return (
-    <Card className="mt-1 mb-1">
+    <Card className="mb-4">
       <Modal
         show={mostrarModal}
         onHide={handleClose}
@@ -102,10 +118,10 @@ const Partes = ({
         </Modal.Body>
       </Modal>
       <Card.Body style={{ padding: "2.5rem" }}>
-        <h2 className="title-line">
-          <span>{title}</span>
-        </h2>
-        <Spin cargando={cargando}>
+        <h2>{title}</h2>
+      </Card.Body>
+      <Spin cargando={cargando}>
+        <div className="partes">
           {fields.map((field, i) => (
             <Parte
               id={id}
@@ -120,13 +136,20 @@ const Partes = ({
               onRemove={onRemove}
             />
           ))}
-          <div className="d-flex justify-content-center">
-            <Button type="button" onClick={abirFormularioPersona}>
-              {btnTextAdd}
-            </Button>
-          </div>
-        </Spin>
-      </Card.Body>
+        </div>
+      </Spin>
+      {!fields.length && (
+        <Alert variant="light">
+          Presiona "<b>{btnTextAdd}</b>" para añadir personas a esta sección.
+        </Alert>
+      )}
+      <Card.Footer>
+        <div className="d-flex justify-content-center">
+          <Button type="button" onClick={abirFormularioPersona}>
+            {btnTextAdd}
+          </Button>
+        </div>
+      </Card.Footer>
     </Card>
   );
 };

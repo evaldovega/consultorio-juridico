@@ -20,6 +20,9 @@ import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import { ExportToExcel } from "components/ExportToExcel";
 import Spin from "components/Spin";
 import Filtros from "./Filtros";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 
 const ListadoCertificados = () => {
   const [docs, setDocs] = useState([]);
@@ -156,15 +159,11 @@ const ListadoCertificados = () => {
     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
       <Spin cargando={cargando}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/autorizaciones">Documentos</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Listado de certificados</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanDocumentos />
+            <span>Historico de certificados</span>
+          </MigaPan>
 
           <Card>
             <Card.Body>

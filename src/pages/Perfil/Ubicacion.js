@@ -14,10 +14,8 @@ const PerfilUbicacion = () => {
 
   if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
     return (
-      <div className="mb-3">
-        <h3 className="title-line">
-          <span>Datos de ubicación</span>
-        </h3>
+      <div className="mb-4">
+        <h2 className="mb-4">Datos de ubicación</h2>
         <table width={"100%"}>
           <tr>
             <th>Pais de nacimiento</th>
@@ -71,10 +69,8 @@ const PerfilUbicacion = () => {
     );
   }
   return (
-    <div className="mb-3">
-      <h3 className="title-line">
-        <span>Datos de ubicación</span>
-      </h3>
+    <div className="mb-4">
+      <h2 className="mb-4">Datos de ubicación</h2>
       <Row className="mb-1">
         <Controller
           name="r_config_paisNacimiento"

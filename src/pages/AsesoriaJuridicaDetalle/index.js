@@ -23,6 +23,9 @@ import { Context } from "components/Policy/Ctx";
 import Spin from "components/Spin";
 import Policy from "components/Policy";
 import EstablecerFecha from "./EstablecerFecha";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 
 const AsesoriaJuridicaDetalle = () => {
   const { policies = [], persona } = useContext(Context);
@@ -30,7 +33,7 @@ const AsesoriaJuridicaDetalle = () => {
   const [solicitanteId, setSolicitanteId] = useState("");
   const [caso, setCaso] = useState({});
   const [cargando, setCargando] = useState(false);
-
+  const [key, setKey] = useState("detalle");
   const compromisoEstablecido = caso?.t_recomendaciones?.length ? true : false;
 
   const cargarAsesoria = () => {
@@ -45,28 +48,30 @@ const AsesoriaJuridicaDetalle = () => {
 
   useEffect(() => {
     cargarAsesoria();
+    if (sessionStorage.getItem("tab-caso")) {
+      setKey(sessionStorage.getItem("tab-caso"));
+    }
   }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("tab-caso", key);
+  }, [key]);
 
   return (
     <Page>
       <Spin cargando={cargando}>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Policy policy={[ROL_ESTUDIANTE, ROL_DOCENTE, ROL_ASESOR, ROL_ADMIN]}>
-            <Breadcrumb.Item>
-              <Link to="/asesoria-juridica">Asesoría Jurídica</Link>
-            </Breadcrumb.Item>
-          </Policy>
-          <Breadcrumb.Item>
-            <Link to="/asesoria-juridica/solicitudes">Casos</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Detalle</Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanAsesoriaJuridica />
+          <span>Detalle de asesoria</span>
+        </MigaPan>
 
-        <Card style={{ paddingTop: 8, overflow: "visible" }}>
-          <Tabs defaultActiveKey="detalle" id="uncontrolled-tab-example">
+        <Card style={{ overflow: "hidden" }}>
+          <Tabs
+            activeKey={key}
+            onSelect={(k) => setKey(k)}
+            id="uncontrolled-tab-example"
+          >
             <Tab eventKey="detalle" title="Detalle">
               <br />
               <Card.Body>
@@ -91,12 +96,12 @@ const AsesoriaJuridicaDetalle = () => {
                 <br></br>
                 <strong>Asunto</strong>
                 <p>{caso.t_asuntoConsulta || "No especificado"}</p>
+                <Compromisos
+                  asesoriaId={asesoriaId}
+                  caso={caso}
+                  setCaso={setCaso}
+                />
               </Card.Body>
-              <Compromisos
-                asesoriaId={asesoriaId}
-                caso={caso}
-                setCaso={setCaso}
-              />
             </Tab>
 
             {!policies.includes(ROL_ESTUDIANTE) ? (
@@ -124,41 +129,19 @@ const AsesoriaJuridicaDetalle = () => {
               </Card.Body>
             </Tab>
 
-            <Tab eventKey="anexos" title="Anexos">
-              <br />
-              <Card.Body>
-                <ArchivosAsesoria
-                  asesoriaId={asesoriaId}
-                  caso={caso}
-                  setCaso={setCaso}
-                />
-              </Card.Body>
+            <Tab
+              eventKey="seguimiento"
+              title={<span>Actuaciones y Seguimiento</span>}
+            >
+              <Actuaciones
+                asesoriaId={asesoriaId}
+                caso={caso}
+                setCaso={setCaso}
+                persona={persona}
+                compromisoEstablecido={compromisoEstablecido}
+              />
             </Tab>
-
-            {compromisoEstablecido ? (
-              <Tab
-                eventKey="seguimiento"
-                title={<span>Seguimiento / Muro de publicaciones</span>}
-              >
-                <Actuaciones
-                  asesoriaId={asesoriaId}
-                  caso={caso}
-                  setCaso={setCaso}
-                  persona={persona}
-                />
-              </Tab>
-            ) : null}
           </Tabs>
-          <Card.Body>
-            <div className="d-flex justify-content-center">
-              <Link to="/" className="mr-4">
-                Volver al inicio
-              </Link>
-              <Link to="/asesoria-juridica/solicitudes">
-                Ver mis solicitudes de asesorias
-              </Link>
-            </div>
-          </Card.Body>
         </Card>
       </Spin>
     </Page>

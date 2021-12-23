@@ -20,6 +20,9 @@ import Context from "./Ctx";
 import Errors from "components/Errors";
 import AccessDenied from "components/Policy/AccessDenied";
 import Autoridad from "components/Autoridad";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -209,17 +212,16 @@ const Autorizar = () => {
   }, [id]);
 
   return (
-    <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
+    <Policy
+      policy={[ROL_ADMIN]}
+      feedback={<AccessDenied msn="Acceso denegado" />}
+    >
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/autorizaciones">Documentos</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Autorizar</Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanDocumentos />
+          <span>Registrar autorización</span>
+        </MigaPan>
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >

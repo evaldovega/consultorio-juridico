@@ -6,6 +6,7 @@ import {
   ROL_ASESOR,
   ROL_DOCENTE,
   ROL_ESTUDIANTE,
+  ROL_PERSONA,
 } from "constants/apiContants";
 import Spin from "components/Spin";
 import { useState } from "react";
@@ -27,6 +28,9 @@ import { useEffect } from "react";
 import { FaEye, FaPenAlt } from "react-icons/fa";
 import CentroDeConciliacionDetalle from "../Detalle";
 import Filtros from "./Filtros";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanConciliacion from "components/MigaPan/CentroConciliacion";
 
 const CentroDeConciliacionListado = () => {
   const [cargando, setCargando] = useState(false);
@@ -107,7 +111,9 @@ const CentroDeConciliacionListado = () => {
   }, [params]);
 
   return (
-    <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
+    <Policy
+      policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_PERSONA]}
+    >
       <Page>
         <CentroDeConciliacionDetalle
           id={id}
@@ -115,15 +121,11 @@ const CentroDeConciliacionListado = () => {
           onHide={() => setId(null)}
         />
         <Spin cargando={cargando}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/centro-de-conciliacion">Centro de conciliación</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Casos</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanConciliacion />
+            <span>Todas las conciliaciones</span>
+          </MigaPan>
 
           <Card>
             <Card.Body>
@@ -154,20 +156,21 @@ const CentroDeConciliacionListado = () => {
                       <td className="crop">{d.c_intencionSolicitante}</td>
                       <td>
                         <div className="d-flex justify-content-end">
-                          <Button
-                            variant="primary"
-                            className="mr-1"
+                          <div
+                            className="circle-icon mr-1"
+                            style={{ cursor: "pointer" }}
                             onClick={() => setId(d.id)}
                           >
                             <FaEye />
-                          </Button>
+                          </div>
+
                           <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
                             <Link
                               to={`/centro-de-conciliacion/registrar/${d.id}`}
                             >
-                              <Button variant="primary">
+                              <div className="circle-icon">
                                 <FaPenAlt />
-                              </Button>
+                              </div>
                             </Link>
                           </Policy>
                         </div>

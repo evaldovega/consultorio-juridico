@@ -3,6 +3,8 @@ import { useRef } from "react";
 import { ExportToExcel } from "components/ExportToExcel";
 import { useForm, Controller } from "react-hook-form";
 import { FaFilter } from "react-icons/fa";
+import API from "utils/Axios";
+import LugarPractica from "components/LugarPracticas";
 const { Row, Col, Button, Form, Accordion, Card } = require("react-bootstrap");
 
 const InscripcionesFiltros = ({
@@ -50,6 +52,7 @@ const InscripcionesFiltros = ({
     setValue("segundo_apellido", "");
     setValue("semestre", "");
     setValue("discapacidad", []);
+    setValue("lugar", "");
     btn.current.click();
   };
 
@@ -75,6 +78,7 @@ const InscripcionesFiltros = ({
     setValue("segundo_apellido", "");
     setValue("semestre", "");
     setValue("discapacidad", []);
+    setValue("lugar", "");
   }, []);
 
   useEffect(() => {
@@ -228,6 +232,23 @@ const InscripcionesFiltros = ({
                       <Form.Group>
                         <Form.Label>Semestre</Form.Label>
                         <Form.Control {...field} size="sm" />
+                      </Form.Group>
+                    )}
+                  />
+                </Col>
+                <Col xs="12" md="6">
+                  <Controller
+                    name="lugar"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group>
+                        <Form.Label>Lugar de practicas</Form.Label>
+                        <LugarPractica
+                          field={field}
+                          watch={watch}
+                          name="lugar"
+                          mostrarTodos={true}
+                        />
                       </Form.Group>
                     )}
                   />

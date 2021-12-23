@@ -19,6 +19,9 @@ import Policy from "components/Policy";
 import { ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import Spin from "components/Spin";
 import AsignacionesFiltros from "./Filtros";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsignacionDocentes from "components/MigaPan/AsignacionDocentes";
 
 const ListadoAsignaciones = () => {
   const [docs, setDoc] = useState([]);
@@ -196,15 +199,11 @@ const ListadoAsignaciones = () => {
     <Policy policy={[ROL_ADMIN]}>
       <Spin cargando={loading}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/asignacion-docentes">Asignaciones</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Listado de asignaciones</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanAsignacionDocentes />
+            <span>Listado de asignaiones</span>
+          </MigaPan>
 
           <Card>
             <Card.Body>

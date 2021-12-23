@@ -13,32 +13,43 @@ import { Link } from "react-router-dom";
 import Page from "components/Page";
 import Policy from "components/Policy";
 import AccessDenied from "components/Policy/AccessDenied";
-import { Breadcrumb, Row, Col, Card, Form, Button } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Alert,
+} from "react-bootstrap";
 import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Errors from "components/Errors";
-import Country from "components/Country";
-import State from "components/State";
-import City from "components/City";
 import Anexos from "./Anexos";
 import Partes from "./Partes";
 import Spin from "components/Spin";
 import API from "utils/Axios";
 import moment from "moment";
-import TiempoConflicto from "./TiempoConflicto";
+
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Context as ContextPolicy } from "components/Policy/Ctx";
 import { useContext } from "react";
+import Clasificar from "./Clasificar";
+import VersionSolicitante from "./VersionSolicitante";
+import { FaInfoCircle } from "react-icons/fa";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanConciliacion from "components/MigaPan/CentroConciliacion";
 
 const CentroDeConciliacionSolicitar = () => {
   const history = useHistory();
-  const { id: idConciliacion } = useParams();
+  const { id: idConciliacion, asesoria } = useParams();
   const [conciliadores, setConciliadores] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
-  const { persona } = useContext(ContextPolicy);
+  const { persona, policies } = useContext(ContextPolicy);
 
   const checkKeyDown = (e) => {
     if (e.code === "Enter") e.preventDefault();
@@ -71,7 +82,6 @@ const CentroDeConciliacionSolicitar = () => {
   };
 
   const guardar = async (data) => {
-    console.log(data);
     try {
       const solicitantes = getValues("r_solicitante");
       if (!solicitantes.length) {
@@ -154,6 +164,12 @@ const CentroDeConciliacionSolicitar = () => {
   }, [idConciliacion]);
 
   useEffect(() => {
+    if (asesoria) {
+      setValue("r_asesoria_solicitudAsesoria", asesoria);
+    }
+  }, [asesoria]);
+
+  useEffect(() => {
     API.get("usuarios/personas/?conciliador=1").then((response) => {
       setConciliadores(response.data);
     });
@@ -161,26 +177,40 @@ const CentroDeConciliacionSolicitar = () => {
 
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE]}
+      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE, ROL_PERSONA]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>
         <Spin cargando={cargando}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/centro-de-conciliacion">Centro de conciliación</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Registrar conciliación</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanConciliacion />
+            <span>Solicitar conciliación</span>
+          </MigaPan>
 
+          {asesoria ? (
+            <Alert
+              variant="info"
+              className="d-flex justify-content-start align-items-center"
+            >
+              <p className="mr-2">
+                <FaInfoCircle />
+              </p>
+              <p>Esta conciliación quedara relacionada a una asesoria</p>
+            </Alert>
+          ) : null}
           <Form
             noValidate
             onSubmit={handleSubmit(guardar, onError)}
             onKeyDown={(e) => checkKeyDown(e)}
           >
+            {asesoria ? (
+              <Controller
+                name="r_asesoria_solicitudAsesoria"
+                control={control}
+                render={(field) => <input type="hidden" {...field} />}
+              />
+            ) : null}
             <Partes
               name="r_solicitante"
               title="Solicitantes"
@@ -191,7 +221,10 @@ const CentroDeConciliacionSolicitar = () => {
               id="r_usuarios_solicitante"
               apiDelete="conciliacion/solicitante/"
               idConciliacion={idConciliacion}
-              btnTextAdd="Añadir Solicitate"
+              btnTextAdd="Añadir Solicitante"
+              persona={persona}
+              policies={policies}
+              autoIncluir={true}
             />
             <Partes
               name="r_citados"
@@ -205,156 +238,15 @@ const CentroDeConciliacionSolicitar = () => {
               apiDelete="conciliacion/citado/"
               btnTextAdd="Añadir Citado"
             />
-            <Card className="mt-1 mb-1">
-              <Card.Body style={{ padding: "2.5rem" }}>
-                <h2 className="title-line">
-                  <span>Versión del solicitante</span>
-                </h2>
-                <Row className="mb-3">
-                  <TiempoConflicto
-                    control={control}
-                    errors={errors}
-                    readOnly={readOnly}
-                  />
-                  <Controller
-                    name="a_cuantiaValor"
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="4">
-                        <Form.Label>Cuantia</Form.Label>
-                        <Form.Control
-                          {...field}
-                          disabled={cargando || readOnly}
-                          readonly={readOnly}
-                        />
-                      </Form.Group>
-                    )}
-                  />
-                </Row>
+            <VersionSolicitante
+              control={control}
+              readOnly={readOnly}
+              errors={errors}
+              cargando={cargando}
+              setValue={setValue}
+              watch={watch}
+            />
 
-                <Row className="mb-3">
-                  <Controller
-                    name="r_config_pais"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: "Ingrese el pais donde ocurrieron los hechos",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs={12} md={4}>
-                        <Form.Label>
-                          Pais <span className="required" />
-                        </Form.Label>
-                        <Country
-                          field={field}
-                          child="r_config_departamento"
-                          setValue={setValue}
-                          readOnly={readOnly}
-                          plaintext={readOnly}
-                        />
-                        <Errors message={errors.r_config_pais?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                  <Controller
-                    name="r_config_departamento"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required:
-                        "Ingrese el departamento donde ocurrieron los hechos",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs={12} md={4}>
-                        <Form.Label>
-                          Departamento o Estado <span className="required" />
-                        </Form.Label>
-                        <State
-                          field={field}
-                          child="r_config_municipio"
-                          setValue={setValue}
-                          readOnly={readOnly}
-                        />
-                        <Errors
-                          message={errors.r_config_departamento?.message}
-                        />
-                      </Form.Group>
-                    )}
-                  />
-                  <Controller
-                    name="r_config_municipio"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: "Ingrese la ciudad donde ocurrieron los hechos",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs={12} md={4}>
-                        <Form.Label>
-                          Ciudad <span className="required" />
-                        </Form.Label>
-                        <City
-                          field={field}
-                          setValue={setValue}
-                          readOnly={readOnly}
-                        />
-                        <Errors message={errors.r_config_municipio?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                </Row>
-                <Row className="mb-3">
-                  <Controller
-                    name="t_resumenHechos"
-                    control={control}
-                    rules={{
-                      required: "Ingrese información",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12">
-                        <Form.Label>
-                          Resumen de los hechos <span className="required" />
-                        </Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          disabled={cargando || readOnly}
-                          readonly={readOnly}
-                          {...field}
-                          rows="6"
-                        />
-                        <Errors message={errors?.dt_fechaAsesoria?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                </Row>
-                <Row className="mb-3">
-                  <Controller
-                    name="t_pretencionesIniciales"
-                    control={control}
-                    rules={{
-                      required: "Ingrese información",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12">
-                        <Form.Label>
-                          Pretenciones <span className="required" />
-                        </Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          disabled={cargando || readOnly}
-                          readonly={readOnly}
-                          {...field}
-                          rows="6"
-                        />
-                        <Errors message={errors?.dt_fechaAsesoria?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                </Row>
-
-                <Row className="mb-3"></Row>
-              </Card.Body>
-            </Card>
             <Anexos
               control={control}
               setValue={setValue}
@@ -363,35 +255,53 @@ const CentroDeConciliacionSolicitar = () => {
               idConciliacion={idConciliacion}
               persona={persona}
             />
-            <Card>
-              <Card.Body>
-                <Controller
-                  name="r_usuarios_conciliador"
-                  control={control}
-                  rules={{
-                    required: "Ingrese información",
-                  }}
-                  render={({ field }) => (
-                    <Form.Group as={Col} xs="12" md="6">
-                      <Form.Label>Conciliador</Form.Label>
-                      <Form.Control as="select" {...field}>
-                        <option value="">Seleccione...</option>
-                        {conciliadores.map((el) => (
-                          <option value={el.id}>
-                            {el.a_primerNombre} {el.a_segundoNombre}{" "}
-                            {el.a_primerApellido} {el.a_segundoApellido}
-                          </option>
-                        ))}
-                      </Form.Control>
-                      <Errors
-                        message={errors?.r_usuarios_conciliador?.message}
-                      />
-                    </Form.Group>
-                  )}
-                />
-              </Card.Body>
-            </Card>
-            <Button type="primary">Registrar</Button>
+
+            <Clasificar
+              control={control}
+              setValue={setValue}
+              watch={watch}
+              getValues={getValues}
+              idConciliacion={idConciliacion}
+              persona={persona}
+            />
+
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+              <Card>
+                <Card.Body>
+                  <Controller
+                    name="r_usuarios_conciliador"
+                    control={control}
+                    rules={{
+                      required: "Ingrese información",
+                    }}
+                    render={({ field }) => (
+                      <Form.Group as={Col} xs="12" md="6">
+                        <Form.Label>Conciliador</Form.Label>
+                        <Form.Control as="select" {...field}>
+                          <option value="">Seleccione...</option>
+                          {conciliadores.map((el) => (
+                            <option value={el.id}>
+                              {el.a_primerNombre} {el.a_segundoNombre}{" "}
+                              {el.a_primerApellido} {el.a_segundoApellido}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Errors
+                          message={errors?.r_usuarios_conciliador?.message}
+                        />
+                      </Form.Group>
+                    )}
+                  />
+                </Card.Body>
+              </Card>
+            </Policy>
+            <div className="d-flex justify-content-end mt-4">
+              <Button type="primary" size="lg">
+                {idConciliacion
+                  ? "Modificar conciliación"
+                  : "Solicitar conciliación"}
+              </Button>
+            </div>
           </Form>
         </Spin>
       </Page>

@@ -9,7 +9,14 @@ import Tutela from "../Tutela";
 import Demanda from "../Demanda";
 import { toast } from "react-toastify";
 import Actuacion from "./Actuacion";
-import { FaPlus } from "react-icons/fa";
+import Anexo from "../Anexo";
+import {
+  FaCalendar,
+  FaFile,
+  FaHandshake,
+  FaPlus,
+  FaStickyNote,
+} from "react-icons/fa";
 import Policy from "components/Policy";
 import {
   ROL_ADMIN,
@@ -17,13 +24,22 @@ import {
   ROL_ESTUDIANTE,
   ROL_PERSONA,
 } from "constants/apiContants";
+import { useHistory, useLocation } from "react-router-dom";
 
-const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
+const Actuaciones = ({
+  asesoriaId,
+  caso,
+  setCaso,
+  persona = "",
+  compromisoEstablecido = false,
+}) => {
+  const history = useHistory();
   const [mostrarAgendarCita, setMostrarAgendarCita] = useState(false);
   const [mostrarPresentarDerecho, setMostrarPresentarDerecho] = useState(false);
   const [mostrarNota, setMostrarNota] = useState(false);
   const [mostrarTutela, setMostrarTutela] = useState(false);
   const [mostrarDemanda, setMostrarDemanda] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState("");
 
   const [seguimientos, setSeguimientos] = useState([]);
   const [docsanexos, setDocsAnexos] = useState([]);
@@ -170,8 +186,17 @@ const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
         show={mostrarDemanda}
         setShow={setMostrarDemanda}
       />
+      <Anexo
+        onSave={onSave}
+        doc={doc}
+        asesoriaId={asesoriaId}
+        caso={caso}
+        setCaso={setCaso}
+        mostrarModal={mostrarModal}
+        setMostrarModal={setMostrarModal}
+      />
 
-      <Card.Body style={{ height: 400, overflowY: "scroll" }}>
+      <div style={{ height: 500, overflowY: "scroll", overflowX: "hidden" }}>
         {!seguimientos.length && (
           <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
             <div className="text-center h-100 d-flex flex-column justify-content-center">
@@ -185,74 +210,28 @@ const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
             </div>
           </Policy>
         )}
-        {seguimientos.map((s) => {
-          const anexos = docsanexos.filter(
-            (a) => a.r_asesoria_seguimientoAsesoria == s.id
-          );
+        <div className="actuaciones">
+          {seguimientos.map((s, index) => {
+            const anexos = docsanexos.filter(
+              (a) => a.r_asesoria_seguimientoAsesoria == s.id
+            );
+            return (
+              <Actuacion
+                actuacion={s}
+                setEdit={setEdit}
+                anexos={anexos}
+                persona={persona}
+                index={index}
+                total={seguimientos.length}
+              />
+            );
+          })}
+        </div>
+      </div>
 
-          switch (s.c_tipoSeguimientoAccion) {
-            case "NOTA":
-              return (
-                <Actuacion.Nota
-                  actuacion={s}
-                  setEdit={setEdit}
-                  anexos={anexos}
-                  persona={persona}
-                />
-              );
-              break;
-            case "CITA":
-              return (
-                <Actuacion.Cita
-                  actuacion={s}
-                  setEdit={setEdit}
-                  anexos={anexos}
-                  persona={persona}
-                />
-              );
-              break;
-            case "DERECHO_PETICION":
-              return (
-                <Actuacion.DerechoPeticion
-                  actuacion={s}
-                  setEdit={setEdit}
-                  anexos={anexos}
-                  anexoBorrado={anexoBorrado}
-                  persona={persona}
-                />
-              );
-              break;
-            case "TUTELA":
-              return (
-                <Actuacion.Tutela
-                  actuacion={s}
-                  setEdit={setEdit}
-                  anexos={anexos}
-                  anexoBorrado={anexoBorrado}
-                  persona={persona}
-                />
-              );
-              break;
-            case "DEMANDA":
-              return (
-                <Actuacion.Demanda
-                  actuacion={s}
-                  setEdit={setEdit}
-                  anexos={anexos}
-                  anexoBorrado={anexoBorrado}
-                  persona={persona}
-                />
-              );
-              break;
-          }
-        })}
-      </Card.Body>
-
-      <Policy
-        policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN, ROL_PERSONA]}
-      >
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_PERSONA]}>
         <Card.Footer>
-          <div className="text-center mt-4">
+          <div className="text-center pt-4 pb-4">
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 <FaPlus></FaPlus> Añade una actuación
@@ -265,7 +244,15 @@ const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
                     setDoc(null);
                   }}
                 >
-                  Añadir nota
+                  <FaStickyNote /> Añadir nota
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setMostrarModal("ANEXO");
+                    setDoc(null);
+                  }}
+                >
+                  <FaFile /> Cargar documento
                 </Dropdown.Item>
 
                 <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
@@ -275,7 +262,17 @@ const Actuaciones = ({ asesoriaId, caso, setCaso, persona = "" }) => {
                       setDoc(null);
                     }}
                   >
-                    Agendar cita
+                    <FaCalendar /> Agendar cita
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      history.push(
+                        "/centro-de-conciliacion/registrar/asesoria/" +
+                          asesoriaId
+                      );
+                    }}
+                  >
+                    <FaHandshake /> Solicitar conciliación
                   </Dropdown.Item>
                   <Dropdown.Divider />
                   <Dropdown.Item

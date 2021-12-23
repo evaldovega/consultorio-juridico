@@ -57,9 +57,7 @@ const PerfilDemografico = () => {
 
     return (
       <div className="mb-4">
-        <h3 className="title-line">
-          <span>Datos Demográficos</span>
-        </h3>
+        <h2 className="mb-4">Datos Demográficos</h2>
         <table width={"100%"}>
           <tr>
             <th>Fecha de nacimiento</th>
@@ -90,9 +88,7 @@ const PerfilDemografico = () => {
 
   return (
     <div className="mb-4">
-      <h3 className="title-line">
-        <span>Datos Demográficos</span>
-      </h3>
+      <h2 className="mb-4">Datos Demográficos</h2>
       <Row className="mb-1">
         <Controller
           name="a_fechaNacimiento"
@@ -132,6 +128,9 @@ const PerfilDemografico = () => {
         <Controller
           name="c_genero"
           control={control}
+          rules={{
+            required: "Ingrese información",
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -156,9 +155,14 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_orientacion"
           control={control}
+          rules={{
+            required: "Ingrese información",
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
-              <Form.Label>Orientación sexual</Form.Label>
+              <Form.Label>
+                Orientación sexual <span className="required" />
+              </Form.Label>
               <Form.Control
                 as="select"
                 {...field}
@@ -173,6 +177,7 @@ const PerfilDemografico = () => {
                   </option>
                 ))}
               </Form.Control>
+              <Errors message={errors?.r_config_orientacion?.message} />
             </Form.Group>
           )}
         />
@@ -182,9 +187,14 @@ const PerfilDemografico = () => {
           name="r_config_etnia"
           control={control}
           defaultValue=""
+          rules={{
+            required: "Ingrese información",
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
-              <Form.Label>Etnia</Form.Label>
+              <Form.Label>
+                Etnia <span className="required" />
+              </Form.Label>
               <Form.Control
                 as="select"
                 {...field}
@@ -199,6 +209,7 @@ const PerfilDemografico = () => {
                   </option>
                 ))}
               </Form.Control>
+              <Errors message={errors?.r_config_etnia?.message} />
             </Form.Group>
           )}
         />
@@ -206,9 +217,14 @@ const PerfilDemografico = () => {
           name="r_config_estadoCivil"
           control={control}
           defaultValue=""
+          rules={{
+            required: "Ingrese información",
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
-              <Form.Label>Estado civil</Form.Label>
+              <Form.Label>
+                Estado civil <span className="required" />
+              </Form.Label>
               <Form.Control
                 as="select"
                 {...field}
@@ -223,6 +239,7 @@ const PerfilDemografico = () => {
                   </option>
                 ))}
               </Form.Control>
+              <Errors message={errors?.r_config_estadoCivil?.message} />
             </Form.Group>
           )}
         />
@@ -230,9 +247,14 @@ const PerfilDemografico = () => {
           name="a_numeroHijos"
           control={control}
           defaultValue=""
+          rules={{
+            required: "Ingrese información",
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
-              <Form.Label>Número de hijos</Form.Label>
+              <Form.Label>
+                Número de hijos <span className="required" />
+              </Form.Label>
               <Form.Control
                 type="number"
                 {...field}
@@ -240,6 +262,7 @@ const PerfilDemografico = () => {
                 disabled={readOnly}
                 plaintext={readOnly}
               />
+              <Errors message={errors?.a_numeroHijos?.message} />
             </Form.Group>
           )}
         />

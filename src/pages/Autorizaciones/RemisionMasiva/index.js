@@ -19,6 +19,9 @@ import Errors from "components/Errors";
 import Spin from "components/Spin";
 import Estudiantes from "./Estudiantes";
 import { FaColumns } from "react-icons/fa";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
 const { ROL_PERSONA, ROL_ADMIN } = require("constants/apiContants");
@@ -167,15 +170,11 @@ const RemisionMasiva = () => {
       <Spin cargando={loading}>
         <Page>
           <div className="d-flex justify-content-between align-items-center">
-            <Breadcrumb>
-              <Breadcrumb.Item>
-                <Link to="/">Inicio</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to="/autorizaciones">Documentos</Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item active>Generar remisión</Breadcrumb.Item>
-            </Breadcrumb>
+            <MigaPan>
+              <MigaPanInicio />
+              <MigaPanDocumentos />
+              <span>Generar remisión masiva</span>
+            </MigaPan>
             <Button
               variant={modo == 1 ? "primary" : "secondary"}
               onClick={() => setModo(modo == 1 ? 0 : 1)}

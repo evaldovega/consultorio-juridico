@@ -34,9 +34,15 @@ const Perfil = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Mi perfil</Breadcrumb.Item>
         </Breadcrumb>
-        <Button onClick={() => setReadOnly(!readOnly)}>
-          {!readOnly ? <FaPenAlt /> : <FaPenAlt />}
-        </Button>
+
+        <div
+          className="circle-icon"
+          style={{ cursor: "pointer" }}
+          onClick={() => setReadOnly(!readOnly)}
+        >
+          {" "}
+          {!readOnly ? <FaPenAlt /> : <FaEye />}
+        </div>
       </div>
 
       <Card>

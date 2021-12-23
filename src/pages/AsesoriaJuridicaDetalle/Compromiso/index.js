@@ -24,7 +24,7 @@ const Compromisos = ({ asesoriaId, caso = {}, setCaso }) => {
 
   if (!establecido) {
     return (
-      <Container className="mb-4">
+      <div>
         {asignado ? (
           <div className="d-flex justify-content-center">
             <Button type="button" onClick={() => setVisible(true)}>
@@ -44,25 +44,21 @@ const Compromisos = ({ asesoriaId, caso = {}, setCaso }) => {
           visible={visible}
           setVisible={setVisible}
         />
-      </Container>
+      </div>
     );
   }
 
   return (
     <>
-      <Container>
-        <h2 className="title-line">
-          <span>Compromiso</span>
-        </h2>
-        <p>
-          <h4>Recomendaciones</h4>
-          {caso?.t_recomendaciones}
-          <h4>Compromiso</h4>
-          {caso?.t_compromisos}
-          <h4>Fecha limite para cumplir compromisos</h4>
-          {moment(caso?.dt_fechaCumplimientoCompromisos).format("YYYY/MM/DD")}
-        </p>
-      </Container>
+      <h2>Compromiso</h2>
+      <p>
+        <h4>Recomendaciones</h4>
+        {caso?.t_recomendaciones}
+        <h4>Compromiso</h4>
+        {caso?.t_compromisos}
+        <h4>Fecha limite para cumplir compromisos</h4>
+        {moment(caso?.dt_fechaCumplimientoCompromisos).format("YYYY/MM/DD")}
+      </p>
     </>
   );
 };

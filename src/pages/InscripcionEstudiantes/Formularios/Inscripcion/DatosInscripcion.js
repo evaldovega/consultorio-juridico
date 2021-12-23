@@ -1,11 +1,12 @@
 import Errors from "components/Errors";
+import LugarPractica from "components/LugarPracticas";
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Row, Col, Form } from "react-bootstrap";
 import { Controller } from "react-hook-form";
 import API from "utils/Axios";
 import Context from "./Ctx";
 
-const DatosInscripcion = ({ showShadow = true }) => {
+const DatosInscripcion = ({ watch }) => {
   const [jornadas, setJornadas] = useState([]);
   const [lugarPracticas, setLugarPracticas] = useState([]);
   const [grupos, setGrupos] = useState([]);
@@ -41,18 +42,7 @@ const DatosInscripcion = ({ showShadow = true }) => {
           setLoading(false);
         }, 1000);
       });
-    API("configuracion/lugar-practicas/")
-      .then(({ data }) => {
-        setLugarPracticas(data);
-      })
-      .catch((error) => {
-        setError(error.response ? error.response.statusText : error.toString());
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      });
+
     API("configuracion/grupo/")
       .then(({ data }) => {
         setGrupos(data);
@@ -73,11 +63,9 @@ const DatosInscripcion = ({ showShadow = true }) => {
 
   return (
     <>
-      <h2 className="title-line">
-        <span>Datos de Inscripcion</span>
-      </h2>
       <Card>
         <Card.Body>
+          <h2>Datos de Inscripcion</h2>
           <Row className="mb-3">
             <Controller
               name="a_codigoEstudiantil"
@@ -242,12 +230,11 @@ const DatosInscripcion = ({ showShadow = true }) => {
                   <Form.Label>
                     Lugar de las practicas <span className="required" />
                   </Form.Label>
-                  <Form.Control {...field} as="select">
-                    <option value="">Seleccione</option>
-                    {lugarPracticas.map((el, i) => (
-                      <option value={el.id}>{el.a_titulo}</option>
-                    ))}
-                  </Form.Control>
+                  <LugarPractica
+                    watch={watch}
+                    field={field}
+                    name="r_config_lugarPracticas"
+                  />
                   <Errors message={errors?.r_config_lugarPracticas?.message} />
                 </Form.Group>
               )}

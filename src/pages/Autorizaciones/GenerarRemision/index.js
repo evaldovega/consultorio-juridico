@@ -19,6 +19,9 @@ import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
 import Autoridad from "components/Autoridad";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -217,15 +220,11 @@ const GenerarRemision = () => {
   return (
     <Policy policy={[]}>
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/autorizaciones">Documentos</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Generar remisión</Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanDocumentos />
+          <span>Generar remisión</span>
+        </MigaPan>
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >

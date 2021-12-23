@@ -17,6 +17,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Context from "./Ctx";
 import Errors from "components/Errors";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsignacionDocentes from "components/MigaPan/AsignacionDocentes";
 
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
@@ -131,20 +134,11 @@ const AsignarEmpleado = () => {
   return (
     <Policy policy={[ROL_ADMIN]}>
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/asignacion-docentes">Asignación de docentes</Link>
-          </Breadcrumb.Item>
-          {id && id.length ? (
-            <Breadcrumb.Item>
-              <Link to="/asignacion-docentes/listado">Listado</Link>
-            </Breadcrumb.Item>
-          ) : null}
-          <Breadcrumb.Item active>Asignar</Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanAsignacionDocentes />
+          <span>Registrar asignación</span>
+        </MigaPan>
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >

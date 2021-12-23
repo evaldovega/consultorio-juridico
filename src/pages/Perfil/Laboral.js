@@ -178,9 +178,7 @@ const PerfilLaboral = () => {
     );
     return (
       <div className="mb-4">
-        <h3 className="title-line">
-          <span>Datos laborales</span>
-        </h3>
+        <h2 className="mb-4">Datos laborales</h2>
         <table width={"100%"}>
           <tr>
             <th>Profesión u oficio</th>
@@ -226,9 +224,7 @@ const PerfilLaboral = () => {
 
   return (
     <div className="mb-4">
-      <h3 className="title-line">
-        <span>Datos laborales</span>
-      </h3>
+      <h2 className="mb-4">Datos laborales</h2>
       <Row className="mb-3">
         <Controller
           name="r_config_profesion"

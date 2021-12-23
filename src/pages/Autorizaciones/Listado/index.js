@@ -17,6 +17,9 @@ import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import Spin from "components/Spin";
 import Filtros from "./Filtros";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 
 const ListadoAutorizaciones = () => {
   const [docs, setDocs] = useState([]);
@@ -131,16 +134,11 @@ const ListadoAutorizaciones = () => {
     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
       <Spin cargando={cargando}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/autorizaciones">Documentos</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Listado de autorizaciones</Breadcrumb.Item>
-          </Breadcrumb>
-
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanDocumentos />
+            <span>Listado de autorizaciones</span>
+          </MigaPan>
           <Card>
             <Card.Body>
               {!cargando && !docs.length ? (

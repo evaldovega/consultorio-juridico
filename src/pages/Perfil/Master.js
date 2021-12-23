@@ -12,6 +12,10 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Spin from "components/Spin";
+import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
+import TipoPersona from "./TipoPersona";
+import PerfilJuridicoIdentificacion from "./IdentificacionJuridica";
+import RepresentanteLegal from "./RepresentanteLegal";
 const classNames = require("classnames");
 
 const PerfilMaster = ({
@@ -42,6 +46,8 @@ const PerfilMaster = ({
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
+
+  const TIPO_PERSONA = watch("c_tipoPersona");
 
   const load = () => {
     if (id >= 1) {
@@ -128,6 +134,7 @@ const PerfilMaster = ({
       Object.keys(persona).forEach((k) => setValue(k, persona[k]));
     }
   }, [persona, readOnly]);
+
   return (
     <Context.Provider
       value={{
@@ -144,6 +151,7 @@ const PerfilMaster = ({
         setLoading,
         allowSearchPerson,
         clearOnFinish,
+        TIPO_PERSONA,
         policies,
       }}
     >
@@ -154,22 +162,26 @@ const PerfilMaster = ({
           onKeyDown={(e) => checkKeyDown(e)}
         >
           <fieldset disabled={loading}>
-            <div>
-              <div>
-                <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
-              </div>
-              <div>
-                <PerfilDatosPersonales />
-              </div>
-            </div>
-            <PerfilUbicacion />
-            <br /> <br />
-            <PerfilDemografico />
-            <br /> <br />
-            <PerfilDiscapacidad />
-            <br /> <br />
-            <PerfilLaboral />
-            <br /> <br />
+            <TipoPersona />
+            {TIPO_PERSONA == PERSONA_NATURAL ? (
+              <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
+            ) : null}
+            {TIPO_PERSONA == PERSONA_JURIDICA ? (
+              <PerfilJuridicoIdentificacion
+                allowSearchPerson={allowSearchPerson}
+              />
+            ) : null}
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDatosPersonales /> : null}
+            {TIPO_PERSONA ? <PerfilUbicacion /> : null}
+
+            {TIPO_PERSONA == PERSONA_JURIDICA ? <RepresentanteLegal /> : null}
+
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDemografico /> : null}
+
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDiscapacidad /> : null}
+
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilLaboral /> : null}
+
             <Button
               hidden={!showButton || readOnly}
               ref={formRef}

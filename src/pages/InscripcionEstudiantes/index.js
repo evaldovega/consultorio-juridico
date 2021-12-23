@@ -30,8 +30,14 @@ import {
   FaUserPlus,
   FaPencilAlt,
   FaFolder,
+  FaPenAlt,
+  FaTable,
+  FaRegChartBar,
 } from "react-icons/fa";
 import AccessDenied from "components/Policy/AccessDenied";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 
 const InscripcionEstudiantes = ({ params }) => {
   const [loading, setLoading] = useState(true);
@@ -43,29 +49,16 @@ const InscripcionEstudiantes = ({ params }) => {
       feedback={<AccessDenied />}
     >
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-
-          <Breadcrumb.Item active>Inscripción estudiantes</Breadcrumb.Item>
-        </Breadcrumb>
-
-        <div className="section-title">
-          <h1>Inscripción a estudiantes</h1>
-        </div>
+        <MigaPan>
+          <MigaPanInicio />
+          <span>Inscripción estudiantes</span>
+        </MigaPan>
 
         <Row className="modules">
           <Policy policy={[ROL_ADMIN]}>
             <Col xs="12" md="6" className="mb-4">
               <ItemModule
-                Icon={(props) => (
-                  <Icon
-                    IconPrimary={FaPencilAlt}
-                    IconSecundary={FaPencilAlt}
-                    {...props}
-                  />
-                )}
+                Icon={() => <FaPenAlt />}
                 link="/inscripcion-estudiantes/inscripcion-practicas"
                 title="Inscripción a prácticas de Consultorio Jurídico"
               />
@@ -74,13 +67,7 @@ const InscripcionEstudiantes = ({ params }) => {
 
           <Col xs="12" md="6" className="mb-4">
             <ItemModule
-              Icon={(props) => (
-                <Icon
-                  IconPrimary={FaClipboard}
-                  IconSecundary={FaClipboard}
-                  {...props}
-                />
-              )}
+              Icon={() => <FaTable />}
               link="/inscripcion-estudiantes/listado"
               title="Listado de inscripciones"
             />
@@ -88,13 +75,7 @@ const InscripcionEstudiantes = ({ params }) => {
 
           <Col xs="12" md="6" className="mb-4">
             <ItemModule
-              Icon={(props) => (
-                <Icon
-                  IconPrimary={FaFolder}
-                  IconSecundary={FaFolder}
-                  {...props}
-                />
-              )}
+              Icon={() => <FaRegChartBar />}
               link="/inscripcion-estudiantes/reporte"
               title="Reportes"
             />

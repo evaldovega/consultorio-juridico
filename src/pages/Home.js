@@ -83,15 +83,7 @@ const Home = () => {
                         return <Card className="empty-card" />;
                       }
                       return (
-                        <Card
-                          key={index2}
-                          className="cardhome animate__animated animate__fadeInLeft"
-                          style={{
-                            boxShadow:
-                              "3px 3px 3px 3px rgba(156, 156, 156, 0.1)",
-                            border: 0,
-                          }}
-                        >
+                        <Card key={index2} className="cardhome">
                           <Link to={m.url} className="link-card">
                             <Card.Img variant="top" src={m.img} />
                             <Card.Body>

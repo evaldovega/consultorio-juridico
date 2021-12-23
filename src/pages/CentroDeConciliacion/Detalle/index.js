@@ -88,6 +88,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                   value={doc?.d_fechaSolicitud}
                 />
               </Col>
+              <Col xs="12" md="6" lg="4">
+                <Form.Label className="d-block">Cuantia</Form.Label>
+                {doc && doc.a_cuantiaValor && doc.a_cuantiaValor}
+                {doc && doc.a_indeterminada && doc.a_indeterminada}
+              </Col>
             </Row>
             <Row>
               <Col xs="12" md="4" lg="4">

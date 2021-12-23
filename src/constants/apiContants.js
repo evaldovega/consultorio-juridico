@@ -1,6 +1,7 @@
 export const ACCESS_TOKEN_NAME = "token-consultorio-juridico";
 export const USER_FULL_NAME = "cj-nombre-usuario";
-
+export const PERSONA_NATURAL = "NATURAL";
+export const PERSONA_JURIDICA = "JURIDICA";
 export const ROL_PERSONA = "CIUDADANO";
 export const ROL_ESTUDIANTE = "ESTUDIANTE";
 export const ROL_ASESOR = "ASESOR";
@@ -11,6 +12,14 @@ export const POLITICA_DATOS =
 export const PAGE_SIZE = 10;
 export const CONFIRM_BORRAR_ARCHIVO = "¿Seguro que quiere borrar este archivo?";
 export const MODULES = [
+  {
+    id: 0,
+    img: "images/modulo3.jpg",
+    name: "Mi inscripción",
+    url: "/mi-inscripcion",
+    descripcion: "",
+    policies: [ROL_ESTUDIANTE],
+  },
   {
     id: 0,
     img: "images/modulo2.jpg",
@@ -26,7 +35,7 @@ export const MODULES = [
     name: "Centro de conciliación",
     url: "/centro-de-conciliacion",
     descripcion: "",
-    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE],
+    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE, ROL_PERSONA],
   },
   {
     id: 1,

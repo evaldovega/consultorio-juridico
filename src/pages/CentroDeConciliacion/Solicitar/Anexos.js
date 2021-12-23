@@ -94,11 +94,9 @@ const Anexos = ({
 
   return (
     <Spin cargando={cargando}>
-      <Card className="mt-1 mb-1">
+      <Card className="mb-4">
         <Card.Body style={{ padding: "2.5rem" }}>
-          <h2 className="title-line">
-            <span>Pruebas y anexos</span>
-          </h2>
+          <h2>Pruebas y anexos</h2>
           {docs?.length ? (
             <Table className="mb-3">
               <thead>

@@ -19,6 +19,9 @@ import Policy from "components/Policy";
 import { ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import { FaPrint, FaTrash } from "react-icons/fa";
 import Filtros from "./Filtros";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanDocumentos from "components/MigaPan/Documentos";
 
 const ListadoRemisiones = () => {
   const [docs, setDocs] = useState([]);
@@ -180,16 +183,11 @@ const ListadoRemisiones = () => {
     <Policy policy={[ROL_ADMIN]}>
       <Spin cargando={cargando}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/autorizaciones">Documentos</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Listado de remisiones</Breadcrumb.Item>
-          </Breadcrumb>
-
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanDocumentos />
+            <span>Historico de remisiones</span>
+          </MigaPan>
           <Card>
             <Card.Body>
               {!cargando && !docs.length ? (

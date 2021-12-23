@@ -28,7 +28,7 @@ import VerInscripcion from "pages/VerInscripcion";
 
 import AsesoriaJuridicaHome from "pages/AsesoriaJuridica";
 import MisAsesorias from "pages/MisAsesorias";
-import SolicitarAsesoria from "pages/SolicitarAsesoria";
+import SolicitarAsesoria from "pages/AsesoriaJuridica/SolicitarAsesoria";
 import ListadoSolicitudes from "pages/AsesoriaJuridica/ListadoSolicitudes";
 import FormatoRegistro from "pages/AsesoriaJuridica/ListadoSolicitudes/FormatoRegistro";
 
@@ -69,6 +69,7 @@ import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar"
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
 import ScrollToTop from "components/ScrollTop";
 import RecuperarClave from "pages/RecuperarClave";
+import MisInscripciones from "pages/MisInscripciones";
 
 function App() {
   moment.locale("es");
@@ -254,15 +255,24 @@ function App() {
             <PrivateRouter path="/centro-de-conciliacion" exact>
               <CentroDeConciliacionHome />
             </PrivateRouter>
-
+            <PrivateRouter
+              path="/centro-de-conciliacion/registrar/asesoria/:asesoria"
+              exact
+            >
+              <CentroDeConciliacionSolicitar />
+            </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/registrar/:id" exact>
               <CentroDeConciliacionSolicitar />
             </PrivateRouter>
+
             <PrivateRouter path="/centro-de-conciliacion/registrar" exact>
               <CentroDeConciliacionSolicitar />
             </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/solicitudes" exact>
               <CentroDeConciliacionListado />
+            </PrivateRouter>
+            <PrivateRouter path="/mi-inscripcion" exact>
+              <MisInscripciones />
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />

@@ -37,30 +37,26 @@ const Demanda = ({
         <p className="text-justify">{actuacion?.t_observacion}</p>
         <p className="text-justify">{actuacion?.t_respuesta}</p>
         {anexos.length ? (
-          <Card style={{ maxWidth: "400px" }}>
-            <Card.Header>Anexo</Card.Header>
-            <ul className="list-group list-group-flush">
-              {anexos.map((a) => (
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                  <a target="blank" href={a.f_archivoDocumento}>
-                    {a.a_titulo}
-                  </a>
-                  {a.r_usuarios_persona == persona ? (
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => borrarArchivo(a)}
-                    >
-                      Borrar
-                    </Button>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          </Card>
+          <ul className="list-group list-group-flush">
+            {anexos.map((a) => (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                <a target="blank" href={a.f_archivoDocumento}>
+                  {a.a_titulo}
+                </a>
+                {a.r_usuarios_persona == persona ? (
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => borrarArchivo(a)}
+                  >
+                    Borrar
+                  </Button>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         ) : null}
         <Footer actuacion={actuacion} />
-        <div className="divider"></div>
       </div>
     </Spin>
   );

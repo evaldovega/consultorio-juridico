@@ -2,16 +2,27 @@ import { useState } from "react";
 import { ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE } from "constants/apiContants";
 import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaBolt } from "react-icons/fa";
 import moment from "moment";
 import Errors from "components/Errors";
 import API from "utils/Axios";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
 const { default: Spin } = require("components/Spin");
-const { Breadcrumb, Card, Form, Row, Col, Button } = require("react-bootstrap");
+const {
+  Breadcrumb,
+  Card,
+  Form,
+  Row,
+  Col,
+  Button,
+  InputGroup,
+} = require("react-bootstrap");
 
 const InscripcionEstudiantesReporte = () => {
   const [cargando, setCargando] = useState(false);
@@ -72,131 +83,122 @@ const InscripcionEstudiantesReporte = () => {
     <Policy policy={[ROL_ADMIN, ROL_DOCENTE, ROL_ASESOR]}>
       <Spin cargando={cargando}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Reporte</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanInscripcionEstudiante />
+            <span>Reportes</span>
+          </MigaPan>
 
           <Card>
             <Card.Body>
+              <div className="d-flex justify-content-end align-items-center mb-4">
+                <div className="circle-icon mr-4">
+                  <FaFilter />
+                </div>
+                <FaBolt style={{ fill: "#bbbb54" }} title="" />
+                <span className="mr-2">Aplicar filtro rápidos</span>
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    setValue(
+                      "fechainicio",
+                      moment().startOf("year").format("YYYY-MM-DD")
+                    );
+                    setValue(
+                      "fechafin",
+                      moment()
+                        .startOf("year")
+                        .add(6, "month")
+                        .format("YYYY-MM-DD")
+                    );
+                  }}
+                >
+                  Primer semestre
+                </Button>
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    setValue(
+                      "fechainicio",
+                      moment()
+                        .startOf("year")
+                        .add(6, "month")
+                        .format("YYYY-MM-DD")
+                    );
+                    setValue(
+                      "fechafin",
+                      moment().endOf("year").format("YYYY-MM-DD")
+                    );
+                  }}
+                >
+                  Segundo semestre
+                </Button>
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    setValue(
+                      "fechainicio",
+                      moment().startOf("month").format("YYYY-MM-DD")
+                    );
+                    setValue(
+                      "fechafin",
+                      moment().endOf("month").format("YYYY-MM-DD")
+                    );
+                  }}
+                >
+                  Este mes
+                </Button>
+                <Button
+                  variant="light"
+                  onClick={() => {
+                    setValue(
+                      "fechainicio",
+                      moment().startOf("year").format("YYYY-MM-DD")
+                    );
+                    setValue(
+                      "fechafin",
+                      moment().endOf("year").format("YYYY-MM-DD")
+                    );
+                  }}
+                >
+                  Este año
+                </Button>
+              </div>
               <Form
                 noValidate
                 onSubmit={handleSubmit(consultar)}
                 className="mb-4"
               >
-                <Row className="mb-1">
-                  <Col xs="12" md="6">
-                    <Controller
-                      name="fechainicio"
-                      control={control}
-                      rules={{
-                        required: "Ingrese una fecha",
-                      }}
-                      render={({ field }) => (
-                        <Form.Group>
-                          <Form.Label>Fecha inicio</Form.Label>
-                          <Form.Control type="date" {...field} />
-                        </Form.Group>
-                      )}
-                    />
-                    <Errors message={errors?.fechainicio?.message} />
-                  </Col>
-                  <Col xs="12" md="6">
-                    <Controller
-                      name="fechafin"
-                      control={control}
-                      rules={{
-                        required: "Ingrese una fecha",
-                      }}
-                      render={({ field }) => (
-                        <Form.Group>
-                          <Form.Label>Fecha final</Form.Label>
-                          <Form.Control type="date" {...field} />
-                        </Form.Group>
-                      )}
-                    />
-                    <Errors message={errors?.fechafin?.message} />
-                  </Col>
-                </Row>
-                <Button type="submit">Generar reporte de inscripciones</Button>
+                <InputGroup className="mb-3">
+                  <Controller
+                    name="fechainicio"
+                    control={control}
+                    rules={{
+                      required: "Ingrese una fecha",
+                    }}
+                    render={({ field }) => (
+                      <Form.Control type="date" {...field} />
+                    )}
+                  />
+
+                  <Controller
+                    name="fechafin"
+                    control={control}
+                    rules={{
+                      required: "Ingrese una fecha",
+                    }}
+                    render={({ field }) => (
+                      <Form.Control type="date" {...field} />
+                    )}
+                  />
+                  <InputGroup.Append>
+                    <Button type="submit">
+                      Generar reporte de inscripciones
+                    </Button>
+                  </InputGroup.Append>
+                </InputGroup>
               </Form>
             </Card.Body>
-            <Card.Footer className="d-flex justify-content-end align-items-center">
-              <h3 style={{ margin: 0 }}>
-                Filtros rapidos <FaFilter />
-              </h3>
-              <Button
-                variant="light"
-                onClick={() => {
-                  setValue(
-                    "fechainicio",
-                    moment().startOf("year").format("YYYY-MM-DD")
-                  );
-                  setValue(
-                    "fechafin",
-                    moment()
-                      .startOf("year")
-                      .add(6, "month")
-                      .format("YYYY-MM-DD")
-                  );
-                }}
-              >
-                Primer semestre
-              </Button>
-              <Button
-                variant="light"
-                onClick={() => {
-                  setValue(
-                    "fechainicio",
-                    moment()
-                      .startOf("year")
-                      .add(6, "month")
-                      .format("YYYY-MM-DD")
-                  );
-                  setValue(
-                    "fechafin",
-                    moment().endOf("year").format("YYYY-MM-DD")
-                  );
-                }}
-              >
-                Segundo semestre
-              </Button>
-              <Button
-                variant="light"
-                onClick={() => {
-                  setValue(
-                    "fechainicio",
-                    moment().startOf("month").format("YYYY-MM-DD")
-                  );
-                  setValue(
-                    "fechafin",
-                    moment().endOf("month").format("YYYY-MM-DD")
-                  );
-                }}
-              >
-                Este mes
-              </Button>
-              <Button
-                variant="light"
-                onClick={() => {
-                  setValue(
-                    "fechainicio",
-                    moment().startOf("year").format("YYYY-MM-DD")
-                  );
-                  setValue(
-                    "fechafin",
-                    moment().endOf("year").format("YYYY-MM-DD")
-                  );
-                }}
-              >
-                Este año
-              </Button>
-            </Card.Footer>
           </Card>
         </Page>
       </Spin>

@@ -25,6 +25,9 @@ import moment from "moment";
 import InscripcionesFiltros from "./Filtros";
 import Spin from "components/Spin";
 import { FaPenAlt } from "react-icons/fa";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 
 const ListadoIncripciones = () => {
   const [docs, setDocs] = useState([]);
@@ -122,15 +125,11 @@ const ListadoIncripciones = () => {
     <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}>
       <Page>
         <Spin cargando={cargando}>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>Listado de incripciones</Breadcrumb.Item>
-          </Breadcrumb>
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanInscripcionEstudiante />
+            <span>Todas las inscripciones</span>
+          </MigaPan>
 
           <Card>
             <InscripcionesFiltros
@@ -167,7 +166,7 @@ const ListadoIncripciones = () => {
                 </thead>
                 <tbody>
                   {docs.map((d) => (
-                    <tr>
+                    <tr key={d.id}>
                       <td>{d?.r_usuarios_persona?.a_numeroDocumento}</td>
                       <td>{d.a_codigoEstudiantil}</td>
                       <td>
@@ -207,9 +206,9 @@ const ListadoIncripciones = () => {
                           <Link
                             to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
                           >
-                            <Button variant="primary">
+                            <div className="circle-icon">
                               <FaPenAlt />
-                            </Button>
+                            </div>
                           </Link>
                         </td>
                       </Policy>

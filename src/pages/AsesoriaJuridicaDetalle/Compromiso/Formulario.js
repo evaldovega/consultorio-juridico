@@ -59,33 +59,6 @@ const CompromisoFormulario = ({
     toast.warning("Complete la informacón para continuar");
   };
 
-  /*useEffect(() => {
-        console.log(caso.mm_estudiantesAsignados, personaId);
-        if (caso) {
-          setAsignado(
-            caso.mm_estudiantesAsignados &&
-              caso.mm_estudiantesAsignados.includes(personaId)
-          );
-          setValue("t_recomendaciones", caso.t_recomendaciones);
-          setValue("t_compromisos", caso.t_compromisos);
-          setValue("r_config_areaAsesoria", caso.r_config_areaAsesoria);
-          setValue(
-            "dt_fechaCumplimientoCompromisos",
-            caso.dt_fechaCumplimientoCompromisos
-          );
-          if (caso?.t_recomendaciones?.length) {
-            setReadOnly(true);
-          } else if (
-            caso.mm_estudiantesAsignados &&
-            caso.mm_estudiantesAsignados.includes(personaId)
-          ) {
-            setReadOnly(false);
-          } else {
-            setReadOnly(true);
-          }
-        }
-      }, [caso, personaId]);*/
-
   return (
     <Modal
       show={visible}

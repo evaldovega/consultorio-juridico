@@ -85,9 +85,7 @@ const PerfilIdentificacion = () => {
   if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
     return (
       <div className="mb-4">
-        <h3 className="title-line">
-          <span>Datos del documento</span>
-        </h3>
+        <h2 className="mb-4">Datos del documento</h2>
         <table width={"100%"}>
           <tr>
             <th>Número documento</th>
@@ -141,9 +139,7 @@ const PerfilIdentificacion = () => {
 
   return (
     <div className="mb-4">
-      <h3 className="title-line">
-        <span>Datos del documento</span>
-      </h3>
+      <h2 className="mb-4">Datos del documento</h2>
       <Row className="mb-1">
         <Controller
           name="a_numeroDocumento"

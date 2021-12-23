@@ -36,11 +36,7 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
     <Row className="mb-2 align-items-center">
       <Col>
         <div className="circle-profile" style={{ width: 64, height: 64 }}>
-          <Img
-            originalSrc={doc.f_archivoFotoPerfil}
-            style={{ border: "1px solid #d07400" }}
-            roundedCircle={true}
-          />
+          <Img originalSrc={doc.f_archivoFotoPerfil} roundedCircle={true} />
         </div>
       </Col>
       <Col xs="6" md="3">

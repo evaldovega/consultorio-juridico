@@ -9,6 +9,7 @@ import { animateCSS } from "utils";
 import API from "utils/Axios";
 import Spin from "components/Spin";
 import { toast } from "react-toastify";
+import { FaLockOpen } from "react-icons/fa";
 const Registro = ({ location, history }) => {
   const [cargando, setCargando] = useState(false);
   /*const onFinish = () => {
@@ -195,8 +196,14 @@ const Registro = ({ location, history }) => {
                 </div>
                 <Button type="submit">Registrarse</Button>
                 <div className="mt-4 d-flex justify-content-center align-items-center">
-                  <a className="link link-primary" onClick={() => go("/login")}>
-                    Iniciar sesión
+                  <a
+                    onClick={() => go("/login")}
+                    className="link link-primary d-flex align-items-center"
+                  >
+                    <div className="circle-icon mr-2">
+                      <FaLockOpen />
+                    </div>
+                    <span> Iniciar sesión</span>
                   </a>
                 </div>
                 {/*<ReCAPTCHA

@@ -17,47 +17,40 @@ import { Breadcrumb, Row, Col, Card } from "react-bootstrap";
 
 import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
-import { FaFolder, FaFolderOpen, FaFolderPlus, FaPenAlt } from "react-icons/fa";
+import {
+  FaFolder,
+  FaFolderOpen,
+  FaFolderPlus,
+  FaPenAlt,
+  FaTable,
+  FaTabletAlt,
+} from "react-icons/fa";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
 
 const CentroDeConciliacionHome = () => {
   return (
     <Policy
-      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE]}
+      policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE, ROL_PERSONA]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Centro de conciliación</Breadcrumb.Item>
-        </Breadcrumb>
-        <div className="section-title">
-          <h1>Centro de Conciliación</h1>
-        </div>
+        <MigaPan>
+          <MigaPanInicio />
+          <span>Centro de conciliación</span>
+        </MigaPan>
+
         <Row className="modules">
           <Col xs={12} md={6}>
             <ItemModule
-              Icon={(props) => (
-                <Icon
-                  {...props}
-                  IconPrimary={FaPenAlt}
-                  IconSecundary={FaFolderPlus}
-                />
-              )}
+              Icon={() => <FaPenAlt />}
               title="Formato de Registro"
               link="/centro-de-conciliacion/registrar"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
-              Icon={(props) => (
-                <Icon
-                  {...props}
-                  IconPrimary={FaFolder}
-                  IconSecundary={FaFolderOpen}
-                />
-              )}
+              Icon={() => <FaTable />}
               title="Listado de casos"
               link="/centro-de-conciliacion/solicitudes"
             />

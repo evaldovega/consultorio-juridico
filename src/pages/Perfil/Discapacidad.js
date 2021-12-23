@@ -66,9 +66,7 @@ const PerfilDiscapacidad = () => {
     if (discapacidadesSeleccionadas.length) {
       return (
         <div className="mb-4">
-          <h3 className="title-line">
-            <span>Discapacidad</span>
-          </h3>
+          <h2 className="mb-4">Discapacidad</h2>
           {discapacidadesSeleccionadas.map((d) => (
             <Badge variant="primary">{d.label}</Badge>
           ))}
@@ -77,9 +75,7 @@ const PerfilDiscapacidad = () => {
     }
     return (
       <div className="mb-4">
-        <h3 className="title-line">
-          <span>Discapacidad</span>
-        </h3>
+        <h2 className="mb-4">Discapacidad</h2>
         <p>Ninguna</p>
       </div>
     );
@@ -87,9 +83,7 @@ const PerfilDiscapacidad = () => {
 
   return (
     <div className="mb-4">
-      <h3 className="title-line">
-        <span>Discapacidad</span>
-      </h3>
+      <h2 className="mb-4">Discapacidad</h2>
       <Form.Group>
         {docs.map((d, i) => (
           <Form.Check

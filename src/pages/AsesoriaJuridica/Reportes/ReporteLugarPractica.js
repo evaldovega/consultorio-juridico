@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API, { baseUrl } from "utils/Axios";
 import Policy from "components/Policy";
-import { Button, Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { FaFilter } from "react-icons/fa";
+import { Button, Breadcrumb, Card, InputGroup } from "react-bootstrap";
+import { FaFilter, FaBolt } from "react-icons/fa";
+import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 var moment = require("moment");
 
 const ReporteLugarPractica = () => {
@@ -18,105 +22,100 @@ const ReporteLugarPractica = () => {
   return (
     <Policy policy={[]}>
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/asesoria-juridica">Asesoría jurídica</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/asesoria-juridica/reportes">Reportes</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active>Lugar de prácticas </Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanAsesoriaJuridica />
+          <MigaPanAsesoriaJuridicaReportes />
+          <span>Por lugar de prácticas</span>
+        </MigaPan>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
-            <h2 className="title-line">
-              <span>Cantidad de estudiantes por lugar de práctica</span>
-            </h2>
-            <Row className="mb-3">
-              <Col xs="12" md="5">
-                <label>
-                  <b>Desde</b>
-                </label>
-                <input
-                  type="date"
-                  className="form-control"
-                  name="fecha-inicio"
-                  value={fechaInicial}
-                  onChange={(e) => setFechaInicial(e.target.value)}
-                />
-              </Col>
-              <Col xs="12" md="5">
-                <label>
-                  <b>Hasta</b>
-                </label>
-                <input
-                  type="date"
-                  className="form-control"
-                  name="fecha-inicio"
-                  value={fechaFinal}
-                  onChange={(e) => setFechaFinal(e.target.value)}
-                />
-              </Col>
-            </Row>
-          </Card.Body>
-          <Card.Footer className="d-flex justify-content-end align-items-center">
-            <h3 style={{ margin: 0 }}>
-              Filtros rapidos <FaFilter />
-            </h3>
-            <Button
-              variant="light"
-              onClick={() => {
-                setFechaInicial(moment().startOf("year").format("YYYY-MM-DD"));
-                setFechaFinal(
-                  moment().startOf("year").add(6, "month").format("YYYY-MM-DD")
-                );
-              }}
-            >
-              Primer semestre
-            </Button>
-            <Button
-              variant="light"
-              onClick={() => {
-                setFechaInicial(
-                  moment().startOf("year").add(6, "month").format("YYYY-MM-DD")
-                );
-                setFechaFinal(moment().endOf("year").format("YYYY-MM-DD"));
-              }}
-            >
-              Segundo semestre
-            </Button>
-            <Button
-              variant="light"
-              onClick={() => {
-                setFechaInicial(moment().startOf("month").format("YYYY-MM-DD"));
-                setFechaFinal(moment().endOf("month").format("YYYY-MM-DD"));
-              }}
-            >
-              Este mes
-            </Button>
-            <Button
-              variant="light"
-              onClick={() => {
-                setFechaInicial(moment().startOf("year").format("YYYY-MM-DD"));
-                setFechaFinal(moment().endOf("year").format("YYYY-MM-DD"));
-              }}
-            >
-              Este año
-            </Button>
-          </Card.Footer>
-
-          <Card.Body>
-            <div className="d-flex justify-content-end mt-4">
-              <a
-                target="_blank"
-                href={`${baseUrl}/estudiantes_lugarpracticas/${fechaInicial}/${fechaFinal}`}
+            <div className="d-flex justify-content-end align-items-center mb-4">
+              <div className="circle-icon mr-4">
+                <FaFilter />
+              </div>
+              <FaBolt style={{ fill: "#bbbb54" }} title="" />
+              <span className="mr-2">Aplicar filtro rápidos</span>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setFechaInicial(
+                    moment().startOf("year").format("YYYY-MM-DD")
+                  );
+                  setFechaFinal(
+                    moment()
+                      .startOf("year")
+                      .add(6, "month")
+                      .format("YYYY-MM-DD")
+                  );
+                }}
               >
-                <Button size="lg">Consultar</Button>
-              </a>
+                Primer semestre
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setFechaInicial(
+                    moment()
+                      .startOf("year")
+                      .add(6, "month")
+                      .format("YYYY-MM-DD")
+                  );
+                  setFechaFinal(moment().endOf("year").format("YYYY-MM-DD"));
+                }}
+              >
+                Segundo semestre
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setFechaInicial(
+                    moment().startOf("month").format("YYYY-MM-DD")
+                  );
+                  setFechaFinal(moment().endOf("month").format("YYYY-MM-DD"));
+                }}
+              >
+                Este mes
+              </Button>
+              <Button
+                variant="light"
+                onClick={() => {
+                  setFechaInicial(
+                    moment().startOf("year").format("YYYY-MM-DD")
+                  );
+                  setFechaFinal(moment().endOf("year").format("YYYY-MM-DD"));
+                }}
+              >
+                Este año
+              </Button>
             </div>
+
+            <InputGroup className="mb-3">
+              <input
+                type="date"
+                className="form-control"
+                name="fecha-inicio"
+                value={fechaInicial}
+                placeholder="Fecha inicial"
+                onChange={(e) => setFechaInicial(e.target.value)}
+              />
+              <input
+                type="date"
+                className="form-control"
+                name="fecha-inicio"
+                value={fechaFinal}
+                placeholder="Fecha final"
+                onChange={(e) => setFechaFinal(e.target.value)}
+              />
+              <InputGroup.Append>
+                <Button
+                  href={`${baseUrl}/estudiantes_lugarpracticas/${fechaInicial}/${fechaFinal}`}
+                  size="md"
+                >
+                  Generar reporte por lugar de practicas
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
           </Card.Body>
         </Card>
       </Page>

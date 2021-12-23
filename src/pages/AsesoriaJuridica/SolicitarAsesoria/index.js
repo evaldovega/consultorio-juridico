@@ -21,6 +21,11 @@ import ArchivosAsesoria from "./Archivos";
 import AsesoriaEstudiantes from "./Estudiantes";
 import { useContext } from "react";
 import { Context as ContextPolicy } from "components/Policy/Ctx";
+import AsignarAdmin from "./AsignarAdmin";
+
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPan from "components/MigaPan";
 
 const { default: Page } = require("components/Page");
 const { default: Policy, policyAllow } = require("components/Policy");
@@ -174,31 +179,26 @@ const SolicitarAsesoria = () => {
       policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}
     >
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
-            <Breadcrumb.Item>
-              <Link to="/asesoria-juridica">Asesoría jurídica</Link>
-            </Breadcrumb.Item>
-          </Policy>
-          <Breadcrumb.Item active>Solicitar asesoría</Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanAsesoriaJuridica />
+          <span>Solicitar asesoria</span>
+        </MigaPan>
 
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >
           <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
             <Accordion defaultActiveKey="0">
-              <Card>
+              <Card className="mb-4">
                 <Card.Header className="d-flex justify-content-end">
                   <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                    Ciudadano
+                    Ocultar / Mostrar información del ciudadano
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body style={{ padding: "2.5rem" }}>
+                    <h2 className="mb-4">Ciudadano</h2>
                     <PerfilMaster
                       id={personaId}
                       formRef={formPersona}
@@ -211,8 +211,6 @@ const SolicitarAsesoria = () => {
                 </Accordion.Collapse>
               </Card>
             </Accordion>
-            <br />
-            <br />
           </Policy>
 
           <Form
@@ -220,11 +218,9 @@ const SolicitarAsesoria = () => {
             onSubmit={handleSubmit(guardarAsesoria, onError)}
             onKeyDown={(e) => checkKeyDown(e)}
           >
-            <Card>
+            <Card className="mb-4">
               <Card.Body style={{ padding: "2.5rem" }}>
-                <h2 className="title-line">
-                  <span>Datos de asesoría</span>
-                </h2>
+                <h2>Datos de asesoría</h2>
                 <Policy
                   policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}
                 >
@@ -283,20 +279,19 @@ const SolicitarAsesoria = () => {
                 </Row>
               </Card.Body>
             </Card>
-            <br />
-            <br />
-            <Card>
+
+            <Card className="mb-4">
               <Card.Body style={{ padding: "2.5rem" }}>
-                <h2 className="title-line">
-                  <span>Anexar documentos</span>
-                </h2>
+                <h2>Anexar documentos</h2>
                 <ArchivosAsesoria />
               </Card.Body>
             </Card>
-            <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
-              <br />
-              <br />
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
               <AsesoriaEstudiantes />
+            </Policy>
+
+            <Policy policy={[ROL_ADMIN]}>
+              <AsignarAdmin />
             </Policy>
 
             <Button
@@ -305,19 +300,19 @@ const SolicitarAsesoria = () => {
               ref={formAsesoria}
               disabled={loading}
             >
-              Registrar
+              {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
             </Button>
           </Form>
           <div className="d-flex justify-content-end mt-4">
             <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
               <Button onClick={save} size="lg" disabled={loading}>
-                Registrar
+                {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
               </Button>
             </Policy>
 
             <Policy policy={[ROL_PERSONA]}>
               <Button onClick={guardarComoPersona} size="lg" disabled={loading}>
-                Registrar
+                {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
               </Button>
             </Policy>
           </div>

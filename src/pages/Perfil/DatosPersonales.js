@@ -15,27 +15,24 @@ const PerfilDatosPersonales = ({}) => {
   if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
     return (
       <div className="mb-4">
-        <h3 className="title-line">
-          <span>Datos personales</span>
-        </h3>
+        <h2 className="mb-2">Datos personales</h2>
+        <center className="mb-4">
+          <Img
+            width={92}
+            style={{ border: "1px solid #d07400" }}
+            roundedCircle={true}
+            className="img-fluid img-round"
+            originalSrc={`${baseUrl}${persona?.f_archivoFotoPerfil}`}
+          />
+        </center>
         <table width={"100%"}>
           <tr>
-            <th></th>
             <th>Primer nombre</th>
             <th>Segundo nombre</th>
             <th>Primer apellido</th>
             <th>Segundo apellido</th>
           </tr>
           <tr>
-            <td>
-              <Img
-                width={92}
-                style={{ border: "1px solid #d07400" }}
-                roundedCircle={true}
-                className="img-fluid img-round"
-                originalSrc={`${baseUrl}${persona?.f_archivoFotoPerfil}`}
-              />
-            </td>
             <td>{persona?.a_primerNombre}</td>
             <td>{persona?.a_segundoNombre}</td>
             <td>{persona?.a_primerApellido}</td>
@@ -47,14 +44,11 @@ const PerfilDatosPersonales = ({}) => {
   }
   return (
     <div className="mb-3">
-      <h3 className="title-line">
-        <span>Datos personales</span>
-      </h3>
-
+      <h2 className="mb-4">Datos personales</h2>
+      <center>
+        <FotoPerfil />
+      </center>
       <Row className="align-items-center">
-        <Col xs="12" md="3">
-          <FotoPerfil />
-        </Col>
         <Col>
           <Row className="mb-1">
             <Controller

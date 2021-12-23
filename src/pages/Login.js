@@ -11,6 +11,7 @@ import Errors from "components/Errors";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import { animateCSS } from "utils";
+import { FaRocket, FaSign } from "react-icons/fa";
 
 const Login = ({ location, history }) => {
   const recaptchaRef = React.useRef();
@@ -145,14 +146,17 @@ const Login = ({ location, history }) => {
                   <div className="mt-4 d-flex justify-content-center align-items-center">
                     <a
                       onClick={() => go("/registrarse")}
-                      className="link link-primary"
+                      className="link link-primary d-flex align-items-center"
                     >
-                      Registrarse
+                      <div className="circle-icon mr-2">
+                        <FaRocket />
+                      </div>
+                      <span>Registrarse</span>
                     </a>
-                    <span className="ml-4 mr-4">⍿</span>
+                    {/*<span className="ml-4 mr-4">⍿</span>
                     <Link to="/recuperar-clave" className="link-blue">
                       Olvidé la contraseña
-                    </Link>
+              </Link>*/}
                   </div>
                 </>
               )}
@@ -173,7 +177,7 @@ const Login = ({ location, history }) => {
                 discapacidad visual o auditiva.
               </p>
               <Button
-                href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
+                href="https://www.uniatlantico.edu.co/uatlantico/sites/default/files/Politica-de-Tratamiento-de-Datos-Personales.pdf"
                 target="blank"
                 className="animate__animated animate__bounceInUp"
               >

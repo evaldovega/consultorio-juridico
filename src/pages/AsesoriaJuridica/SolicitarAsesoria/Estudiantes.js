@@ -24,11 +24,9 @@ const AsesoriaEstudiantes = () => {
   };
 
   return (
-    <Card style={{ overflow: "visible!important" }}>
+    <Card style={{ overflow: "visible!important" }} className="mb-4">
       <Card.Body style={{ padding: "2.5rem", overflow: "visible!important" }}>
-        <h2 className="title-line">
-          <span>Asignar estudiantes</span>
-        </h2>
+        <h2 className="mb-4">Asignar estudiantes</h2>
         <BuscadorEstudiante
           onSelect={estudianteSeleccionado}
           multiple={false}

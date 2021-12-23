@@ -26,6 +26,9 @@ import Spin from "components/Spin";
 import moment from "moment";
 import { FaEye } from "react-icons/fa";
 import Filtros from "./Filtros";
+import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPan from "components/MigaPan";
 
 const ListadoSolicitudes = () => {
   const [docs, setDocs] = useState([]);
@@ -102,20 +105,11 @@ const ListadoSolicitudes = () => {
     >
       <Spin cargando={cargando}>
         <Page>
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <Link to="/">Inicio</Link>
-            </Breadcrumb.Item>
-            <Policy
-              policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
-            >
-              <Breadcrumb.Item>
-                <Link to="/asesoria-juridica">Asesoría Jurídica</Link>
-              </Breadcrumb.Item>
-            </Policy>
-            <Breadcrumb.Item active>Casos</Breadcrumb.Item>
-          </Breadcrumb>
-
+          <MigaPan>
+            <MigaPanInicio />
+            <MigaPanAsesoriaJuridica />
+            <span>Todas las solicitudes o casos</span>
+          </MigaPan>
           <Card>
             <Filtros params={params} setParams={setParams} />
             <Card.Body>
@@ -174,9 +168,9 @@ const ListadoSolicitudes = () => {
                       <td className="crop">{d?.t_asuntoConsulta}</td>
                       <td>
                         <Link to={`/asesoria-juridica/caso/${d.id}`}>
-                          <Button variant="primary">
+                          <div className="circle-icon">
                             <FaEye />
-                          </Button>
+                          </div>
                         </Link>
                       </td>
                     </tr>

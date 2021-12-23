@@ -21,6 +21,9 @@ import Page from "components/Page";
 
 import DatosInscripcion from "./DatosInscripcion";
 import PerfilMaster from "pages/Perfil/Master";
+import MigaPan from "components/MigaPan";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
+import MigaPanInicio from "components/MigaPan/Inicio";
 
 const InscripcionPracticasConsultorioJuridico = ({}) => {
   const history = useHistory();
@@ -163,28 +166,18 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
       }
     >
       <Page>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <Link to="/">Inicio</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/inscripcion-estudiantes">Inscripción estudiantes</Link>
-          </Breadcrumb.Item>
-          {id ? (
-            <Breadcrumb.Item>
-              <Link to="/inscripcion-estudiantes/listado">Inscripciones</Link>
-            </Breadcrumb.Item>
-          ) : null}
-          <Breadcrumb.Item active>
-            Inscripción a practicas consultorio jurídico
-          </Breadcrumb.Item>
-        </Breadcrumb>
+        <MigaPan>
+          <MigaPanInicio />
+          <MigaPanInscripcionEstudiante />
+          <span>Registrar inscripción a prácticas de consultorio jurídico</span>
+        </MigaPan>
 
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >
-          <Card>
+          <Card className="mb-4">
             <Card.Body style={{ padding: "2.5rem" }}>
+              <h2>Estudiante</h2>
               <PerfilMaster
                 id={personaId}
                 formRef={formPersona}
@@ -195,7 +188,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
               />
             </Card.Body>
           </Card>
-          <br />
+
           <FormProvider errors={errors}>
             <Form
               noValidate
@@ -203,11 +196,8 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
               onKeyDown={(e) => checkKeyDown(e)}
             >
               <fieldset disabled={loading}>
-                <Card>
-                  <Card.Body style={{ padding: "2.5rem" }}>
-                    <DatosInscripcion />
-                  </Card.Body>
-                </Card>
+                <DatosInscripcion watch={watch} />
+
                 <input
                   {...register("personaid", { required: true })}
                   type="hidden"

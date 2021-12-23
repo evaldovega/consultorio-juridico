@@ -11,7 +11,6 @@ const Cita = ({ actuacion, setEdit }) => {
         {actuacion.t_observacion}
       </p>
       <Footer actuacion={actuacion} />
-      <div className="divider"></div>
     </div>
   );
 };
