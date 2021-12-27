@@ -55,14 +55,17 @@ const InscripcionEstudiantesReporte = () => {
   const consultar = async (params) => {
     try {
       setCargando(true);
-      const { data } = await API.get("estudiantes/inscripcion/", {
+      const { data } = await API.get("estudiantes/inscripcion/?reporte=1", {
         params: { ...params, page: 1, page_size: 100000000000 },
       });
       const inscripciones = data.results.map((i) => ({
         anio: i.a_anioInscripcion,
         fechaInscripcion: moment(i.dt_fechaInscripcion).format("YYYY-MM-DD"),
+        fechaFinalizacion: i.dt_fechaFinalizacion
+          ? moment(i.dt_fechaFinalizacion).format("YYYY-MM-DD")
+          : "No especificada",
         codigoEstudiantil: i.a_codigoEstudiantil,
-        consultorio: i.a_numeroConsultorio,
+        consultorio: i?.r_config_numeroConsultorio?.a_titulo,
         grupo: i?.r_config_grupo?.a_titulo,
         jornada: i?.r_config_jornadaInscripcion?.a_titulo,
         lugar: i?.r_config_lugarPracticas?.a_titulo,
@@ -71,6 +74,46 @@ const InscripcionEstudiantesReporte = () => {
           i?.r_usuarios_persona?.a_primerNombre +
           " " +
           i?.r_usuarios_persona?.a_primerApellido,
+        paisNacimiento: i?.r_usuarios_persona?.r_config_paisNacimiento,
+        departamentoNacimiento: i?.r_usuarios_persona?.r_config_departamento,
+        ciudadNacimiento: i?.r_usuarios_persona?.r_config_ciudadNacimiento,
+
+        genero: i?.r_usuarios_persona?.genero,
+        mujerCabezaFamilia: i?.r_usuarios_persona?.b_mujerCabezaFamilia
+          ? "Si"
+          : "No",
+        migrante: i?.r_usuarios_persona?.b_migrante ? "Si" : "No",
+        numeroDeHijos: i?.r_usuarios_persona?.a_numeroHijos || 0,
+        fechaNacimiento: i?.r_usuarios_persona?.a_fechaNacimiento,
+
+        etnia: i?.r_usuarios_persona?.r_config_etnia,
+        orientacionSexual: i?.r_usuarios_persona?.r_config_orientacion,
+        profesion: i?.r_usuarios_persona?.r_config_profesion,
+        numeroDocumento: i?.r_usuarios_persona?.a_numeroDocumento,
+        tipoDocuemnto: i?.r_usuarios_persona?.r_config_tipoDocumento,
+        fechaExpedicion: i?.a_fechaExpedicionDocumento,
+        paisExpedicion: i?.r_usuarios_persona?.r_config_paisExpedicion,
+        departamentoExpedicion:
+          i?.r_usuarios_persona?.r_config_departamentoExpedicion,
+        ciudadExpedicion: i?.r_usuarios_persona?.r_config_ciudadExpedicion,
+
+        estrato: i?.c_estrato,
+        barrio: i?.r_usuarios_persona?.a_barrio,
+        direccion: i?.r_usuarios_persona?.a_direccion,
+        celular: i?.r_usuarios_persona?.a_celular,
+        correo: i?.r_usuarios_persona?.a_correoElectronico,
+        telefono: i?.a_telefonoFijo,
+
+        afectadoPorLaViolencia: i?.r_config_afectacionViolencia ? "Si" : "No",
+
+        trabaja: i?.b_trabaja ? "Si" : "No",
+        servidorPublico: i?.b_servidorPublico ? "Si" : "No",
+        rangoSalarial: i?.a_rangoSalarial,
+        empresa: i?.r_usuarios_persona?.a_nombreEmpresa,
+        barrio: i?.r_usuarios_persona?.a_barrioEmpresa,
+        direccion: i?.r_usuarios_persona?.a_direccionEmpresa,
+        cargo: i?.r_usuarios_persona?.a_cargoEmpresa,
+        telefono: i?.r_usuarios_persona?.a_telefonoEmpresa,
       }));
       exportToCSV(inscripciones, "reporte-de-inscripciones");
     } catch (error) {
