@@ -14,6 +14,7 @@ import Page from "components/Page";
 import Policy from "components/Policy";
 import AccessDenied from "components/Policy/AccessDenied";
 import { Breadcrumb, Row, Col, Card } from "react-bootstrap";
+import SectionHeader from "components/SectionHeader"
 
 import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
@@ -23,7 +24,7 @@ import {
   FaFolderPlus,
   FaPenAlt,
   FaTable,
-  FaTabletAlt,
+  FaTabletAlt, FaPen, FaFile
 } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
@@ -34,29 +35,43 @@ const CentroDeConciliacionHome = () => {
       policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE, ROL_PERSONA]}
       feedback={<AccessDenied msn="Acceso denegado" />}
     >
-      <Page>
-        <MigaPan>
-          <MigaPanInicio />
-          <span>Centro de conciliación</span>
-        </MigaPan>
-
-        <Row className="modules">
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Formato de Registro"
-              link="/centro-de-conciliacion/registrar"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de casos"
-              link="/centro-de-conciliacion/solicitudes"
-            />
-          </Col>
-        </Row>
-      </Page>
+      <SectionHeader
+        text="Centro de Conciliación"
+        img="url(/images/banner_centroconciliacion.jpg)"
+      />
+      <div style={{
+        backgroundImage: "url(/images/sectionbackground.jpg)",
+        backgroundSize: "cover",
+        height: "65vh"
+      }}>
+        <Page>
+          <MigaPan>
+            <MigaPanInicio />
+            <span>Centro de conciliación</span>
+          </MigaPan>
+          <div style={{
+            width: "70%",
+            margin: "auto"
+          }}>
+            <Row className="modules">
+              <Col xs={12} md={6}>
+                <ItemModule
+                  Icon={() => <FaPen />}
+                  title="Formato de Registro"
+                  link="/centro-de-conciliacion/registrar"
+                />
+              </Col>
+              <Col xs={12} md={6}>
+                <ItemModule
+                  Icon={() => <FaFile />}
+                  title="Listado de casos"
+                  link="/centro-de-conciliacion/solicitudes"
+                />
+              </Col>
+            </Row>
+          </div>
+        </Page>
+      </div>
     </Policy>
   );
 };

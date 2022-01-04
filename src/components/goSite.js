@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 const GoSite = ({ style }) => {
   return (
     <Button
-      style={{ ...style, zIndex: 3, display: "flex" }}
+      style={{ ...style, zIndex: 3, display: "flex", borderRadius: "18px" }}
       className="goSite"
       icon={
         <img width={18} style={{ marginRight: 7 }} src="/images/logow2.png" />

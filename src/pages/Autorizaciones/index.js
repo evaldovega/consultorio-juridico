@@ -11,93 +11,106 @@ import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
 import {
   FaFolder,
-  FaFolderOpen,
+  FaRegFolderOpen,
   FaFolderPlus,
   FaPenAlt,
-  FaTable,
+  FaTable, FaPencilAlt, FaRegFile, FaPenNib
 } from "react-icons/fa";
+import * as Icons from '@ant-design/icons'
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
+import SectionHeader from "components/SectionHeader";
+import { ReactComponent as Lapiz } from "images/pencil.svg"
+import { ReactComponent as Papel } from "images/file-line.svg"
+import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const AutorizacionesHome = () => {
   return (
     <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
-      <Page>
-        <MigaPan>
-          <MigaPanInicio />
-          <span>Dcumentos y autorizaciones</span>
-        </MigaPan>
+      <SectionHeader
+        text="Documentos y autorizaciones"
+        img="url(/images/banner_documentos.jpg)"
+      />
+      <div style={{
+        backgroundImage: "url(/images/sectionbackground.jpg)",
+        backgroundSize: "cover",
+        height: "65vh"
+      }}>
+        <Page>
+          <MigaPan>
+            <MigaPanInicio />
+            <span>Dcumentos y autorizaciones</span>
+          </MigaPan>
 
-        <Row className="modules">
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Registrar autorización"
-              link="/autorizaciones/autorizar"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de autorizaciones"
-              link="/autorizaciones/listado"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Generar certificado"
-              link="/autorizaciones/generar-certificado"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de certificados"
-              link="/autorizaciones/lista-certificados"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Generar remisión"
-              link="/autorizaciones/generar-remision"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de remisiones"
-              link="/autorizaciones/lista-remisiones"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Registro masivo de remisiones"
-              link="/autorizaciones/remision-masiva"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Reporte autorizaciones por fecha"
-              link="/autorizaciones/reporte-fecha"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaPenAlt />}
-              title="Reporte remisiones por fecha"
-              link="/autorizaciones/reporte-remisiones-fecha"
-            />
-          </Col>
-        </Row>
-      </Page>
+          <Row className="modules">
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                title="Registrar autorización"
+                link="/autorizaciones/autorizar"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                title="Listado de autorizaciones"
+                link="/autorizaciones/listado"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                title="Generar certificado"
+                link="/autorizaciones/generar-certificado"
+              />
+            </Col>
+            <div class="w-100" style={{ marginBottom: 22 }}></div>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                title="Listado de certificados"
+                link="/autorizaciones/lista-certificados"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                title="Generar remisión"
+                link="/autorizaciones/generar-remision"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                title="Listado de remisiones"
+                link="/autorizaciones/lista-remisiones"
+              />
+            </Col>
+            <div class="w-100" style={{ marginBottom: 22 }}></div>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                title="Registro masivo de remisiones"
+                link="/autorizaciones/remision-masiva"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
+                title="Reporte autorizaciones por fecha"
+                link="/autorizaciones/reporte-fecha"
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <ItemModule
+                Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
+                title="Reporte remisiones por fecha"
+                link="/autorizaciones/reporte-remisiones-fecha"
+              />
+            </Col>
+          </Row>
+        </Page>
+      </div>
     </Policy>
   );
 };

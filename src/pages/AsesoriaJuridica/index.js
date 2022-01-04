@@ -16,46 +16,60 @@ import { Breadcrumb, Row, Col, Card, Dropdown } from "react-bootstrap";
 
 import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
-import { FaRegFolder, FaTable, FaChartBar } from "react-icons/fa";
+import { FaRegFolder, FaTable, FaChartBar, FaPencilAlt, FaPen, FaFile, FaFolderOpen } from "react-icons/fa";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPan from "components/MigaPan";
+import SectionHeader from "components/SectionHeader";
 
 const AsesoriaJuridicaHome = () => {
   return (
     <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
-      <Page>
-        <MigaPan>
-          <MigaPanInicio />
-          <span>Asesoría jurídica</span>
-        </MigaPan>
-
-        <Row className="modules">
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegFolder />}
-              title="Formato de Registro"
-              link="/asesoria-juridica/solicitar"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de casos"
-              link="/asesoria-juridica/solicitudes"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
-            <Col xs={12} md={6}>
-              <ItemModule
-                Icon={() => <FaChartBar />}
-                title="Reportes"
-                link="/asesoria-juridica/reportes"
-              />
-            </Col>
-          </Policy>
-        </Row>
-      </Page>
+      <SectionHeader
+        text="Asesoría jurídica"
+        img="url(/images/sectionbanner.jpg)"
+      />
+      <div style={{
+        backgroundImage: "url(/images/sectionbackground.jpg)",
+        backgroundSize: "cover",
+        height: "65vh"
+      }}>
+        <Page>
+          <MigaPan>
+            <MigaPanInicio />
+            <span>Asesoría jurídica</span>
+          </MigaPan>
+          <div style={{
+            width: "80%",
+            margin: "auto"
+          }}>
+            <Row className="modules">
+              <Col xs={12} md={4}>
+                <ItemModule
+                  Icon={() => <FaPen />}
+                  title="Formato de Registro"
+                  link="/asesoria-juridica/solicitar"
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <ItemModule
+                  Icon={() => <FaFile />}
+                  title="Listado de casos"
+                  link="/asesoria-juridica/solicitudes"
+                />
+              </Col>
+              <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                <Col xs={12} md={4}>
+                  <ItemModule
+                    Icon={() => <FaFolderOpen />}
+                    title="Reportes"
+                    link="/asesoria-juridica/reportes"
+                  />
+                </Col>
+              </Policy>
+            </Row>
+          </div>
+        </Page>
+      </div>
     </Policy>
   );
 };

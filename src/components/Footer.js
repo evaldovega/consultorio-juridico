@@ -3,97 +3,79 @@ import { Space, Typography } from "antd";
 import { SendOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { FaTelegram, FaPhone, FaDownload, FaEnvelope } from "react-icons/fa";
+import { FaMapMarkerAlt, FaTelegram, FaPhone, FaDownload, FaEnvelope } from "react-icons/fa";
+import GoSite from "components/goSite";
 
 const Foot = () => {
   const bg = true;
   return (
-    <div
-      className="footer"
-      style={{
-        backdropFilter: "blur(10px)",
-        backgroundImage: bg ? "url(/images/footer_blur.jpg)" : "",
-      }}
-    >
-      <Container className="footer-content">
-        <Row className="text-center mb-4">
+    <div className="footer-home" style={{ paddingBottom: 7 }}>
+      <Container
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Row style={{ marginTop: "6px" }}>
           <Col>
-            <h3>UNIVERSIDAD DEL ATLÁNTICO</h3>
-            <h4>Consultorio Jurídico y Centro de Conciliación</h4>
+            <span>
+              <h5 className="footer-text">
+                <span style={{ marginRight: "20px" }}>Contáctenos:</span>
+                <span style={{ marginRight: "20px" }}>
+                  <FaPhone /> Línea de atención: PBX: (57) (5) 3162666
+                </span>{" "}
+                <span style={{ marginRight: "20px" }}>
+                  <a
+                    href={`mailto:correo@corre.com`}
+                    style={{ color: "#FFF" }}
+                  >
+                    <FaEnvelope /> notificaciones@mail.uniatlantico.edu.co
+                  </a>
+                </span>{" "}
+                <span style={{ marginRight: "20px" }}>
+                  <FaMapMarkerAlt /> Carrera 43 # 50 - 53
+                </span>
+              </h5>
+            </span>
           </Col>
-        </Row>
-        <Row>
-          <Col className="d-flex flex-column">
-            <h5> Línea de atención: PBX: (57) (5) 3162666</h5>
-            <h5>
-              <a href={`mailto:notificaciones@mail.uniatlantico.edu.co`}>
-                notificaciones@mail.uniatlantico.edu.co
-              </a>
-            </h5>
-            <p className="my-4">
-              Atlántico- Colombia | © Universidad del Atlántico
-            </p>
-          </Col>
-          <Col>
-            <a
-              target="_blank"
-              href="https://www.uniatlantico.edu.co/uatlantico/node/3080"
-            >
-              <img
-                src="https://www.uniatlantico.edu.co/uatlantico/sites/default/files/docencia/facultades/img/Consultorio%20Juridico.jpg"
-                style={{ width: "80%", marginBottom: 32, borderRadius: 8 }}
-              />
-            </a>
-          </Col>
-          <Col className="d-flex flex-column">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.730904706196!2d-74.79201768439108!3d10.98367259218108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef42d65d1d5886d%3A0xf44f77995e043987!2sUniversidad%20del%20Atl%C3%A1ntico%20sede%20Centro!5e0!3m2!1ses-419!2sco!4v1622238032595!5m2!1ses-419!2sco"
-              width="100%"
-              height="200"
-              style={{ border: 0, borderRadius: 8 }}
-              allowfullscreen=""
-              loading="lazy"
-            ></iframe>
-          </Col>
-        </Row>
-        <Row>
-          <Col></Col>
         </Row>
       </Container>
+      <GoSite style={{ float: "right" }} />
     </div>
   );
-  return (
-    <div
-      className="landing-footer"
-      style={{ backgroundImage: "url(/images/footer.jpg)" }}
-    >
-      <Container>
-        <div>
-          <Typography.Paragraph></Typography.Paragraph>
-        </div>
-        <div>
-          <Typography.Title level={4}>Contacto</Typography.Title>
-          <Typography.Text>Barranquilla, Colombia</Typography.Text>
-          <Space
-            style={{ display: "flex", alignItems: "center" }}
-            align="start"
-          >
-            <CustomerServiceOutlined size={32} style={{ color: "#ffff" }} />{" "}
-            <Typography.Text>3008010515</Typography.Text>
-          </Space>
-          <Space
-            style={{ display: "flex", alignItems: "center" }}
-            align="start"
-          >
-            <SendOutlined size={32} style={{ color: "#ffff" }} />
-            <a href={`mailto:correo@corre.com`}>
-              <Typography.Text>correo@corre.com</Typography.Text>
-            </a>
-          </Space>
-        </div>
-        <div></div>
-      </Container>
-    </div>
-  );
+return (
+  <div
+    className="landing-footer"
+    style={{ backgroundImage: "url(/images/footer.jpg)" }}
+  >
+    <Container>
+      <div>
+        <Typography.Paragraph></Typography.Paragraph>
+      </div>
+      <div>
+        <Typography.Title level={4}>Contacto</Typography.Title>
+        <Typography.Text>Barranquilla, Colombia</Typography.Text>
+        <Space
+          style={{ display: "flex", alignItems: "center" }}
+          align="start"
+        >
+          <CustomerServiceOutlined size={32} style={{ color: "#ffff" }} />{" "}
+          <Typography.Text>3008010515</Typography.Text>
+        </Space>
+        <Space
+          style={{ display: "flex", alignItems: "center" }}
+          align="start"
+        >
+          <SendOutlined size={32} style={{ color: "#ffff" }} />
+          <a href={`mailto:correo@corre.com`}>
+            <Typography.Text>correo@corre.com</Typography.Text>
+          </a>
+        </Space>
+      </div>
+      <div></div>
+    </Container>
+  </div>
+);
 };
 export default Foot;

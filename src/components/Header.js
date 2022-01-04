@@ -35,22 +35,23 @@ const HeaderPage = ({ showButton, homePage }) => {
 
   return (
     <Navbar
-      bg={homePage ? (scrollPos > 639 ? "dark" : "light") : "dark"}
+      bg="light"
       fixed="top"
       variant="dark"
       expand="lg"
     >
       <Container fluid>
-        {showButton ? (
+
+        <a href="/">
           <img
             src="https://www.uniatlantico.edu.co/uatlantico/sites/default/files/docencia/facultades/img/Consultorio%20Juridico.jpg"
             className="logo-home"
+            style={{
+              boxShadow: "2px 2px 2px 2px rgba(99, 99, 99, 0.4)"
+            }}
           />
-        ) : (
-          <a href="/">
-            <img src="/images/logow.png" style={{ width: "80px" }} />
-          </a>
-        )}
+        </a>
+
         <Navbar.Brand href="/"></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -96,11 +97,11 @@ const HeaderPage = ({ showButton, homePage }) => {
                   }}
                 >
                   <FaUserCircle /> <b>{fullname}</b>
-                  <small
+                  {/* <small
                     style={{ fontSize: 8, display: "block", marginLeft: 18 }}
                   >
                     {policies.join(",")}
-                  </small>
+                  </small> */}
                 </span>
               }
               id="basic-nav-dropdown"

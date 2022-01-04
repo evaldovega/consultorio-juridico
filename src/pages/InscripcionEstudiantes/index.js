@@ -32,12 +32,13 @@ import {
   FaFolder,
   FaPenAlt,
   FaTable,
-  FaRegChartBar,
+  FaRegChartBar, FaPen, FaFile, FaFolderOpen
 } from "react-icons/fa";
 import AccessDenied from "components/Policy/AccessDenied";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
+import SectionHeader from "components/SectionHeader";
 
 const InscripcionEstudiantes = ({ params }) => {
   const [loading, setLoading] = useState(true);
@@ -48,41 +49,52 @@ const InscripcionEstudiantes = ({ params }) => {
       policy={[ROL_ADMIN, ROL_DOCENTE, ROL_ASESOR]}
       feedback={<AccessDenied />}
     >
-      <Page>
-        <MigaPan>
-          <MigaPanInicio />
-          <span>Inscripción estudiantes</span>
-        </MigaPan>
+      <SectionHeader
+        text="Inscripción de Estudiantes"
+        img="url(/images/banner_inscripcionestudiantes.jpg)"
+      />
+      <div style={{
+        backgroundImage: "url(/images/sectionbackground.jpg)",
+        backgroundSize: "cover",
+        height: "65vh"
+      }}>
 
-        <Row className="modules">
-          <Policy policy={[ROL_ADMIN]}>
-            <Col xs="12" md="6" className="mb-4">
+        <Page>
+          <MigaPan>
+            <MigaPanInicio />
+            <span>Inscripción estudiantes</span>
+          </MigaPan>
+
+          <Row className="modules">
+            <Policy policy={[ROL_ADMIN]}>
+              <Col xs="12" md="4" className="mb-4">
+                <ItemModule
+                  Icon={() => <FaPen />}
+                  link="/inscripcion-estudiantes/inscripcion-practicas"
+                  title="Inscripción a prácticas"
+                />
+              </Col>
+            </Policy>
+
+            <Col xs="12" md="4" className="mb-4">
               <ItemModule
-                Icon={() => <FaPenAlt />}
-                link="/inscripcion-estudiantes/inscripcion-practicas"
-                title="Inscripción a prácticas de Consultorio Jurídico"
+                Icon={() => <FaFile />}
+                link="/inscripcion-estudiantes/listado"
+                title="Listado de inscripciones"
               />
             </Col>
-          </Policy>
 
-          <Col xs="12" md="6" className="mb-4">
-            <ItemModule
-              Icon={() => <FaTable />}
-              link="/inscripcion-estudiantes/listado"
-              title="Listado de inscripciones"
-            />
-          </Col>
-
-          <Col xs="12" md="6" className="mb-4">
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              link="/inscripcion-estudiantes/reporte"
-              title="Reportes"
-            />
-          </Col>
-          <Col xs="12" md="6" className="mb-4"></Col>
-        </Row>
-      </Page>
+            <Col xs="12" md="4" className="mb-4">
+              <ItemModule
+                Icon={() => <FaFolderOpen />}
+                link="/inscripcion-estudiantes/reporte"
+                title="Reportes"
+              />
+            </Col>
+            <Col xs="12" md="6" className="mb-4"></Col>
+          </Row>
+        </Page>
+      </div>
     </Policy>
   );
 };

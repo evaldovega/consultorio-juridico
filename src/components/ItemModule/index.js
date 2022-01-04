@@ -12,23 +12,26 @@ const ItemModule = ({ Icon, title, link }) => {
     >
       <Card
         style={{
-          height: "60px",
           boxShadow: "4px 4px 4px 4px rgba(194, 194, 194, 0.1)",
           borderRadius: "6px",
           border: 0,
         }}
       >
-        <Card.Body className="d-flex justify-content-start align-items-center">
-          <div className="circle-icon mr-2">
+        <Card.Body style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
+          <span style={{fontSize: "60px"}}>
             <Icon />
-          </div>
+          </span>
           <Card.Title
             level={5}
             style={{
               margin: 0,
               color: "#000",
-              fontSize: "18px",
-              fontWeight: 600,
+              fontSize: "20px",
+              fontWeight: 500,
             }}
           >
             {title}

@@ -13,6 +13,7 @@ import {
 import { ACCESS_TOKEN_NAME, MODULES } from "../constants/apiContants";
 import Footer from "../components/Footer";
 import HeaderPage from "components/Header";
+import Foot from "../components/Footer";
 
 import { policyAllow } from "components/Policy";
 import Slogan from "components/Slogan";
@@ -67,14 +68,21 @@ const Home = () => {
               <h1
                 style={{
                   textAlign: "center",
-                  color: "#FFF",
+                  color: "#000",
                   letterSpacing: "2px",
                   fontSize: "28px",
                 }}
               >
                 BIENVENIDO
               </h1>
-              <Slogan />
+              <h1
+                style={{ lineHeight: "35px", fontSize: "28px", textAlign: 'center', color: "#000", paddingBottom: "20px" }}
+                italic
+              >
+                <strong>Consultorio Jurídico</strong> y <strong>Centro de Conciliación</strong>
+                <br />
+                de la Universidad del Atlántico
+              </h1>
               <Container className="mt-4 mb-4" style={{ paddingBottom: 80 }}>
                 {modulosPermitidos.map((modules, index) => (
                   <CardDeck key={index} style={{ marginBottom: 24 }}>
@@ -86,7 +94,7 @@ const Home = () => {
                         <Card key={index2} className="cardhome">
                           <Link to={m.url} className="link-card">
                             <Card.Img variant="top" src={m.img} />
-                            <Card.Body>
+                            <Card.Body style={{padding: "20px"}}>
                               <Card.Title style={{ fontWeight: 600 }}>
                                 {m.name}
                               </Card.Title>
@@ -101,40 +109,7 @@ const Home = () => {
               </Container>
             </div>
           </div>
-          <div className="footer-home" style={{ paddingBottom: 7 }}>
-            <Container
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Row style={{ marginTop: "6px" }}>
-                <Col>
-                  <span>
-                    <h5 style={{ color: "#FFF" }}>
-                      <span style={{ marginRight: "20px" }}>Contáctenos:</span>
-                      <span style={{ marginRight: "20px" }}>
-                        <FaPhone /> 3008010515
-                      </span>{" "}
-                      <span style={{ marginRight: "20px" }}>
-                        <a
-                          href={`mailto:correo@corre.com`}
-                          style={{ color: "#FFF" }}
-                        >
-                          <FaEnvelope /> correo@corre.com
-                        </a>
-                      </span>{" "}
-                      <span style={{ marginRight: "20px" }}>
-                        <FaMapMarkerAlt /> Carrera 43 # 50 - 53
-                      </span>
-                    </h5>
-                  </span>
-                </Col>
-              </Row>
-            </Container>
-            <GoSite style={{ float: "right" }} />
-          </div>
+          <Foot />
         </div>
       </div>
     </>

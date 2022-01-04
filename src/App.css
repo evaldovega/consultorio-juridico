@@ -24,7 +24,7 @@ table tr:nth-child(odd) {
 }
 
 .bg-light {
-  background-color: transparent !important;
+  background-color: #cf740a !important;
 }
 
 .card-text:last-child {
@@ -159,6 +159,22 @@ label {
   background-size: cover;
 }
 
+.section-header {
+  background-size: cover;
+  height: 35vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.section-header-line {
+  background-color: #d07400;
+  width: 80px;
+  height: 4px;
+}
+
 .ml-auto .navbar-nav {
   gap: 10px;
 }
@@ -178,7 +194,7 @@ label {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.2);
 }
 .landing-header .background {
   position: relative;
@@ -405,13 +421,18 @@ a {
 }
 
 .footer-home {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 10px;
   position: fixed;
   bottom: 0vh;
   padding-left: 22vh;
   width: 100%;
   display: flex;
+}
+
+.footer-text {
+  color: #FFF;
+  font-size: 15px;
 }
 
 .page-item.active .page-link {
@@ -535,6 +556,10 @@ a {
   .content-body {
     width: 70%;
   }
+
+  .footer-text {
+    font-size: 18px;
+  }
 }
 
 @media only screen and (max-width: 1366px) {
@@ -620,6 +645,7 @@ a {
   transition: all 50ms ease-out 100ms;
   overflow: hidden !important;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px !important;
+  border: 1px solid rgb(103, 103, 103)
 }
 .cardhome:hover {
   transform: scale(1.1);
@@ -672,8 +698,12 @@ a {
   fill: #787474;
 }
 .migaPan span {
-  color: #242323;
+  color: #d07400;
   font-weight: bold;
+  font-size: 18px;
+}
+.migaPan button {
+  font-size: 18px;
 }
 
 .migaPan .dropdown-item.active,
