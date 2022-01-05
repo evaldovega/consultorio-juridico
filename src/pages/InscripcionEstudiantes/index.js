@@ -39,6 +39,9 @@ import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import SectionHeader from "components/SectionHeader";
+import { ReactComponent as Lapiz } from "images/pencil.svg"
+import { ReactComponent as Papel } from "images/file-line.svg"
+import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const InscripcionEstudiantes = ({ params }) => {
   const [loading, setLoading] = useState(true);
@@ -64,35 +67,40 @@ const InscripcionEstudiantes = ({ params }) => {
             <MigaPanInicio />
             <span>Inscripción estudiantes</span>
           </MigaPan>
+          <div style={{
+            width: "80%",
+            margin: "auto"
+          }}>
 
-          <Row className="modules">
-            <Policy policy={[ROL_ADMIN]}>
+            <Row className="modules">
+              <Policy policy={[ROL_ADMIN]}>
+                <Col xs="12" md="4" className="mb-4">
+                  <ItemModule
+                    Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                    link="/inscripcion-estudiantes/inscripcion-practicas"
+                    title="Inscripción a prácticas"
+                  />
+                </Col>
+              </Policy>
+
               <Col xs="12" md="4" className="mb-4">
                 <ItemModule
-                  Icon={() => <FaPen />}
-                  link="/inscripcion-estudiantes/inscripcion-practicas"
-                  title="Inscripción a prácticas"
+                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                  link="/inscripcion-estudiantes/listado"
+                  title="Listado de inscripciones"
                 />
               </Col>
-            </Policy>
 
-            <Col xs="12" md="4" className="mb-4">
-              <ItemModule
-                Icon={() => <FaFile />}
-                link="/inscripcion-estudiantes/listado"
-                title="Listado de inscripciones"
-              />
-            </Col>
-
-            <Col xs="12" md="4" className="mb-4">
-              <ItemModule
-                Icon={() => <FaFolderOpen />}
-                link="/inscripcion-estudiantes/reporte"
-                title="Reportes"
-              />
-            </Col>
-            <Col xs="12" md="6" className="mb-4"></Col>
-          </Row>
+              <Col xs="12" md="4" className="mb-4">
+                <ItemModule
+                  Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
+                  link="/inscripcion-estudiantes/reporte"
+                  title="Reportes"
+                />
+              </Col>
+              <Col xs="12" md="6" className="mb-4"></Col>
+            </Row>
+          </div>
         </Page>
       </div>
     </Policy>

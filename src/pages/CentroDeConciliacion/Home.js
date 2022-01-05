@@ -28,6 +28,9 @@ import {
 } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
+import { ReactComponent as Lapiz } from "images/pencil.svg"
+import { ReactComponent as Papel } from "images/file-line.svg"
+import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const CentroDeConciliacionHome = () => {
   return (
@@ -56,14 +59,14 @@ const CentroDeConciliacionHome = () => {
             <Row className="modules">
               <Col xs={12} md={6}>
                 <ItemModule
-                  Icon={() => <FaPen />}
+                  Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                   title="Formato de Registro"
                   link="/centro-de-conciliacion/registrar"
                 />
               </Col>
               <Col xs={12} md={6}>
                 <ItemModule
-                  Icon={() => <FaFile />}
+                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                   title="Listado de casos"
                   link="/centro-de-conciliacion/solicitudes"
                 />

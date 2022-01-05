@@ -20,6 +20,9 @@ import { FaRegFolder, FaTable, FaChartBar, FaPencilAlt, FaPen, FaFile, FaFolderO
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPan from "components/MigaPan";
 import SectionHeader from "components/SectionHeader";
+import { ReactComponent as Lapiz } from "images/pencil.svg"
+import { ReactComponent as Papel } from "images/file-line.svg"
+import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const AsesoriaJuridicaHome = () => {
   return (
@@ -45,14 +48,14 @@ const AsesoriaJuridicaHome = () => {
             <Row className="modules">
               <Col xs={12} md={4}>
                 <ItemModule
-                  Icon={() => <FaPen />}
+                  Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                   title="Formato de Registro"
                   link="/asesoria-juridica/solicitar"
                 />
               </Col>
               <Col xs={12} md={4}>
                 <ItemModule
-                  Icon={() => <FaFile />}
+                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                   title="Listado de casos"
                   link="/asesoria-juridica/solicitudes"
                 />
@@ -60,7 +63,7 @@ const AsesoriaJuridicaHome = () => {
               <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                 <Col xs={12} md={4}>
                   <ItemModule
-                    Icon={() => <FaFolderOpen />}
+                    Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
                     title="Reportes"
                     link="/asesoria-juridica/reportes"
                   />

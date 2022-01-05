@@ -19,6 +19,9 @@ import {
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import SectionHeader from "components/SectionHeader";
+import { ReactComponent as Lapiz } from "images/pencil.svg"
+import { ReactComponent as Papel } from "images/file-line.svg"
+import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const AsignacionEmpleadosHome = () => {
   return (
@@ -37,22 +40,27 @@ const AsignacionEmpleadosHome = () => {
             <MigaPanInicio />
             <span>Asignación de docentes</span>
           </MigaPan>
-          <Row className="modules">
-            <Col xs={12} md={6}>
-              <ItemModule
-                Icon={() => <FaPen />}
-                title="Formato de Registro"
-                link="/asignacion-docentes/asignar"
-              />
-            </Col>
-            <Col xs={12} md={6}>
-              <ItemModule
-                Icon={() => <FaFile />}
-                title="Listado de asignaciones"
-                link="/asignacion-docentes/listado"
-              />
-            </Col>
-          </Row>
+          <div style={{
+            width: "70%",
+            margin: "auto"
+          }}>
+            <Row className="modules">
+              <Col xs={12} md={6}>
+                <ItemModule
+                  Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                  title="Formato de Registro"
+                  link="/asignacion-docentes/asignar"
+                />
+              </Col>
+              <Col xs={12} md={6}>
+                <ItemModule
+                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                  title="Listado de asignaciones"
+                  link="/asignacion-docentes/listado"
+                />
+              </Col>
+            </Row>
+          </div>
         </Page>
       </div>
     </Policy>
