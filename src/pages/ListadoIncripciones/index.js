@@ -24,7 +24,7 @@ import {
 import moment from "moment";
 import InscripcionesFiltros from "./Filtros";
 import Spin from "components/Spin";
-import { FaPenAlt } from "react-icons/fa";
+import { FaPenAlt, FaArrowUp } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
@@ -37,11 +37,12 @@ const ListadoIncripciones = () => {
   const [totalRegistros, setTotalRegistros] = useState(0);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [discapacidades, setDiscapacidades] = useState([]);
+  const [orderByDate, setOrderByDate] = useState(false)
 
   const getInscripciones = async () => {
     try {
       setCargando(true);
-      const { data } = await API.get("estudiantes/inscripcion/", { params });
+      const { data } = await API.get(`estudiantes/inscripcion/?${orderByDate ? 'order_by_date' : ''}`, { params });
       setDocs(data.results || []);
       setTotalRegistros(data.count || 0);
       setPaginacion({ paginas: data.total_pages, registros: data.count });
@@ -104,6 +105,12 @@ const ListadoIncripciones = () => {
     }
   };
 
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+    console.log(orderByDate)
+    console.log("Hola")
+  }
+
   useEffect(() => {
     cargarDiscapacidades();
     if (sessionStorage.getItem("inscripcion")) {
@@ -120,6 +127,10 @@ const ListadoIncripciones = () => {
   useEffect(() => {
     getInscripciones({});
   }, [params]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderByDate]);
 
   return (
     <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}>
@@ -153,7 +164,10 @@ const ListadoIncripciones = () => {
                     <th>Estudiante</th>
 
                     <th>Año</th>
-                    <th>Fecha inscripción</th>
+                    <th>
+                      Fecha inscripción
+                      <FaArrowUp onClick={() => switchOrderDate()} />
+                    </th>
                     <th>Semestre inscripción</th>
 
                     <th>Consultorio</th>

@@ -12,7 +12,7 @@ import { ExportToExcel } from "components/ExportToExcel";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import API from "utils/Axios";
+import API, { baseUrl } from "utils/Axios";
 import Policy from "components/Policy";
 import {
   ROL_ADMIN,
@@ -24,7 +24,7 @@ import {
 } from "constants/apiContants";
 import Spin from "components/Spin";
 import moment from "moment";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaArrowUp } from "react-icons/fa";
 import Filtros from "./Filtros";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
@@ -36,10 +36,11 @@ const ListadoSolicitudes = () => {
   const [paginacion, setPaginacion] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
+  const [orderByDate, setOrderByDate] = useState(false)
 
   const getSolicitudes = async () => {
     setCargando(true);
-    API.get("asesorias/solicitud/", { params })
+    API.get(`asesorias/solicitud/?${orderByDate ? 'date_reverse' : ''}`, { params })
       .then(({ data }) => {
         setDocs(data.results || []);
         setPaginacion({ paginas: data.total_pages, registros: data.count });
@@ -92,12 +93,22 @@ const ListadoSolicitudes = () => {
       });
     }
   };
+  
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+    console.log(orderByDate)
+    console.log("Hola")
+  }
+
   useEffect(() => {
     getSolicitudes();
   }, []);
   useEffect(() => {
     getSolicitudes({});
   }, [params]);
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByDate])
 
   return (
     <Policy
@@ -133,7 +144,7 @@ const ListadoSolicitudes = () => {
                       <th>Nombre y apellidos</th>
                       <th>Documento de identidad</th>
                     </Policy>
-                    <th>Fecha</th>
+                    <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>Asunto</th>
                     <th></th>
                   </tr>
@@ -161,8 +172,8 @@ const ListadoSolicitudes = () => {
                       <td>
                         {d?.dt_fechaAsesoria
                           ? moment(d?.dt_fechaAsesoria).format("YYYY-MM-DD") +
-                            " " +
-                            d?.ht_horaAsesoria
+                          " " +
+                          d?.ht_horaAsesoria
                           : "No definida"}
                       </td>
                       <td className="crop">{d?.t_asuntoConsulta}</td>
@@ -226,7 +237,14 @@ const ListadoSolicitudes = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <ExportToExcel apiData={docs} fileName="documento" />
+                <a href={`${baseUrl}/exportar_casos_asesoria/`}>
+                  <Button
+                    variant="success"
+                    size="sm"
+                  >
+                    Exportar a Excel
+                  </Button>
+                </a>
               ) : null}
             </Card.Footer>
           </Card>

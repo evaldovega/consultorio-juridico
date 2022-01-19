@@ -25,7 +25,7 @@ import { ExportToExcel } from "components/ExportToExcel";
 import { Link } from "react-router-dom";
 import API from "utils/Axios";
 import { useEffect } from "react";
-import { FaEye, FaPenAlt } from "react-icons/fa";
+import { FaEye, FaPenAlt, FaArrowUp } from "react-icons/fa";
 import CentroDeConciliacionDetalle from "../Detalle";
 import Filtros from "./Filtros";
 import MigaPan from "components/MigaPan";
@@ -39,11 +39,12 @@ const CentroDeConciliacionListado = () => {
   const [links, setLinks] = useState(null);
   const [paginacion, setPaginacion] = useState(null);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
+  const [orderByDate, setOrderByDate] = useState(false)
 
   const cargar = async () => {
     try {
       setCargando(true);
-      const { data } = await API.get("/conciliacion/solicitud/", { params });
+      const { data } = await API.get(`/conciliacion/solicitud/?${orderByDate ? 'date_reverse' : ''}`, { params });
       setDocs(data.results || []);
       setPaginacion({ paginas: data.total_pages, registros: data.count });
       setLinks(data.links);
@@ -98,6 +99,12 @@ const CentroDeConciliacionListado = () => {
     }
   };
 
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+    console.log(orderByDate)
+    console.log("Hola")
+  }
+
   useEffect(() => {
     const ids = sessionStorage.getItem("conciliacion");
     if (ids) {
@@ -109,6 +116,10 @@ const CentroDeConciliacionListado = () => {
   useEffect(() => {
     cargar();
   }, [params]);
+
+  useEffect(() => {
+    cargar();
+  }, [orderByDate]);
 
   return (
     <Policy
@@ -142,7 +153,7 @@ const CentroDeConciliacionListado = () => {
               <Table>
                 <thead>
                   <tr>
-                    <th>Fecha solicitud</th>
+                    <th>Fecha solicitud <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>Resumen</th>
                     <th>Intenciones</th>
                     <th></th>

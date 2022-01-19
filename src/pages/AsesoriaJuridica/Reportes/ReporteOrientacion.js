@@ -4,7 +4,7 @@ import Page from "components/Page";
 import API from "utils/Axios";
 import Policy from "components/Policy";
 import { FaFilter, FaBolt } from "react-icons/fa";
-import { Button, Breadcrumb, Card, InputGroup } from "react-bootstrap";
+import { Button, Breadcrumb, Card, InputGroup, Table } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -21,6 +21,7 @@ const ReporteOrientacion = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
+  const [datosTabla, setDatosTabla] = useState([]);
 
   const consultar = async () => {
     API(
@@ -28,7 +29,8 @@ const ReporteOrientacion = () => {
     )
       .then((response) => {
         console.log(response.data);
-        setDatos(response.data);
+        setDatos(response.data.grafica);
+        setDatosTabla(response.data.listado_estudiantes);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -220,6 +222,26 @@ const ReporteOrientacion = () => {
                                     </div> */}
                 </div>
               </div>
+            )}
+            {datos !== "" && (
+              <Table striped bordered hover style={{marginTop: "20px"}}>
+                  <thead>
+                    <tr>
+                      <th>Nombre completo</th>
+                      <th>Periodo</th>
+                      <th>Orientación</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datosTabla.map((el) => (
+                      <tr>
+                        <td>{el.nombre_completo}</td>
+                        <td>{el.periodo}</td>
+                        <td>{el.orientacion}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+              </Table>
             )}
           </Card.Body>
         </Card>
