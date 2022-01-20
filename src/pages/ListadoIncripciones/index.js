@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import API from "utils/Axios";
+import API, { baseUrl }  from "utils/Axios";
 import {
   Breadcrumb,
   Card,
@@ -43,6 +43,7 @@ const ListadoIncripciones = () => {
   const [orderByDocument, setOrderByDocument] = useState(false)
   const [orderByCode, setOrderByCode] = useState(false)
   const [orderBySemester, setOrderBySemester] = useState(false)
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getInscripciones = async () => {
     try {
@@ -53,6 +54,8 @@ const ListadoIncripciones = () => {
       setPaginacion({ paginas: data.total_pages, registros: data.count });
       setLinks(data.links);
       setCargando(false);
+      let u = new URLSearchParams(params).toString();
+      setParamsSerialized(u)
     } catch (error) {
       setCargando(false);
     }
@@ -109,6 +112,16 @@ const ListadoIncripciones = () => {
       });
     }
   };
+
+  const exportToExcel = async () => {
+    await API.post(`${baseUrl}/api/estudiantes/inscripcion/exportar/?${paramsSerialized}`, { "1": "2" }, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "inscripcion-estudiantes.xlsx");
+    })
+  }
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
@@ -342,6 +355,15 @@ const ListadoIncripciones = () => {
                 )}
               </Pagination>
               <strong>Registros encontrados {totalRegistros || 0}</strong>
+              {docs.length > 0 ? (
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => exportToExcel()}
+                >
+                  Exportar a Excel
+                </Button>
+              ) : null}
             </Card.Footer>
           </Card>
         </Spin>

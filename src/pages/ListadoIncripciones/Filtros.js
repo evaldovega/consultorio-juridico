@@ -263,7 +263,7 @@ const InscripcionesFiltros = ({
                     Limpiar filtros
                   </Button>
                 </div>
-                <ExportToExcel apiData={docs} fileName="documento" />
+                {/* <ExportToExcel apiData={docs} fileName="documento" /> */}
               </div>
             </Form>
           </Card.Body>
