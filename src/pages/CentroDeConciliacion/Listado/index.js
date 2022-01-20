@@ -23,7 +23,7 @@ import {
 } from "react-bootstrap";
 import { ExportToExcel } from "components/ExportToExcel";
 import { Link } from "react-router-dom";
-import API from "utils/Axios";
+import API, { baseUrl } from "utils/Axios";
 import { useEffect } from "react";
 import { FaEye, FaPenAlt, FaArrowUp } from "react-icons/fa";
 import CentroDeConciliacionDetalle from "../Detalle";
@@ -42,6 +42,7 @@ const CentroDeConciliacionListado = () => {
   const [orderByDate, setOrderByDate] = useState(false)
   const [orderByResumen, setOrderByResumen] = useState(false)
   const [orderByIntenciones, setOrderByIntenciones] = useState(false)
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const cargar = async () => {
     try {
@@ -51,6 +52,8 @@ const CentroDeConciliacionListado = () => {
       setPaginacion({ paginas: data.total_pages, registros: data.count });
       setLinks(data.links);
       setCargando(false);
+      let u = new URLSearchParams(params).toString();
+      setParamsSerialized(u)
     } catch (error) {
       setCargando(false);
     }
@@ -119,6 +122,16 @@ const CentroDeConciliacionListado = () => {
     setOrderByResumen(false)
   }
 
+  const exportToExcel = async () => {
+    await API.post(`${baseUrl}/api/conciliacion/solicitud/exportar/?${paramsSerialized}`, { "1": "2" }, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "solicitudes-conciliacion.xlsx");
+    })
+  }
+
   useEffect(() => {
     const ids = sessionStorage.getItem("conciliacion");
     if (ids) {
@@ -134,6 +147,10 @@ const CentroDeConciliacionListado = () => {
   useEffect(() => {
     cargar();
   }, [orderByDate]);
+
+  useEffect(() => {
+    cargar();
+  }, [orderByResumen]);
 
   useEffect(() => {
     cargar();
@@ -246,7 +263,15 @@ const CentroDeConciliacionListado = () => {
                   <Pagination.Next disabled />
                 )}
               </Pagination>
-              <ExportToExcel apiData={docs} fileName="documento" />
+              {docs.length > 0 ? (
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => exportToExcel()}
+                >
+                  Exportar a Excel
+                </Button>
+              ) : null}
             </Card.Footer>
           </Card>
         </Spin>

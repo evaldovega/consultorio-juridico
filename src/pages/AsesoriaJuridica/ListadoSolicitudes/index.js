@@ -29,6 +29,9 @@ import Filtros from "./Filtros";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPan from "components/MigaPan";
+import { ACCESS_TOKEN_NAME } from "constants/apiContants";
+
+var axios = require('axios')
 
 const ListadoSolicitudes = () => {
   const [docs, setDocs] = useState([]);
@@ -100,6 +103,16 @@ const ListadoSolicitudes = () => {
       });
     }
   };
+
+  const exportToExcel = async () => {
+    await API.post(`${baseUrl}/api/asesorias/solicitud/exportar/?${paramsSerialized}`, {"1": "2"}, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+        var FileSaver = require('file-saver');
+        var blob = new Blob([response.data], {type: 'application/xlsx'});
+        FileSaver.saveAs(blob, "solicitudes_asesoria.xlsx");
+    })
+  }
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
@@ -290,14 +303,13 @@ const ListadoSolicitudes = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <a href={`${baseUrl}/api/asesorias/solicitud/exportar/?` + paramsSerialized}>
                   <Button
                     variant="success"
                     size="sm"
+                    onClick={() => exportToExcel()}
                   >
                     Exportar a Excel
                   </Button>
-                </a>
               ) : null}
             </Card.Footer>
           </Card>

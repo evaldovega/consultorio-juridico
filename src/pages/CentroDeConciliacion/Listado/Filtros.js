@@ -30,6 +30,8 @@ const Filtros = ({ cargando = false, setParams, params }) => {
     defaultValues: {
       fecha_inicial: moment().startOf("month").format("YYYY-MM-DD"),
       fecha_final: moment().endOf("month").format("YYYY-MM-DD"),
+      id_citado: "",
+      id_solicitante: ""
     },
   });
   const onFilter = (filtros) => {
