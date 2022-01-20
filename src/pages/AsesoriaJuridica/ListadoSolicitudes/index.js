@@ -37,6 +37,7 @@ const ListadoSolicitudes = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [orderByDate, setOrderByDate] = useState(false)
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getSolicitudes = async () => {
     setCargando(true);
@@ -46,6 +47,8 @@ const ListadoSolicitudes = () => {
         setPaginacion({ paginas: data.total_pages, registros: data.count });
         setLinks(data.links);
         setCargando(false);
+        let u = new URLSearchParams(params).toString();
+        setParamsSerialized(u)
       })
       .finally(() => setCargando(false));
   };
@@ -93,7 +96,7 @@ const ListadoSolicitudes = () => {
       });
     }
   };
-  
+
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
     console.log(orderByDate)
@@ -237,7 +240,7 @@ const ListadoSolicitudes = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <a href={`${baseUrl}/exportar_casos_asesoria/`}>
+                <a href={`${baseUrl}/api/asesorias/solicitud/exportar/?` + paramsSerialized}>
                   <Button
                     variant="success"
                     size="sm"
