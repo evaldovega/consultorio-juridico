@@ -37,11 +37,15 @@ const ListadoSolicitudes = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByAsunto, setOrderByAsunto] = useState(false)
+  const [orderByNombre, setOrderByNombre] = useState(false)
+  const [orderByNumCaso, setOrderByNumCaso] = useState(false)
+  const [orderByDocumento, setOrderByDocumento] = useState(false)
   const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getSolicitudes = async () => {
     setCargando(true);
-    API.get(`asesorias/solicitud/?${orderByDate ? 'date_reverse' : ''}`, { params })
+    API.get(`asesorias/solicitud/${orderByDate ? '?date_reverse' : ''}${orderByAsunto ? '?asunto_reverse' : ''}${orderByNombre ? '?nombre_reverse' : ''}${orderByNumCaso ? '?nocaso_reverse' : ''}${orderByDocumento ? '?documento_reverse' : ''}`, { params })
       .then(({ data }) => {
         setDocs(data.results || []);
         setPaginacion({ paginas: data.total_pages, registros: data.count });
@@ -99,8 +103,42 @@ const ListadoSolicitudes = () => {
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
-    console.log(orderByDate)
-    console.log("Hola")
+    setOrderByAsunto(false)
+    setOrderByNombre(false)
+    setOrderByNumCaso(false)
+    setOrderByDocumento(false)
+  }
+
+  const switchOrderAsunto = () => {
+    setOrderByDate(false)
+    setOrderByAsunto(!orderByAsunto)
+    setOrderByNombre(false)
+    setOrderByNumCaso(false)
+    setOrderByDocumento(false)
+  }
+
+  const switchOrderNombre = () => {
+    setOrderByDate(false)
+    setOrderByAsunto(false)
+    setOrderByNombre(!orderByNombre)
+    setOrderByNumCaso(false)
+    setOrderByDocumento(false)
+  }
+
+  const switchOrderNoCaso = () => {
+    setOrderByDate(false)
+    setOrderByAsunto(false)
+    setOrderByNombre(false)
+    setOrderByNumCaso(!orderByNumCaso)
+    setOrderByDocumento(false)
+  }
+
+  const switchOrderDocumento = () => {
+    setOrderByDate(false)
+    setOrderByAsunto(false)
+    setOrderByNombre(false)
+    setOrderByNumCaso(false)
+    setOrderByDocumento(!orderByDocumento)
   }
 
   useEffect(() => {
@@ -112,6 +150,18 @@ const ListadoSolicitudes = () => {
   useEffect(() => {
     getSolicitudes({});
   }, [orderByDate])
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByAsunto])
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByNombre])
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByNumCaso])
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByDocumento])
 
   return (
     <Policy
@@ -135,7 +185,7 @@ const ListadoSolicitudes = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>No. caso</th>
+                    <th>No. caso <FaArrowUp onClick={() => switchOrderNoCaso()} /></th>
                     <Policy
                       policy={[
                         ROL_ADMIN,
@@ -144,11 +194,11 @@ const ListadoSolicitudes = () => {
                         ROL_ESTUDIANTE,
                       ]}
                     >
-                      <th>Nombre y apellidos</th>
-                      <th>Documento de identidad</th>
+                      <th>Nombre y apellidos <FaArrowUp onClick={() => switchOrderNombre()} /></th>
+                      <th>Documento de identidad <FaArrowUp onClick={() => switchOrderDocumento()} /></th>
                     </Policy>
                     <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
-                    <th>Asunto</th>
+                    <th>Asunto <FaArrowUp onClick={() => switchOrderAsunto()} /></th>
                     <th></th>
                   </tr>
                 </thead>

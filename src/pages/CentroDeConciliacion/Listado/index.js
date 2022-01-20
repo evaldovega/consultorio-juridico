@@ -40,11 +40,13 @@ const CentroDeConciliacionListado = () => {
   const [paginacion, setPaginacion] = useState(null);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByResumen, setOrderByResumen] = useState(false)
+  const [orderByIntenciones, setOrderByIntenciones] = useState(false)
 
   const cargar = async () => {
     try {
       setCargando(true);
-      const { data } = await API.get(`/conciliacion/solicitud/?${orderByDate ? 'date_reverse' : ''}`, { params });
+      const { data } = await API.get(`/conciliacion/solicitud/${orderByDate ? '?date_reverse' : ''}${orderByResumen ? '?resumen_reverse' : ''}${orderByIntenciones ? '?intenciones_reverse' : ''}`, { params });
       setDocs(data.results || []);
       setPaginacion({ paginas: data.total_pages, registros: data.count });
       setLinks(data.links);
@@ -101,8 +103,20 @@ const CentroDeConciliacionListado = () => {
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
-    console.log(orderByDate)
-    console.log("Hola")
+    setOrderByIntenciones(false)
+    setOrderByResumen(false)
+  }
+
+  const switchOrderResumen = () => {
+    setOrderByResumen(!orderByResumen)
+    setOrderByDate(false)
+    setOrderByIntenciones(false)
+  }
+
+  const switchOrderIntenciones = () => {
+    setOrderByDate(false)
+    setOrderByIntenciones(!orderByIntenciones)
+    setOrderByResumen(false)
   }
 
   useEffect(() => {
@@ -120,6 +134,10 @@ const CentroDeConciliacionListado = () => {
   useEffect(() => {
     cargar();
   }, [orderByDate]);
+
+  useEffect(() => {
+    cargar();
+  }, [orderByIntenciones]);
 
   return (
     <Policy
@@ -154,8 +172,8 @@ const CentroDeConciliacionListado = () => {
                 <thead>
                   <tr>
                     <th>Fecha solicitud <FaArrowUp onClick={() => switchOrderDate()} /></th>
-                    <th>Resumen</th>
-                    <th>Intenciones</th>
+                    <th>Resumen <FaArrowUp onClick={() => switchOrderResumen()} /></th>
+                    <th>Intenciones <FaArrowUp onClick={() => switchOrderIntenciones()} /></th>
                     <th></th>
                   </tr>
                 </thead>

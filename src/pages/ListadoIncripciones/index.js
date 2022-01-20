@@ -38,11 +38,16 @@ const ListadoIncripciones = () => {
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [discapacidades, setDiscapacidades] = useState([]);
   const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByName, setOrderByName] = useState(false)
+  const [orderByYear, setOrderByYear] = useState(false)
+  const [orderByDocument, setOrderByDocument] = useState(false)
+  const [orderByCode, setOrderByCode] = useState(false)
+  const [orderBySemester, setOrderBySemester] = useState(false)
 
   const getInscripciones = async () => {
     try {
       setCargando(true);
-      const { data } = await API.get(`estudiantes/inscripcion/?${orderByDate ? 'order_by_date' : ''}`, { params });
+      const { data } = await API.get(`estudiantes/inscripcion/${orderByDate ? '?order_by_date' : ''}${orderByName ? '?name_reverse' : ''}${orderByYear ? '?year_reverse' : ''}${orderByDocument ? '?document_reverse' : ''}${orderByCode ? '?code_reverse' : ''}${orderBySemester ? '?semester_reverse' : ''}`, { params });
       setDocs(data.results || []);
       setTotalRegistros(data.count || 0);
       setPaginacion({ paginas: data.total_pages, registros: data.count });
@@ -107,8 +112,56 @@ const ListadoIncripciones = () => {
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
-    console.log(orderByDate)
-    console.log("Hola")
+    setOrderByName(false)
+    setOrderByYear(false)
+    setOrderByDocument(false)
+    setOrderByCode(false)
+    setOrderBySemester(false)
+  }
+
+  const switchOrderName = () => {
+    setOrderByDate(false)
+    setOrderByName(!orderByName)
+    setOrderByYear(false)
+    setOrderByDocument(false)
+    setOrderByCode(false)
+    setOrderBySemester(false)
+  }
+
+  const switchOrderYear = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByYear(!orderByYear)
+    setOrderByDocument(false)
+    setOrderByCode(false)
+    setOrderBySemester(false)
+  }
+
+  const switchOrderDocument = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByYear(false)
+    setOrderByDocument(!orderByDocument)
+    setOrderByCode(false)
+    setOrderBySemester(false)
+  }
+
+  const switchOrderCode = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByYear(false)
+    setOrderByDocument(false)
+    setOrderByCode(!orderByCode)
+    setOrderBySemester(false)
+  }
+
+  const switchOrderSemester = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByYear(false)
+    setOrderByDocument(false)
+    setOrderByCode(false)
+    setOrderBySemester(!orderBySemester)
   }
 
   useEffect(() => {
@@ -131,6 +184,26 @@ const ListadoIncripciones = () => {
   useEffect(() => {
     getInscripciones({});
   }, [orderByDate]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderByName]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderByYear]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderByDocument]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderByCode]);
+
+  useEffect(() => {
+    getInscripciones({});
+  }, [orderBySemester]);
 
   return (
     <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}>
@@ -159,16 +232,16 @@ const ListadoIncripciones = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>Identificación</th>
-                    <th>Código estudiante</th>
-                    <th>Estudiante</th>
+                    <th>Identificación <FaArrowUp onClick={() => switchOrderDocument()} /></th>
+                    <th>Código estudiante <FaArrowUp onClick={() => switchOrderCode()} /></th>
+                    <th>Estudiante <FaArrowUp onClick={() => switchOrderName()} /></th>
 
-                    <th>Año</th>
+                    <th>Año <FaArrowUp onClick={() => switchOrderYear()} /></th>
                     <th>
                       Fecha inscripción
                       <FaArrowUp onClick={() => switchOrderDate()} />
                     </th>
-                    <th>Semestre inscripción</th>
+                    <th>Semestre inscripción <FaArrowUp onClick={() => switchOrderSemester()} /></th>
 
                     <th>Consultorio</th>
                     <th>Turno</th>
