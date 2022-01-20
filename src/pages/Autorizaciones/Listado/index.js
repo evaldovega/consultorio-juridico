@@ -12,7 +12,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { ExportToExcel } from "components/ExportToExcel";
-import { FaPrint, FaTrash } from "react-icons/fa";
+import { FaPrint, FaTrash, FaArrowUp } from "react-icons/fa";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import Spin from "components/Spin";
@@ -28,10 +28,11 @@ const ListadoAutorizaciones = () => {
   const [paginacion, setPaginacion] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
+  const [orderByDate, setOrderByDate] = useState(false)
 
   const getAutorizaciones = async () => {
     setCargando(true);
-    API.get("autorizaciones/autorizacion", { params })
+    API.get(`autorizaciones/autorizacion${orderByDate ? '?order_by_date' : ''}`, { params })
       .then(({ data }) => {
         setDocs(
           data.results.map((d) => ({
@@ -122,6 +123,10 @@ const ListadoAutorizaciones = () => {
     }
   };
 
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+  }
+
   useEffect(() => {
     getAutorizaciones();
   }, []);
@@ -129,6 +134,10 @@ const ListadoAutorizaciones = () => {
   useEffect(() => {
     getAutorizaciones({});
   }, [params]);
+
+  useEffect(() => {
+    getAutorizaciones({});
+  }, [orderByDate]);
 
   return (
     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
@@ -153,7 +162,7 @@ const ListadoAutorizaciones = () => {
                     <th>Nombres y apellidos</th>
                     <th>Documento de identidad</th>
                     <th>Clase proceso</th>
-                    <th>Fecha de proceso</th>
+                    <th>Fecha de proceso <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>No. autorizacion</th>
                     <th>Observaciones</th>
                     <th>Acciones</th>
