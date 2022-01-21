@@ -7,7 +7,7 @@ import {
   ROL_ASESOR,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
-} from "../../../constants/apiContants";
+} from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import Policy from "components/Policy";
@@ -45,14 +45,14 @@ const EstudianteReportesIndex = () => {
             <ItemModule
               Icon={() => <FaTable />}
               title="Listado de Registrados"
-              link="/asesoria-juridica/reportes/registrados"
+              link="/inscripcion-estudiantes/reportes/registrados"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por sexo"
-              link="/asesoria-juridica/reportes/sexo"
+              link="/inscripcion-estudiantes/reportes/sexo"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
@@ -60,14 +60,14 @@ const EstudianteReportesIndex = () => {
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por edad"
-              link="/asesoria-juridica/reportes/edad"
+              link="/inscripcion-estudiantes/reportes/edad"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por discapacidad"
-              link="/asesoria-juridica/reportes/discapacidad"
+              link="/inscripcion-estudiantes/reportes/discapacidad"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
@@ -75,14 +75,14 @@ const EstudianteReportesIndex = () => {
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por orientación sexual"
-              link="/asesoria-juridica/reportes/orientacion"
+              link="/inscripcion-estudiantes/reportes/orientacion"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por desempleo"
-              link="/asesoria-juridica/reportes/desempleo"
+              link="/inscripcion-estudiantes/reportes/desempleo"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
@@ -90,14 +90,14 @@ const EstudianteReportesIndex = () => {
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por profesión"
-              link="/asesoria-juridica/reportes/profesion"
+              link="/inscripcion-estudiantes/reportes/profesion"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={() => <FaFilePdf />}
               title="Por lugar de práctica"
-              link="/asesoria-juridica/reportes/lugar-practicas"
+              link="/inscripcion-estudiantes/reportes/lugar-practicas"
             />
           </Col>
           <div class="w-100" style={{ marginBottom: 22 }}></div>
@@ -105,14 +105,14 @@ const EstudianteReportesIndex = () => {
             <ItemModule
               Icon={() => <FaFilePdf />}
               title="Listado de casos"
-              link="/asesoria-juridica/reportes/casos"
+              link="/inscripcion-estudiantes/reportes/casos"
             />
           </Col>
           <Col xs={12} md={6}>
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por etnia"
-              link="/asesoria-juridica/reportes/etnia"
+              link="/inscripcion-estudiantes/reportes/etnia"
             />
           </Col>
         </Row>
