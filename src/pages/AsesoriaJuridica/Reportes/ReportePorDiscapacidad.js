@@ -12,6 +12,7 @@ import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import { MDBDataTableV5 } from 'mdbreact';
 Chart.register(ChartDataLabels);
 
 var _ = require("lodash");
@@ -24,6 +25,7 @@ const AsesoriaReportePorDiscapacidad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
+  const [tableData, setTableData] = useState([])
 
   const consultar = async () => {
     await API(
@@ -31,7 +33,7 @@ const AsesoriaReportePorDiscapacidad = () => {
     )
       .then((response) => {
         console.log(response.data);
-        let datosgroup = _(response.data)
+        let datosgroup = _(response.data.discapacidades_titulos)
           .groupBy("nombre")
           .map((value, key) => ({
             nombre: key,
@@ -43,6 +45,7 @@ const AsesoriaReportePorDiscapacidad = () => {
         let groupArray = _.toArray(datosgroup);
         console.log(groupArray);
         setDatos(groupArray);
+        setTableData(response.data.datos_disc)
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -222,6 +225,29 @@ const AsesoriaReportePorDiscapacidad = () => {
                 </div>
               </div>
             )}
+            <MDBDataTableV5
+              entriesOptions={[10, 20, 25]}
+              entries={10}
+              paginationLabel={["<", ">"]}
+              data={{
+                columns: [
+                  {
+                    label: 'Nombre',
+                    field: 'nombre_completo'
+                  },
+                  {
+                    label: 'Discapacidades',
+                    field: 'atributo'
+                  }
+                ],
+                rows: tableData.map((el) => (
+                  {
+                    "nombre_completo": el.nombre_completo,
+                    "atributo": el.atributo !== "" ? el.atributo : "Ninguna"
+                  }
+                ))
+              }}
+            />
           </Card.Body>
         </Card>
       </Page>
