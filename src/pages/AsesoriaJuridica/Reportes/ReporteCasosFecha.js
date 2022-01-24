@@ -11,7 +11,7 @@ import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 var moment = require("moment");
 
-const ReporteCasosFecha = () => {
+const AsesoriaReporteCasosFecha = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
 
@@ -123,4 +123,4 @@ const ReporteCasosFecha = () => {
   );
 };
 
-export default ReporteCasosFecha;
+export default AsesoriaReporteCasosFecha;

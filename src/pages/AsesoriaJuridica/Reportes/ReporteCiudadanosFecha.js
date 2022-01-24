@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API, { baseUrl } from "utils/Axios";
 import Policy from "components/Policy";
-import { Button, Breadcrumb, Card, InputGroup } from "react-bootstrap";
+import { Button, Card, InputGroup } from "react-bootstrap";
 import { FaFilter, FaBolt } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
@@ -11,7 +11,7 @@ import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 var moment = require("moment");
 
-const ReporteLugarPractica = () => {
+const AsesoriaReporteCiudadanosFecha = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
 
@@ -26,7 +26,7 @@ const ReporteLugarPractica = () => {
           <MigaPanInicio />
           <MigaPanAsesoriaJuridica />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por lugar de prácticas</span>
+          <span>Ciudadanos</span>
         </MigaPan>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
@@ -109,10 +109,10 @@ const ReporteLugarPractica = () => {
               />
               <InputGroup.Append>
                 <Button
-                  href={`${baseUrl}/estudiantes_lugarpracticas/${fechaInicial}/${fechaFinal}`}
+                  href={`${baseUrl}/ciudadanos_fecha/${fechaInicial}/${fechaFinal}`}
                   size="md"
                 >
-                  Generar reporte por lugar de practicas
+                  Generar reporte de asesorias
                 </Button>
               </InputGroup.Append>
             </InputGroup>
@@ -123,4 +123,4 @@ const ReporteLugarPractica = () => {
   );
 };
 
-export default ReporteLugarPractica;
+export default AsesoriaReporteCiudadanosFecha;

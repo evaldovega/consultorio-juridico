@@ -20,14 +20,14 @@ Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReportePorDiscapacidad = () => {
+const AsesoriaReportePorDiscapacidad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
 
   const consultar = async () => {
     await API(
-      `estudiantes/inscripcion/discapacidades/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `asesorias/solicitud/discapacidad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
@@ -229,4 +229,4 @@ const ReportePorDiscapacidad = () => {
   );
 };
 
-export default ReportePorDiscapacidad;
+export default AsesoriaReportePorDiscapacidad;

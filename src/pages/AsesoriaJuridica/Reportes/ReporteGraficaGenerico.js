@@ -1,44 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 import Page from "components/Page";
 import API from "utils/Axios";
 import Policy from "components/Policy";
-import { FaBolt, FaFilter } from "react-icons/fa";
-import {
-  Button,
-  Breadcrumb,
-  Card,
-  Col,
-  Row,
-  Table,
-  InputGroup,
-} from "react-bootstrap";
+import { FaFilter, FaBolt } from "react-icons/fa";
+import { Button, Breadcrumb, Card, InputGroup, Table } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import { MDBDataTableV5 } from 'mdbreact';
+
 Chart.register(ChartDataLabels);
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReportePorEdad = () => {
+const ReporteGraficaGenerico = (props) => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [datos, setDatos] = useState("");
+  const [datos, setDatos] = useState([]);
   const [datosTabla, setDatosTabla] = useState([]);
+  const { tiporeporte: tipoReporte } = useParams();
 
   const consultar = async () => {
     API(
-      `estudiantes/inscripcion/edad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `asesorias/solicitud/${tipoReporte}/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
-        setDatos(response.data.grafica_edades);
-        setDatosTabla(response.data.listado_usuarios);
+        setDatos(response.data.grafica);
+        setDatosTabla(response.data.listado_ciudadanos);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -46,30 +42,29 @@ const ReportePorEdad = () => {
   };
 
   const chartdata = {
-    labels: ["Menores de 25", "Entre 26 y 60", "Mayores de 60"],
+    labels: ["Masculino", "Femenino"],
     datasets: [
       {
-        label: "Edades",
-        data: [datos.menores_de_25, datos.entre_26_y_60, datos.mayores_de_60],
-        backgroundColor: [
-          "rgb(153, 153, 153)",
-          "rgb(124, 181, 236)",
-          "rgb(124, 181, 12)",
-        ],
+        label: "Orientaciones",
+        data: datos.map((el) => el.cantidad),
+        backgroundColor: datos.map((el) => el.color),
       },
     ],
   };
+
+  useEffect(() => {
+    console.log(datos)
+  }, [])
 
   return (
     <Policy policy={[]}>
       <Page>
         <MigaPan>
-          <MigaPanInicio></MigaPanInicio>
+          <MigaPanInicio />
           <MigaPanAsesoriaJuridica />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por edad</span>
+          <span>Por {tipoReporte.replace("_", " ")}</span>
         </MigaPan>
-
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
             <div className="d-flex justify-content-end align-items-center mb-4">
@@ -151,14 +146,14 @@ const ReportePorEdad = () => {
               />
               <InputGroup.Append>
                 <Button onClick={() => consultar()} size="md">
-                  Generar reporte por edad
+                  Generar reporte
                 </Button>
               </InputGroup.Append>
             </InputGroup>
           </Card.Body>
 
           <Card.Body>
-            {datos !== "" && (
+            {datos !== [] && (
               <div
                 style={{
                   marginTop: "40px",
@@ -196,82 +191,93 @@ const ReportePorEdad = () => {
                   />
                 </div>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(153, 153, 153)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Menores de 25: {datos.menores_de_25}</span>
-                  </div>
-                  <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(124, 181, 236)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Entre 26 y 60: {datos.entre_26_y_60}</span>
-                  </div>
-                  <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(124, 181, 12)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Mayores de 60 {datos.mayores_de_60}</span>
-                  </div>
+                  {datos.map((el) => (
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            borderRadius: "100px",
+                            backgroundColor: el.color,
+                            marginRight: "10px",
+                          }}
+                        />
+                        <span>
+                          {el.nombre}: {el.cantidad}
+                        </span>
+                      </div>
+                      <br />
+                    </div>
+                  ))}
+                  {/* <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <div style={{
+                                            height: "20px",
+                                            width: "20px",
+                                            borderRadius: "100px",
+                                            backgroundColor: 'rgb(153, 153, 153)',
+                                            marginRight: "10px"
+                                        }} />
+                                        <span>Masculino: {datos.hombres}</span>
+                                    </div> */}
                 </div>
               </div>
             )}
-            {datos !== "" && (
+            {datos !== [] && (
+              <div style={{
+                marginTop: "10px"
+              }}>
+                <MDBDataTableV5
+                  entriesOptions={[10, 20, 25]}
+                  entries={10}
+                  paginationLabel={["<", ">"]}
+                  data={{
+                    columns: [
+                      {
+                        label: 'Nombre',
+                        field: 'nombre_completo'
+                      },
+                      {
+                        label: tipoReporte[0].toUpperCase() + tipoReporte.slice(1),
+                        field: 'atributo'
+                      }
+                    ],
+                    rows: datosTabla.map((el) => (
+                      {
+                        "nombre_completo": el.nombre_completo,
+                        "atributo": el.atributo
+                      }
+                    ))
+                  }}
+                />
+              </div>
+            )}
+            {/* {datos !== "" && (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
                     <tr>
                       <th>Nombre completo</th>
-                      <th>Periodo</th>
-                      <th>Fecha de nacimiento</th>
+                      <th>{tipoReporte[0].toUpperCase() + tipoReporte.slice(1)}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {datosTabla.map((el) => (
                       <tr>
                         <td>{el.nombre_completo}</td>
-                        <td>{el.periodo}</td>
-                        <td>{el.fecha_nacimiento}</td>
+                        <td>{el.orientacion}</td>
                       </tr>
                     ))}
                   </tbody>
               </Table>
-            )}
+            )} */}
           </Card.Body>
         </Card>
       </Page>
@@ -279,4 +285,4 @@ const ReportePorEdad = () => {
   );
 };
 
-export default ReportePorEdad;
+export default ReporteGraficaGenerico;

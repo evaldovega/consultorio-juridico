@@ -30,6 +30,69 @@ import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 
 const AsesoriaReportesIndex = () => {
+  const menuItems = [
+    {
+      "title": "Listado de Registrados",
+      "sufijo": "ciudadanos-fecha",
+      "grafica": false
+    },
+    {
+      "title": "Casos por fecha",
+      "sufijo": "casos-fecha",
+      "grafica": false
+    },
+    {
+      "title": "Por sexo",
+      "sufijo": "sexo",
+      "grafica": true
+    },
+    {
+      "title": "Por edad",
+      "sufijo": "edad",
+      "grafica": true
+    },
+    {
+      "title": "Por vulnerabilidad",
+      "sufijo": "vulnerabilidad",
+      "grafica": true
+    },
+    {
+      "title": "Por nivel educativo",
+      "sufijo": "nivel_educativo",
+      "grafica": true
+    },
+    {
+      "title": "Por etnia",
+      "sufijo": "etnia",
+      "grafica": true
+    },
+    {
+      "title": "Por discapacidad",
+      "sufijo": "discapacidad",
+      "grafica": true
+    },
+    {
+      "title": "Por orientación sexual",
+      "sufijo": "orientacion_sexual",
+      "grafica": true
+    },
+    {
+      "title": "Por desempleo",
+      "sufijo": "desempleo",
+      "grafica": true
+    },
+    {
+      "title": "Por profesión",
+      "sufijo": "profesion",
+      "grafica": true
+    },
+    {
+      "title": "Casos por área",
+      "sufijo": "casos_area",
+      "grafica": true
+    },
+  ]
+
   return (
     <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
       <Page>
@@ -38,80 +101,21 @@ const AsesoriaReportesIndex = () => {
           <MigaPanAsesoriaJuridica />
           <span>Reportes</span>
         </MigaPan>
-
         <Row className="modules">
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaTable />}
-              title="Listado de Registrados"
-              link="/asesoria-juridica/reportes/registrados"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por sexo"
-              link="/asesoria-juridica/reportes/sexo"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por edad"
-              link="/asesoria-juridica/reportes/edad"
-            />
-          </Col>
-          <Col xs={12} md={6}>
+          {menuItems.map((item, index) => (
+            <Col xs={12} md={6} style={{ marginBottom: "20px" }}>
+              <ItemModule
+                Icon={!item.grafica ? () => <FaFilePdf /> : () => <FaRegChartBar />}
+                title={item.title}
+                link={`/asesoria-juridica/${item.grafica ? 'reportes_grafica' : 'reportes'}/${item.sufijo}`}
+              />
+            </Col>
+          ))}
+          <Col xs={12} md={6} style={{ marginBottom: "20px" }}>
             <ItemModule
               Icon={() => <FaRegChartBar />}
               title="Por discapacidad"
-              link="/asesoria-juridica/reportes/discapacidad"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por orientación sexual"
-              link="/asesoria-juridica/reportes/orientacion"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por desempleo"
-              link="/asesoria-juridica/reportes/desempleo"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por profesión"
-              link="/asesoria-juridica/reportes/profesion"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaFilePdf />}
-              title="Por lugar de práctica"
-              link="/asesoria-juridica/reportes/lugar-practicas"
-            />
-          </Col>
-          <div class="w-100" style={{ marginBottom: 22 }}></div>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaFilePdf />}
-              title="Listado de casos"
-              link="/asesoria-juridica/reportes/casos"
-            />
-          </Col>
-          <Col xs={12} md={6}>
-            <ItemModule
-              Icon={() => <FaRegChartBar />}
-              title="Por etnia"
-              link="/asesoria-juridica/reportes/etnia"
+              link={`/asesoria-juridica/reporte-discapacidad/`}
             />
           </Col>
         </Row>
