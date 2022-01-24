@@ -28,15 +28,14 @@ import {
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
-import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 
-const EstudianteReportesIndex = () => {
+const AsesoriaReportesIndex = () => {
   return (
     <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanInscripcionEstudiante />
+          <MigaPanAsesoriaJuridica />
           <span>Reportes</span>
         </MigaPan>
 
@@ -121,4 +120,4 @@ const EstudianteReportesIndex = () => {
   );
 };
 
-export default EstudianteReportesIndex;
+export default AsesoriaReportesIndex;
