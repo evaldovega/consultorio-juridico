@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
-import { FaFilter, FaBolt } from "react-icons/fa";
 import Policy from "components/Policy";
+import { FaFilter, FaBolt } from "react-icons/fa";
 import { Button, Breadcrumb, Card, InputGroup, Table } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
@@ -11,27 +11,27 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
-
 Chart.register(ChartDataLabels);
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReporteProfesion = () => {
+const ReportePorSexo = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState("");
   const [datosTabla, setDatosTabla] = useState([]);
 
   const consultar = async () => {
     API(
-      `estudiantes/inscripcion/profesiones/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `estudiantes/inscripcion/genero/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
         setDatos(response.data.grafica);
-        setDatosTabla(response.data.listado_estudiantes)
+        setDatosTabla(response.data.listado_estudiantes);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -42,9 +42,9 @@ const ReporteProfesion = () => {
     labels: ["Masculino", "Femenino"],
     datasets: [
       {
-        label: "Orientaciones",
-        data: datos.map((el) => el.cantidad),
-        backgroundColor: datos.map((el) => el.color),
+        label: "Géneros",
+        data: [datos.hombres, datos.mujeres],
+        backgroundColor: ["rgb(153, 153, 153)", "rgb(124, 181, 236)"],
       },
     ],
   };
@@ -54,9 +54,9 @@ const ReporteProfesion = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por profesión</span>
+          <span>Por sexo</span>
         </MigaPan>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
@@ -139,14 +139,14 @@ const ReporteProfesion = () => {
               />
               <InputGroup.Append>
                 <Button onClick={() => consultar()} size="md">
-                  Generar reporte por profesión
+                  Generar reporte por sexo
                 </Button>
               </InputGroup.Append>
             </InputGroup>
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos !== "" && (
               <div
                 style={{
                   marginTop: "40px",
@@ -184,43 +184,41 @@ const ReporteProfesion = () => {
                   />
                 </div>
                 <div>
-                  {datos.map((el) => (
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                        }}
-                      >
-                        <div
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            borderRadius: "100px",
-                            backgroundColor: el.color,
-                            marginRight: "10px",
-                          }}
-                        />
-                        <span>
-                          {el.nombre_profesion} {el.cantidad}
-                        </span>
-                      </div>
-                      <br />
-                    </div>
-                  ))}
-                  {/* <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row'
-                                    }}>
-                                        <div style={{
-                                            height: "20px",
-                                            width: "20px",
-                                            borderRadius: "100px",
-                                            backgroundColor: 'rgb(153, 153, 153)',
-                                            marginRight: "10px"
-                                        }} />
-                                        <span>Masculino: {datos.hombres}</span>
-                                    </div> */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        borderRadius: "100px",
+                        backgroundColor: "rgb(124, 181, 236)",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <span>Femenino: {datos.mujeres}</span>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        borderRadius: "100px",
+                        backgroundColor: "rgb(153, 153, 153)",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <span>Masculino: {datos.hombres}</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -238,7 +236,7 @@ const ReporteProfesion = () => {
                       <tr>
                         <td>{el.nombre_completo}</td>
                         <td>{el.periodo}</td>
-                        <td>{el.profesion}</td>
+                        <td>{el.genero}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -251,4 +249,4 @@ const ReporteProfesion = () => {
   );
 };
 
-export default ReporteProfesion;
+export default ReportePorSexo;

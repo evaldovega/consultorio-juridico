@@ -12,6 +12,7 @@ import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 Chart.register(ChartDataLabels);
 
 var _ = require("lodash");
@@ -20,14 +21,14 @@ Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const AsesoriaReportePorDiscapacidad = () => {
+const ReportePorDiscapacidad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
 
   const consultar = async () => {
     await API(
-      `asesorias/solicitud/discapacidad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `estudiantes/inscripcion/discapacidades/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
@@ -65,7 +66,7 @@ const AsesoriaReportePorDiscapacidad = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
           <span>Por discapacidad</span>
         </MigaPan>
@@ -229,4 +230,4 @@ const AsesoriaReportePorDiscapacidad = () => {
   );
 };
 
-export default AsesoriaReportePorDiscapacidad;
+export default ReportePorDiscapacidad;

@@ -2,43 +2,37 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
+import { FaFilter, FaBolt } from "react-icons/fa";
 import Policy from "components/Policy";
-import { FaBolt, FaFilter } from "react-icons/fa";
-import {
-  Button,
-  Breadcrumb,
-  Card,
-  Col,
-  Row,
-  Table,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, Breadcrumb, Card, InputGroup, Table } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPan from "components/MigaPan";
+import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
+
 Chart.register(ChartDataLabels);
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReportePorEdad = () => {
+const ReporteProfesion = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [datos, setDatos] = useState("");
+  const [datos, setDatos] = useState([]);
   const [datosTabla, setDatosTabla] = useState([]);
 
   const consultar = async () => {
     API(
-      `estudiantes/inscripcion/edad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `estudiantes/inscripcion/profesiones/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
-        setDatos(response.data.grafica_edades);
-        setDatosTabla(response.data.listado_usuarios);
+        setDatos(response.data.grafica);
+        setDatosTabla(response.data.listado_estudiantes)
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -46,16 +40,12 @@ const ReportePorEdad = () => {
   };
 
   const chartdata = {
-    labels: ["Menores de 25", "Entre 26 y 60", "Mayores de 60"],
+    labels: ["Masculino", "Femenino"],
     datasets: [
       {
-        label: "Edades",
-        data: [datos.menores_de_25, datos.entre_26_y_60, datos.mayores_de_60],
-        backgroundColor: [
-          "rgb(153, 153, 153)",
-          "rgb(124, 181, 236)",
-          "rgb(124, 181, 12)",
-        ],
+        label: "Orientaciones",
+        data: datos.map((el) => el.cantidad),
+        backgroundColor: datos.map((el) => el.color),
       },
     ],
   };
@@ -64,12 +54,11 @@ const ReportePorEdad = () => {
     <Policy policy={[]}>
       <Page>
         <MigaPan>
-          <MigaPanInicio></MigaPanInicio>
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInicio />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por edad</span>
+          <span>Por profesión</span>
         </MigaPan>
-
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
             <div className="d-flex justify-content-end align-items-center mb-4">
@@ -151,14 +140,14 @@ const ReportePorEdad = () => {
               />
               <InputGroup.Append>
                 <Button onClick={() => consultar()} size="md">
-                  Generar reporte por edad
+                  Generar reporte por profesión
                 </Button>
               </InputGroup.Append>
             </InputGroup>
           </Card.Body>
 
           <Card.Body>
-            {datos !== "" && (
+            {datos !== [] && (
               <div
                 style={{
                   marginTop: "40px",
@@ -196,59 +185,43 @@ const ReportePorEdad = () => {
                   />
                 </div>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(153, 153, 153)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Menores de 25: {datos.menores_de_25}</span>
-                  </div>
-                  <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(124, 181, 236)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Entre 26 y 60: {datos.entre_26_y_60}</span>
-                  </div>
-                  <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(124, 181, 12)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Mayores de 60 {datos.mayores_de_60}</span>
-                  </div>
+                  {datos.map((el) => (
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            borderRadius: "100px",
+                            backgroundColor: el.color,
+                            marginRight: "10px",
+                          }}
+                        />
+                        <span>
+                          {el.nombre_profesion} {el.cantidad}
+                        </span>
+                      </div>
+                      <br />
+                    </div>
+                  ))}
+                  {/* <div style={{
+                                        display: 'flex',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <div style={{
+                                            height: "20px",
+                                            width: "20px",
+                                            borderRadius: "100px",
+                                            backgroundColor: 'rgb(153, 153, 153)',
+                                            marginRight: "10px"
+                                        }} />
+                                        <span>Masculino: {datos.hombres}</span>
+                                    </div> */}
                 </div>
               </div>
             )}
@@ -258,7 +231,7 @@ const ReportePorEdad = () => {
                     <tr>
                       <th>Nombre completo</th>
                       <th>Periodo</th>
-                      <th>Fecha de nacimiento</th>
+                      <th>Género</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -266,7 +239,7 @@ const ReportePorEdad = () => {
                       <tr>
                         <td>{el.nombre_completo}</td>
                         <td>{el.periodo}</td>
-                        <td>{el.fecha_nacimiento}</td>
+                        <td>{el.profesion}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -279,4 +252,4 @@ const ReportePorEdad = () => {
   );
 };
 
-export default ReportePorEdad;
+export default ReporteProfesion;

@@ -9,7 +9,7 @@ import * as PolicyProvider from "components/Policy/Ctx";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import InscripcionEstudiantes from "./pages/InscripcionEstudiantes";
-import InscripcionEstudiantesReporte from "pages/InscripciónEstudiantesReporte";
+import InscripcionEstudiantesReporte from "pages/InscripcionEstudiantesReporte";
 import InscripcionPracticasConsultorioJuridico from "./pages/InscripcionEstudiantes/Formularios/Inscripcion";
 import Registro from "./pages/Registro";
 import Configuraciones from "pages/configuraciones";
@@ -47,17 +47,23 @@ import RemisionMasiva from "pages/Autorizaciones/RemisionMasiva";
 import AutorizacionesPorFecha from "pages/Autorizaciones/AutorizacionesPorFecha";
 import RemisionesPorFecha from "pages/Autorizaciones/RemisionesPorFecha";
 
-import ReportesIndex from "pages/AsesoriaJuridica/Reportes";
-import ReportePorSexo from "pages/AsesoriaJuridica/Reportes/ReportePorSexo";
-import ReportePorDesempleo from "pages/AsesoriaJuridica/Reportes/ReportePorDesempleo";
-import ReporteRegistrados from "pages/AsesoriaJuridica/Reportes/ReporteRegistrados";
-import ReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
-import ReporteLugarPractica from "pages/AsesoriaJuridica/Reportes/ReporteLugarPractica";
-import ReportePorEdad from "pages/AsesoriaJuridica/Reportes/ReportePorEdad";
-import ReporteOrientacion from "pages/AsesoriaJuridica/Reportes/ReporteOrientacion";
-import ReportePorEtnia from "pages/AsesoriaJuridica/Reportes/ReportePorEtnia";
-import ReporteProfesion from "pages/AsesoriaJuridica/Reportes/ReporteProfesion";
-import ReportePorDiscapacidad from "pages/AsesoriaJuridica/Reportes/ReportePorDiscapacidad";
+import AsesoriaReportesIndex from "pages/AsesoriaJuridica/Reportes"
+import ReporteGraficaGenerico from "pages/AsesoriaJuridica/Reportes/ReporteGraficaGenerico";
+import AsesoriaReportePorDiscapacidad from "pages/AsesoriaJuridica/Reportes/ReportePorDiscapacidad";
+import AsesoriaReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
+import AsesoriaReporteCiudadanosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCiudadanosFecha";
+
+import EstudianteReportesIndex from "pages/InscripcionEstudiantesReporte";
+import ReportePorSexo from "pages/InscripcionEstudiantesReporte/ReportePorSexo";
+import ReportePorDesempleo from "pages/InscripcionEstudiantesReporte/ReportePorDesempleo";
+import ReporteRegistrados from "pages/InscripcionEstudiantesReporte/ReporteRegistrados";
+import ReporteCasosFecha from "pages/InscripcionEstudiantesReporte/ReporteCasosFecha";
+import ReporteLugarPractica from "pages/InscripcionEstudiantesReporte/ReporteLugarPractica";
+import ReportePorEdad from "pages/InscripcionEstudiantesReporte/ReportePorEdad";
+import ReporteOrientacion from "pages/InscripcionEstudiantesReporte/ReporteOrientacion";
+import ReportePorEtnia from "pages/InscripcionEstudiantesReporte/ReportePorEtnia";
+import ReporteProfesion from "pages/InscripcionEstudiantesReporte/ReporteProfesion";
+import ReportePorDiscapacidad from "pages/InscripcionEstudiantesReporte/ReportePorDiscapacidad";
 
 import Perfil from "pages/Perfil";
 import { ToastContainer } from "react-toastify";
@@ -154,44 +160,61 @@ function App() {
             <PrivateRouter path="/asesoria-juridica/formato-registro" exact>
               <FormatoRegistro />
             </PrivateRouter>
+
             <PrivateRouter path="/asesoria-juridica/reportes" exact>
-              <ReportesIndex />
+              <AsesoriaReportesIndex />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes_grafica/:tiporeporte" exact>
+              <ReporteGraficaGenerico />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reporte-discapacidad" exact>
+              <AsesoriaReportePorDiscapacidad />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/casos-fecha" exact>
+              <AsesoriaReporteCasosFecha />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/reportes/ciudadanos-fecha" exact>
+              <AsesoriaReporteCiudadanosFecha />
             </PrivateRouter>
 
-            <PrivateRouter path="/asesoria-juridica/reportes/sexo" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes" exact>
+              <EstudianteReportesIndex />
+            </PrivateRouter>
+
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/sexo" exact>
               <ReportePorSexo />
             </PrivateRouter>
             <PrivateRouter
-              path="/asesoria-juridica/reportes/discapacidad"
+              path="/inscripcion-estudiantes/reportes/discapacidad"
               exact
             >
               <ReportePorDiscapacidad />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/desempleo" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/desempleo" exact>
               <ReportePorDesempleo />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/registrados" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/registrados" exact>
               <ReporteRegistrados />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/casos" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/casos" exact>
               <ReporteCasosFecha />
             </PrivateRouter>
             <PrivateRouter
-              path="/asesoria-juridica/reportes/lugar-practicas"
+              path="/inscripcion-estudiantes/reportes/lugar-practicas"
               exact
             >
               <ReporteLugarPractica />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/edad" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/edad" exact>
               <ReportePorEdad />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/orientacion" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/orientacion" exact>
               <ReporteOrientacion />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/etnia" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/etnia" exact>
               <ReportePorEtnia />
             </PrivateRouter>
-            <PrivateRouter path="/asesoria-juridica/reportes/profesion" exact>
+            <PrivateRouter path="/inscripcion-estudiantes/reportes/profesion" exact>
               <ReporteProfesion />
             </PrivateRouter>
 

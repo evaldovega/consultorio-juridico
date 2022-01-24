@@ -5,78 +5,87 @@ import { ROL_PERSONA } from "constants/apiContants";
 const MigaPanAsesoriaJuridicaReportes = () => {
   const location = useLocation();
 
+  const menuItems = [
+    {
+      "title": "Listado de Registrados",
+      "sufijo": "ciudadanos-fecha",
+      "grafica": false
+    },
+    {
+      "title": "Casos por fecha",
+      "sufijo": "casos-fecha",
+      "grafica": false
+    },
+    {
+      "title": "Por sexo",
+      "sufijo": "sexo",
+      "grafica": true
+    },
+    {
+      "title": "Por edad",
+      "sufijo": "edad",
+      "grafica": true
+    },
+    {
+      "title": "Por vulnerabilidad",
+      "sufijo": "vulnerabilidad",
+      "grafica": true
+    },
+    {
+      "title": "Por nivel educativo",
+      "sufijo": "nivel_educativo",
+      "grafica": true
+    },
+    {
+      "title": "Por etnia",
+      "sufijo": "etnia",
+      "grafica": true
+    },
+    {
+      "title": "Por discapacidad",
+      "sufijo": "discapacidad",
+      "grafica": true
+    },
+    {
+      "title": "Por orientación sexual",
+      "sufijo": "orientacion_sexual",
+      "grafica": true
+    },
+    {
+      "title": "Por desempleo",
+      "sufijo": "desempleo",
+      "grafica": true
+    },
+    {
+      "title": "Por profesión",
+      "sufijo": "profesion",
+      "grafica": true
+    },
+    {
+      "title": "Casos por área",
+      "sufijo": "casos_area",
+      "grafica": true
+    },
+  ]
+
   return (
     <Dropdown size="sm" navbar={true}>
       <Dropdown.Toggle variant="link" split={true} id="dropdown-basic">
         Reportes
       </Dropdown.Toggle>
       <Dropdown.Menu>
+        {menuItems.map((item, index) => (
+          <Dropdown.Item
+            key={index}
+            active={location.pathname == `/asesoria-juridica/${item.grafica ? 'reportes_grafica' : 'reportes'}/${item.sufijo}`}
+          >
+            <Link to={`/asesoria-juridica/${item.grafica ? 'reportes_grafica' : 'reportes'}/${item.sufijo}`}>{item.title}</Link>
+          </Dropdown.Item>
+        ))}
         <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/casos"}
+          active={location.pathname == "/asesoria-juridica/reporte-discapacidad"}
         >
-          <Link to="/asesoria-juridica/reportes/casos">Historico de casos</Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={
-            location.pathname == "/asesoria-juridica/reportes/registrados"
-          }
-        >
-          <Link to="/asesoria-juridica/reportes/registrados">
-            Historico de inscripciones
-          </Link>
-        </Dropdown.Item>
-
-        <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/sexo"}
-        >
-          <Link to="/asesoria-juridica/reportes/sexo">Por sexo</Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/edad"}
-        >
-          <Link to="/asesoria-juridica/reportes/edad">Por edad</Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={
-            location.pathname == "/asesoria-juridica/reportes/discapacidad"
-          }
-        >
-          <Link to="/asesoria-juridica/reportes/discapacidad">
-            Por discapacidad
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={
-            location.pathname == "/asesoria-juridica/reportes/orientacion"
-          }
-        >
-          <Link to="/asesoria-juridica/reportes/orientacion">
-            Por orientación sexual
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/desempleo"}
-        >
-          <Link to="/asesoria-juridica/reportes/desempleo">Por desempleo</Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/profesion"}
-        >
-          <Link to="/asesoria-juridica/reportes/profesion">Por prefesión</Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={
-            location.pathname == "/asesoria-juridica/reportes/lugar-practicas"
-          }
-        >
-          <Link to="/asesoria-juridica/reportes/lugar-practicas">
-            Por lugar de practicas
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Item
-          active={location.pathname == "/asesoria-juridica/reportes/etnia"}
-        >
-          <Link to="/asesoria-juridica/reportes/etnia">Por etnia</Link>
+          <Link to="/asesoria-juridica/reporte-discapacidad">Por discapacidad</Link>
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

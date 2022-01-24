@@ -9,6 +9,7 @@ import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 var moment = require("moment");
 
 const ReporteRegistrados = () => {
@@ -24,7 +25,7 @@ const ReporteRegistrados = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
           <span>Listado de Registrados o inscripciones</span>
         </MigaPan>

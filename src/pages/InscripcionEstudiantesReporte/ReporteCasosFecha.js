@@ -8,10 +8,11 @@ import { FaFilter, FaBolt } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 var moment = require("moment");
 
-const AsesoriaReporteCasosFecha = () => {
+const ReporteCasosFecha = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
 
@@ -24,7 +25,7 @@ const AsesoriaReporteCasosFecha = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
           <span>Casos</span>
         </MigaPan>
@@ -123,4 +124,4 @@ const AsesoriaReporteCasosFecha = () => {
   );
 };
 
-export default AsesoriaReporteCasosFecha;
+export default ReporteCasosFecha;

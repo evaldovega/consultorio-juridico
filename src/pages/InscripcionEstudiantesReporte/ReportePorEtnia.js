@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
-import Policy from "components/Policy";
 import { FaFilter, FaBolt } from "react-icons/fa";
+import Policy from "components/Policy";
 import { Button, Breadcrumb, Card, InputGroup, Table } from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
@@ -12,12 +12,13 @@ import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 Chart.register(ChartDataLabels);
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const ReporteOrientacion = () => {
+const ReportePorEtnia = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [datos, setDatos] = useState([]);
@@ -25,7 +26,7 @@ const ReporteOrientacion = () => {
 
   const consultar = async () => {
     API(
-      `estudiantes/inscripcion/orientacion_sexual/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+      `estudiantes/inscripcion/etnias/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
@@ -41,7 +42,7 @@ const ReporteOrientacion = () => {
     labels: ["Masculino", "Femenino"],
     datasets: [
       {
-        label: "Orientaciones",
+        label: "Etnias",
         data: datos.map((el) => el.cantidad),
         backgroundColor: datos.map((el) => el.color),
       },
@@ -53,9 +54,9 @@ const ReporteOrientacion = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por orientación sexual</span>
+          <span>Por etnia</span>
         </MigaPan>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
@@ -138,7 +139,7 @@ const ReporteOrientacion = () => {
               />
               <InputGroup.Append>
                 <Button onClick={() => consultar()} size="md">
-                  Generar reporte por orientación sexual
+                  Generar reporte por etnia
                 </Button>
               </InputGroup.Append>
             </InputGroup>
@@ -201,25 +202,12 @@ const ReporteOrientacion = () => {
                           }}
                         />
                         <span>
-                          {el.nombre_orientacion} {el.cantidad}
+                          {el.nombre_etnia} {el.cantidad}
                         </span>
                       </div>
                       <br />
                     </div>
                   ))}
-                  {/* <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row'
-                                    }}>
-                                        <div style={{
-                                            height: "20px",
-                                            width: "20px",
-                                            borderRadius: "100px",
-                                            backgroundColor: 'rgb(153, 153, 153)',
-                                            marginRight: "10px"
-                                        }} />
-                                        <span>Masculino: {datos.hombres}</span>
-                                    </div> */}
                 </div>
               </div>
             )}
@@ -229,7 +217,7 @@ const ReporteOrientacion = () => {
                     <tr>
                       <th>Nombre completo</th>
                       <th>Periodo</th>
-                      <th>Orientación</th>
+                      <th>Etnia</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -237,7 +225,7 @@ const ReporteOrientacion = () => {
                       <tr>
                         <td>{el.nombre_completo}</td>
                         <td>{el.periodo}</td>
-                        <td>{el.orientacion}</td>
+                        <td>{el.etnia}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -250,4 +238,4 @@ const ReporteOrientacion = () => {
   );
 };
 
-export default ReporteOrientacion;
+export default ReportePorEtnia;

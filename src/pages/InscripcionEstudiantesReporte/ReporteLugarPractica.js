@@ -1,49 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import API from "utils/Axios";
-import { FaFilter, FaBolt } from "react-icons/fa";
+import API, { baseUrl } from "utils/Axios";
 import Policy from "components/Policy";
 import { Button, Breadcrumb, Card, InputGroup } from "react-bootstrap";
-import { Pie } from "react-chartjs-2";
-import { Chart, ArcElement } from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import { FaFilter, FaBolt } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
-Chart.register(ChartDataLabels);
-Chart.register(ArcElement);
-
 var moment = require("moment");
 
-const ReportePorDesempleo = () => {
+const ReporteLugarPractica = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [datos, setDatos] = useState("");
 
   const consultar = async () => {
-    API(
-      `estudiantes/inscripcion/desempleados/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
-    )
-      .then((response) => {
-        console.log(response.data);
-        setDatos(response.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
-  const chartdata = {
-    labels: ["Empleados", "Desempleados"],
-    datasets: [
-      {
-        label: "Géneros",
-        data: [datos.num_empleados, datos.num_desempleados],
-        backgroundColor: ["rgb(153, 153, 153)", "rgb(124, 181, 236)"],
-      },
-    ],
+    console.log(`${fechaInicial} - ${fechaFinal}`);
   };
 
   return (
@@ -51,9 +25,9 @@ const ReportePorDesempleo = () => {
       <Page>
         <MigaPan>
           <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por desempleo</span>
+          <span>Por lugar de prácticas</span>
         </MigaPan>
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
@@ -135,90 +109,14 @@ const ReportePorDesempleo = () => {
                 onChange={(e) => setFechaFinal(e.target.value)}
               />
               <InputGroup.Append>
-                <Button onClick={() => consultar()} size="md">
-                  Generar reporte estudiantes desempleados
+                <Button
+                  href={`${baseUrl}/estudiantes_lugarpracticas/${fechaInicial}/${fechaFinal}`}
+                  size="md"
+                >
+                  Generar reporte por lugar de practicas
                 </Button>
               </InputGroup.Append>
             </InputGroup>
-          </Card.Body>
-
-          <Card.Body>
-            {datos !== "" && (
-              <div
-                style={{
-                  marginTop: "40px",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "70px",
-                }}
-              >
-                <div
-                  style={{
-                    height: "40%",
-                    width: "40%",
-                  }}
-                >
-                  <Pie
-                    data={chartdata}
-                    style={{
-                      marginRight: "30px",
-                    }}
-                    options={{
-                      plugins: {
-                        datalabels: {
-                          formatter: function (value, context) {
-                            const total = context.dataset.data.reduce(
-                              (a, b) => a + b,
-                              0
-                            );
-                            return Math.round((value / total) * 100) + "%";
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(124, 181, 236)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Empleados: {datos.num_empleados}</span>
-                  </div>
-                  <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: "20px",
-                        width: "20px",
-                        borderRadius: "100px",
-                        backgroundColor: "rgb(153, 153, 153)",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <span>Desempleados: {datos.num_desempleados}</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </Card.Body>
         </Card>
       </Page>
@@ -226,4 +124,4 @@ const ReportePorDesempleo = () => {
   );
 };
 
-export default ReportePorDesempleo;
+export default ReporteLugarPractica;

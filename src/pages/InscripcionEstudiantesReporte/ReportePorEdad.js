@@ -3,46 +3,43 @@ import { Link } from "react-router-dom";
 import Page from "components/Page";
 import API from "utils/Axios";
 import Policy from "components/Policy";
-import { Button, Breadcrumb, Card, InputGroup } from "react-bootstrap";
+import { FaBolt, FaFilter } from "react-icons/fa";
+import {
+  Button,
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Table,
+  InputGroup,
+} from "react-bootstrap";
 import { Pie } from "react-chartjs-2";
-import { FaFilter, FaBolt } from "react-icons/fa";
 import { Chart, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
+import MigaPan from "components/MigaPan";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 Chart.register(ChartDataLabels);
-
-var _ = require("lodash");
-
 Chart.register(ArcElement);
 
 var moment = require("moment");
 
-const AsesoriaReportePorDiscapacidad = () => {
+const ReportePorEdad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState("");
+  const [datosTabla, setDatosTabla] = useState([]);
 
   const consultar = async () => {
-    await API(
-      `asesorias/solicitud/discapacidad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
+    API(
+      `estudiantes/inscripcion/edad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
         console.log(response.data);
-        let datosgroup = _(response.data)
-          .groupBy("nombre")
-          .map((value, key) => ({
-            nombre: key,
-            cantidad: value.length,
-            color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
-              Math.random() * 256
-            )}, ${Math.floor(Math.random() * 256)}, 0.5)`,
-          }));
-        let groupArray = _.toArray(datosgroup);
-        console.log(groupArray);
-        setDatos(groupArray);
+        setDatos(response.data.grafica_edades);
+        setDatosTabla(response.data.listado_usuarios);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -53,9 +50,13 @@ const AsesoriaReportePorDiscapacidad = () => {
     labels: ["Menores de 25", "Entre 26 y 60", "Mayores de 60"],
     datasets: [
       {
-        label: "Discapacidades",
-        data: datos.map((el) => el.cantidad),
-        backgroundColor: datos.map((el) => el.color),
+        label: "Edades",
+        data: [datos.menores_de_25, datos.entre_26_y_60, datos.mayores_de_60],
+        backgroundColor: [
+          "rgb(153, 153, 153)",
+          "rgb(124, 181, 236)",
+          "rgb(124, 181, 12)",
+        ],
       },
     ],
   };
@@ -64,11 +65,12 @@ const AsesoriaReportePorDiscapacidad = () => {
     <Policy policy={[]}>
       <Page>
         <MigaPan>
-          <MigaPanInicio />
-          <MigaPanAsesoriaJuridica />
+          <MigaPanInicio></MigaPanInicio>
+          <MigaPanInscripcionEstudiante />
           <MigaPanAsesoriaJuridicaReportes />
-          <span>Por discapacidad</span>
+          <span>Por edad</span>
         </MigaPan>
+
         <Card>
           <Card.Body style={{ padding: "2.5rem" }}>
             <div className="d-flex justify-content-end align-items-center mb-4">
@@ -150,14 +152,14 @@ const AsesoriaReportePorDiscapacidad = () => {
               />
               <InputGroup.Append>
                 <Button onClick={() => consultar()} size="md">
-                  Generar reporte por discapacidades
+                  Generar reporte por edad
                 </Button>
               </InputGroup.Append>
             </InputGroup>
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos !== "" && (
               <div
                 style={{
                   marginTop: "40px",
@@ -195,32 +197,81 @@ const AsesoriaReportePorDiscapacidad = () => {
                   />
                 </div>
                 <div>
-                  {datos.map((el) => (
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                        }}
-                      >
-                        <div
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            borderRadius: "100px",
-                            backgroundColor: el.color,
-                            marginRight: "10px",
-                          }}
-                        />
-                        <span>
-                          {el.nombre} {el.cantidad}
-                        </span>
-                      </div>
-                      <br />
-                    </div>
-                  ))}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        borderRadius: "100px",
+                        backgroundColor: "rgb(153, 153, 153)",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <span>Menores de 25: {datos.menores_de_25}</span>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        borderRadius: "100px",
+                        backgroundColor: "rgb(124, 181, 236)",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <span>Entre 26 y 60: {datos.entre_26_y_60}</span>
+                  </div>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                        borderRadius: "100px",
+                        backgroundColor: "rgb(124, 181, 12)",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <span>Mayores de 60 {datos.mayores_de_60}</span>
+                  </div>
                 </div>
               </div>
+            )}
+            {datos !== "" && (
+              <Table striped bordered hover style={{marginTop: "20px"}}>
+                  <thead>
+                    <tr>
+                      <th>Nombre completo</th>
+                      <th>Periodo</th>
+                      <th>Fecha de nacimiento</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datosTabla.map((el) => (
+                      <tr>
+                        <td>{el.nombre_completo}</td>
+                        <td>{el.periodo}</td>
+                        <td>{el.fecha_nacimiento}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+              </Table>
             )}
           </Card.Body>
         </Card>
@@ -229,4 +280,4 @@ const AsesoriaReportePorDiscapacidad = () => {
   );
 };
 
-export default AsesoriaReportePorDiscapacidad;
+export default ReportePorEdad;
