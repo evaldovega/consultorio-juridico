@@ -14,6 +14,7 @@ import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 import { MDBDataTableV5 } from 'mdbreact';
+import { ExportToExcel } from "components/ExportToExcel"
 
 Chart.register(ChartDataLabels);
 Chart.register(ArcElement);
@@ -260,6 +261,7 @@ const ReporteGraficaGenerico = (props) => {
                 />
               </div>
             )}
+            <ExportToExcel apiData={datosTabla} fileName={`reporte_${tipoReporte}`}/>
             {/* {datos !== "" && (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
