@@ -13,6 +13,7 @@ import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
 import { MDBDataTableV5 } from 'mdbreact';
+import { ExportToExcel } from "components/ExportToExcel"
 Chart.register(ChartDataLabels);
 
 var _ = require("lodash");
@@ -248,6 +249,7 @@ const AsesoriaReportePorDiscapacidad = () => {
                 ))
               }}
             />
+            <ExportToExcel apiData={tableData} fileName={`discapacidad`}/>
           </Card.Body>
         </Card>
       </Page>
