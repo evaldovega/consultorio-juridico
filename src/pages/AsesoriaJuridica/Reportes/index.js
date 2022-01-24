@@ -67,11 +67,6 @@ const AsesoriaReportesIndex = () => {
       "grafica": true
     },
     {
-      "title": "Por discapacidad",
-      "sufijo": "discapacidad",
-      "grafica": true
-    },
-    {
       "title": "Por orientación sexual",
       "sufijo": "orientacion_sexual",
       "grafica": true
