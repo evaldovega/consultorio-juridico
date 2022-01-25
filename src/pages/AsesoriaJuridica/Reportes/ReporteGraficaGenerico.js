@@ -24,6 +24,7 @@ var moment = require("moment");
 const ReporteGraficaGenerico = (props) => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
+  const [searched, setSearched] = useState(false)
   const [datos, setDatos] = useState([]);
   const [datosTabla, setDatosTabla] = useState([]);
   const { tiporeporte: tipoReporte } = useParams();
@@ -33,6 +34,7 @@ const ReporteGraficaGenerico = (props) => {
       `asesorias/solicitud/${tipoReporte}/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
+        setSearched(true)
         console.log(response.data);
         setDatos(response.data.grafica);
         setDatosTabla(response.data.listado_ciudadanos);
@@ -154,114 +156,114 @@ const ReporteGraficaGenerico = (props) => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
-              <div
-                style={{
-                  marginTop: "40px",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "70px",
-                }}
-              >
+            {searched && (
+              <>
                 <div
                   style={{
-                    height: "40%",
-                    width: "40%",
+                    marginTop: "40px",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginLeft: "70px",
                   }}
                 >
-                  <Pie
-                    data={chartdata}
+                  <div
                     style={{
-                      marginRight: "30px",
+                      height: "40%",
+                      width: "40%",
                     }}
-                    options={{
-                      plugins: {
-                        datalabels: {
-                          formatter: function (value, context) {
-                            const total = context.dataset.data.reduce(
-                              (a, b) => a + b,
-                              0
-                            );
-                            return Math.round((value / total) * 100) + "%";
+                  >
+                    <Pie
+                      data={chartdata}
+                      style={{
+                        marginRight: "30px",
+                      }}
+                      options={{
+                        plugins: {
+                          datalabels: {
+                            formatter: function (value, context) {
+                              const total = context.dataset.data.reduce(
+                                (a, b) => a + b,
+                                0
+                              );
+                              return Math.round((value / total) * 100) + "%";
+                            },
                           },
                         },
-                      },
+                      }}
+                    />
+                  </div>
+                  <div>
+                    {datos.map((el) => (
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <div
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              borderRadius: "100px",
+                              backgroundColor: el.color,
+                              marginRight: "10px",
+                            }}
+                          />
+                          <span>
+                            {el.nombre}: {el.cantidad}
+                          </span>
+                        </div>
+                        <br />
+                      </div>
+                    ))}
+                    {/* <div style={{
+                                          display: 'flex',
+                                          flexDirection: 'row'
+                                      }}>
+                                          <div style={{
+                                              height: "20px",
+                                              width: "20px",
+                                              borderRadius: "100px",
+                                              backgroundColor: 'rgb(153, 153, 153)',
+                                              marginRight: "10px"
+                                          }} />
+                                          <span>Masculino: {datos.hombres}</span>
+                                      </div> */}
+                  </div>
+                </div>
+                <div style={{
+                  marginTop: "10px"
+                }}>
+                  <MDBDataTableV5
+                    entriesOptions={[10, 20, 25]}
+                    entries={10}
+                    paginationLabel={["<", ">"]}
+                    data={{
+                      columns: [
+                        {
+                          label: 'Nombre',
+                          field: 'nombre_completo'
+                        },
+                        {
+                          label: tipoReporte[0].toUpperCase() + tipoReporte.slice(1),
+                          field: 'atributo'
+                        }
+                      ],
+                      rows: datosTabla.map((el) => (
+                        {
+                          "nombre_completo": el.nombre_completo,
+                          "atributo": el.atributo
+                        }
+                      ))
                     }}
                   />
                 </div>
-                <div>
-                  {datos.map((el) => (
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                        }}
-                      >
-                        <div
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            borderRadius: "100px",
-                            backgroundColor: el.color,
-                            marginRight: "10px",
-                          }}
-                        />
-                        <span>
-                          {el.nombre}: {el.cantidad}
-                        </span>
-                      </div>
-                      <br />
-                    </div>
-                  ))}
-                  {/* <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row'
-                                    }}>
-                                        <div style={{
-                                            height: "20px",
-                                            width: "20px",
-                                            borderRadius: "100px",
-                                            backgroundColor: 'rgb(153, 153, 153)',
-                                            marginRight: "10px"
-                                        }} />
-                                        <span>Masculino: {datos.hombres}</span>
-                                    </div> */}
-                </div>
-              </div>
+                <ExportToExcel apiData={datosTabla} fileName={`reporte_${tipoReporte}`} />
+              </>
             )}
-            {datos !== [] && (
-              <div style={{
-                marginTop: "10px"
-              }}>
-                <MDBDataTableV5
-                  entriesOptions={[10, 20, 25]}
-                  entries={10}
-                  paginationLabel={["<", ">"]}
-                  data={{
-                    columns: [
-                      {
-                        label: 'Nombre',
-                        field: 'nombre_completo'
-                      },
-                      {
-                        label: tipoReporte[0].toUpperCase() + tipoReporte.slice(1),
-                        field: 'atributo'
-                      }
-                    ],
-                    rows: datosTabla.map((el) => (
-                      {
-                        "nombre_completo": el.nombre_completo,
-                        "atributo": el.atributo
-                      }
-                    ))
-                  }}
-                />
-              </div>
-            )}
-            <ExportToExcel apiData={datosTabla} fileName={`reporte_${tipoReporte}`}/>
             {/* {datos !== "" && (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
