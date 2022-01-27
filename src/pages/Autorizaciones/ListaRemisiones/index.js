@@ -39,7 +39,7 @@ const ListadoRemisiones = () => {
         setDocs(
           data.results.map((el) => ({
             numero: (
-              <a target="_blank" href={`${baseUrl}/generar-remision/${el.id}`}>
+              <a href={`/autorizaciones/generar-remision/${el.id}`}>
                 {el.a_numeroRemision}
               </a>
             ),
