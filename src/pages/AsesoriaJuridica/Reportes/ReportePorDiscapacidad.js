@@ -25,6 +25,7 @@ var moment = require("moment");
 const AsesoriaReportePorDiscapacidad = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
+  const [searched, setSearched] = useState(false)
   const [datos, setDatos] = useState([]);
   const [tableData, setTableData] = useState([])
 
@@ -33,6 +34,7 @@ const AsesoriaReportePorDiscapacidad = () => {
       `asesorias/solicitud/discapacidad/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`
     )
       .then((response) => {
+        setSearched(true)
         console.log(response.data);
         let datosgroup = _(response.data.discapacidades_titulos)
           .groupBy("nombre")
@@ -161,95 +163,97 @@ const AsesoriaReportePorDiscapacidad = () => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
-              <div
-                style={{
-                  marginTop: "40px",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "70px",
-                }}
-              >
+            {searched && (
+              <>             
                 <div
                   style={{
-                    height: "40%",
-                    width: "40%",
+                    marginTop: "40px",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginLeft: "70px",
                   }}
                 >
-                  <Pie
-                    data={chartdata}
+                  <div
                     style={{
-                      marginRight: "30px",
+                      height: "40%",
+                      width: "40%",
                     }}
-                    options={{
-                      plugins: {
-                        datalabels: {
-                          formatter: function (value, context) {
-                            const total = context.dataset.data.reduce(
-                              (a, b) => a + b,
-                              0
-                            );
-                            return Math.round((value / total) * 100) + "%";
+                  >
+                    <Pie
+                      data={chartdata}
+                      style={{
+                        marginRight: "30px",
+                      }}
+                      options={{
+                        plugins: {
+                          datalabels: {
+                            formatter: function (value, context) {
+                              const total = context.dataset.data.reduce(
+                                (a, b) => a + b,
+                                0
+                              );
+                              return Math.round((value / total) * 100) + "%";
+                            },
                           },
                         },
-                      },
-                    }}
-                  />
-                </div>
-                <div>
-                  {datos.map((el) => (
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                        }}
-                      >
+                      }}
+                    />
+                  </div>
+                  <div>
+                    {datos.map((el) => (
+                      <div>
                         <div
                           style={{
-                            height: "20px",
-                            width: "20px",
-                            borderRadius: "100px",
-                            backgroundColor: el.color,
-                            marginRight: "10px",
+                            display: "flex",
+                            flexDirection: "row",
                           }}
-                        />
-                        <span>
-                          {el.nombre} {el.cantidad}
-                        </span>
+                        >
+                          <div
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              borderRadius: "100px",
+                              backgroundColor: el.color,
+                              marginRight: "10px",
+                            }}
+                          />
+                          <span>
+                            {el.nombre} {el.cantidad}
+                          </span>
+                        </div>
+                        <br />
                       </div>
-                      <br />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+                <MDBDataTableV5
+                  entriesOptions={[10, 20, 25]}
+                  entries={10}
+                  paginationLabel={["<", ">"]}
+                  data={{
+                    columns: [
+                      {
+                        label: 'Nombre',
+                        field: 'nombre_completo'
+                      },
+                      {
+                        label: 'Discapacidades',
+                        field: 'atributo'
+                      }
+                    ],
+                    rows: tableData.map((el) => (
+                      {
+                        "nombre_completo": el.nombre_completo,
+                        "atributo": el.atributo !== "" ? el.atributo : "Ninguna"
+                      }
+                    ))
+                  }}
+                />
+                <ExportToExcel apiData={tableData} fileName={`discapacidad`}/>
+              </>
             )}
-            <MDBDataTableV5
-              entriesOptions={[10, 20, 25]}
-              entries={10}
-              paginationLabel={["<", ">"]}
-              data={{
-                columns: [
-                  {
-                    label: 'Nombre',
-                    field: 'nombre_completo'
-                  },
-                  {
-                    label: 'Discapacidades',
-                    field: 'atributo'
-                  }
-                ],
-                rows: tableData.map((el) => (
-                  {
-                    "nombre_completo": el.nombre_completo,
-                    "atributo": el.atributo !== "" ? el.atributo : "Ninguna"
-                  }
-                ))
-              }}
-            />
-            <ExportToExcel apiData={tableData} fileName={`discapacidad`}/>
           </Card.Body>
         </Card>
       </Page>
