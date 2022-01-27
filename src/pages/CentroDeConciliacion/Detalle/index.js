@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import API, { baseUrl } from "utils/Axios";
 import { useEffect } from "react";
 import { FaEye } from "react-icons/fa";
+import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 
 const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [cargando, setCargando] = useState(false);
@@ -139,8 +140,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                   <>
                     <tr key={i}>
                       <td>
-                        {c?.r_usuarios_solicitante?.a_primerNombre}{" "}
-                        {c?.r_usuarios_solicitante?.a_primerApellido}
+                        {c?.r_usuarios_solicitante?.c_tipoPersona === PERSONA_JURIDICA ? (
+                          c?.r_usuarios_solicitante?.a_nombrePersonaJuridica
+                        ) : (
+                          `${c?.r_usuarios_solicitante?.a_primerNombre} ${c?.r_usuarios_solicitante?.a_primerApellido}`
+                        )}
                       </td>
                       <td>{c?.r_usuarios_solicitante?.a_numeroDocumento}</td>
                       <td>{c?.r_usuarios_solicitante?.a_celular}</td>
@@ -194,9 +198,12 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                 {doc?.r_citados?.map((c, i) => (
                   <>
                     <tr key={i}>
-                      <td>
-                        {c.r_usuarios_citado?.a_primerNombre}{" "}
-                        {c.r_usuarios_citado?.a_primerApellido}
+                    <td>
+                        {c?.r_usuarios_citado?.c_tipoPersona === PERSONA_JURIDICA ? (
+                          c?.r_usuarios_citado?.a_nombrePersonaJuridica
+                        ) : (
+                          `${c?.r_usuarios_citado?.a_primerNombre} ${c?.r_usuarios_citado?.a_primerApellido}`
+                        )}
                       </td>
                       <td>{c.r_usuarios_citado?.a_numeroDocumento}</td>
                       <td>{c.r_usuarios_citado?.a_celular}</td>

@@ -29,6 +29,7 @@ const ListadoAutorizaciones = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [orderByDate, setOrderByDate] = useState(false)
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getAutorizaciones = async () => {
     setCargando(true);
@@ -64,6 +65,8 @@ const ListadoAutorizaciones = () => {
         );
         setPaginacion({ paginas: data.total_pages, registros: data.count });
         setLinks(data.links);
+        let u = new URLSearchParams(params).toString();
+        setParamsSerialized(u)
         setCargando(false);
       })
       .finally(() => setCargando(false));
@@ -122,6 +125,16 @@ const ListadoAutorizaciones = () => {
       );
     }
   };
+
+  const exportToExcel = async () => {
+    await API.get(`${baseUrl}/api/autorizaciones/autorizacion/exportar/?${paramsSerialized}`, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "Autorizaciones.xlsx");
+    })
+  }
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
@@ -225,7 +238,13 @@ const ListadoAutorizaciones = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <ExportToExcel apiData={docs} fileName="documento" />
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => exportToExcel()}
+                >
+                  Exportar a Excel
+                </Button>
               ) : null}
             </Card.Footer>
           </Card>

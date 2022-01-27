@@ -130,7 +130,7 @@ const PerfilJuridicoIdentificacion = () => {
       </h3>
       <Row className="mb-1">
         <Controller
-          name="a_nitPersonaJuridica"
+          name="a_numeroDocumento"
           control={control}
           defaultValue=""
           rules={{ required: "Ingrese su número de identidad" }}
