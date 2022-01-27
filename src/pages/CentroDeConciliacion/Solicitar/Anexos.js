@@ -17,6 +17,7 @@ const Anexos = ({
   const [docs, setDocs] = useState([]);
   const [cargando, setCargando] = useState(false);
   const MAX_FILE_SIZE = 200000000;
+
   const onChange = (e) => {
     var reader = new FileReader();
     const file = e.target.files[0];
@@ -49,10 +50,10 @@ const Anexos = ({
         });
         setValue("t_pruebasAnexos", _anexos);
       }
-
       e.target.value = "";
     };
   };
+
   const remove = (index) => {
     let _anexos = getValues("t_pruebasAnexos");
     _anexos.splice(index, 1);
@@ -82,6 +83,8 @@ const Anexos = ({
     } catch (error) {}
   };
 
+  console.log(anexos)
+
   useEffect(() => {
     setValue("t_pruebasAnexos", []);
   }, []);
@@ -97,42 +100,47 @@ const Anexos = ({
       <Card className="mb-4">
         <Card.Body style={{ padding: "2.5rem" }}>
           <h2>Pruebas y anexos</h2>
-          {docs?.length ? (
             <Table className="mb-3">
               <thead>
                 <th>Documento</th>
                 <th></th>
               </thead>
               <tbody>
-                {docs?.map((d, i) => (
-                  <tr key={`anexo-remoto${i}`}>
-                    <td>{d.a_titulo}</td>
-                    <td>
-                      <Button
-                        type="button"
-                        size="sm"
-                        onClick={() => removeRemote(i)}
-                      >
-                        <FaTimes />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-                {anexos?.map((d, i) => (
-                  <tr key={`anexo${i}`}>
-                    <td>{d.a_titulo}</td>
-                    <td>
-                      <Button type="button" size="sm" onClick={() => remove(i)}>
-                        <FaTimes />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {docs?.length || anexos?.length ? (
+                  <>
+                    {docs?.map((d, i) => (
+                      <tr key={`anexo-remoto${i}`}>
+                        <td>{d.a_titulo}</td>
+                        <td>
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={() => removeRemote(i)}
+                          >
+                            <FaTimes />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                    {anexos?.map((d, i) => (
+                      <tr key={`anexo${i}`}>
+                        <td>{d.a_titulo}</td>
+                        <td>
+                          <Button type="button" size="sm" onClick={() => remove(i)}>
+                            <FaTimes />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                ) : (
+                  <Alert variant="info">No ha cargado ningún archivo.</Alert>
+                )}
               </tbody>
             </Table>
-          ) : (
+            {/* {docs?.length ? ( (
             <Alert variant="info">No ha cargado ningún archivo.</Alert>
-          )}
+          )} */}
           <Form.Group>
             <Form.File onChange={onChange} label="Adjuntar" />
           </Form.Group>
