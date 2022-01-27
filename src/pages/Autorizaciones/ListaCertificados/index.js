@@ -84,7 +84,7 @@ const ListadoCertificados = () => {
         setDocs(
           data.results.map((el) => ({
             nombre_estudiante: (
-              <a href={`${baseUrl}/generar-certificado/${el.id}`}>
+              <a href={`/autorizaciones/generar-certificado/${el.id}`}>
                 {el.r_usuarios_estudiante.a_primerNombre}{" "}
                 {el.r_usuarios_estudiante.a_segundoNombre}{" "}
                 {el.r_usuarios_estudiante.a_primerApellido}{" "}
