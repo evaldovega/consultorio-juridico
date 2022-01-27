@@ -31,6 +31,7 @@ const ListadoRemisiones = () => {
   const [paginacion, setPaginacion] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getRemisiones = async () => {
     setCargando(true);
@@ -46,38 +47,31 @@ const ListadoRemisiones = () => {
             periodo: `${el.r_usuarios_estudiante.a_anioInscripcion}-${el.r_usuarios_estudiante.a_semestreInscripcion}`,
             documento:
               el.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento,
-            nombre_estudiante: `${
-              el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre
-            } ${
-              el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre !==
-              null
+            nombre_estudiante: `${el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre
+              } ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre !==
+                null
                 ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre
                 : ""
-            } ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${
-              el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido !==
-              null
+              } ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido !==
+                null
                 ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido
                 : ""
-            } `,
+              } `,
             fecha: el.dt_fechaRemision,
-            director: `${el.r_usuarios_director.a_primerNombre} ${
-              el.r_usuarios_director.a_segundoNombre !== null
+            director: `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre !== null
                 ? el.r_usuarios_director.a_segundoNombre
                 : ""
-            } ${el.r_usuarios_director.a_primerApellido} ${
-              el.r_usuarios_director.a_segundoApellido !== null
+              } ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido !== null
                 ? el.r_usuarios_director.a_segundoApellido
                 : ""
-            }`,
-            elaborado_por: `${el.r_usuarios_elaboradoPor.a_primerNombre} ${
-              el.r_usuarios_elaboradoPor.a_segundoNombre !== null
+              }`,
+            elaborado_por: `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre !== null
                 ? el.r_usuarios_elaboradoPor.a_segundoNombre
                 : ""
-            } ${el.r_usuarios_elaboradoPor.a_primerApellido} ${
-              el.r_usuarios_elaboradoPor.a_segundoApellido !== null
+              } ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido !== null
                 ? el.r_usuarios_elaboradoPor.a_segundoApellido
                 : ""
-            }`,
+              }`,
             destinatario: el.r_config_autoridad.a_titulo,
             acciones: (
               <div className="d-flex justify-content-between">
@@ -98,6 +92,8 @@ const ListadoRemisiones = () => {
         );
         setPaginacion({ paginas: data.total_pages, registros: data.count });
         setLinks(data.links);
+        let u = new URLSearchParams(params).toString();
+        setParamsSerialized(u)
         setCargando(false);
       })
       .catch((error) => {
@@ -112,6 +108,16 @@ const ListadoRemisiones = () => {
       });
     }
   };
+
+  const exportToExcel = async () => {
+    await API.get(`${baseUrl}/api/autorizaciones/remision/exportar/?${paramsSerialized}`, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "Remisiones.xlsx");
+    })
+  }
 
   const {
     register,
@@ -269,7 +275,13 @@ const ListadoRemisiones = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <ExportToExcel apiData={docs} fileName="documento" />
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => exportToExcel()}
+                >
+                  Exportar a Excel
+                </Button>
               ) : null}
             </Card.Footer>
           </Card>

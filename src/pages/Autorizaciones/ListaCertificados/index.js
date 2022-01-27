@@ -31,6 +31,7 @@ const ListadoCertificados = () => {
   const [paginacion, setPaginacion] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
+  const [paramsSerialized, setParamsSerialized] = useState("")
 
   const next = () => {
     const page = links.next.match(/page=[0-9]+/);
@@ -114,6 +115,8 @@ const ListadoCertificados = () => {
         );
         setPaginacion({ paginas: data.total_pages, registros: data.count });
         setLinks(data.links);
+        let u = new URLSearchParams(params).toString();
+        setParamsSerialized(u)
         setCargando(false);
       })
       .catch((error) => {
@@ -131,6 +134,16 @@ const ListadoCertificados = () => {
       );
     }
   };
+
+  const exportToExcel = async () => {
+    await API.get(`${baseUrl}/api/autorizaciones/certificacion/exportar/?${paramsSerialized}`, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "Certificados.xlsx");
+    })
+  }
 
   const {
     register,
@@ -240,7 +253,13 @@ const ListadoCertificados = () => {
                 )}
               </Pagination>
               {docs.length > 0 ? (
-                <ExportToExcel apiData={docs} fileName="documento" />
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => exportToExcel()}
+                >
+                  Exportar a Excel
+                </Button>
               ) : null}
             </Card.Footer>
           </Card>
