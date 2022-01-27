@@ -5,6 +5,7 @@ import API, { baseUrl } from "utils/Axios";
 import { FaTrash } from "react-icons/fa";
 import { useRef } from "react";
 import Img from "components/Img";
+import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 
 const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
   const [cargnado, setCargando] = useState(false);
@@ -49,26 +50,41 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
           />
         </Form.Group>
       </Col>
-      <Col xs="6" md="3">
-        <Form.Group>
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control
-            value={doc.a_primerNombre}
-            readOnly={true}
-            plaintext={true}
-          />
-        </Form.Group>
-      </Col>
-      <Col xs="6" md="3">
-        <Form.Group>
-          <Form.Label>Apellido</Form.Label>
-          <Form.Control
-            value={doc.a_primerApellido}
-            readOnly={true}
-            plaintext={true}
-          />
-        </Form.Group>
-      </Col>
+      {doc.c_tipoPersona === PERSONA_JURIDICA ? (
+        <Col xs="6" md="6">
+          <Form.Group>
+            <Form.Label>Razón social</Form.Label>
+            <Form.Control
+              value={doc.a_nombrePersonaJuridica}
+              readOnly={true}
+              plaintext={true}
+            />
+          </Form.Group>
+        </Col>
+      ) : (
+        <>
+          <Col xs="6" md="3">
+            <Form.Group>
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                value={doc.a_primerNombre}
+                readOnly={true}
+                plaintext={true}
+              />
+            </Form.Group>
+          </Col>
+          <Col xs="6" md="3">
+            <Form.Group>
+              <Form.Label>Apellido</Form.Label>
+              <Form.Control
+                value={doc.a_primerApellido}
+                readOnly={true}
+                plaintext={true}
+              />
+            </Form.Group>
+          </Col>
+        </>
+      )}
       {allowRemove ? (
         <Col>
           <Button variant="danger" onClick={remove}>
