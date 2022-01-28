@@ -47,8 +47,10 @@ const CentroDeConciliacionSolicitar = () => {
   const history = useHistory();
   const { id: idConciliacion, asesoria } = useParams();
   const [conciliadores, setConciliadores] = useState([]);
+  const [salasConciliacion, setSalasConciliacion] = useState([])
   const [cargando, setCargando] = useState(false);
   const [readOnly, setReadOnly] = useState(false);
+  const [today, setToday] = useState(new Date())
   const { persona, policies } = useContext(ContextPolicy);
 
   const checkKeyDown = (e) => {
@@ -69,6 +71,8 @@ const CentroDeConciliacionSolicitar = () => {
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
+
+  const modalidad = watch('c_modalidad')
 
   const onError = (e) => {
     toast.info("Ingresa la información faltante por favor!", {
@@ -169,10 +173,17 @@ const CentroDeConciliacionSolicitar = () => {
     }
   }, [asesoria]);
 
-  useEffect(() => {
-    API.get("usuarios/personas/?personal_estudiantil=1").then((response) => {
+  const load = async () => {
+    await API.get("usuarios/personas/?personal_estudiantil=1").then((response) => {
       setConciliadores(response.data);
     });
+    await API.get("configuracion/salas-conciliacion").then((response) => {
+      setSalasConciliacion(response.data);
+    });
+  }
+
+  useEffect(() => {
+    load()
   }, []);
 
   return (
@@ -268,30 +279,134 @@ const CentroDeConciliacionSolicitar = () => {
             <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
               <Card>
                 <Card.Body>
-                  <Controller
-                    name="r_usuarios_conciliador"
-                    control={control}
-                    rules={{
-                      required: "Ingrese información",
-                    }}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="6">
-                        <Form.Label>Conciliador</Form.Label>
-                        <Form.Control as="select" {...field}>
-                          <option value="">Seleccione...</option>
-                          {conciliadores.map((el) => (
-                            <option value={el.id}>
-                              {el.a_primerNombre} {el.a_segundoNombre}{" "}
-                              {el.a_primerApellido} {el.a_segundoApellido}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        <Errors
-                          message={errors?.r_usuarios_conciliador?.message}
+                  <Row className="mb-1">
+                    <Col xs="12" md="6">
+                      <Controller
+                        name="d_fechaInicialAudiencia"
+                        control={control}
+                        rules={{
+                          required: "Ingrese información",
+                        }}
+                        render={({ field }) => (
+                          <Form.Group>
+                            <Form.Label>Fecha inicial de la audiencia</Form.Label>
+                            <Form.Control type="datetime-local" min={today} {...field} />
+                            <Errors
+                              message={errors?.r_usuarios_conciliador?.message}
+                            />
+                          </Form.Group>
+                        )}
+                      />
+                    </Col>
+                    <Col xs="12" md="6">
+                      <Controller
+                        name="d_fechaFinalAudiencia"
+                        control={control}
+                        rules={{
+                          required: "Ingrese información",
+                        }}
+                        render={({ field }) => (
+                          <Form.Group>
+                            <Form.Label>Fecha final de la audiencia</Form.Label>
+                            <Form.Control type="datetime-local" min={today} {...field} />
+                            <Errors
+                              message={errors?.r_usuarios_conciliador?.message}
+                            />
+                          </Form.Group>
+                        )}
+                      />
+                    </Col>
+                    <Col xs="12" md="6">
+                      <Controller
+                        name="r_config_salaConciliacion"
+                        control={control}
+                        rules={{
+                          required: "Ingrese información",
+                        }}
+                        render={({ field }) => (
+                          <Form.Group>
+                            <Form.Label>Sala de conciliación</Form.Label>
+                            <Form.Control as="select" {...field}>
+                              <option value="">Seleccione...</option>
+                              {salasConciliacion.map((el) => (
+                                <option value={el.id}>
+                                  {el.a_titulo}
+                                </option>
+                              ))}
+                            </Form.Control>
+                            <Errors
+                              message={errors?.r_usuarios_conciliador?.message}
+                            />
+                          </Form.Group>
+                        )}
+                      />
+                    </Col>
+                    <Col xs="12" md="6">
+                      <Controller
+                        name="r_usuarios_conciliador"
+                        control={control}
+                        rules={{
+                          required: "Ingrese información",
+                        }}
+                        render={({ field }) => (
+                          <Form.Group>
+                            <Form.Label>Conciliador</Form.Label>
+                            <Form.Control as="select" {...field}>
+                              <option value="">Seleccione...</option>
+                              {conciliadores.map((el) => (
+                                <option value={el.id}>
+                                  {el.a_primerNombre} {el.a_segundoNombre}{" "}
+                                  {el.a_primerApellido} {el.a_segundoApellido}
+                                </option>
+                              ))}
+                            </Form.Control>
+                            <Errors
+                              message={errors?.r_usuarios_conciliador?.message}
+                            />
+                          </Form.Group>
+                        )}
+                      />
+                    </Col>
+                    <Col xs="12" md="6">
+                      <Controller
+                        name="c_modalidad"
+                        control={control}
+                        rules={{
+                          required: "Ingrese información",
+                        }}
+                        render={({ field }) => (
+                          <Form.Group>
+                            <Form.Label>Modalidad</Form.Label>
+                            <Form.Control as="select" {...field}>
+                              <option value="">Seleccione...</option>
+                              <option value="VIRTUAL">Virtual</option>
+                              <option value="PRESENCIAL">Presencial</option>
+                            </Form.Control>
+                            <Errors
+                              message={errors?.r_usuarios_conciliador?.message}
+                            />
+                          </Form.Group>
+                        )}
+                      />
+                    </Col>
+                    {modalidad === "VIRTUAL" && (
+                      <Col xs="12" md="6">
+                        <Controller
+                          name="a_enlaceVirtual"
+                          control={control}
+                          render={({ field }) => (
+                            <Form.Group>
+                              <Form.Label>Enlace de la reunión</Form.Label>
+                              <Form.Control type="input" {...field} />
+                              <Errors
+                                message={errors?.r_usuarios_conciliador?.message}
+                              />
+                            </Form.Group>
+                          )}
                         />
-                      </Form.Group>
+                      </Col>
                     )}
-                  />
+                  </Row>
                 </Card.Body>
               </Card>
             </Policy>
