@@ -170,7 +170,7 @@ const CentroDeConciliacionSolicitar = () => {
   }, [asesoria]);
 
   useEffect(() => {
-    API.get("usuarios/personas/?conciliador=1").then((response) => {
+    API.get("usuarios/personas/?personal_estudiantil=1").then((response) => {
       setConciliadores(response.data);
     });
   }, []);
