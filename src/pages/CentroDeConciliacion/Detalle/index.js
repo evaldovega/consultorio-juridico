@@ -180,14 +180,14 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           <a
                             target="blank"
                             className="d-block mb-1"
-                            href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                            href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
                           >
                             Citación
                           </a>
                           <a
                             target="blank"
                             className="d-block"
-                            href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/1`}
+                            href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/1`}
                           >
                             Inasistencia
                           </a>
@@ -229,11 +229,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                             `${c?.r_usuarios_citado?.a_primerNombre} ${c?.r_usuarios_citado?.a_primerApellido}`
                           )}
                         </td>
-                        <td>{c.r_usuarios_citado?.a_numeroDocumento}</td>
-                        <td>{c.r_usuarios_citado?.a_celular}</td>
+                        <td>{c?.r_usuarios_citado?.a_numeroDocumento}</td>
+                        <td>{c?.r_usuarios_citado?.a_celular}</td>
                         <td>
-                          {c.r_usuarios_citado?.a_barrio}{" "}
-                          {c.r_usuarios_citado?.a_direccion}
+                          {c?.r_usuarios_citado?.a_barrio}{" "}
+                          {c?.r_usuarios_citado?.a_direccion}
                         </td>
                         <td>
                           <a
@@ -255,8 +255,8 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                       <tr>
                         <th>Apoderado</th>
                         <td colSpan={4}>
-                          {c.a_nombreCompleto} {c.a_telefono} {c.a_celular}{" "}
-                          {c.a_correoElectronico}
+                          {c?.a_nombreCompleto} {c?.a_telefono} {c?.a_celular}{" "}
+                          {c?.a_correoElectronico}
                         </td>
                       </tr>
                     </>
@@ -273,9 +273,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <td>
                       <a
                         target="blank"
-                        href={`${baseUrl}${d.f_archivoDocumento}`}
+                        href={`${baseUrl}${d?.f_archivoDocumento}`}
                       >
-                        {d.a_titulo}
+                        {d?.a_titulo}
                       </a>
                     </td>
                   </tr>
@@ -288,21 +288,21 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
               >
                 Inasistencia de dos partes
               </a>
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
               >
                 Acta de conciliación
               </a>
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
               >
                 Acta de no conciliación
               </a>
