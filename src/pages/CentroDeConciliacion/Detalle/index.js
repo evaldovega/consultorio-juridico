@@ -180,14 +180,14 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           <a
                             target="blank"
                             className="d-block mb-1"
-                            href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                            href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
                           >
                             Citación
                           </a>
                           <a
                             target="blank"
                             className="d-block"
-                            href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/1`}
+                            href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/1`}
                           >
                             Inasistencia
                           </a>
@@ -239,14 +239,14 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           <a
                             target="blank"
                             className="d-block mb-1"
-                            href={`${baseUrl}/doc_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${c.r_usuarios_citado.id}/`}
+                            href={`${baseUrl}/doc_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/`}
                           >
                             Citación
                           </a>
                           <a
                             target="blank"
                             className="d-block"
-                            href={`${baseUrl}/inasistencia_unaparte/${doc.id}/${doc?.r_solicitante[0].r_usuarios_solicitante?.id}/${c.r_usuarios_citado.id}/2`}
+                            href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/2`}
                           >
                             Inasistencia
                           </a>
@@ -288,21 +288,21 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
               >
                 Inasistencia de dos partes
               </a>
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
               >
                 Acta de conciliación
               </a>
               <a
                 target="blank"
                 className="d-block mb-1"
-                href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0].r_usuarios_citado?.id}/`}
+                href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
               >
                 Acta de no conciliación
               </a>
