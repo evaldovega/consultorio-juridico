@@ -13,22 +13,19 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
 
   const handleSearch = (query) => {
     setLoading(true);
-
-    API.get(`/estudiantes/inscripcion?q=${query}`, {
-      page: 1,
-      page_size: 10,
-    }).then(({ data }) => {
+    API.get("/academusoft/estudiantes/", { estudiante: query }
+    ).then(({ data }) => {
       setOptions(
         data.results.map((d) => ({
-          id: d.r_usuarios_persona.id,
+          id: d.id,
           label:
-            d.r_usuarios_persona.a_primerNombre +
+            d.a_primerNombre +
             " " +
-            d.r_usuarios_persona.a_segundoNombre +
+            d.a_segundoNombre +
             " " +
-            d.r_usuarios_persona.a_primerApellido +
+            d.a_primerApellido +
             " " +
-            d.r_usuarios_persona.a_segundoApellido,
+            d.a_segundoApellido,
         }))
       );
       setLoading(false);
