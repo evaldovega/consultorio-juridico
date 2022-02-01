@@ -23,7 +23,7 @@ const Estudiantes = ({ getValues, setValue, watch }) => {
       return;
     }
     const estudiantes = getValues("r_usuarios_estudiante") || [];
-    estudiantes.push(estudiante[0]);
+    estudiantes.push(estudiante[0].id);
     setValue("r_usuarios_estudiante", estudiantes);
   };
   const remove = (index) => {
