@@ -21,6 +21,7 @@ import {
   Form,
   Button,
   Alert,
+  Table
 } from "react-bootstrap";
 import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -52,6 +53,8 @@ const CentroDeConciliacionSolicitar = () => {
   const [readOnly, setReadOnly] = useState(false);
   const [today, setToday] = useState(new Date())
   const { persona, policies } = useContext(ContextPolicy);
+  const [cedula, setCedula] = useState("");
+  const [idEstudiante, setIdEstudiante] = useState("");
 
   const checkKeyDown = (e) => {
     if (e.code === "Enter") e.preventDefault();
@@ -123,6 +126,7 @@ const CentroDeConciliacionSolicitar = () => {
           ...a,
           r_usuarios_persona: persona,
         })),
+        r_usuarios_conciliador: idEstudiante
       };
       if (method == "POST") {
         payload.d_fechaSolicitud = moment().format("YYYY-MM-DD");
@@ -174,12 +178,23 @@ const CentroDeConciliacionSolicitar = () => {
   }, [asesoria]);
 
   const load = async () => {
-    await API.get("usuarios/personas/?personal_estudiantil=1").then((response) => {
-      setConciliadores(response.data);
-    });
+    // await API.get("usuarios/personas/?personal_estudiantil=1").then((response) => {
+    //   setConciliadores(response.data);
+    // });
     await API.get("configuracion/salas-conciliacion").then((response) => {
       setSalasConciliacion(response.data);
     });
+  }
+
+  const getEstudiantes = async () => {
+    setConciliadores([]);
+
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+      (response) => {
+        setConciliadores([response.data]);
+        setIdEstudiante([response.data].map((el) => el.id)[0]);
+      }
+    );
   }
 
   useEffect(() => {
@@ -343,32 +358,6 @@ const CentroDeConciliacionSolicitar = () => {
                     </Col>
                     <Col xs="12" md="6">
                       <Controller
-                        name="r_usuarios_conciliador"
-                        control={control}
-                        rules={{
-                          required: "Ingrese información",
-                        }}
-                        render={({ field }) => (
-                          <Form.Group>
-                            <Form.Label>Conciliador</Form.Label>
-                            <Form.Control as="select" {...field}>
-                              <option value="">Seleccione...</option>
-                              {conciliadores.map((el) => (
-                                <option value={el.id}>
-                                  {el.a_primerNombre} {el.a_segundoNombre}{" "}
-                                  {el.a_primerApellido} {el.a_segundoApellido}
-                                </option>
-                              ))}
-                            </Form.Control>
-                            <Errors
-                              message={errors?.r_usuarios_conciliador?.message}
-                            />
-                          </Form.Group>
-                        )}
-                      />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <Controller
                         name="c_modalidad"
                         control={control}
                         rules={{
@@ -405,6 +394,49 @@ const CentroDeConciliacionSolicitar = () => {
                           )}
                         />
                       </Col>
+                    )}
+                    <Form.Group as={Col} xs="12" md="7">
+                      <label>
+                        <strong>Estudiante conciliador</strong>
+                      </label>
+                      <span
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: "20px",
+                        }}
+                      >
+                        <input
+                          className="form-control"
+                          placeholder="No. de identificación (CC, TI...)"
+                          value={cedula}
+                          onChange={(e) => setCedula(e.target.value)}
+                        />
+                        <Button onClick={() => getEstudiantes()}>Buscar</Button>
+                      </span>
+                    </Form.Group>
+                    {conciliadores.length > 0 && (
+                      <Form.Group as={Col} xs="12" md="12">
+                        <Table striped bordered hover>
+                          <thead>
+                            <tr>
+                              <th>Documento</th>
+                              <th>Nombre del estudiante</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {conciliadores.map((el) => (
+                              <tr>
+                                <td>{el?.a_numeroDocumento}</td>
+                                <td>
+                                  {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
+                                  {el?.a_primerApellido} {el?.a_segundoApellido}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </Form.Group>
                     )}
                   </Row>
                 </Card.Body>
