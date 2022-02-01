@@ -13,7 +13,7 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
 
   const handleSearch = (query) => {
     setLoading(true);
-    API.get("/academusoft/estudiantes/", { estudiante: query }
+    API.post("/academusoft/estudiantes/", { estudiante: query }
     ).then(({ data }) => {
       setOptions(
         data.results.map((d) => ({
