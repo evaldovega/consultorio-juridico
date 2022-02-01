@@ -296,18 +296,22 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           <Tab eventKey="anexos" title="Anexos">
             <Modal.Body>
               <Table>
-                {doc?.mm_documentosAnexos.map((d, i) => (
-                  <tr key={i}>
-                    <td>
-                      <a
-                        target="blank"
-                        href={`${baseUrl}${d?.f_archivoDocumento}`}
-                      >
-                        {d?.a_titulo}
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                {doc?.mm_documentosAnexos.length > 0 ? (
+                  doc?.mm_documentosAnexos.map((d, i) => (
+                    <tr key={i}>
+                      <td>
+                        <a
+                          target="blank"
+                          href={`${baseUrl}${d?.f_archivoDocumento}`}
+                        >
+                          {d?.a_titulo}
+                        </a>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <p>No se han anexado documentos.</p>
+                )}
               </Table>
             </Modal.Body>
           </Tab>
