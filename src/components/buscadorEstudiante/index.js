@@ -13,21 +13,14 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
 
   const handleSearch = (query) => {
     setLoading(true);
-    API.post("/academusoft/estudiantes/", { estudiante: query }
-    ).then(({ data }) => {
-      setOptions(
-        data.results.map((d) => ({
-          id: d.id,
-          label:
-            d.a_primerNombre +
-            " " +
-            d.a_segundoNombre +
-            " " +
-            d.a_primerApellido +
-            " " +
-            d.a_segundoApellido,
-        }))
-      );
+    API.post("/academusoft/estudiantes/", { estudiante: query })
+    .then(({ data }) => {
+      let array_options = []
+      array_options.push({
+        id: data.id,
+        label: `${data.a_primerNombre} ${data.a_segundoNombre} ${data.a_primerApellido} ${data.a_segundoApellido} `
+      })
+      setOptions(array_options);
       setLoading(false);
     });
   };
