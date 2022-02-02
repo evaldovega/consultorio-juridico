@@ -7,27 +7,23 @@ import { useRef } from "react";
 
 const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
   const [singleSelections, setSingleSelections] = useState([]);
+  const [cedula, setCedula] = useState(localStorage.getItem('doc_identidad'));
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [grupos, setGrupos] = useState("")
   let typeahead = useRef();
 
-  const handleSearch = async (query) => {
-    setLoading(true);
-    setGrupos("")
+  const getAsignaciones = async () => {
     await API.get(`asignacion/empleados/?cedula=${localStorage.getItem('doc_identidad')}`)
       .then(response => {
-        let resultados = response.data.results
-        let gruposlist = "("
-        resultados.map((el, i) => (
-          gruposlist += `'${el?.r_config_grupo?.a_codigoAcademusoft}'${resultados[i+1] && ","}`
-        ))
-        gruposlist += ")"
-        setGrupos(gruposlist)
-        setTimeout(() => {
-          console.log(grupos)
-        }, 3000)
+        setGrupos(`(${response.data.results.map((el, i) => (
+          `'${el?.r_config_grupo?.a_codigoAcademusoft}'`
+        ))})`)
       })
+  }
+
+  const handleSearch = async (query) => {
+    setLoading(true);
     await API.post("academusoft/estudiantes/matriculados/todos/", {
       doc_docente: localStorage.getItem('doc_identidad'),
       grupos: grupos
@@ -43,8 +39,13 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
         setOptions(array_options);
         setLoading(false);
       });
+      console.log(grupos)
   };
   const filterBy = () => true;
+
+  useEffect(() => {
+    getAsignaciones();
+  }, [])
 
   useEffect(() => {
     onSelect(singleSelections);
