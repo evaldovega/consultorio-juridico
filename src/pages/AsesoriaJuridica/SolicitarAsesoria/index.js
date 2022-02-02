@@ -310,7 +310,7 @@ const SolicitarAsesoria = () => {
               </Button>
             </Policy>
 
-            <Policy policy={[ROL_PERSONA, ROL_DOCENTE]}>
+            <Policy policy={[ROL_PERSONA]}>
               <Button onClick={guardarComoPersona} size="lg" disabled={loading}>
                 {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
               </Button>
