@@ -33,7 +33,7 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
         let inscripcion = response.data.results[0]
         let array_options = []
         array_options.push({
-          id: inscripcion.id,
+          id: inscripcion?.r_usuarios_persona?.id,
           label: `${inscripcion?.r_usuarios_persona.a_primerNombre} ${inscripcion?.r_usuarios_persona.a_segundoNombre} ${inscripcion?.r_usuarios_persona.a_primerApellido} ${inscripcion?.r_usuarios_persona.a_segundoApellido} `
         })
         setOptions(array_options);
