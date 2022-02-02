@@ -28,7 +28,7 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
           console.log(grupos)
         }, 3000)
       })
-    await API.post("academusoft/estudiantes/inscripciones/todos/", {
+    await API.post("academusoft/estudiantes/matriculados/todos/", {
       doc_docente: localStorage.getItem('doc_identidad'),
       grupos: grupos
     })
