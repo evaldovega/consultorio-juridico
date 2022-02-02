@@ -17,10 +17,10 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
     setGrupos("")
     await API.get(`asignacion/empleados/?cedula=${localStorage.getItem('doc_identidad')}`)
       .then(response => {
-        console.log(response.data.results)
+        let resultados = response.data.results
         let gruposlist = "("
-        response.data.results.map((el) => (
-          gruposlist += `'${el?.r_config_grupo?.a_codigoAcademusoft}',`
+        resultados.map((el, i) => (
+          gruposlist += `'${el?.r_config_grupo?.a_codigoAcademusoft}'${resultados[i+1] && ","}`
         ))
         gruposlist += ")"
         setGrupos(gruposlist)
