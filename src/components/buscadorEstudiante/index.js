@@ -30,13 +30,12 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
     })
     await API.get(`estudiantes/inscripcion/?cedula=${query}`)
       .then(response => {
-        let inscripcion = response.data.results[0]
-        let array_options = []
-        array_options.push({
-          id: inscripcion?.r_usuarios_persona?.id,
-          label: `${inscripcion?.r_usuarios_persona.a_primerNombre} ${inscripcion?.r_usuarios_persona.a_segundoNombre} ${inscripcion?.r_usuarios_persona.a_primerApellido} ${inscripcion?.r_usuarios_persona.a_segundoApellido} `
-        })
-        setOptions(array_options);
+        setOptions(response.data.results.map((el) => (
+          {
+            id: el?.r_usuarios_persona?.id,
+            label: `${el?.r_usuarios_persona.a_primerNombre} ${el?.r_usuarios_persona.a_segundoNombre} ${el?.r_usuarios_persona.a_primerApellido} ${el?.r_usuarios_persona.a_segundoApellido} `
+          }
+        )))
         setLoading(false);
       });
       console.log(grupos)
@@ -58,6 +57,8 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
       ref={(ref) => (typeahead = ref)}
       filterBy={filterBy}
       className="menu-relative"
+      searchText="Buscando..."
+      emptyLabel="No se encontraron estudiantes."
       labelKey="label"
       isLoading={loading}
       onChange={(e) => {
