@@ -24,10 +24,10 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
 
   const handleSearch = async (query) => {
     setLoading(true);
-    await API.post("academusoft/estudiantes/matriculados/todos/", {
-      doc_docente: localStorage.getItem('doc_identidad'),
-      grupos: grupos
-    })
+    // await API.post("academusoft/estudiantes/matriculados/todos/", {
+    //   doc_docente: localStorage.getItem('doc_identidad'),
+    //   grupos: grupos
+    // })
     await API.get(`estudiantes/inscripcion/?cedula=${query}`)
       .then(response => {
         setOptions(response.data.results.map((el) => (
