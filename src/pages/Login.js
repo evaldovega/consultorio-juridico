@@ -50,6 +50,7 @@ const Login = ({ location, history }) => {
         localStorage.setItem(USER_FULL_NAME, data.fullname);
         localStorage.setItem("username_id", data.id);
         localStorage.setItem("id_persona", data.id_persona);
+        localStorage.setItem("doc_identidad", data.doc);
         history.replace(
           location && location.state && location.state.from
             ? location.state.from.pathname

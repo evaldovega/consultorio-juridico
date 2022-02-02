@@ -31,6 +31,7 @@ import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudian
 
 const ListadoIncripciones = () => {
   const [docs, setDocs] = useState([]);
+  const [matriculados, setMatriculados] = useState([])
   const [links, setLinks] = useState(null);
   const [paginacion, setPaginacion] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -60,6 +61,16 @@ const ListadoIncripciones = () => {
       setCargando(false);
     }
   };
+
+  const load_matriculados = async () => {
+    const { data } = await API.post('academusoft/estudiantes/matriculados/', {
+      "docente": localStorage.getItem('doc_identidad'),
+      "cod_materia": "65727"
+    })
+    setMatriculados(data)
+    console.log(matriculados)
+  }
+
   const cargarDiscapacidades = () => {
     API("configuracion/discapacidad/").then(({ data }) => {
       setDiscapacidades(
@@ -187,6 +198,7 @@ const ListadoIncripciones = () => {
       sessionStorage.removeItem("inscripcion");
     } else {
       getInscripciones({});
+      load_matriculados({});
     }
   }, []);
 
