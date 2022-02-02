@@ -9,20 +9,40 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
   const [singleSelections, setSingleSelections] = useState([]);
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [grupos, setGrupos] = useState("")
   let typeahead = useRef();
 
-  const handleSearch = (query) => {
+  const handleSearch = async (query) => {
     setLoading(true);
-    API.post("/academusoft/estudiantes/", { estudiante: query })
-    .then(({ data }) => {
-      let array_options = []
-      array_options.push({
-        id: data.id,
-        label: `${data.a_primerNombre} ${data.a_segundoNombre} ${data.a_primerApellido} ${data.a_segundoApellido} `
+    setGrupos("")
+    await API.get(`asignacion/empleados/?cedula=${localStorage.getItem('doc_identidad')}`)
+      .then(response => {
+        console.log(response.data.results)
+        let gruposlist = "("
+        response.data.results.map((el) => (
+          gruposlist += `'${el?.r_config_grupo?.a_codigoAcademusoft}',`
+        ))
+        gruposlist += ")"
+        setGrupos(gruposlist)
+        setTimeout(() => {
+          console.log(grupos)
+        }, 3000)
       })
-      setOptions(array_options);
-      setLoading(false);
-    });
+    await API.post("academusoft/estudiantes/inscripciones/todos/", {
+      doc_docente: localStorage.getItem('doc_identidad'),
+      grupos: grupos
+    })
+    await API.get(`estudiantes/inscripcion/?cedula=${query}`)
+      .then(response => {
+        inscripcion = response.data.results[0]
+        let array_options = []
+        array_options.push({
+          id: inscripcion.id,
+          label: `${inscripcion?.r_usuarios_persona.a_primerNombre} ${inscripcion?.r_usuarios_persona.a_segundoNombre} ${inscripcion?.r_usuarios_persona.a_primerApellido} ${inscripcion?.r_usuarios_persona.a_segundoApellido} `
+        })
+        setOptions(array_options);
+        setLoading(false);
+      });
   };
   const filterBy = () => true;
 
