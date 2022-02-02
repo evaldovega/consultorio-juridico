@@ -12,7 +12,7 @@ const AsignarEstudiante = ({ onSelect, visible, setVisible }) => {
       >
         <Modal.Header closeButton={true}>Asignar estudiante</Modal.Header>
         <Modal.Body>
-          <p>Escribe el nombre del estudiante a asignar</p>
+          <p>Escribe la cédula del estudiante a asignar</p>
           <BuscadorEstudiante onSelect={onSelect} />
         </Modal.Body>
       </Modal>
