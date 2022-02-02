@@ -304,13 +304,13 @@ const SolicitarAsesoria = () => {
             </Button>
           </Form>
           <div className="d-flex justify-content-end mt-4">
-            <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR]}>
+            <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
               <Button onClick={save} size="lg" disabled={loading}>
                 {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
               </Button>
             </Policy>
 
-            <Policy policy={[ROL_PERSONA]}>
+            <Policy policy={[ROL_PERSONA, ROL_DOCENTE]}>
               <Button onClick={guardarComoPersona} size="lg" disabled={loading}>
                 {!id ? "Solicitar nueva asesoria" : "Modificar asesoria"}
               </Button>
