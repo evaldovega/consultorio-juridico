@@ -11,6 +11,7 @@ import {
   Accordion,
   Row,
   Col,
+  Table
 } from "react-bootstrap";
 import PerfilMaster from "pages/Perfil/Master";
 import { useForm } from "react-hook-form";
@@ -35,8 +36,28 @@ const AsignarEmpleado = () => {
   const [personas, setPersonas] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [grupos, setGrupos] = useState([]);
+  const [docentes, setDocentes] = useState([])
+  const [docenteAAsignar, setDocenteAAsignar] = useState("")
+  const [cedula, setCedula] = useState("")
   const [consultorios, setConsultorios] = useState([]);
   const formAsesoria = useRef();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+    getValues,
+    reset,
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
+
+  const noconsultorio = watch('r_config_numeroConsultorio')
 
   const loadSelectData = async () => {
     API.get("usuarios/personas/?personal_admin=true").then((response) => {
@@ -53,10 +74,28 @@ const AsignarEmpleado = () => {
     });
   };
 
+  const getDocentes = async () => {
+    if (cedula !== "" && noconsultorio !== "") {
+      setDocentes([]);
+      await API.post("/academusoft/docentes/", { 
+        doc_docente: cedula,
+        cod_materia: noconsultorio
+      }).then(
+        (response) => {
+          setDocentes(response.data);
+          setDocenteAAsignar(response.data[0]);
+        }
+      );
+    } else {
+      alert("Introduzca un número de cédula y seleccione el consultorio.")
+    }
+  }
+
   const guardarAsesoria = async (data) => {
     setLoading(true);
     const _data = {
       ...data,
+      "r_usuarios_persona": docenteAAsignar
     };
     const url =
       id && id.length
@@ -89,7 +128,7 @@ const AsignarEmpleado = () => {
     if (e.code === "Enter") e.preventDefault();
   };
   const onError = (e) => {
-    toast.info("Ingresa la información faltante por favor!", {
+    toast.info("Por favor, ingrese la información faltante.", {
       position: "top-center",
       autoClose: 10000,
       hideProgressBar: true,
@@ -109,21 +148,6 @@ const AsignarEmpleado = () => {
     }
   };
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-    getValues,
-    reset,
-  } = useForm({
-    mode: "all",
-    reValidateMode: "onChange",
-    shouldFocusError: true,
-  });
-
   useEffect(() => {
     loadSelectData();
     if (id) {
@@ -137,7 +161,7 @@ const AsignarEmpleado = () => {
         <MigaPan>
           <MigaPanInicio />
           <MigaPanAsignacionDocentes />
-          <span>Registrar asignación</span>
+          <span>Consultar asignaciones</span>
         </MigaPan>
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
@@ -154,29 +178,82 @@ const AsignarEmpleado = () => {
                 <h2 className="title-line">
                   <span>Datos de docente</span>
                 </h2>
-
                 <Row className="mb-3">
+                  <Form.Group as={Col} xs="12" md="6">
+                    <label><strong>Cédula del docente</strong></label>
+                    <span
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                      }}
+                    >
+                      <input
+                        className="form-control"
+                        value={cedula}
+                        onChange={(e) => setCedula(e.target.value)}
+                      />
+                    </span>
+                  </Form.Group>
                   <Controller
-                    name="r_usuarios_persona"
+                    name="r_config_numeroConsultorio"
                     control={control}
+                    rules={{ required: "Este campo es obligatorio." }}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
-                        <Form.Label>Docente a asignar</Form.Label>
+                        <Form.Label>Número de consultorio</Form.Label>
                         <Form.Control as="select" {...field}>
                           <option value="">Seleccione...</option>
-                          {personas.map((el) => (
-                            <option value={el.id}>
-                              {`${el.a_primerNombre} ${el.a_segundoNombre} ${el.a_primerApellido} ${el.a_segundoApellido}`}
-                            </option>
+                          {consultorios.map((el) => (
+                            <option value={el.a_codigoAsignatura}>{el.a_titulo}</option>
                           ))}
                         </Form.Control>
                         <Errors message={errors?.ht_horaAsesoria?.message} />
                       </Form.Group>
                     )}
                   />
+                  <Button onClick={() => getDocentes()}>Buscar docente</Button>
+                  </Row>
+                  <Row className="mb-3"> 
+                  {docentes.length > 0 && (
+                    <Form.Group as={Col} xs="12" md="12">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Documento</th>
+                            <th>Nombre del docente</th>
+                            <th>Materia</th>
+                            <th>Grupo asignado</th>
+                            <th>Año</th>
+                            <th>Semestre</th>
+                            <th>Periodo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {docentes.map((el) => (
+                            <tr>
+                              <td>{el?.documento_docente}</td>
+                              <td>
+                                {el?.primer_nombre} {el?.segundo_nombre}{" "}
+                                {el?.primer_apellido} {el?.segundo_apellido}
+                              </td>
+                              <td>{el?.nombre_materia}</td>
+                              <td>{el?.nombre_grupo}</td>
+                              <td>{el?.anio}</td>
+                              <td>{el?.semestre}</td>
+                              <td>{el?.periodo}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </Form.Group>
+                  )}
+                </Row>
+                {/* <Row className="mb-3">
                   <Controller
                     name="a_anioValidez"
                     control={control}
+                    rules={{ required: "Este campo es obligatorio." }}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>Año de validez</Form.Label>
@@ -188,6 +265,7 @@ const AsignarEmpleado = () => {
                   <Controller
                     name="a_semestreValidez"
                     control={control}
+                    rules={{ required: "Este campo es obligatorio." }}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>Semestre</Form.Label>
@@ -204,6 +282,7 @@ const AsignarEmpleado = () => {
                   <Controller
                     name="r_config_jornadaValidez"
                     control={control}
+                    rules={{ required: "Este campo es obligatorio." }}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>Jornada de validez</Form.Label>
@@ -218,24 +297,9 @@ const AsignarEmpleado = () => {
                     )}
                   />
                   <Controller
-                    name="r_config_numeroConsultorio"
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Group as={Col} xs="12" md="6">
-                        <Form.Label>Número de consultorio</Form.Label>
-                        <Form.Control as="select" {...field}>
-                          <option value="">Seleccione...</option>
-                          {consultorios.map((el) => (
-                            <option value={el.id}>{el.a_titulo}</option>
-                          ))}
-                        </Form.Control>
-                        <Errors message={errors?.ht_horaAsesoria?.message} />
-                      </Form.Group>
-                    )}
-                  />
-                  <Controller
                     name="r_config_grupo"
                     control={control}
+                    rules={{ required: "Este campo es obligatorio." }}
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>Grupo</Form.Label>
@@ -249,10 +313,10 @@ const AsignarEmpleado = () => {
                       </Form.Group>
                     )}
                   />
-                </Row>
+                </Row> */}
               </Card.Body>
             </Card>
-            <br />
+            {/* <br />
             <br />
             <Button
               hidden={true}
@@ -268,7 +332,7 @@ const AsignarEmpleado = () => {
                   ? "Modificar asignación"
                   : "Registrar nueva asignación"}
               </Button>
-            </div>
+            </div> */}
           </Form>
         </Context.Provider>
       </Page>
