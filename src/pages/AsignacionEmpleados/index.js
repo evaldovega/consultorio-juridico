@@ -48,7 +48,7 @@ const AsignacionEmpleadosHome = () => {
               <Col xs={12} md={6}>
                 <ItemModule
                   Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
-                  title="Formato de Registro"
+                  title="Consultar asignaciones"
                   link="/asignacion-docentes/asignar"
                 />
               </Col>
