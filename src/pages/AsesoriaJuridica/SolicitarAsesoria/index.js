@@ -286,7 +286,7 @@ const SolicitarAsesoria = () => {
                 <ArchivosAsesoria />
               </Card.Body>
             </Card>
-            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
               <AsesoriaEstudiantes />
             </Policy>
 
