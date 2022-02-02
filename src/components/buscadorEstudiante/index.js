@@ -34,7 +34,7 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
     })
     await API.get(`estudiantes/inscripcion/?cedula=${query}`)
       .then(response => {
-        inscripcion = response.data.results[0]
+        let inscripcion = response.data.results[0]
         let array_options = []
         array_options.push({
           id: inscripcion.id,
