@@ -269,6 +269,7 @@ const ListadoIncripciones = () => {
                     <th>Semestre inscripción <FaArrowUp onClick={() => switchOrderSemester()} /></th>
 
                     <th>Consultorio</th>
+                    <th>Grupo</th>
                     <th>Turno</th>
                     <th>Discapacidades</th>
                     <Policy policy={[ROL_ADMIN]}>
@@ -298,6 +299,10 @@ const ListadoIncripciones = () => {
                         {d?.r_config_numeroConsultorio?.a_titulo ||
                           "No especificado"}
                       </td>
+                      <td>
+                        {d?.r_config_grupo?.a_titulo || "No especificado"}
+                      </td>
+
                       <td>{d.a_turno || "No especificado"}</td>
                       <td>
                         {d?.r_usuarios_persona?.mm_discapacidad.map((di) => {
