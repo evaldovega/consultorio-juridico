@@ -395,49 +395,51 @@ const CentroDeConciliacionSolicitar = () => {
                         />
                       </Col>
                     )}
-                    <Form.Group as={Col} xs="12" md="7">
-                      <label>
-                        <strong>Estudiante conciliador</strong>
-                      </label>
-                      <span
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: "20px",
-                        }}
-                      >
-                        <input
-                          className="form-control"
-                          placeholder="No. de identificación (CC, TI...)"
-                          value={cedula}
-                          onChange={(e) => setCedula(e.target.value)}
-                        />
-                        <Button onClick={() => getEstudiantes()}>Buscar</Button>
-                      </span>
-                    </Form.Group>
-                    {conciliadores.length > 0 && (
-                      <Form.Group as={Col} xs="12" md="12">
-                        <Table striped bordered hover>
-                          <thead>
-                            <tr>
-                              <th>Documento</th>
-                              <th>Nombre del estudiante</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {conciliadores.map((el) => (
-                              <tr>
-                                <td>{el?.a_numeroDocumento}</td>
-                                <td>
-                                  {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
-                                  {el?.a_primerApellido} {el?.a_segundoApellido}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </Table>
+                    <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                      <Form.Group as={Col} xs="12" md="7">
+                        <label>
+                          <strong>Estudiante conciliador</strong>
+                        </label>
+                        <span
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "20px",
+                          }}
+                        >
+                          <input
+                            className="form-control"
+                            placeholder="No. de identificación (CC, TI...)"
+                            value={cedula}
+                            onChange={(e) => setCedula(e.target.value)}
+                          />
+                          <Button onClick={() => getEstudiantes()}>Buscar</Button>
+                        </span>
                       </Form.Group>
+                      {conciliadores.length > 0 && (
+                        <Form.Group as={Col} xs="12" md="12">
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Documento</th>
+                                <th>Nombre del estudiante</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {conciliadores.map((el) => (
+                                <tr>
+                                  <td>{el?.a_numeroDocumento}</td>
+                                  <td>
+                                    {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
+                                    {el?.a_primerApellido} {el?.a_segundoApellido}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </Form.Group>
                     )}
+                    </Policy>
                   </Row>
                 </Card.Body>
               </Card>
