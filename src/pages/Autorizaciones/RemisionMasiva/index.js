@@ -94,8 +94,8 @@ const RemisionMasiva = () => {
   const getInscripciones = async () => {
     await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
       (response) => {
-        inscripciones.push(response.data);
-        idsInscripciones.push(response.data.id)
+        setInscripciones(array => [...array, response.data]);
+        setIdsInscripciones(array => [...array, response.data.id])
       }
     );
   };
