@@ -114,7 +114,7 @@ const RemisionMasiva = () => {
       r_usuarios_director: data.r_usuarios_director,
       r_usuarios_elaboradoPor: data.r_usuarios_elaboradoPor,
       r_config_autoridad: data.r_config_autoridad,
-      r_usuarios_estudiante_list: inscripciones,
+      r_usuarios_estudiante_list: idsInscripciones,
     };
     API({
       url: "autorizaciones/remision/" + (id ? `${id}/` : ""),
