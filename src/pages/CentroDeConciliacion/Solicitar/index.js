@@ -291,7 +291,7 @@ const CentroDeConciliacionSolicitar = () => {
               persona={persona}
             />
 
-            <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+            <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
               <Card>
                 <Card.Body>
                   <Row className="mb-1">
