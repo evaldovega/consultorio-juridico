@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import Errors from "components/Errors";
 import Spin from "components/Spin";
 import Estudiantes from "./Estudiantes";
-import { FaColumns } from "react-icons/fa";
+import { FaColumns, FaTimes } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanDocumentos from "components/MigaPan/Documentos";
@@ -42,6 +42,9 @@ const RemisionMasiva = () => {
   const [empleados, setEmpleados] = useState([]);
   const [autoridades, setAutoridades] = useState([]);
   const [directores, setDirectores] = useState([]);
+  const [inscripciones, setInscripciones] = useState([])
+  const [cedula, setCedula] = useState("")
+  const [idsInscripciones, setIdsInscripciones] = useState([])
 
   const formPersona = useRef();
   const formAsesoria = useRef();
@@ -88,6 +91,19 @@ const RemisionMasiva = () => {
     });
   };
 
+  const getInscripciones = async () => {
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+      (response) => {
+        inscripciones.push(response.data);
+        idsInscripciones.push(response.data.id)
+      }
+    );
+  };
+
+  const eliminarEstudiante = (index) => {
+    inscripciones.splice(index, 1)
+  }
+
   const guardarRemisiones = async (data) => {
     setLoading(true);
     const _data = {
@@ -98,14 +114,14 @@ const RemisionMasiva = () => {
       r_usuarios_director: data.r_usuarios_director,
       r_usuarios_elaboradoPor: data.r_usuarios_elaboradoPor,
       r_config_autoridad: data.r_config_autoridad,
-      r_usuarios_estudiante_list: data.r_usuarios_estudiante,
+      r_usuarios_estudiante_list: inscripciones,
     };
     API({
       url: "autorizaciones/remision/" + (id ? `${id}/` : ""),
       method: id ? "PATCH" : "POST",
       data: _data,
     })
-      .then(({ data }) => {})
+      .then(({ data }) => { })
       .catch((err) => {
         console.log(err.response.data);
         setLoading(false);
@@ -188,7 +204,7 @@ const RemisionMasiva = () => {
             onSubmit={handleSubmit(guardarRemisiones, onError)}
             onKeyDown={(e) => checkKeyDown(e)}
           >
-            <Row>
+            <Row style={{ marginBottom: "10px" }}>
               <Col xs="12" md={modo == 1 ? 6 : 12}>
                 <Card>
                   <Card.Header>
@@ -308,18 +324,62 @@ const RemisionMasiva = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col
-                xs="12"
-                md={modo == 1 ? 6 : 12}
-                className={modo == 0 ? "mt-4" : ""}
-              >
-                <Estudiantes
-                  setValue={setValue}
-                  getValues={getValues}
-                  watch={watch}
-                />
-              </Col>
             </Row>
+            <Card>
+              <Card.Header>
+                <h2>Estudiantes a remitir</h2>
+              </Card.Header>
+              <Card.Body style={{ padding: "2.5rem" }} s>
+                <Row className="mb-3">
+                  <Form.Group as={Col} xs="12" md="7">
+                    <label>Cédula del estudiante</label>
+                    <span
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                      }}
+                    >
+                      <input
+                        className="form-control"
+                        value={cedula}
+                        onChange={(e) => setCedula(e.target.value)}
+                      />
+                      <Button onClick={() => getInscripciones()}>Buscar</Button>
+                    </span>
+                  </Form.Group>
+                  {inscripciones.length > 0 && (
+                    <Form.Group as={Col} xs="12" md="12">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Documento</th>
+                            <th>Nombre del estudiante</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {inscripciones.map((el, i) => (
+                            <tr>
+                              <td>{el.a_numeroDocumento}</td>
+                              <td>
+                                {el.a_primerNombre} {el.a_segundoNombre}{" "}
+                                {el.a_primerApellido} {el.a_segundoApellido}
+                              </td>
+                              <td>
+                                <Button onClick={() => eliminarEstudiante(i)}>
+                                  <FaTimes />
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </Form.Group>
+                  )}
+                </Row>
+              </Card.Body>
+            </Card>
 
             <Button
               hidden={true}
