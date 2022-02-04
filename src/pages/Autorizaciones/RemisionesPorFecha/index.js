@@ -7,6 +7,7 @@ import { Button, Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanDocumentos from "components/MigaPan/Documentos";
+import { ROL_ADMIN } from 'constants/apiContants'
 
 var moment = require("moment");
 
@@ -19,7 +20,7 @@ const ListadoRemisiones = () => {
   };
 
   return (
-    <Policy policy={[]}>
+    <Policy policy={[ROL_ADMIN]}>
       <Page>
         <MigaPan>
           <MigaPanInicio />

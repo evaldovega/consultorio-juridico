@@ -6,7 +6,7 @@ import Spin from "../../../../../components/Spin";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Footer from "./Footer";
-import { CONFIRM_BORRAR_ARCHIVO, ROL_ADMIN, ROL_ASESOR } from "constants/apiContants";
+import { CONFIRM_BORRAR_ARCHIVO, ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
 import Policy from 'components/Policy'
 
 const DerechoPeticion = ({
@@ -60,7 +60,7 @@ const DerechoPeticion = ({
           {actuacion.t_observacion}
         </p>
         <p className="text-justify">{actuacion.t_respuesta}</p>
-        <Policy policies={[ROL_ADMIN, ROL_ASESOR]}>  
+        <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>  
           {actuacion.b_requiereAprobacion && !actuacion.b_aprobado && (
             <Button onClick={() => aprobar()}>
               Aprobar

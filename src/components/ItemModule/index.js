@@ -30,7 +30,7 @@ const ItemModule = ({ Icon, title, link }) => {
             style={{
               margin: 0,
               color: "#000",
-              fontSize: "20px",
+              fontSize: "19px",
               fontWeight: 500,
             }}
           >

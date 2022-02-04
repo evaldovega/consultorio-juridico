@@ -7,6 +7,7 @@ import {
   ROL_ASESOR,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
+  ROL_DOCENTE
 } from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
@@ -46,16 +47,34 @@ const AsesoriaJuridicaHome = () => {
             margin: "auto"
           }}>
             <Row className="modules">
-              <Col xs={12} md={4}>
+              <Col xs={12} md={
+                <>
+                  <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                    {4}
+                  </Policy>
+                  <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA]}>
+                    {6}
+                  </Policy>
+                </>
+              }>
                 <ItemModule
-                  Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                  Icon={() => <Lapiz style={{ width: "50px", height: "50px" }} />}
                   title="Formato de Registro"
                   link="/asesoria-juridica/solicitar"
                 />
               </Col>
-              <Col xs={12} md={4}>
+              <Col xs={12} md={
+                <>
+                  <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                    {4}
+                  </Policy>
+                  <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA, ROL_DOCENTE]}>
+                    {6}
+                  </Policy>
+                </>
+              }>
                 <ItemModule
-                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                  Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                   title="Listado de casos"
                   link="/asesoria-juridica/solicitudes"
                 />
@@ -63,7 +82,7 @@ const AsesoriaJuridicaHome = () => {
               <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                 <Col xs={12} md={4}>
                   <ItemModule
-                    Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
+                    Icon={() => <Carpeta style={{ width: "50px", height: "50px" }} />}
                     title="Reportes"
                     link="/asesoria-juridica/reportes"
                   />

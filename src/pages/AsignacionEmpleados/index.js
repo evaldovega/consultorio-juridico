@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ACCESS_TOKEN_NAME, MODULES } from "../../constants/apiContants";
+import { ACCESS_TOKEN_NAME, MODULES, ROL_ADMIN } from "../../constants/apiContants";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
 import Policy from "components/Policy";
@@ -25,7 +25,7 @@ import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const AsignacionEmpleadosHome = () => {
   return (
-    <Policy policy={[]} feedback={<AccessDenied msn="Acceso denegado" />}>
+    <Policy policy={[ROL_ADMIN]} feedback={<AccessDenied msn="Acceso denegado" />}>
       <SectionHeader
         text="Asignación de docentes"
         img="url(/images/banner_inscripciondocentes.jpg)"

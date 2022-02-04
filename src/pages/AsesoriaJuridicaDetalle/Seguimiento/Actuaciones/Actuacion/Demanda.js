@@ -5,7 +5,8 @@ import Spin from "../../../../../components/Spin";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Footer from "./Footer";
-import { CONFIRM_BORRAR_ARCHIVO } from "constants/apiContants";
+import { CONFIRM_BORRAR_ARCHIVO, ROL_ADMIN, ROL_ASESOR } from "constants/apiContants";
+import Policy from 'components/Policy'
 
 const Demanda = ({
   actuacion,
@@ -28,6 +29,16 @@ const Demanda = ({
       }
     }
   };
+
+  const aprobar = async () => {
+    await API.patch(`asesorias/seguimiento/${actuacion.id}/`, {
+      'b_aprobado': true
+    })
+      .then(() => {
+        window.location.reload()
+      })
+  }
+
   const [cargando, setCargando] = useState(false);
 
   return (
@@ -36,6 +47,13 @@ const Demanda = ({
         <Header actuacion={actuacion} titulo="demanda" setEdit={setEdit} />
         <p className="text-justify">{actuacion?.t_observacion}</p>
         <p className="text-justify">{actuacion?.t_respuesta}</p>
+        <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+          {actuacion.b_requiereAprobacion && !actuacion.b_aprobado && (
+            <Button onClick={() => aprobar()}>
+              Aprobar
+            </Button>
+          )}
+        </Policy>
         {anexos.length ? (
           <ul className="list-group list-group-flush">
             {anexos.map((a) => (
