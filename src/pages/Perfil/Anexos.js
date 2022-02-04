@@ -76,6 +76,10 @@ const PerfilAnexos = () => {
         load();
     }, [readOnly]);
 
+    useEffect(() => {
+        console.log(certificacionARL)
+    })
+
     if (readOnly) {
         const orientacion = orientaciones.find(
             (o) => o.id == persona?.r_config_orientacion
@@ -130,6 +134,9 @@ const PerfilAnexos = () => {
                     {certificacionARL && certificacionARL.substring(0, 1) === "/" &&
                         <a href={`${baseUrl}${certificacionARL}`}>Descargar certificación</a>
                     }
+                    {certificacionARL && certificacionARL.substring(0, 1) === "h" &&
+                        <a href={`${certificacionARL}`}>Descargar certificación</a>
+                    }
                     {!readOnly ? (
                         <Form.Control
                             type="file"
@@ -160,6 +167,9 @@ const PerfilAnexos = () => {
                     <br />
                     {certificacionEPS && certificacionEPS.substring(0, 1) === "/" &&
                         <a href={`${baseUrl}${certificacionEPS}`}>Descargar certificación</a>
+                    }
+                    {certificacionEPS && certificacionEPS.substring(0, 1) === "h" &&
+                        <a href={`${certificacionEPS}`}>Descargar certificación</a>
                     }
                     {!readOnly ? (
                         <Form.Control
