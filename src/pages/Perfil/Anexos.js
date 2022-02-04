@@ -3,19 +3,22 @@ import { Controller } from "react-hook-form";
 import { Breadcrumb, Card, Row, Col, Image, Form } from "react-bootstrap";
 import Context from "./Ctx";
 import Errors from "components/Errors";
-import API from "utils/Axios";
+import API, {baseUrl} from "utils/Axios";
 import { ROL_ESTUDIANTE } from "constants/apiContants";
 import moment from "moment";
 import ArchivosAnexos from './ArchivosAnexos';
 
 const PerfilAnexos = () => {
-    const { readOnly, control, errors, setValue, policies, persona } =
+    const { readOnly, control, errors, watch, setValue, policies, persona } =
         useContext(Context);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [orientaciones, setOrientaciones] = useState([]);
     const [etnias, setEtnias] = useState([]);
     const [estadosCiviles, setEstadosCiviles] = useState([]);
+
+    const certificacionARL = watch('f_archivoARL')
+    const certificacionEPS = watch('f_archivoEPS')
 
     const selectedARL = (el) => {
         if (!el.files.length) {
@@ -123,6 +126,10 @@ const PerfilAnexos = () => {
                     <Form.Label>
                         Adjuntar certificación ARL <span className="required" />
                     </Form.Label>
+                    <br />
+                    {certificacionARL && certificacionARL.substring(0, 1) === "/" &&
+                        <a href={`${baseUrl}${certificacionARL}`}>Descargar certificación</a>
+                    }
                     {!readOnly ? (
                         <Form.Control
                             type="file"
@@ -150,6 +157,10 @@ const PerfilAnexos = () => {
                     <Form.Label>
                         Adjuntar certificación EPS <span className="required" />
                     </Form.Label>
+                    <br />
+                    {certificacionEPS && certificacionEPS.substring(0, 1) === "/" &&
+                        <a href={`${baseUrl}${certificacionEPS}`}>Descargar certificación</a>
+                    }
                     {!readOnly ? (
                         <Form.Control
                             type="file"

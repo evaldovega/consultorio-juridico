@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import Errors from "components/Errors";
 import Context from "./Ctx";
-import API from "utils/Axios";
+import API, {baseUrl} from "utils/Axios";
 import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
@@ -24,6 +24,8 @@ const PerfilIdentificacion = () => {
     allowSearchPerson,
     policies,
   } = useContext(Context);
+
+  const documento = watch('f_archivoDocumento')
 
   const selectedFile = (el) => {
     if (!el.files.length) {
@@ -192,6 +194,10 @@ const PerfilIdentificacion = () => {
           <Form.Label>
             Adjuntar documento legible <span className="required" />
           </Form.Label>
+          <br />
+          {documento && documento.substring(0, 1) === "/" &&
+            <a href={`${baseUrl}${documento}`}>Descargar documento</a>
+          }
           {!readOnly ? (
             <Form.Control
               type="file"
