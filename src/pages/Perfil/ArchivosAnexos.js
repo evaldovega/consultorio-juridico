@@ -22,6 +22,8 @@ import { Controller } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import Context from "./Ctx";
 import { toast } from "react-toastify";
+import API, { baseUrl } from "utils/Axios"
+import { CONFIRM_BORRAR_ARCHIVO } from "constants/apiContants"
 
 const ArchivosAnexos = () => {
   const name = "mm_anexos";
@@ -42,19 +44,30 @@ const ArchivosAnexos = () => {
       const _anexos = getValues(name) || [];
       _anexos.push({
         a_titulo: file.name,
-        f_archivo: reader.result,
-        b_reservaLegal: false,
+        f_archivo: reader.result
       });
       setValue(name, _anexos);
       e.target.value = "";
     };
   };
 
-
   const remove = (index) => {
     let _anexos = getValues(name);
     _anexos.splice(index, 1);
     setValue(name, _anexos);
+  };
+
+  const borrarExistente = async (index, id) => {
+    let _anexos = getValues(name);
+    if (window.confirm(CONFIRM_BORRAR_ARCHIVO)) {
+      anexos.splice(index, 1);
+      try {
+        const { data } = await API.delete(`usuarios/anexos/${id}/`);
+        setValue(name, _anexos);
+      } catch (error) {
+        console.log(error)
+      }
+    }
   };
 
   useEffect(() => {
@@ -71,16 +84,34 @@ const ArchivosAnexos = () => {
             <Policy
               policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE]}
             >
-              <th>Reserva legal</th>
+              <th></th>
             </Policy>
             <th></th>
           </thead>
           <tbody>
             {anexos?.map((d, i) => (
               <tr key={i}>
-                <td>{d.a_titulo}</td>
                 <td>
-                  <Button type="button" size="sm" onClick={() => remove(i)}>
+                  {d.f_archivoDocumento ? (
+                    <a href={`${baseUrl}${d.f_archivoDocumento}`}>
+                      {d.a_titulo}
+                    </a>
+                  ) : (
+                    d.a_titulo
+                  )}
+                </td>
+                <td>
+                  <Button 
+                    type="button"
+                    size="sm"
+                    onClick={
+                      d.f_archivoDocumento ? (
+                        () => borrarExistente(i, d.id)
+                      ) : (
+                        () => remove(i)
+                      )
+                    }
+                  >
                     <FaTimes />
                   </Button>
                 </td>
