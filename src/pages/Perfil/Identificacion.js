@@ -82,7 +82,7 @@ const PerfilIdentificacion = () => {
     }
   };
 
-  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+  if (readOnly) {
     return (
       <div className="mb-4">
         <h2 className="mb-4">Datos del documento</h2>

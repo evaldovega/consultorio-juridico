@@ -184,7 +184,7 @@ const GenerarRemision = () => {
       setValue("r_usuarios_persona", persona.id);
       formAsesoria.current.click();
     } else {
-      toast.error("🦄 No se pudo guardar los datos del ciudadano!", {
+      toast.error("No se pudo guardar los datos del ciudadano!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
