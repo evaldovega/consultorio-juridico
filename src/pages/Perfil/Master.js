@@ -16,6 +16,7 @@ import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 import TipoPersona from "./TipoPersona";
 import PerfilJuridicoIdentificacion from "./IdentificacionJuridica";
 import RepresentanteLegal from "./RepresentanteLegal";
+import PerfilAnexos from "./Anexos"
 const classNames = require("classnames");
 
 const PerfilMaster = ({
@@ -80,9 +81,13 @@ const PerfilMaster = ({
     setLoading(true);
     data.f_archivoFotoPerfil_str = data.f_archivoFotoPerfil;
     data.f_archivoDocumento_str = data.f_archivoDocumento;
+    data.f_archivoARL_str = data.f_archivoARL
+    data.f_archivoEPS_str = data.f_archivoEPS
 
     delete data.f_archivoFotoPerfil;
     delete data.f_archivoDocumento;
+    delete data.f_archivoARL;
+    delete data.f_archivoEPS;
     data.mm_discapacidad = !data.mm_discapacidad ? [] : data.mm_discapacidad;
     //data.r_user = 2;
     API({
@@ -181,6 +186,8 @@ const PerfilMaster = ({
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDiscapacidad /> : null}
 
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilLaboral /> : null}
+
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilAnexos /> : null}
 
             <Button
               hidden={!showButton || readOnly}

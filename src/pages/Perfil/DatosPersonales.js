@@ -8,7 +8,7 @@ import { ROL_ESTUDIANTE } from "constants/apiContants";
 import { baseUrl } from "utils/Axios";
 import Img from "components/Img";
 
-const PerfilDatosPersonales = ({}) => {
+const PerfilDatosPersonales = ({ }) => {
   const { readOnly, control, errors, setValue, policies, persona } =
     useContext(Context);
 

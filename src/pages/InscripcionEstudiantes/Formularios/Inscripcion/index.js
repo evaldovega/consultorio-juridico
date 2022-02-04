@@ -137,7 +137,7 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
       setValue("personaid", persona.id);
       formInscripcion.current.click();
     } else {
-      toast.error("🦄 No se pudo guardar los datos del estudiante!", {
+      toast.error("No se pudo guardar los datos del estudiante!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
