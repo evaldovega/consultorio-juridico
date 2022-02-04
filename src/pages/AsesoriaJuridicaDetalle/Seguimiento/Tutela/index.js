@@ -90,6 +90,7 @@ const Tutela = ({ show, setShow, asesoriaId, onSave, doc }) => {
           c_tipoSeguimientoAccion: "TUTELA",
           r_asesoria_solicitudAsesoria: asesoriaId,
           r_usuarios_persona: persona,
+          b_requiereAprobacion: true,
           ...payload,
         },
       });

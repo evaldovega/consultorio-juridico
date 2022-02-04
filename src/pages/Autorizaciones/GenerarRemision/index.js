@@ -218,7 +218,7 @@ const GenerarRemision = () => {
   }, [id]);
 
   return (
-    <Policy policy={[]}>
+    <Policy policy={[ROL_ADMIN]}>
       <Page>
         <MigaPan>
           <MigaPanInicio />
