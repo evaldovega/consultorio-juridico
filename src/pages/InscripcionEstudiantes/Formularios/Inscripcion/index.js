@@ -80,10 +80,14 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
           data.r_config_jornadaInscripcion
         );
         setValue("a_numeroConsultorio", data.a_numeroConsultorio);
-        setValue("r_config_grupo", data.r_config_grupo);
+        setValue("r_config_grupo", data?.r_config_grupo?.id);
+        setValue("r_config_jornadaInscripcion", data?.r_config_jornadaInscripcion?.id);
         setValue("a_turno", data.a_turno);
         setValue("r_config_lugarPracticas", data.r_config_lugarPracticas?.id);
-        setValue("dt_fechaInscripcion", data.dt_fechaInscripcion);
+        setValue("dt_fechaInscripcion", data?.dt_fechaInscripcion);
+        setValue("r_config_jornada", data?.r_config_jornada?.id);
+        setValue("r_config_numeroConsultorio", data?.r_config_numeroConsultorio?.id);
+        setValue("c_rolEstudiante", data?.c_rolEstudiante);
       })
       .finally(() => setLoadingDetail(false));
   };

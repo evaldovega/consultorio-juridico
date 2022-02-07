@@ -83,7 +83,7 @@ const Home = () => {
                 <br />
                 de la Universidad del Atlántico
               </h1>
-              <Container className="mt-4 mb-4" style={{ paddingBottom: 80 }}>
+              <Container className="mt-4 mb-4">
                 {modulosPermitidos.map((modules, index) => (
                   <CardDeck key={index} style={{ marginBottom: 24 }}>
                     {modules.map((m, index2) => {

@@ -121,10 +121,16 @@ const DatosInscripcion = ({ watch }) => {
                   </Form.Label>
                   <Form.Control
                     {...field}
-                    type="number"
+                    as="select"
                     plaintext={readOnly}
                     readOnly={readOnly}
-                  />
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="1">Primer semestre</option>
+                    <option value="2">Segundo semestre</option>
+                    <option value="V">Vacacional</option>
+                  </Form.Control>
+
 
                   <Errors message={errors?.a_semestreInscripcion?.message} />
                 </Form.Group>
@@ -258,6 +264,33 @@ const DatosInscripcion = ({ watch }) => {
                   />
 
                   <Errors message={errors?.dt_fechaInscripcion?.message} />
+                </Form.Group>
+              )}
+            />
+
+            <Controller
+              name="c_rolEstudiante"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Ingrese información" }}
+              render={({ field }) => (
+                <Form.Group as={Col} xs="12" md="6" lg="6">
+                  <Form.Label>
+                    Rol del estudiante <span className="required" />
+                  </Form.Label>
+                  <Form.Control
+                    {...field}
+                    as="select"
+                    plaintext={readOnly}
+                    readOnly={readOnly}
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="ASESOR">Asesor</option>
+                    <option value="CONCILIADOR">Conciliador</option>
+                    <option value="AUTOGESTION">Autogestión</option>
+                  </Form.Control>
+
+                  <Errors message={errors?.r_config_grupo?.message} />
                 </Form.Group>
               )}
             />

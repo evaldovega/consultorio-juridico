@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import API, { baseUrl }  from "utils/Axios";
+import API, { baseUrl } from "utils/Axios";
 import {
   Breadcrumb,
   Card,
@@ -248,7 +248,9 @@ const ListadoIncripciones = () => {
               discapacidades={discapacidades}
               docs={docs}
             />
-            <Card.Body>
+            <Card.Body style={{
+              overflow: "scroll"
+            }}>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
