@@ -25,9 +25,9 @@ const Autoridad = ({ field = {}, setValue }) => {
     setDocs([...docs, doc]);
     setVisible(false);
     if (setValue) {
-      setValue([field.name], doc.a_codigo);
+      setValue([field.name], doc.id);
     } else {
-      select.current.value = doc.a_codigo;
+      select.current.value = doc.id;
     }
   };
 
@@ -56,7 +56,7 @@ const Autoridad = ({ field = {}, setValue }) => {
         <Form.Control as="select" {...field} ref={select}>
           <option value="">Seleccione...</option>
           {docs.map((el) => (
-            <option value={el.a_codigo} key={el.id}>
+            <option value={el.id} key={el.id}>
               {el.a_titulo}
             </option>
           ))}
