@@ -257,6 +257,7 @@ const PerfilDemografico = () => {
               </Form.Label>
               <Form.Control
                 type="number"
+                min="0"
                 {...field}
                 readOnly={readOnly}
                 disabled={readOnly}
