@@ -4,12 +4,14 @@ import {
   ACCESS_TOKEN_NAME,
   MODULES,
   ROL_ADMIN,
+  ROL_ESTUDIANTE,
   USER_FULL_NAME,
 } from "../constants/apiContants";
 import { Button, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { FaChild, FaCog, FaDownload, FaUserCircle } from "react-icons/fa";
+import { FaChild, FaCog, FaDownload, FaUserCircle, FaBook } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
+import Policy from "components/Policy"
 
 const HeaderPage = ({ showButton, homePage }) => {
   const history = useHistory();
@@ -88,7 +90,18 @@ const HeaderPage = ({ showButton, homePage }) => {
                 </Button>
               </NavDropdown.ItemText>
             </NavDropdown>
-
+            <Policy policy={[ROL_ESTUDIANTE]}>
+              <Nav.Link href="http://biblioteca.uniatlantico.edu.co/">
+                <span style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}>
+                  <FaBook style={{marginRight: "2px"}} />
+                  <span style={{fontWeight: 'bold'}}>Biblioteca</span>
+                </span>
+              </Nav.Link>
+            </Policy>
             <NavDropdown
               title={
                 <span
