@@ -37,52 +37,53 @@ const ListadoRemisiones = () => {
     setCargando(true);
     await API.get("autorizaciones/remision/", { params })
       .then(({ data }) => {
+        console.log(data.results)
         setDocs(
           data.results.map((el) => ({
             numero: (
-              <a href={`/autorizaciones/generar-remision/${el.id}`}>
-                {el.a_numeroRemision}
+              <a href={`/autorizaciones/generar-remision/${el?.id}`}>
+                {el?.a_numeroRemision}
               </a>
             ),
-            periodo: `${el.r_usuarios_estudiante.a_anioInscripcion}-${el.r_usuarios_estudiante.a_semestreInscripcion}`,
+            periodo: `${el?.r_usuarios_estudiante?.a_anioInscripcion}-${el?.r_usuarios_estudiante?.a_semestreInscripcion}`,
             documento:
-              el.r_usuarios_estudiante.r_usuarios_persona.a_numeroDocumento,
-            nombre_estudiante: `${el.r_usuarios_estudiante.r_usuarios_persona.a_primerNombre
-              } ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre !==
+              el?.r_usuarios_estudiante?.r_usuarios_persona?.a_numeroDocumento,
+            nombre_estudiante: `${el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerNombre
+              } ${el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoNombre !==
                 null
-                ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoNombre
+                ? el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoNombre
                 : ""
-              } ${el.r_usuarios_estudiante.r_usuarios_persona.a_primerApellido} ${el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido !==
+              } ${el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerApellido} ${el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoApellido !==
                 null
-                ? el.r_usuarios_estudiante.r_usuarios_persona.a_segundoApellido
+                ? el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoApellido
                 : ""
               } `,
-            fecha: el.dt_fechaRemision,
-            director: `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre !== null
-                ? el.r_usuarios_director.a_segundoNombre
+            fecha: el?.dt_fechaRemision,
+            director: `${el?.r_usuarios_director?.a_primerNombre} ${el?.r_usuarios_director?.a_segundoNombre !== null
+                ? el?.r_usuarios_director?.a_segundoNombre
                 : ""
-              } ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido !== null
-                ? el.r_usuarios_director.a_segundoApellido
-                : ""
-              }`,
-            elaborado_por: `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre !== null
-                ? el.r_usuarios_elaboradoPor.a_segundoNombre
-                : ""
-              } ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido !== null
-                ? el.r_usuarios_elaboradoPor.a_segundoApellido
+              } ${el?.r_usuarios_director?.a_primerApellido} ${el?.r_usuarios_director?.a_segundoApellido !== null
+                ? el?.r_usuarios_director?.a_segundoApellido
                 : ""
               }`,
-            destinatario: el.r_config_autoridad.a_titulo,
+            elaborado_por: `${el?.r_usuarios_elaboradoPor?.a_primerNombre} ${el?.r_usuarios_elaboradoPor?.a_segundoNombre !== null
+                ? el?.r_usuarios_elaboradoPor?.a_segundoNombre
+                : ""
+              } ${el?.r_usuarios_elaboradoPor.a_primerApellido} ${el?.r_usuarios_elaboradoPor.a_segundoApellido !== null
+                ? el?.r_usuarios_elaboradoPor.a_segundoApellido
+                : ""
+              }`,
+            destinatario: el?.r_config_autoridad?.a_titulo,
             acciones: (
               <div className="d-flex justify-content-between">
-                <a target="_blank" href={`${baseUrl}/doc_remision/${el.id}/`}>
+                <a target="_blank" href={`${baseUrl}/doc_remision/${el?.id}/`}>
                   <Button variant="primary">
                     <FaPrint />
                   </Button>
                 </a>
                 <Button
                   variant="danger"
-                  onClick={() => eliminarRemision(el.id)}
+                  onClick={() => eliminarRemision(el?.id)}
                 >
                   <FaTrash />
                 </Button>
