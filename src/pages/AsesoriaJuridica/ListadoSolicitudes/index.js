@@ -210,7 +210,7 @@ const ListadoSolicitudes = () => {
                       <th>Nombre y apellidos <FaArrowUp onClick={() => switchOrderNombre()} /></th>
                       <th>Documento de identidad <FaArrowUp onClick={() => switchOrderDocumento()} /></th>
                     </Policy>
-                    <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
+                    <th>Fecha y hora <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>Asunto <FaArrowUp onClick={() => switchOrderAsunto()} /></th>
                     <th></th>
                   </tr>
@@ -236,11 +236,7 @@ const ListadoSolicitudes = () => {
                         <td>{d?.r_usuarios_solicitante?.a_numeroDocumento}</td>
                       </Policy>
                       <td>
-                        {d?.dt_fechaAsesoria
-                          ? moment(d?.dt_fechaAsesoria).format("YYYY-MM-DD") +
-                          " " +
-                          d?.ht_horaAsesoria
-                          : "No definida"}
+                        {d?.dt_fechaAsesoria ? moment(d?.dt_fechaAsesoria).format("YYYY-MM-DD") : "No definida"} {d?.ht_horaAsesoria !== null && moment(d?.ht_horaAsesoria, "HH:mm:ss").format("hh:mm a")}
                       </td>
                       <td className="crop">{d?.t_asuntoConsulta}</td>
                       <td>
