@@ -17,7 +17,7 @@ import Spin from "components/Spin";
 
 import Policy from "components/Policy";
 import { ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
-import { FaPrint, FaTrash } from "react-icons/fa";
+import { FaPrint, FaTrash, FaArrowUp } from "react-icons/fa";
 import Filtros from "./Filtros";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
@@ -32,10 +32,14 @@ const ListadoRemisiones = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [paramsSerialized, setParamsSerialized] = useState("")
+  const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByName, setOrderByName] = useState(false)
+  const [orderByNum, setOrderByNum] = useState(false)
+  const [orderByDestinatario, setOrderByDestinatario] = useState(false)
 
   const getRemisiones = async () => {
     setCargando(true);
-    await API.get("autorizaciones/remision/", { params })
+    await API.get(`autorizaciones/remision/${orderByDate ? '?order_by_date' : ''}${orderByName ? '?order_by_name' : ''}${orderByDestinatario ? '?order_by_destinatario' : ''}${orderByNum ? '?order_by_num' : ''}`, { params })
       .then(({ data }) => {
         console.log(data.results)
         setDocs(data.results)
@@ -181,12 +185,58 @@ const ListadoRemisiones = () => {
     }
   };
 
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+    setOrderByName(false)
+    setOrderByDestinatario(false)
+    setOrderByNum(false)
+  }
+
+  const switchOrderName = () => {
+    setOrderByDate(false)
+    setOrderByName(!orderByName)
+    setOrderByDestinatario(false)
+    setOrderByNum(false)
+  }
+
+  const switchOrderDestinatario = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByDestinatario(!orderByDestinatario)
+    setOrderByNum(false)
+  }
+
+  const switchOrderNum = () => {
+    setOrderByDate(false)
+    setOrderByName(false)
+    setOrderByDestinatario(false)
+    setOrderByNum(!orderByNum)
+  }
+
   useEffect(() => {
     getRemisiones();
   }, [cedulaEstudiante]);
+
   useEffect(() => {
     getRemisiones();
   }, [params]);
+
+  useEffect(() => {
+    getRemisiones();
+  }, [orderByDate]);
+
+  useEffect(() => {
+    getRemisiones();
+  }, [orderByName]);
+
+  useEffect(() => {
+    getRemisiones();
+  }, [orderByDestinatario]);
+
+  useEffect(() => {
+    getRemisiones();
+  }, [orderByNum]);
+
   return (
     <Policy policy={[ROL_ADMIN]}>
       <Spin cargando={cargando}>
@@ -207,14 +257,14 @@ const ListadoRemisiones = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>Número</th>
+                    <th>Número <FaArrowUp onClick={() => switchOrderNum()} /></th>
                     <th>Periodo</th>
                     <th>Documento de identidad</th>
-                    <th>Nombres del estudiante</th>
-                    <th>Fecha</th>
+                    <th>Nombre del estudiante <FaArrowUp onClick={() => switchOrderName()} /></th>
+                    <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>Director</th>
                     <th>Elaborado por</th>
-                    <th>Destinatario</th>
+                    <th>Destinatario <FaArrowUp onClick={() => switchOrderDestinatario()} /></th>
                     <th>Acciones</th>
                   </tr>
                 </thead>

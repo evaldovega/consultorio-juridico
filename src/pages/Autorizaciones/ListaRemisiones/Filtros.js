@@ -46,6 +46,69 @@ const Filtros = ({ params, setParams }) => {
             )}
           />
         </Col>
+        <Col xs="12" md="6">
+          <Controller
+            name="cedula"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Cédula</Form.Label>
+                <Form.Control {...field} size="sm" />
+              </Form.Group>
+            )}
+          />
+        </Col>
+      </Row>
+      <h4>Por nombre</h4>
+      <Row className="mb-1">
+        <Col xs="12" md="6">
+          <Controller
+            name="primer_nombre"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Primer nombre</Form.Label>
+                <Form.Control {...field} size="sm" />
+              </Form.Group>
+            )}
+          />
+        </Col>
+        <Col xs="12" md="6">
+          <Controller
+            name="primer_apellido"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Primer apellido</Form.Label>
+                <Form.Control {...field} size="sm" />
+              </Form.Group>
+            )}
+          />
+        </Col>
+        <Col xs="12" md="6">
+          <Controller
+            name="segundo_nombre"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Segundo nombre</Form.Label>
+                <Form.Control {...field} size="sm" />
+              </Form.Group>
+            )}
+          />
+        </Col>
+        <Col xs="12" md="6">
+          <Controller
+            name="segundo_apellido"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Segundo apellido</Form.Label>
+                <Form.Control {...field} size="sm" />
+              </Form.Group>
+            )}
+          />
+        </Col>
       </Row>
       <Button type="submit">Consultar</Button>
     </Form>
