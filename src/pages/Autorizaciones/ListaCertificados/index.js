@@ -14,7 +14,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import { FaPrint, FaTrash } from "react-icons/fa";
+import { FaPrint, FaTrash, FaArrowUp } from "react-icons/fa";
 import Policy from "components/Policy";
 import { ROL_ASESOR, ROL_ADMIN, PAGE_SIZE } from "constants/apiContants";
 import { ExportToExcel } from "components/ExportToExcel";
@@ -32,6 +32,8 @@ const ListadoCertificados = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [paramsSerialized, setParamsSerialized] = useState("")
+  const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByName, setOrderByName] = useState(false)
 
   const next = () => {
     const page = links.next.match(/page=[0-9]+/);
@@ -80,7 +82,7 @@ const ListadoCertificados = () => {
 
   const getCertificados = async () => {
     setCargando(true);
-    await API.get("autorizaciones/certificacion", { params })
+    await API.get(`autorizaciones/certificacion/${orderByDate ? '?order_by_date' : ''}${orderByName ? '?order_by_name' : ''}`, { params })
       .then(({ data }) => {
         setDocs(
           data.results.map((el) => ({
@@ -160,6 +162,16 @@ const ListadoCertificados = () => {
     shouldFocusError: true,
   });
 
+  const switchOrderDate = () => {
+    setOrderByDate(!orderByDate)
+    setOrderByName(false)
+  }
+
+  const switchOrderName = () => {
+    setOrderByDate(false)
+    setOrderByName(!orderByName)
+  }
+
   useEffect(() => {
     getCertificados();
   }, []);
@@ -167,6 +179,14 @@ const ListadoCertificados = () => {
   useEffect(() => {
     getCertificados();
   }, [params]);
+
+  useEffect(() => {
+    getCertificados();
+  }, [orderByDate]);
+
+  useEffect(() => {
+    getCertificados();
+  }, [orderByName]);
 
   return (
     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
@@ -189,11 +209,11 @@ const ListadoCertificados = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>Nombre del estudiante</th>
+                    <th>Nombre del estudiante <FaArrowUp onClick={() => switchOrderName()} /></th>
                     <th>Documento de identidad</th>
                     <th>Elaborado por</th>
                     <th>Director</th>
-                    <th>Fecha</th>
+                    <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
