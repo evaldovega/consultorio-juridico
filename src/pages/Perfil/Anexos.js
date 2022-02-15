@@ -128,7 +128,7 @@ const PerfilAnexos = () => {
             <Row className="mb-1">
                 <Form.Group as={Col}>
                     <Form.Label>
-                        Adjuntar certificación ARL <span className="required" />
+                        Adjuntar certificación ARL
                     </Form.Label>
                     <br />
                     {certificacionARL && certificacionARL.substring(0, 1) === "/" &&
@@ -148,7 +148,6 @@ const PerfilAnexos = () => {
                         name="f_archivoARL"
                         control={control}
                         defaultValue=""
-                        rules={{ required: "Seleccione un archivo" }}
                         render={({ field }) => (
                             <input
                                 {...field}
@@ -162,7 +161,7 @@ const PerfilAnexos = () => {
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>
-                        Adjuntar certificación EPS <span className="required" />
+                        Adjuntar certificación EPS
                     </Form.Label>
                     <br />
                     {certificacionEPS && certificacionEPS.substring(0, 1) === "/" &&
@@ -182,7 +181,6 @@ const PerfilAnexos = () => {
                         name="f_archivoEPS"
                         control={control}
                         defaultValue=""
-                        rules={{ required: "Seleccione un archivo" }}
                         render={({ field }) => (
                             <input
                                 {...field}

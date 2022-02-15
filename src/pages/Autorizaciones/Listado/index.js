@@ -29,11 +29,12 @@ const ListadoAutorizaciones = () => {
   const [cargando, setCargando] = useState(true);
   const [params, setParams] = useState({ page_size: PAGE_SIZE, page: 1 });
   const [orderByDate, setOrderByDate] = useState(false)
+  const [orderByName, setOrderByName] = useState(false)
   const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getAutorizaciones = async () => {
     setCargando(true);
-    API.get(`autorizaciones/autorizacion${orderByDate ? '?order_by_date' : ''}`, { params })
+    API.get(`autorizaciones/autorizacion${orderByDate ? '?order_by_date' : ''}${orderByName ? '?order_by_name' : ''}`, { params })
       .then(({ data }) => {
         setDocs(
           data.results.map((d) => ({
@@ -138,6 +139,12 @@ const ListadoAutorizaciones = () => {
 
   const switchOrderDate = () => {
     setOrderByDate(!orderByDate)
+    setOrderByName(false)
+  }
+
+  const switchOrderName = () => {
+    setOrderByDate(false)
+    setOrderByName(!orderByName)
   }
 
   useEffect(() => {
@@ -151,6 +158,10 @@ const ListadoAutorizaciones = () => {
   useEffect(() => {
     getAutorizaciones({});
   }, [orderByDate]);
+
+  useEffect(() => {
+    getAutorizaciones({});
+  }, [orderByName]);
 
   return (
     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
@@ -172,7 +183,7 @@ const ListadoAutorizaciones = () => {
               <Table striped hover>
                 <thead>
                   <tr>
-                    <th>Nombres y apellidos</th>
+                    <th>Nombres y apellidos <FaArrowUp onClick={() => switchOrderName()} /></th>
                     <th>Documento de identidad</th>
                     <th>Clase proceso</th>
                     <th>Fecha de proceso <FaArrowUp onClick={() => switchOrderDate()} /></th>
