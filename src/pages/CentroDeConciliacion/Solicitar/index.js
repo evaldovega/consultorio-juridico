@@ -140,15 +140,19 @@ const CentroDeConciliacionSolicitar = () => {
       sessionStorage.setItem("conciliacion", response.id);
       history.push(`/centro-de-conciliacion/solicitudes`);
     } catch (error) {
+      const e =
+          error.response && error.response.data
+            ? error.response.data.detail
+            : error.toString();
+        toast.error(`${e}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       setCargando(false);
-      toast.error(error.toString(), {
-        position: "top-center",
-        autoClose: 10000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
   };
 
