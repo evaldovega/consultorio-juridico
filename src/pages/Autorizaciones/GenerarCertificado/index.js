@@ -76,10 +76,10 @@ const GenerarCertificado = () => {
     setInscripciones([]);
     console.log(cedula);
     // await API.get('/estudiantes/inscripcion/')
-    // .then(response => {
-    //     setInscripciones(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula))
-    //     setIdEstudiante(response.data.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.r_usuarios_persona.id))[0])
-    // })
+    //   .then(response => {
+    //     setInscripciones(response.data.results.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula))
+    //     setIdEstudiante(response.data.results.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.r_usuarios_persona.id))[0])
+    //   })
 
     await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
       (response) => {
@@ -89,8 +89,8 @@ const GenerarCertificado = () => {
     );
 
     // inscripciones.map((el) => (
-    //     console.log(el),
-    //     setIdEstudiante(el.id)
+    //   console.log(el),
+    //   setIdEstudiante(el.id)
     // ))
   };
 
@@ -118,8 +118,22 @@ const GenerarCertificado = () => {
         });
         history.push("/autorizaciones");
       })
-      .catch((err) => {
-        console.log(err.response.data);
+      .catch((error) => {
+        console.log(error.response.data);
+        const e =
+          error.response && error.response.data
+            ? error.response.data.detail
+            : error.toString();
+        toast.error(`${e}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      })
+      .finally(() => {
         setLoading(false);
       });
   };

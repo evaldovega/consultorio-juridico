@@ -81,7 +81,7 @@ const GenerarRemision = () => {
   const getInscripciones = async () => {
     setInscripciones([]);
 
-    await API.post("/academusoft/estudiantes/inscripcion/", { estudiante: cedula }).then(
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
       (response) => {
         setInscripciones([response.data]);
         setIdEstudiante([response.data].map((el) => el.id)[0]);
