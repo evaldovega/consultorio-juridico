@@ -75,22 +75,33 @@ const Autorizar = () => {
   const getInscripciones = async () => {
     setInscripciones([]);
 
-    await API.post("/academusoft/estudiantes/inscripcion/", { estudiante: cedula }).then(
+    await API.post("/academusoft/estudiantes/inscripcion", { estudiante: cedula }).then(
       (response) => {
-        setInscripciones([response.data]);
-        setIdEstudiante([response.data].map((el) => el.id)[0]);
+        if (response.data.r_usuarios_persona.r_user !== null) {
+          setInscripciones([response.data]);
+          setIdEstudiante([response.data].map((el) => el.id)[0]);
+        } else {
+          toast.error(`Este estudiante no posee una inscripción en este periodo.`, {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
       }
     );
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
     //   console.log(response.data);
     //   setInscripciones(
-    //     response.data.filter((el) =>
+    //     response.data.results.filter((el) =>
     //       el.r_usuarios_persona.a_numeroDocumento.includes(cedula)
     //     )
     //   );
     //   setIdEstudiante(
-    //     response.data
+    //     response.data.results
     //       .filter((el) => el.r_usuarios_persona.a_numeroDocumento === cedula)
     //       .map((el) => el.id)[0]
     //   );

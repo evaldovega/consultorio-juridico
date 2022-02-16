@@ -202,7 +202,7 @@ const ListadoAsignaciones = () => {
           <MigaPan>
             <MigaPanInicio />
             <MigaPanAsignacionDocentes />
-            <span>Listado de asignaiones</span>
+            <span>Listado de asignaciones</span>
           </MigaPan>
 
           <Card>
@@ -227,6 +227,7 @@ const ListadoAsignaciones = () => {
                     <th>Semestre de validez</th>
                     <th>Jornada</th>
                     <th>Consultorio</th>
+                    <th>Grupo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -248,6 +249,7 @@ const ListadoAsignaciones = () => {
                       <td>{d.a_semestreValidez}</td>
                       <td>{d?.r_config_jornadaValidez?.a_titulo}</td>
                       <td>{d?.r_config_numeroConsultorio?.a_titulo}</td>
+                      <td>{d?.r_config_grupo?.a_titulo}</td>
                     </tr>
                   ))}
                 </tbody>

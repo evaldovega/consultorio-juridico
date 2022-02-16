@@ -199,7 +199,7 @@ const ListadoCertificados = () => {
           </MigaPan>
 
           <Card>
-            <Card.Body>
+            <Card.Body style={{overflow: "scroll"}}>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
