@@ -29,6 +29,7 @@ const GenerarCertificado = () => {
   const history = useHistory();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [personaId, setPersonaId] = useState("");
@@ -74,7 +75,8 @@ const GenerarCertificado = () => {
 
   const getInscripciones = async () => {
     setInscripciones([]);
-    console.log(cedula);
+    setSearching(true)
+    // console.log(cedula);
     // await API.get('/estudiantes/inscripcion/')
     //   .then(response => {
     //     setInscripciones(response.data.results.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula))
@@ -85,6 +87,7 @@ const GenerarCertificado = () => {
       (response) => {
         setInscripciones([response.data]);
         setIdEstudiante([response.data].map((el) => el.id)[0]);
+        setSearching(false)
       }
     ).catch(err => {
       toast.error(`No se ha encontrado este estudiante.`, {
@@ -95,6 +98,7 @@ const GenerarCertificado = () => {
         pauseOnHover: true,
         draggable: true,
       });
+      setSearching(false)
     });
 
     // inscripciones.map((el) => (
@@ -265,7 +269,12 @@ const GenerarCertificado = () => {
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
                       />
-                      <Button onClick={() => getInscripciones()}>Buscar</Button>
+                      <Button 
+                        onClick={() => getInscripciones()}
+                        disabled={searching}
+                      >
+                        {searching ? "Buscando..." : "Buscar"}
+                      </Button>
                     </span>
                   </Form.Group>
                   {inscripciones.length > 0 && (

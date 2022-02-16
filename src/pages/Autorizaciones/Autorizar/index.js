@@ -32,6 +32,7 @@ const Autorizar = () => {
   const history = useHistory();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState(false)
   const [error, setError] = useState(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [personaId, setPersonaId] = useState("");
@@ -74,11 +75,12 @@ const Autorizar = () => {
 
   const getInscripciones = async () => {
     setInscripciones([]);
-
+    setSearching(true)
     await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
       (response) => {
         setInscripciones([response.data]);
         setIdEstudiante([response.data].map((el) => el.id)[0]);
+        setSearching(false)
       }
     ).catch(err => {
       toast.error(`No se ha encontrado este estudiante.`, {
@@ -89,6 +91,7 @@ const Autorizar = () => {
         pauseOnHover: true,
         draggable: true,
       });
+      setSearching(false)
     });
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
@@ -261,7 +264,12 @@ const Autorizar = () => {
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
                       />
-                      <Button onClick={() => getInscripciones()}>Buscar</Button>
+                      <Button 
+                        onClick={() => getInscripciones()}
+                        disabled={searching}
+                      >
+                        {searching ? "Buscando..." : "Buscar"}
+                      </Button>
                     </span>
                   </Form.Group>
                   {inscripciones.length > 0 && (

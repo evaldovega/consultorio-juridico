@@ -35,6 +35,7 @@ const GenerarRemision = () => {
   const history = useHistory();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [personaId, setPersonaId] = useState([""]);
@@ -80,7 +81,7 @@ const GenerarRemision = () => {
 
   const getInscripciones = async () => {
     setInscripciones([]);
-
+    setSearching(true)
     await API.post("/academusoft/estudiantes/inscripcion/", { estudiante: cedula }).then(
       (response) => {
         if (response.data.r_usuarios_persona.r_user !== null) {
@@ -96,6 +97,7 @@ const GenerarRemision = () => {
             draggable: true,
           });
         }
+        setSearching(false)
       }
     ).catch(err => {
       toast.error(`No se ha encontrado este estudiante.`, {
@@ -106,6 +108,7 @@ const GenerarRemision = () => {
         pauseOnHover: true,
         draggable: true,
       });
+      setSearching(false)
     });
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
@@ -275,7 +278,12 @@ const GenerarRemision = () => {
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
                       />
-                      <Button onClick={() => getInscripciones()}>Buscar</Button>
+                      <Button 
+                        onClick={() => getInscripciones()}
+                        disabled={searching}
+                      >
+                        {searching ? "Buscando..." : "Buscar"}
+                      </Button>
                     </span>
                   </Form.Group>
                   {inscripciones.length > 0 && (
