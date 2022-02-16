@@ -263,6 +263,7 @@ const Autorizar = () => {
                         className="form-control"
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
+                        onKeyDown={(event) => {event.key === "Enter" && getInscripciones()}}
                       />
                       <Button 
                         onClick={() => getInscripciones()}
