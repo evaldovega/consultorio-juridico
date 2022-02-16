@@ -140,15 +140,19 @@ const CentroDeConciliacionSolicitar = () => {
       sessionStorage.setItem("conciliacion", response.id);
       history.push(`/centro-de-conciliacion/solicitudes`);
     } catch (error) {
+      const e =
+          error.response && error.response.data
+            ? error.response.data.detail
+            : error.toString();
+        toast.error(`${e}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       setCargando(false);
-      toast.error(error.toString(), {
-        position: "top-center",
-        autoClose: 10000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
   };
 
@@ -395,7 +399,7 @@ const CentroDeConciliacionSolicitar = () => {
                         />
                       </Col>
                     )}
-                    <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                    {/* <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                       <Form.Group as={Col} xs="12" md="7">
                         <label>
                           <strong>Estudiante conciliador</strong>
@@ -439,7 +443,7 @@ const CentroDeConciliacionSolicitar = () => {
                           </Table>
                         </Form.Group>
                     )}
-                    </Policy>
+                    </Policy> */}
                   </Row>
                 </Card.Body>
               </Card>
