@@ -267,7 +267,7 @@ const Autorizar = () => {
                         <tbody>
                           {inscripciones.map((el) => (
                             <tr>
-                              <td>{el?.r_usuarios_persona?.a_numeroDocumento}</td>
+                              <td>{el?.a_numeroDocumento}</td>
                               <td>
                                 {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
                                 {el?.a_primerApellido} {el?.a_segundoApellido}
