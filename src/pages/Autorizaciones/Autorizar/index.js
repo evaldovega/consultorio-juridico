@@ -269,8 +269,8 @@ const Autorizar = () => {
                             <tr>
                               <td>{el?.r_usuarios_persona?.a_numeroDocumento}</td>
                               <td>
-                                {el?.r_usuarios_persona?.a_primerNombre} {el?.r_usuarios_persona?.a_segundoNombre}{" "}
-                                {el?.r_usuarios_persona?.a_primerApellido} {el?.r_usuarios_persona?.a_segundoApellido}
+                                {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
+                                {el?.a_primerApellido} {el?.a_segundoApellido}
                               </td>
                             </tr>
                           ))}
