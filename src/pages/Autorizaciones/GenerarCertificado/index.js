@@ -81,21 +81,10 @@ const GenerarCertificado = () => {
     //     setIdEstudiante(response.data.results.filter(el => el.r_usuarios_persona.a_numeroDocumento === cedula).map(el => (el.r_usuarios_persona.id))[0])
     //   })
 
-    await API.post("/academusoft/estudiantes/inscripcion", { estudiante: cedula }).then(
+    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
       (response) => {
-        if (response.data.r_usuarios_persona.r_user !== null) {
-          setInscripciones([response.data]);
-          setIdEstudiante([response.data].map((el) => el.id)[0]);
-        } else {
-          toast.error(`Este estudiante no posee una inscripción en este periodo.`, {
-            position: "top-center",
-            autoClose: 10000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          });
-        }
+        setInscripciones([response.data]);
+        setIdEstudiante([response.data].map((el) => el.id)[0]);
       }
     );
 
