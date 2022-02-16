@@ -80,7 +80,16 @@ const Autorizar = () => {
         setInscripciones([response.data]);
         setIdEstudiante([response.data].map((el) => el.id)[0]);
       }
-    );
+    ).catch(err => {
+      toast.error(`No se ha encontrado este estudiante.`, {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    });
 
     // await API.get("/estudiantes/inscripcion/").then((response) => {
     //   console.log(response.data);
