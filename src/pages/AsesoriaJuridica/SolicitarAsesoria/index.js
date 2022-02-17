@@ -54,9 +54,9 @@ const SolicitarAsesoria = () => {
     const _data = {
       ...data,
       r_usuarios_persona: usuarioEnSession,
-      mm_estudiantesAsignados: data.mm_estudiantesAsignados
-        ? data.mm_estudiantesAsignados.map((e) => e.id)
-        : [],
+      // mm_estudiantesAsignados: data.mm_estudiantesAsignados
+      //   ? data.mm_estudiantesAsignados.map((e) => e.id)
+      //   : [],
     };
 
     API.post("asesorias/solicitud/", _data)
@@ -105,17 +105,17 @@ const SolicitarAsesoria = () => {
   const save = () => {
     if (policyAllow(policies, [ROL_ADMIN, ROL_ASESOR])) {
       const estudiantesAsignados = getValues("mm_estudiantesAsignados") || [];
-      if (!estudiantesAsignados.length) {
-        toast.info("Asigne estudiantes a la asesoria por favor", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        return;
-      }
+      // if (!estudiantesAsignados.length) {
+      //   toast.info("Asigne estudiantes a la asesoria por favor", {
+      //     position: "top-center",
+      //     autoClose: 5000,
+      //     hideProgressBar: true,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //   });
+      //   return;
+      // }
     }
     formPersona.current.click();
   };
@@ -286,9 +286,9 @@ const SolicitarAsesoria = () => {
                 <ArchivosAsesoria />
               </Card.Body>
             </Card>
-            <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
+            {/* <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
               <AsesoriaEstudiantes />
-            </Policy>
+            </Policy> */}
 
             <Policy policy={[ROL_ADMIN]}>
               <AsignarAdmin />

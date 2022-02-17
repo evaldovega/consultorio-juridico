@@ -399,7 +399,7 @@ const CentroDeConciliacionSolicitar = () => {
                         />
                       </Col>
                     )}
-                    <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                    {/* <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                       <Form.Group as={Col} xs="12" md="7">
                         <label>
                           <strong>Estudiante conciliador</strong>
@@ -443,7 +443,7 @@ const CentroDeConciliacionSolicitar = () => {
                           </Table>
                         </Form.Group>
                     )}
-                    </Policy>
+                    </Policy> */}
                   </Row>
                 </Card.Body>
               </Card>
