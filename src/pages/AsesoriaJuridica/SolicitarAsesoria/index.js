@@ -72,10 +72,20 @@ const SolicitarAsesoria = () => {
         });
         history.push(`/asesoria-juridica/caso/${data.id}/`);
       })
-      .catch((err) => {
-        console.log(err.response.data);
-        setLoading(false);
-        toast.error("Error al registrar asesoria");
+      .catch((error) => {
+        const e =
+          error.response && error.response.data
+            ? error.response.data.detail
+            : error.toString();
+        toast.error(`${e}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setLoading(false)
       });
   };
 
