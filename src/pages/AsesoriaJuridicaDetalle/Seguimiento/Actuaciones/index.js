@@ -23,6 +23,7 @@ import {
   ROL_ASESOR,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
+  ROL_DOCENTE
 } from "constants/apiContants";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -198,7 +199,7 @@ const Actuaciones = ({
 
       <div style={{ height: 500, overflowY: "scroll", overflowX: "hidden" }}>
         {!seguimientos.length && (
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_ADMIN]}>
+          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE, ROL_ADMIN]}>
             <div className="text-center h-100 d-flex flex-column justify-content-center">
               <h5 className="mb-4">Aquí inicia el proceso!</h5>
               <p>Añade actuaciones para llevar el seguimiento del caso</p>
@@ -229,7 +230,7 @@ const Actuaciones = ({
         </div>
       </div>
 
-      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_PERSONA]}>
+      <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE, ROL_PERSONA]}>
         <Card.Footer>
           <div className="text-center pt-4 pb-4">
             <Dropdown>

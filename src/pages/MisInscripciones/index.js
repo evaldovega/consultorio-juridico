@@ -11,11 +11,12 @@ import API from "utils/Axios";
 const MisInscripciones = () => {
   const [cargando, setCargando] = useState(false);
   const [doc, setDoc] = useState({});
+  const cedulaEstudiante = localStorage.getItem("doc_identidad")
 
   const getInscripciones = async () => {
     try {
       setCargando(true);
-      const { data } = await API.get("estudiantes/inscripcion/");
+      const { data } = await API.get(`estudiantes/inscripcion/?cedula=${cedulaEstudiante}`);
       setDoc(data.results.pop() || {});
       setCargando(false);
     } catch (error) {
