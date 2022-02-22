@@ -14,7 +14,8 @@ const SectionHeader = ({img, text}) => {
                     color: "#FFF", 
                     fontWeight: "600",
                     fontSize: "45px",
-                    marginBottom: "5px"
+                    marginBottom: "5px",
+                    textAlign: "center"
                 }}>
                     {text}
                 </span>

@@ -161,6 +161,7 @@ label {
 
 .section-header {
   background-size: cover;
+  background-position: center;
   height: 35vh;
   width: 100%;
   display: flex;
@@ -540,9 +541,6 @@ a {
     padding-left: 0;
   }
 
-  .bg-light {
-    background-color: #000 !important;
-  }
 }
 
 @media only screen and (max-width: 1024px) {
