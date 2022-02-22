@@ -126,7 +126,7 @@ const PerfilAnexos = () => {
 
             </h2>
             <Row className="mb-1">
-                <Form.Group as={Col}>
+                <Form.Group as={Col} xs="12" md="6">
                     <Form.Label>
                         Adjuntar certificación ARL
                     </Form.Label>
@@ -159,7 +159,7 @@ const PerfilAnexos = () => {
                     />
                     <Errors message={errors.f_archivoDocumento?.message} />
                 </Form.Group>
-                <Form.Group as={Col}>
+                <Form.Group as={Col} xs="12" md="6">
                     <Form.Label>
                         Adjuntar certificación EPS
                     </Form.Label>

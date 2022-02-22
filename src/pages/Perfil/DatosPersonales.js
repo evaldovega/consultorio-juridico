@@ -57,7 +57,7 @@ const PerfilDatosPersonales = ({ }) => {
               defaultValue=""
               rules={{ required: "Ingrese su primer nombre" }}
               render={({ field }) => (
-                <Form.Group as={Col}>
+                <Form.Group as={Col} xs="12" md="6">
                   <Form.Label>
                     Primer nombre <span className="required" />
                   </Form.Label>
@@ -74,7 +74,7 @@ const PerfilDatosPersonales = ({ }) => {
               name="a_segundoNombre"
               control={control}
               render={({ field }) => (
-                <Form.Group as={Col} className="mb-3">
+                <Form.Group as={Col} xs="12" md="6" className="mb-3">
                   <Form.Label sm="2">Segundo nombre</Form.Label>
                   <Form.Control
                     {...field}
@@ -92,7 +92,7 @@ const PerfilDatosPersonales = ({ }) => {
               defaultValue=""
               rules={{ required: "Ingrese su primer apellido" }}
               render={({ field }) => (
-                <Form.Group as={Col}>
+                <Form.Group as={Col} xs="12" md="6">
                   <Form.Label>
                     Primer apellido <span className="required" />
                   </Form.Label>
@@ -109,7 +109,7 @@ const PerfilDatosPersonales = ({ }) => {
               name="a_segundoApellido"
               control={control}
               render={({ field }) => (
-                <Form.Group as={Col} className="mb-3">
+                <Form.Group as={Col} xs="12" md="6" className="mb-3">
                   <Form.Label sm="2">Segundo apellido</Form.Label>
                   <Form.Control
                     {...field}
