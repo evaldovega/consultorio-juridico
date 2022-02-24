@@ -90,33 +90,9 @@ const PerfilAnexos = () => {
         );
 
         return (
-            <div className="mb-4">
-                <h2 className="mb-4">Datos Demográficos</h2>
-                <table width={"100%"}>
-                    <tr>
-                        <th>Fecha de nacimiento</th>
-                        <th>Lugar de nacimiento</th>
-                        <th>Genero</th>
-                        <th>Orientación sexual</th>
-                    </tr>
-                    <tr>
-                        <td>{moment(persona?.a_fechaNacimiento).format("YYYY-MM-DD")}</td>
-                        <td>{persona?.a_lugarNacimiento || "No especificado"}</td>
-                        <td>{persona?.c_genero || "No especificado"}</td>
-                        <td>{orientacion?.a_titulo || "No especificada"}</td>
-                    </tr>
-                    <tr>
-                        <th>Etnia</th>
-                        <th>Número de hijos</th>
-                        <th>Estado civil</th>
-                    </tr>
-                    <tr>
-                        <td>{etnia?.a_titulo || "No especificada"}</td>
-                        <td>{persona?.a_numeroHijos || "No especificado"}</td>
-                        <td>{estadoCivil?.a_titulo || "No especificado"}</td>
-                    </tr>
-                </table>
-            </div>
+            <>
+                
+            </>
         );
     }
 
