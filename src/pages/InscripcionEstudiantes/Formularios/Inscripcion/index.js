@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 import API from "utils/Axios";
 import Policy from "components/Policy";
+import CasosAsignados from "./CasosAsignados";
 import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import Context from "./Ctx";
@@ -210,6 +211,13 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
               <Button type="submit" hidden={true} ref={formInscripcion} />
             </Form>
           </FormProvider>
+
+          {id && (
+            <CasosAsignados 
+              id={personaId}
+            />
+          )}
+
           <div className="d-flex justify-content-end mt-4">
             <Button onClick={save} size="lg" disabled={loading}>
               Registrar

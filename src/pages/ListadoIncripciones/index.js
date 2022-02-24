@@ -198,7 +198,7 @@ const ListadoIncripciones = () => {
       sessionStorage.removeItem("inscripcion");
     } else {
       getInscripciones({});
-      load_matriculados({});
+      // load_matriculados({});
     }
   }, []);
 

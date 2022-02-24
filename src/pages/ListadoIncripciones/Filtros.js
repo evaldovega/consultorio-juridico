@@ -172,11 +172,11 @@ const InscripcionesFiltros = ({
                 </Col>
                 <Col xs="12" md="6">
                   <Controller
-                    name="primer_apellido"
+                    name="segundo_nombre"
                     control={control}
                     render={({ field }) => (
                       <Form.Group>
-                        <Form.Label>Primer apellido</Form.Label>
+                        <Form.Label>Segundo nombre</Form.Label>
                         <Form.Control {...field} size="sm" />
                       </Form.Group>
                     )}
@@ -184,11 +184,11 @@ const InscripcionesFiltros = ({
                 </Col>
                 <Col xs="12" md="6">
                   <Controller
-                    name="segundo_nombre"
+                    name="primer_apellido"
                     control={control}
                     render={({ field }) => (
                       <Form.Group>
-                        <Form.Label>Segundo nombre</Form.Label>
+                        <Form.Label>Primer apellido</Form.Label>
                         <Form.Control {...field} size="sm" />
                       </Form.Group>
                     )}
