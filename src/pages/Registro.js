@@ -32,7 +32,7 @@ const Registro = ({ location, history }) => {
     API.post("registro/", data)
       .then(({ data }) => {
         setCargando(false);
-        toast.success("Registro completado. Ahora inicie sesión");
+        toast.success("Registro completado. Verifique su correo electrónico para activar su cuenta e inicie sesión.");
         go("/login");
       })
       .catch((error) => {
