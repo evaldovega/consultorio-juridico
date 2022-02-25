@@ -98,6 +98,13 @@ const RemisionMasiva = () => {
         setIdsInscripciones(array => [...array, response.data.id])
       }
     );
+
+    // await API.get(`/estudiantes/inscripcion/?cedula=${cedula}`).then(
+    //   (response) => {
+    //     setInscripciones(array => [...array, response.data.results[0]]);
+    //     setIdsInscripciones(array => [...array, response.data.results[0].id])
+    //   }
+    // );
   };
 
   const eliminarEstudiante = (index) => {
@@ -114,7 +121,7 @@ const RemisionMasiva = () => {
       r_usuarios_director: data.r_usuarios_director,
       r_usuarios_elaboradoPor: data.r_usuarios_elaboradoPor,
       r_config_autoridad: data.r_config_autoridad,
-      r_usuarios_estudiante_list: idsInscripciones,
+      mm_usuarios_estudianteList: idsInscripciones,
     };
     API({
       url: "autorizaciones/remision/" + (id ? `${id}/` : ""),

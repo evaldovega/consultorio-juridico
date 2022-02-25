@@ -304,7 +304,7 @@ const Autorizar = () => {
                     render={({ field }) => (
                       <Form.Group as={Col} xs="12" md="6">
                         <Form.Label>Número del radicado</Form.Label>
-                        <Form.Control type="number" {...field} />
+                        <Form.Control {...field} />
                         <Errors message={errors?.dt_fechaAsesoria?.message} />
                       </Form.Group>
                     )}
