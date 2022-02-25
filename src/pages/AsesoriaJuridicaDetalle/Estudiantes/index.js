@@ -59,7 +59,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      toast.error("No se pudo asignar el estudiante!", {
+      toast.error("No se pudo asignar el estudiante. Por favor verifique que el estudiante esté matriculado en un grupo y tenga un profesor asignado.", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,

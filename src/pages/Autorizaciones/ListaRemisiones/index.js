@@ -247,7 +247,7 @@ const ListadoRemisiones = () => {
             <span>Historico de remisiones</span>
           </MigaPan>
           <Card>
-            <Card.Body style={{overflow: "scroll"}}>
+            <Card.Body style={{ overflow: "scroll" }}>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
@@ -257,38 +257,24 @@ const ListadoRemisiones = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>Número <FaArrowUp onClick={() => switchOrderNum()} /></th>
-                    <th>Periodo</th>
-                    <th>Documento de identidad</th>
-                    <th>Nombre del estudiante <FaArrowUp onClick={() => switchOrderName()} /></th>
-                    <th>Fecha <FaArrowUp onClick={() => switchOrderDate()} /></th>
+                    {/* <th>Número <FaArrowUp onClick={() => switchOrderNum()} /></th> */}
+                    <th>Fecha<br /> (AAAA-MM-DD) <FaArrowUp onClick={() => switchOrderDate()} /></th>
+                    <th>Destinatario <FaArrowUp onClick={() => switchOrderDestinatario()} /></th>
                     <th>Director</th>
                     <th>Elaborado por</th>
-                    <th>Destinatario <FaArrowUp onClick={() => switchOrderDestinatario()} /></th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {docs.map((el) => (
                     <tr>
-                      <td>
+                      {/* <td>
                         <a href={`/autorizaciones/generar-remision/${el?.id}`}>
                           {el?.a_numeroRemision}
-                        </a>
-                      </td>
-                      <td>{el?.r_usuarios_estudiante?.a_anioInscripcion}-{el?.r_usuarios_estudiante?.a_semestreInscripcion}</td>
-                      <td>{el?.r_usuarios_estudiante?.r_usuarios_persona?.a_numeroDocumento}</td>
-                      <td>{el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerNombre
-                      } {el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoNombre !==
-                        null
-                        ? el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoNombre
-                        : ""
-                        } {el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerApellido} {el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoApellido !==
-                          null
-                          ? el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoApellido
-                          : ""
-                        } </td>
+                          </a>
+                        </td> */}
                       <td>{el?.dt_fechaRemision}</td>
+                      <td>{el?.a_dirigido} - {el?.r_config_autoridad?.a_titulo}</td>
                       <td>{el?.r_usuarios_director?.a_primerNombre} {el?.r_usuarios_director?.a_segundoNombre !== null
                         ? el?.r_usuarios_director?.a_segundoNombre
                         : ""
@@ -303,7 +289,6 @@ const ListadoRemisiones = () => {
                         ? el?.r_usuarios_elaboradoPor?.a_segundoApellido
                         : ""
                         }</td>
-                      <td>{el?.r_config_autoridad?.a_titulo}</td>
                       <td><div className="d-flex justify-content-between">
                         <a target="_blank" href={`${baseUrl}/doc_remision/${el?.id}/`}>
                           <Button variant="primary">
