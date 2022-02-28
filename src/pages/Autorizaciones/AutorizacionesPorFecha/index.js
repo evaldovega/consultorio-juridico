@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "components/Page";
-import API from "utils/Axios";
+import API, { baseUrl } from "utils/Axios";
 import Policy from "components/Policy";
 import { Button, Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { ROL_ADMIN } from "constants/apiContants";
@@ -58,7 +58,7 @@ const ListadoRemisiones = () => {
             </Row>
             <div className="d-flex justify-content-end mt-4">
               <a
-                href={`http://179.0.29.155:8000/autorizaciones_fecha/${fechaInicial}/${fechaFinal}`}
+                href={`${baseUrl}/autorizaciones_fecha/${fechaInicial}/${fechaFinal}`}
               >
                 <Button size="lg">Consultar</Button>
               </a>

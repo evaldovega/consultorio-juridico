@@ -211,7 +211,7 @@ const ListadoSolicitudes = () => {
                       <th>Documento de identidad <FaArrowUp onClick={() => switchOrderDocumento()} /></th>
                     </Policy>
                     <th>Fecha y hora <FaArrowUp onClick={() => switchOrderDate()} /></th>
-                    <th>Asunto <FaArrowUp onClick={() => switchOrderAsunto()} /></th>
+                    {/* <th>Asunto <FaArrowUp onClick={() => switchOrderAsunto()} /></th> */}
                     <th></th>
                   </tr>
                 </thead>
@@ -238,7 +238,7 @@ const ListadoSolicitudes = () => {
                       <td>
                         {d?.dt_fechaAsesoria ? moment(d?.dt_fechaAsesoria).format("YYYY-MM-DD") : "No definida"} {d?.ht_horaAsesoria !== null && moment(d?.ht_horaAsesoria, "HH:mm:ss").format("hh:mm a")}
                       </td>
-                      <td className="crop">{d?.t_asuntoConsulta}</td>
+                      {/* <td className="crop">{d?.t_asuntoConsulta}</td> */}
                       <td>
                         <Link to={`/asesoria-juridica/caso/${d.id}`}>
                           <div className="circle-icon">
