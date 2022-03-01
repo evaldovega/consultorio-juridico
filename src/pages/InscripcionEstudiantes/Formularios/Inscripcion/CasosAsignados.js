@@ -1,7 +1,7 @@
 import Errors from "components/Errors";
 import LugarPractica from "components/LugarPracticas";
 import React, { useEffect, useState, useContext } from "react";
-import { Card, Row, Col, Form, Table, Pagination } from "react-bootstrap";
+import { Alert, Card, Row, Col, Form, Table, Pagination } from "react-bootstrap";
 import { Controller } from "react-hook-form";
 import API from "utils/Axios";
 import Context from "./Ctx";
@@ -79,26 +79,30 @@ const CasosAsignados = ({ id }) => {
                 <Card style={{ marginTop: "20px" }}>
                     <Card.Body>
                         <h2>Casos asignados del estudiante</h2>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>Caso jurídico</th>
-                                    <th>Fecha y hora de la asesoría</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {casos.map((el, i) => (
+                        {casos.length ? (
+                            <Table>
+                                <thead>
                                     <tr>
-                                        <th>
-                                            <a href={`/asesoria-juridica/caso/${el.id}`}>
-                                                {el.id}
-                                            </a>
-                                        </th>
-                                        <th>{el.dt_fechaAsesoria} {el.ht_horaAsesoria}</th>
+                                        <th>Caso jurídico</th>
+                                        <th>Fecha y hora de la asesoría</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                </thead>
+                                <tbody>
+                                    {casos.map((el, i) => (
+                                        <tr>
+                                            <th>
+                                                <a href={`/asesoria-juridica/caso/${el.id}`}>
+                                                    {el.id}
+                                                </a>
+                                            </th>
+                                            <th>{el.dt_fechaAsesoria} {el.ht_horaAsesoria}</th>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        ) : (
+                            <Alert variant="warning">Este estudiante no tiene ningún caso asignado.</Alert>
+                        )}
                     </Card.Body>
                     <Card.Footer className="d-flex justify-content-between">
                         <Form.Group className="d-flex align-items-center">
