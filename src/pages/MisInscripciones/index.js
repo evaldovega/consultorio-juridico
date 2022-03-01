@@ -17,7 +17,7 @@ const MisInscripciones = () => {
     try {
       setCargando(true);
       const { data } = await API.get(`estudiantes/inscripcion/?cedula=${cedulaEstudiante}`);
-      setDoc(data.results.pop() || {});
+      setDoc(data.results[0] || {});
       setCargando(false);
     } catch (error) {
       setCargando(false);
