@@ -15,9 +15,10 @@ var moment = require("moment");
 const ReporteRegistrados = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const consultar = async () => {
-    console.log(`${fechaInicial} - ${fechaFinal}`);
+    setLoading(true)
     await API(`estudiantes/inscripcion/pdf_estudiantes/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`, {
       responseType: 'arraybuffer',
     })
@@ -25,6 +26,7 @@ const ReporteRegistrados = () => {
         var FileSaver = require('file-saver');
         var blob = new Blob([response.data], { type: 'application/pdf' });
         FileSaver.saveAs(blob, "estudiantes_registrados.pdf");
+        setLoading(false)
       })
   };
 
@@ -121,8 +123,9 @@ const ReporteRegistrados = () => {
                   // href={`${baseUrl}/registrados_fecha/${fechaInicial}/${fechaFinal}`}
                   onClick={() => consultar()}
                   size="md"
+                  disabled={loading}
                 >
-                  Generar reporte de inscripciones
+                  {loading ? "Generando..." : "Generar reporte de inscripciones"}
                 </Button>
               </InputGroup.Append>
             </InputGroup>
