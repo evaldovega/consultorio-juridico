@@ -18,6 +18,14 @@ const ReporteRegistrados = () => {
 
   const consultar = async () => {
     console.log(`${fechaInicial} - ${fechaFinal}`);
+    await API(`estudiantes/inscripcion/pdf_estudiantes/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`, {
+      responseType: 'arraybuffer',
+    })
+      .then(response => {
+        var FileSaver = require('file-saver');
+        var blob = new Blob([response.data], { type: 'application/pdf' });
+        FileSaver.saveAs(blob, "estudiantes_registrados.pdf");
+      })
   };
 
   return (
@@ -110,7 +118,8 @@ const ReporteRegistrados = () => {
               />
               <InputGroup.Append>
                 <Button
-                  href={`${baseUrl}/registrados_fecha/${fechaInicial}/${fechaFinal}`}
+                  // href={`${baseUrl}/registrados_fecha/${fechaInicial}/${fechaFinal}`}
+                  onClick={() => consultar()}
                   size="md"
                 >
                   Generar reporte de inscripciones
