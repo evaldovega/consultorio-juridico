@@ -90,18 +90,16 @@ const HeaderPage = ({ showButton, homePage }) => {
                 </Button>
               </NavDropdown.ItemText>
             </NavDropdown>
-            <Policy policy={[ROL_ESTUDIANTE]}>
-              <Nav.Link href="http://biblioteca.uniatlantico.edu.co/">
-                <span style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}>
-                  <FaBook style={{marginRight: "2px"}} />
-                  <span style={{fontWeight: 'bold'}}>Biblioteca</span>
-                </span>
-              </Nav.Link>
-            </Policy>
+            <Nav.Link href="http://biblioteca.uniatlantico.edu.co/">
+              <span style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <FaBook style={{marginRight: "2px"}} />
+                <span style={{fontWeight: 'bold'}}>Biblioteca</span>
+              </span>
+            </Nav.Link>
             <NavDropdown
               title={
                 <span
