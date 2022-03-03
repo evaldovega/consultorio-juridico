@@ -189,7 +189,7 @@ const ListadoSolicitudes = () => {
           </MigaPan>
           <Card>
             <Filtros params={params} setParams={setParams} />
-            <Card.Body>
+            <Card.Body style={{overflow: 'scroll'}}>
               {!cargando && !docs.length ? (
                 <Alert variant="warning">No se encontraron registros</Alert>
               ) : (
