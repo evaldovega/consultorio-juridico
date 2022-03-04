@@ -6,6 +6,7 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { useRef } from "react";
 
 const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
+  const today = new Date()
   const [singleSelections, setSingleSelections] = useState([]);
   const [cedula, setCedula] = useState(localStorage.getItem('doc_identidad'));
   const [options, setOptions] = useState([]);
@@ -28,12 +29,12 @@ const BuscadorEstudiante = ({ style = {}, onSelect, ...rest }) => {
     //   doc_docente: localStorage.getItem('doc_identidad'),
     //   grupos: grupos
     // })
-    await API.get(`estudiantes/inscripcion/?cedula=${query}`)
+    await API.get(`estudiantes/inscripcion/?anio_validez=${today.getFullYear()}&cedula=${query}`)
       .then(response => {
         setOptions(response.data.results.map((el) => (
           {
             id: el?.r_usuarios_persona?.id,
-            label: `${el?.r_usuarios_persona.a_primerNombre} ${el?.r_usuarios_persona.a_segundoNombre} ${el?.r_usuarios_persona.a_primerApellido} ${el?.r_usuarios_persona.a_segundoApellido} `
+            label: `${el?.r_usuarios_persona.a_primerNombre} ${el?.r_usuarios_persona.a_segundoNombre || ""} ${el?.r_usuarios_persona.a_primerApellido} ${el?.r_usuarios_persona.a_segundoApellido || ""} `
           }
         )))
         setLoading(false);

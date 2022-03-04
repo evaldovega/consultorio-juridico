@@ -198,7 +198,7 @@ const SolicitarAsesoria = () => {
         <Context.Provider
           value={{ control, watch, errors, setValue, getValues, loading }}
         >
-          <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
+          <Policy policy={[ROL_PERSONA, ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
             <Accordion defaultActiveKey="0">
               <Card className="mb-4">
                 <Card.Header className="d-flex justify-content-end">
@@ -208,7 +208,12 @@ const SolicitarAsesoria = () => {
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body style={{ padding: "2.5rem" }}>
-                    <h2 className="mb-4">Ciudadano</h2>
+                    <Policy policy={[ROL_ESTUDIANTE, ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
+                      <h2 className="mb-4">Ciudadano</h2>
+                    </Policy>
+                    <Policy policy={[ROL_PERSONA]}>
+                      <h2 className="mb-4">Editar mi información</h2>
+                    </Policy>
                     <PerfilMaster
                       id={personaId}
                       formRef={formPersona}

@@ -65,9 +65,9 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
         <>
           <Col xs="6" md="3">
             <Form.Group>
-              <Form.Label>Nombre</Form.Label>
+              <Form.Label>Nombre(s)</Form.Label>
               <Form.Control
-                value={doc.a_primerNombre}
+                value={`${doc.a_primerNombre} ${doc.a_segundoNombre || ""}`}
                 readOnly={true}
                 plaintext={true}
               />
@@ -75,9 +75,9 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
           </Col>
           <Col xs="6" md="3">
             <Form.Group>
-              <Form.Label>Apellido</Form.Label>
+              <Form.Label>Apellido(s)</Form.Label>
               <Form.Control
-                value={doc.a_primerApellido}
+                value={`${doc.a_primerApellido} ${doc.a_segundoApellido || ""}`}
                 readOnly={true}
                 plaintext={true}
               />
