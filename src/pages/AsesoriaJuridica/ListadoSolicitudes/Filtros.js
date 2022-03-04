@@ -45,6 +45,7 @@ const Filtros = ({
   const limpiar = () => {
     setValue("fechainicio", "");
     setValue("fechafin", "");
+    setValue("doc_solicitante", "");
     setValue("primer_nombre", "");
     setValue("segundo_nombre", "");
     setValue("primer_apellido", "");
@@ -108,6 +109,21 @@ const Filtros = ({
                       <Form.Group>
                         <Form.Label>Fecha fin</Form.Label>
                         <Form.Control type="date" {...field} size="sm" />
+                      </Form.Group>
+                    )}
+                  />
+                </Col>
+              </Row>
+              <h4>Por cédula del solicitante</h4>
+              <Row className="mb-1">
+                <Col xs="12" md="6">
+                  <Controller
+                    name="doc_solicitante"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group>
+                        <Form.Label>Documento del solicitante</Form.Label>
+                        <Form.Control {...field} size="sm" />
                       </Form.Group>
                     )}
                   />
