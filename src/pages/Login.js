@@ -95,11 +95,17 @@ const Login = ({ location, history }) => {
               onSubmit={handleSubmit(onFinish, onError)}
               style={{ width: "60%", marginTop: 100, marginBottom: 32 }}
             >
-              <img
-                src="/images/logo.png"
-                className="img-fluid"
-                style={{ marginBottom: 100 }}
-              />
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>  
+                <img
+                  src="/images/cjlogo.jpg"
+                  className="img-fluid"
+                  style={{ marginBottom: 20, width: "40%", height: 'auto' }}
+                />
+              </div>
               <Controller
                 name="username"
                 control={control}
