@@ -458,7 +458,7 @@ a {
 
 .logo-home {
   border-radius: 8px;
-  width: 5%;
+  width: 40px;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -534,7 +534,7 @@ a {
   }
 
   .logo-home {
-    width: 120px;
+    width: 30px;
   }
 
   .footer-home {

@@ -10,6 +10,7 @@ import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import MigaPanAsesoriaJuridicaReportes from "components/MigaPan/AsesoriaJuridicaReportes";
+import { toast } from 'react-toastify'
 var moment = require("moment");
 
 const ReporteLugarPractica = () => {
@@ -27,6 +28,7 @@ const ReporteLugarPractica = () => {
         var blob = new Blob([response.data], { type: 'application/pdf' });
         FileSaver.saveAs(blob, "estudiantes_en_practicas.pdf");
         setLoading(false)
+        toast.success("Su reporte se descargará ahora mismo.")
       })
   };
 
