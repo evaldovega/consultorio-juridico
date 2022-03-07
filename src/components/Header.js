@@ -46,7 +46,7 @@ const HeaderPage = ({ showButton, homePage }) => {
 
         <a href="/">
           <img
-            src="images/cjlogo.jpg"
+            src="/images/cjlogo.jpg"
             className="logo-home"
             style={{
               boxShadow: "2px 2px 2px 2px rgba(99, 99, 99, 0.4)"
