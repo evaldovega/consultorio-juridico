@@ -15,9 +15,19 @@ var moment = require("moment");
 const ReporteLugarPractica = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const consultar = async () => {
-    console.log(`${fechaInicial} - ${fechaFinal}`);
+    setLoading(true)
+    await API(`autorizaciones/remision/lugar_practicas/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`, {
+      responseType: 'arraybuffer',
+    })
+      .then(response => {
+        var FileSaver = require('file-saver');
+        var blob = new Blob([response.data], { type: 'application/pdf' });
+        FileSaver.saveAs(blob, "estudiantes_en_practicas.pdf");
+        setLoading(false)
+      })
   };
 
   return (
@@ -110,10 +120,12 @@ const ReporteLugarPractica = () => {
               />
               <InputGroup.Append>
                 <Button
-                  href={`${baseUrl}/estudiantes_lugarpracticas/${fechaInicial}/${fechaFinal}`}
+                  // href={`${baseUrl}/casos_fecha/${fechaInicial}/${fechaFinal}`}
+                  onClick={() => consultar()}
                   size="md"
+                  disabled={loading}
                 >
-                  Generar reporte por lugar de practicas
+                  {loading ? "Generando..." : "Generar reporte"}
                 </Button>
               </InputGroup.Append>
             </InputGroup>
