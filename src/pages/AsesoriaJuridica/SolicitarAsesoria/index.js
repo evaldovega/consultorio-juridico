@@ -22,6 +22,7 @@ import AsesoriaEstudiantes from "./Estudiantes";
 import { useContext } from "react";
 import { Context as ContextPolicy } from "components/Policy/Ctx";
 import AsignarAdmin from "./AsignarAdmin";
+import BuscadorEstudiante from "components/buscadorEstudiante";
 
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
@@ -48,6 +49,23 @@ const SolicitarAsesoria = () => {
   const formPersona = useRef();
   const formAsesoria = useRef();
   const { policies, persona: usuarioEnSession } = useContext(ContextPolicy);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+    getValues,
+    reset,
+  } = useForm({
+    mode: "all",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
+
+  const atendido = watch('atendido')
 
   const guardarAsesoria = async (data) => {
     setLoading(true);
@@ -104,7 +122,7 @@ const SolicitarAsesoria = () => {
     });
   };
 
-  const loadDetail = () => {};
+  const loadDetail = () => { };
 
   //------Guardar como persona
   const guardarComoPersona = async () => {
@@ -162,21 +180,6 @@ const SolicitarAsesoria = () => {
       }
     }
   };
-
-  const {
-    register,
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-    getValues,
-    reset,
-  } = useForm({
-    mode: "all",
-    reValidateMode: "onChange",
-    shouldFocusError: true,
-  });
 
   useEffect(() => {
     if (id) {
@@ -303,6 +306,29 @@ const SolicitarAsesoria = () => {
             </Card>
             <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>
               <AsesoriaEstudiantes />
+            </Policy>
+            <Policy policy={[ROL_PERSONA]}>
+              <Card>
+                <Card.Body style={{ padding: "2.5rem" }}>
+                  <Controller
+                    name="atendido"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group as={Col} xs="12">
+                        <Form.Check 
+                          type="checkbox" 
+                          label="¿Su caso ya está siendo atendido por un estudiante?"
+                          {...field} 
+                        />
+                        <Errors message={errors?.t_asuntoConsulta?.message} />
+                      </Form.Group>
+                    )}
+                  />
+                  {atendido && (
+                    <AsesoriaEstudiantes />
+                  )}
+                </Card.Body>
+              </Card>
             </Policy>
 
             <Policy policy={[ROL_ADMIN]}>

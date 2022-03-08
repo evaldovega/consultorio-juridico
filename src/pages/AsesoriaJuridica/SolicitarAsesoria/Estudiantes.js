@@ -3,6 +3,9 @@ import { FaTimes } from "react-icons/fa";
 import BuscadorEstudiante from "components/buscadorEstudiante";
 import Context from "./Ctx";
 import { Card, Button, Table } from "react-bootstrap";
+import Policy from "components/Policy";
+import CiudadanoBusqueda from "./CiudadanoBusqueda";
+import { ROL_ADMIN, ROL_DOCENTE, ROL_PERSONA, ROL_ESTUDIANTE, ROL_ASESOR } from "constants/apiContants";
 
 const AsesoriaEstudiantes = () => {
   const { readOnly, control, errors, setValue, watch, getValues } =
@@ -27,10 +30,18 @@ const AsesoriaEstudiantes = () => {
     <Card style={{ overflow: "visible!important" }} className="mb-4">
       <Card.Body style={{ padding: "2.5rem", overflow: "visible!important" }}>
         <h2 className="mb-4">Asignar estudiantes</h2>
-        <BuscadorEstudiante
-          onSelect={estudianteSeleccionado}
-          multiple={false}
-        />
+        <Policy policy={[ROL_ADMIN, ROL_DOCENTE, ROL_ASESOR, ROL_ESTUDIANTE]}>  
+          <BuscadorEstudiante
+            onSelect={estudianteSeleccionado}
+            multiple={false}
+          />
+        </Policy> 
+        <Policy policy={[ROL_PERSONA]}>
+          <CiudadanoBusqueda 
+            onSelect={estudianteSeleccionado}
+            multiple={false}
+          />  
+        </Policy>
         <br />
         <Table>
           <thead>
