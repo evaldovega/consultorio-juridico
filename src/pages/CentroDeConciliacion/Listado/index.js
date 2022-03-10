@@ -189,7 +189,6 @@ const CentroDeConciliacionListado = () => {
                 <thead>
                   <tr>
                     <th>Fecha solicitud <FaArrowUp onClick={() => switchOrderDate()} /></th>
-                    <th>Solicitante</th>
                     <th>Resumen <FaArrowUp onClick={() => switchOrderResumen()} /></th>
                     <th>Intenciones <FaArrowUp onClick={() => switchOrderIntenciones()} /></th>
                     <th></th>
@@ -199,7 +198,6 @@ const CentroDeConciliacionListado = () => {
                   {docs.map((d) => (
                     <tr>
                       <td>{d?.d_fechaSolicitud}</td>
-                      <td>{d?.r_solicitante[0]?.r_usuarios_solicitante?.a_primerNombre}</td>
                       <td className="crop">{d?.t_resumenHechos}</td>
                       <td className="crop">{d?.c_intencionSolicitante}</td>
                       <td>
