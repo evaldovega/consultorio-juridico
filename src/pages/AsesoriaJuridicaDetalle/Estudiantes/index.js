@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
 import { Alert, Button } from "react-bootstrap";
 import AsignarEstudiante from "./Asignar";
+import Docente from './Docente'
 
 const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
   const { mm_estudiantesAsignados = [] } = caso;
@@ -84,6 +85,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
     if (mm_estudiantesAsignados) {
       setListado(mm_estudiantesAsignados);
     }
+    console.log(listado)
   }, [mm_estudiantesAsignados]);
 
   return (
@@ -98,6 +100,7 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
             allowRemove={allowRemove}
             onRemove={onRemoveEstudiante}
           />
+          <Docente id={e} />
           {i < listado.length - 1 && <hr />}
         </>
       ))}
