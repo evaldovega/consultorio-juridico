@@ -153,7 +153,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                 <Row>
                   <Col xs="12">
                     <Form.Label>Estudiante conciliador</Form.Label>
-                    <PersonaDetailRow 
+                    <PersonaDetailRow
                       id={doc?.r_usuarios_conciliador?.id}
                     />
                   </Col>
@@ -163,6 +163,13 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           </Tab>
           <Tab eventKey="solicitantes" title="Solicitantes">
             <Modal.Body>
+              <Policy policy={[ROL_ADMIN]}>
+                {!citas.length && (
+                  <Alert variant="warning">
+                    Para descargar los formatos, asigne una cita en la pestaña Citas
+                  </Alert>
+                )}
+              </Policy>
               <Table>
                 <thead>
                   <tr>
@@ -171,7 +178,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <th>Celular</th>
                     <th>Dirección</th>
                     <Policy policy={[ROL_ADMIN]}>
-                      <th>Imprimir formatos</th>
+                      {citas.length && (
+                        <th>Imprimir formatos</th>
+                      )}
                     </Policy>
                   </tr>
                 </thead>
@@ -186,43 +195,45 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                             `${c?.r_usuarios_solicitante?.a_primerNombre} ${c?.r_usuarios_solicitante?.a_primerApellido}`
                           )}
                         </td>
-                        <td>{c?.r_usuarios_solicitante?.a_numeroDocumento}</td>
-                        <td>{c?.r_usuarios_solicitante?.a_celular}</td>
+                        <td>{c?.r_usuarios_solicitante?.a_numeroDocumento || "-"}</td>
+                        <td>{c?.r_usuarios_solicitante?.a_celular || "-"}</td>
                         <td>
                           {c?.r_usuarios_solicitante?.a_barrio}{" "}
                           {c?.r_usuarios_solicitante?.a_direccion}
                         </td>
-                        <Policy policy={[ROL_ADMIN]}>  
-                          <td>
-                            <a
-                              target="blank"
-                              className="d-block mb-1"
-                              href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                            >
-                              Citación
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block"
-                              href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/1`}
-                            >
-                              Inasistencia
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block mb-1"
-                              href={`${baseUrl}/docx_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                            >
-                              Citación (Word)
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block"
-                              href={`${baseUrl}/docx_inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/1`}
-                            >
-                              Inasistencia (Word)
-                            </a>
-                          </td>
+                        <Policy policy={[ROL_ADMIN]}>
+                          {citas.length && (
+                            <td>
+                              <a
+                                target="blank"
+                                className="d-block mb-1"
+                                href={`${baseUrl}/doc_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                              >
+                                Citación
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block"
+                                href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/1`}
+                              >
+                                Inasistencia
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block mb-1"
+                                href={`${baseUrl}/docx_citacion_audiencia/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                              >
+                                Citación (Word)
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block"
+                                href={`${baseUrl}/docx_inasistencia_unaparte/${doc?.id}/${c?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/1`}
+                              >
+                                Inasistencia (Word)
+                              </a>
+                            </td>
+                          )}
                         </Policy>
                       </tr>
                       <tr>
@@ -240,6 +251,13 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           </Tab>
           <Tab eventKey="citados" title="Citados">
             <Modal.Body>
+              <Policy policy={[ROL_ADMIN]}>
+                {!citas.length && (
+                  <Alert variant="warning">
+                    Para descargar los formatos, asigne una cita en la pestaña Citas
+                  </Alert>
+                )}
+              </Policy>
               <Table>
                 <thead>
                   <tr>
@@ -247,59 +265,63 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <th>Documento</th>
                     <th>Celular</th>
                     <th>Dirección</th>
-                    <Policy policy={[ROL_ADMIN]}>
-                      <th>Imprimir formatos</th>
-                    </Policy>
+                    {citas.length && (
+                      <Policy policy={[ROL_ADMIN]}>
+                        <th>Imprimir formatos</th>
+                      </Policy>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
                   {doc?.r_citados?.map((c, i) => (
                     <>
                       <tr key={i}>
-                      <td>
+                        <td>
                           {c?.r_usuarios_citado?.c_tipoPersona === PERSONA_JURIDICA ? (
                             c?.r_usuarios_citado?.a_nombrePersonaJuridica
                           ) : (
                             `${c?.r_usuarios_citado?.a_primerNombre} ${c?.r_usuarios_citado?.a_primerApellido}`
                           )}
                         </td>
-                        <td>{c?.r_usuarios_citado?.a_numeroDocumento}</td>
-                        <td>{c?.r_usuarios_citado?.a_celular}</td>
+                        <td>{c?.r_usuarios_citado?.a_numeroDocumento || "-"}</td>
+                        <td>{c?.r_usuarios_citado?.a_celular || "-"}</td>
                         <td>
                           {c?.r_usuarios_citado?.a_barrio}{" "}
                           {c?.r_usuarios_citado?.a_direccion}
                         </td>
-                        <Policy policy={[ROL_ADMIN]}>  
-                          <td>
-                            <a
-                              target="blank"
-                              className="d-block mb-1"
-                              href={`${baseUrl}/doc_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/`}
-                            >
-                              Citación
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block"
-                              href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/2`}
-                            >
-                              Inasistencia
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block mb-1"
-                              href={`${baseUrl}/docx_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/`}
-                            >
-                              Citación (Word)
-                            </a>
-                            <a
-                              target="blank"
-                              className="d-block"
-                              href={`${baseUrl}/docx_inasistencia_unaparte/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/2`}
-                            >
-                              Inasistencia (Word)
-                            </a>
-                          </td>
+                        <Policy policy={[ROL_ADMIN]}>
+                          {citas.length && (
+                            <td>
+                              <a
+                                target="blank"
+                                className="d-block mb-1"
+                                href={`${baseUrl}/doc_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/`}
+                              >
+                                Citación
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block"
+                                href={`${baseUrl}/inasistencia_unaparte/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/2`}
+                              >
+                                Inasistencia
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block mb-1"
+                                href={`${baseUrl}/docx_citacion_audiencia/${doc.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/`}
+                              >
+                                Citación (Word)
+                              </a>
+                              <a
+                                target="blank"
+                                className="d-block"
+                                href={`${baseUrl}/docx_inasistencia_unaparte/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${c?.r_usuarios_citado?.id}/2`}
+                              >
+                                Inasistencia (Word)
+                              </a>
+                            </td>
+                          )}
                         </Policy>
                       </tr>
                       <tr>
@@ -345,96 +367,104 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           {policies.includes(ROL_ADMIN) && (
             <Tab eventKey="formatos" title="Impresión de formatos">
               <Modal.Body>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Inasistencia de dos partes
-                </a>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Acta de conciliación
-                </a>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Acta de no conciliación
-                </a>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/docx_inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Inasistencia de dos partes (Word)
-                </a>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/docx_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Acta de conciliación (Word)
-                </a>
-                <a
-                  target="blank"
-                  className="d-block mb-1"
-                  href={`${baseUrl}/docx_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
-                >
-                  Acta de no conciliación (Word)
-                </a>
+                {citas.length ? (
+                  <>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Inasistencia de dos partes
+                    </a>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/doc_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Acta de conciliación
+                    </a>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Acta de no conciliación
+                    </a>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/docx_inasistencia_dospartes/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Inasistencia de dos partes (Word)
+                    </a>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/docx_audiencia_conciliacion/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Acta de conciliación (Word)
+                    </a>
+                    <a
+                      target="blank"
+                      className="d-block mb-1"
+                      href={`${baseUrl}/docx_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
+                    >
+                      Acta de no conciliación (Word)
+                    </a>
+                  </>
+                ) : (
+                  <Alert variant="warning">
+                    Para descargar los formatos, asigne una cita en la pestaña Citas
+                  </Alert>
+                )}
               </Modal.Body>
             </Tab>
           )}
           <Tab eventKey="citas" title="Citas">
-              <Modal.Body>
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>Fecha y hora de inicio</th>
-                        <th>Fecha y hora de finalización</th>
-                        <th>Modalidad</th>
-                        <th>Salón de la audiencia</th>
-                        <th>Enlace de la reunión</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {citas.map((el, index) => (
-                        <tr key={index}>
-                          <td>
-                            {moment(el?.d_fechaInicialAudiencia).format("DD/MMMM/YYYY hh:mm a")}
-                          </td>
-                          <td>
-                            {moment(el?.d_fechaFinalAudiencia).format("DD/MMMM/YYYY hh:mm a")}
-                          </td>
-                          <td>
-                            {el?.c_modalidad}
-                          </td>
-                          <td>
-                            {el?.r_config_salaConciliacion?.a_titulo || "-"}
-                          </td>
-                          <td>
-                            {el?.a_enlaceVirtual || "-"}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  {!citas.length && (
-                    <Alert variant="warning">
-                      No se ha agendado ninguna cita para atender este caso.  
-                    </Alert>
-                  )}
-                  <Policy policy={[ROL_ADMIN]}>
-                    <Button onClick={() => setNuevaCitaShow(true)}>
-                      Agregar nueva cita
-                    </Button>
-                  </Policy>
-              </Modal.Body>
+            <Modal.Body>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Fecha y hora de inicio</th>
+                    <th>Fecha y hora de finalización</th>
+                    <th>Modalidad</th>
+                    <th>Salón de la audiencia</th>
+                    <th>Enlace de la reunión</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {citas.map((el, index) => (
+                    <tr key={index}>
+                      <td>
+                        {moment(el?.d_fechaInicialAudiencia).format("DD/MMMM/YYYY hh:mm a")}
+                      </td>
+                      <td>
+                        {moment(el?.d_fechaFinalAudiencia).format("DD/MMMM/YYYY hh:mm a")}
+                      </td>
+                      <td>
+                        {el?.c_modalidad}
+                      </td>
+                      <td>
+                        {el?.r_config_salaConciliacion?.a_titulo || "-"}
+                      </td>
+                      <td>
+                        {el?.a_enlaceVirtual || "-"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              {!citas.length && (
+                <Alert variant="warning">
+                  No se ha agendado ninguna cita para atender este caso.
+                </Alert>
+              )}
+              <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
+                <Button onClick={() => setNuevaCitaShow(true)}>
+                  Agregar nueva cita
+                </Button>
+              </Policy>
+            </Modal.Body>
           </Tab>
         </Tabs>
       </Modal>
