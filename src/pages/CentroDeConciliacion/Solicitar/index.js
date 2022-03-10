@@ -302,81 +302,86 @@ const CentroDeConciliacionSolicitar = () => {
             <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
               <Card>
                 <Card.Body>
+                    <h2>Datos de la audiencia</h2>
                   <Row className="mb-1">
-                    <Col xs="12" md="6">
-                      <Controller
-                        name="d_fechaInicialAudiencia"
-                        control={control}
-                        rules={{
-                          required: "Ingrese información",
-                        }}
-                        render={({ field }) => (
-                          <Form.Group>
-                            <Form.Label>Fecha inicial de la audiencia</Form.Label>
-                            <Form.Control type="datetime-local" min={today} {...field} />
-                            <Errors
-                              message={errors?.r_usuarios_conciliador?.message}
+                    {!idConciliacion && (
+                      <>
+                        <Col xs="12" md="6">
+                          <Controller
+                            name="d_fechaInicialAudiencia"
+                            control={control}
+                            rules={{
+                              required: "Ingrese información",
+                            }}
+                            render={({ field }) => (
+                              <Form.Group>
+                                <Form.Label>Fecha inicial de la audiencia</Form.Label>
+                                <Form.Control type="datetime-local" min={today} {...field} />
+                                <Errors
+                                  message={errors?.r_usuarios_conciliador?.message}
+                                />
+                              </Form.Group>
+                            )}
+                          />
+                        </Col>
+                        <Col xs="12" md="6">
+                          <Controller
+                            name="d_fechaFinalAudiencia"
+                            control={control}
+                            rules={{
+                              required: "Ingrese información",
+                            }}
+                            render={({ field }) => (
+                              <Form.Group>
+                                <Form.Label>Fecha final de la audiencia</Form.Label>
+                                <Form.Control type="datetime-local" min={today} {...field} />
+                                <Errors
+                                  message={errors?.r_usuarios_conciliador?.message}
+                                />
+                              </Form.Group>
+                            )}
+                          />
+                        </Col>
+                        <Col xs="12" md="6">
+                          <Controller
+                            name="c_modalidad"
+                            control={control}
+                            rules={{
+                              required: "Ingrese información",
+                            }}
+                            render={({ field }) => (
+                              <Form.Group>
+                                <Form.Label>Modalidad</Form.Label>
+                                <Form.Control as="select" {...field}>
+                                  <option value="">Seleccione...</option>
+                                  <option value="VIRTUAL">Virtual</option>
+                                  <option value="PRESENCIAL">Presencial</option>
+                                </Form.Control>
+                                <Errors
+                                  message={errors?.r_usuarios_conciliador?.message}
+                                />
+                              </Form.Group>
+                            )}
+                          />
+                        </Col>
+                        {modalidad === "VIRTUAL" && (
+                          <Col xs="12" md="6">
+                            <Controller
+                              name="a_enlaceVirtual"
+                              control={control}
+                              render={({ field }) => (
+                                <Form.Group>
+                                  <Form.Label>Enlace de la reunión</Form.Label>
+                                  <Form.Control type="input" {...field} />
+                                  <Errors
+                                    message={errors?.r_usuarios_conciliador?.message}
+                                  />
+                                </Form.Group>
+                              )}
                             />
-                          </Form.Group>
+                          </Col>
                         )}
-                      />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <Controller
-                        name="d_fechaFinalAudiencia"
-                        control={control}
-                        rules={{
-                          required: "Ingrese información",
-                        }}
-                        render={({ field }) => (
-                          <Form.Group>
-                            <Form.Label>Fecha final de la audiencia</Form.Label>
-                            <Form.Control type="datetime-local" min={today} {...field} />
-                            <Errors
-                              message={errors?.r_usuarios_conciliador?.message}
-                            />
-                          </Form.Group>
-                        )}
-                      />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <Controller
-                        name="c_modalidad"
-                        control={control}
-                        rules={{
-                          required: "Ingrese información",
-                        }}
-                        render={({ field }) => (
-                          <Form.Group>
-                            <Form.Label>Modalidad</Form.Label>
-                            <Form.Control as="select" {...field}>
-                              <option value="">Seleccione...</option>
-                              <option value="VIRTUAL">Virtual</option>
-                              <option value="PRESENCIAL">Presencial</option>
-                            </Form.Control>
-                            <Errors
-                              message={errors?.r_usuarios_conciliador?.message}
-                            />
-                          </Form.Group>
-                        )}
-                      />
-                    </Col>
-                    {modalidad === "VIRTUAL" && (
-                      <Col xs="12" md="6">
-                        <Controller
-                          name="a_enlaceVirtual"
-                          control={control}
-                          render={({ field }) => (
-                            <Form.Group>
-                              <Form.Label>Enlace de la reunión</Form.Label>
-                              <Form.Control type="input" {...field} />
-                              <Errors
-                                message={errors?.r_usuarios_conciliador?.message}
-                              />
-                            </Form.Group>
-                          )}
-                        />
-                      </Col>
+                      </>
                     )}
                     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                       <Form.Group as={Col} xs="12" md="7">

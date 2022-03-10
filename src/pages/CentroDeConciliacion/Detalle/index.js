@@ -374,7 +374,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                       <tr>
                         <th>Fecha y hora de inicio</th>
                         <th>Fecha y hora de finalización</th>
+                        <th>Modalidad</th>
                         <th>Salón de la audiencia</th>
+                        <th>Enlace de la reunión</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -387,7 +389,13 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                             {moment(el?.d_fechaFinalAudiencia).format("DD/MMMM/YYYY hh:mm a")}
                           </td>
                           <td>
-                            {el?.r_config_salaConciliacion?.a_titulo}
+                            {el?.c_modalidad}
+                          </td>
+                          <td>
+                            {el?.r_config_salaConciliacion?.a_titulo || "-"}
+                          </td>
+                          <td>
+                            {el?.a_enlaceVirtual || "-"}
                           </td>
                         </tr>
                       ))}
