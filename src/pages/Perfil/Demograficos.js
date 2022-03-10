@@ -96,7 +96,7 @@ const PerfilDemografico = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Fecha de nacimiento <span className="required" />
+                Fecha de nacimiento
               </Form.Label>
               <Form.Control
                 type="date"
@@ -128,7 +128,7 @@ const PerfilDemografico = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Genero <span className="required" />
+                Genero
               </Form.Label>
               <Form.Control
                 as="select"
@@ -149,13 +149,10 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_orientacion"
           control={control}
-          rules={{
-            required: "Ingrese información",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Orientación sexual <span className="required" />
+                Orientación sexual
               </Form.Label>
               <Form.Control
                 as="select"
@@ -184,7 +181,7 @@ const PerfilDemografico = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Etnia <span className="required" />
+                Etnia
               </Form.Label>
               <Form.Control
                 as="select"
@@ -211,7 +208,7 @@ const PerfilDemografico = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Estado civil <span className="required" />
+                Estado civil
               </Form.Label>
               <Form.Control
                 as="select"
@@ -238,7 +235,7 @@ const PerfilDemografico = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Número de hijos <span className="required" />
+                Número de hijos
               </Form.Label>
               <Form.Control
                 type="number"

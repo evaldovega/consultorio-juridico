@@ -147,11 +147,10 @@ const PerfilIdentificacion = () => {
           name="a_numeroDocumento"
           control={control}
           defaultValue=""
-          rules={{ required: "Ingrese su número de identidad" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6">
               <Form.Label>
-                Número documento <span className="required" />
+                Número documento
               </Form.Label>
               <Form.Control
                 {...field}
@@ -174,11 +173,10 @@ const PerfilIdentificacion = () => {
           name="a_fechaExpedicionDocumento"
           control={control}
           defaultValue=""
-          rules={{ required: "Ingrese una fecha" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6">
               <Form.Label>
-                Fecha de expedición <span className="required" />
+                Fecha de expedición 
               </Form.Label>
               <Form.Control
                 type="date"
@@ -192,7 +190,7 @@ const PerfilIdentificacion = () => {
         />
         <Form.Group as={Col}>
           <Form.Label>
-            Adjuntar documento legible <span className="required" />
+            Adjuntar documento legible
           </Form.Label>
           <br />
           {documento && documento.substring(0, 1) === "/" &&
@@ -212,7 +210,6 @@ const PerfilIdentificacion = () => {
             name="f_archivoDocumento"
             control={control}
             defaultValue=""
-            rules={{ required: "Seleccione un archivo" }}
             render={({ field }) => (
               <input
                 {...field}
@@ -230,11 +227,10 @@ const PerfilIdentificacion = () => {
           name="r_config_paisExpedicion"
           control={control}
           defaultValue=""
-          rules={{ required: "Ingrese su pais de expedición" }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Pais <span className="required" />
+                Pais
               </Form.Label>
               <Country
                 field={field}
@@ -251,11 +247,10 @@ const PerfilIdentificacion = () => {
           name="r_config_departamentoExpedicion"
           control={control}
           defaultValue=""
-          rules={{ required: "Ingrese su departamento de expedición" }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Departamento o Estado <span className="required" />
+                Departamento o Estado
               </Form.Label>
               <State
                 field={field}
@@ -273,11 +268,10 @@ const PerfilIdentificacion = () => {
           name="r_config_ciudadExpedicion"
           control={control}
           defaultValue=""
-          rules={{ required: "Seleccione la ciudad de expedición" }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Ciudad <span className="required" />
+                Ciudad 
               </Form.Label>
               <City field={field} setValue={setValue} readOnly={readOnly} />
               <Errors message={errors.r_config_ciudadExpedicion?.message} />

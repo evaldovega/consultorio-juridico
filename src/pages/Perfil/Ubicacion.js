@@ -187,7 +187,7 @@ const PerfilUbicacion = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Celular <span className="required" />
+                Celular
               </Form.Label>
               <Form.Control
                 {...field}
@@ -205,7 +205,7 @@ const PerfilUbicacion = () => {
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Correo eletrónico <span className="required" />
+                Correo electrónico
               </Form.Label>
               <Form.Control
                 {...field}
