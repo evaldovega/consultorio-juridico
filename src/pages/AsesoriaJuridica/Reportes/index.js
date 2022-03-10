@@ -37,11 +37,6 @@ const AsesoriaReportesIndex = () => {
       "grafica": false
     },
     {
-      "title": "Casos por fecha",
-      "sufijo": "casos-fecha",
-      "grafica": false
-    },
-    {
       "title": "Por sexo",
       "sufijo": "sexo",
       "grafica": true

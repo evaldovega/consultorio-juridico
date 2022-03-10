@@ -90,6 +90,11 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
                 data: payload,
             });
             setCargando(false);
+            setValue("d_fechaInicialAudiencia", null)
+            setValue("d_fechaFinalAudiencia", null)
+            setValue("c_modalidad", null)
+            setValue("a_enlaceVirtual", null)
+            setValue("r_config_salaConciliacion", null)
             sessionStorage.setItem("conciliacion", response.id);
             onHide();
         } catch (error) {
@@ -131,7 +136,7 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
                                 }}
                                 render={({ field }) => (
                                     <Form.Group>
-                                        <Form.Label>Fecha inicial de la audiencia</Form.Label>
+                                        <Form.Label>Fecha/hora de inicio de la audiencia</Form.Label>
                                         <Form.Control type="datetime-local" min={today} {...field} />
                                         <Errors
                                             message={errors?.r_usuarios_conciliador?.message}
@@ -149,7 +154,7 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
                                 }}
                                 render={({ field }) => (
                                     <Form.Group>
-                                        <Form.Label>Fecha final de la audiencia</Form.Label>
+                                        <Form.Label>Fecha/hora de fin de la audiencia</Form.Label>
                                         <Form.Control type="datetime-local" min={today} {...field} />
                                         <Errors
                                             message={errors?.r_usuarios_conciliador?.message}
