@@ -21,6 +21,13 @@ const Parte = ({
       onRemove(field[[id]]);
     }
   };
+
+  const personaId = typeof field[id]=="object" ? field[id].id : field[id];
+
+  useEffect(() => {
+    console.log({field, id,personaId})
+  }, [])
+
   return (
     <div className="parte">
       <Controller
@@ -37,7 +44,7 @@ const Parte = ({
       ) : (
         <p className="text-success">Nuevo!</p>
       )}
-      <PersonaDetailRow allowRemove={false} id={field[id]} />
+      <PersonaDetailRow allowRemove={false} id={personaId} />
       <Row>
         <Col></Col>
         <Col xs="12" md="11">

@@ -133,6 +133,7 @@ const CentroDeConciliacionSolicitar = () => {
       if (method == "POST") {
         payload.d_fechaSolicitud = moment().format("YYYY-MM-DD");
       }
+      console.log({payload})
       const { data: response } = await API({
         method,
         url,
@@ -331,31 +332,6 @@ const CentroDeConciliacionSolicitar = () => {
                           <Form.Group>
                             <Form.Label>Fecha final de la audiencia</Form.Label>
                             <Form.Control type="datetime-local" min={today} {...field} />
-                            <Errors
-                              message={errors?.r_usuarios_conciliador?.message}
-                            />
-                          </Form.Group>
-                        )}
-                      />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <Controller
-                        name="r_config_salaConciliacion"
-                        control={control}
-                        rules={{
-                          required: "Ingrese información",
-                        }}
-                        render={({ field }) => (
-                          <Form.Group>
-                            <Form.Label>Sala de conciliación</Form.Label>
-                            <Form.Control as="select" {...field}>
-                              <option value="">Seleccione...</option>
-                              {salasConciliacion.map((el) => (
-                                <option value={el.id}>
-                                  {el.a_titulo}
-                                </option>
-                              ))}
-                            </Form.Control>
                             <Errors
                               message={errors?.r_usuarios_conciliador?.message}
                             />

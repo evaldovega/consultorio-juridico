@@ -53,6 +53,7 @@ const Partes = ({
 
   const personaGuardada = ({ persona, success, feedback = true }) => {
     if (success) {
+      console.log({persona})
       setMostrarModal(false);
       const existe = fields.some((f) => f[[id]] == persona.id);
       if (existe && feedback) {

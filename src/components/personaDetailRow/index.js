@@ -10,6 +10,7 @@ import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
   const [cargnado, setCargando] = useState(false);
   const [doc, setDoc] = useState({});
+  const [error, setError] = useState(null)
 
   const cargar = () => {
     setCargando(true);
@@ -20,6 +21,9 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
           f_archivoFotoPerfil: `${baseUrl}${data.f_archivoFotoPerfil}`,
         })
       )
+      .catch(error => {
+        setError(error?.response?.data?.detail || error.toString())
+      })
       .finally(() => setCargando(false));
   };
 
@@ -33,6 +37,14 @@ const PersonaDetailRow = ({ id, allowRemove = false, onRemove }) => {
     cargar();
   }, []);
 
+  if (error) {
+    return(
+      <div>
+        <h1>{error}</h1>
+      </div>
+    )
+  }
+  
   return (
     <Row className="mb-2 align-items-center">
       <Col>

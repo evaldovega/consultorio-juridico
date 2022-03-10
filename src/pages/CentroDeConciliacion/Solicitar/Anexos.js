@@ -13,7 +13,7 @@ const Anexos = ({
   idConciliacion,
   persona,
 }) => {
-  const anexos = watch("t_pruebasAnexos", []);
+  const anexos = watch("mm_documentosAnexos", []);
   const [docs, setDocs] = useState([]);
   const [cargando, setCargando] = useState(false);
   const MAX_FILE_SIZE = 200000000;
@@ -43,21 +43,21 @@ const Anexos = ({
         }
         setCargando(false);
       } else {
-        const _anexos = getValues("t_pruebasAnexos") || [];
+        const _anexos = getValues("mm_documentosAnexos") || [];
         _anexos.push({
           a_titulo: file.name,
           f_archivo: reader.result,
         });
-        setValue("t_pruebasAnexos", _anexos);
+        setValue("mm_documentosAnexos", _anexos);
       }
       e.target.value = "";
     };
   };
 
   const remove = (index) => {
-    let _anexos = getValues("t_pruebasAnexos");
+    let _anexos = getValues("mm_documentosAnexos");
     _anexos.splice(index, 1);
-    setValue("t_pruebasAnexos", _anexos);
+    setValue("mm_documentosAnexos", _anexos);
   };
 
   const removeRemote = async (index) => {
@@ -86,7 +86,8 @@ const Anexos = ({
   console.log(anexos)
 
   useEffect(() => {
-    setValue("t_pruebasAnexos", []);
+    console.log("ANEXOS: " + JSON.stringify(anexos))
+    setValue("mm_documentosAnexos", []);
   }, []);
 
   useEffect(() => {
