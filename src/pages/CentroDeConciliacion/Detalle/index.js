@@ -145,6 +145,12 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                   <p>{doc?.t_pretencionesIniciales}</p>
                 </Col>
               </Row>
+              <Row>
+                <Col xs="12">
+                  <Form.Label>Estudiante conciliador</Form.Label>
+                  <p>{doc?.r_usuarios_conciliador?.a_primerNombre} {doc?.r_usuarios_conciliador?.a_segundoNombre || ""} {doc?.r_usuarios_conciliador?.a_primerApellido} {doc?.r_usuarios_conciliador?.a_segundoApellido || ""}</p>
+                </Col>
+              </Row>
             </Modal.Body>
           </Tab>
           <Tab eventKey="solicitantes" title="Solicitantes">

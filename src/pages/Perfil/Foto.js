@@ -54,7 +54,6 @@ const FotoPerfil = () => {
         name="f_archivoFotoPerfil"
         control={control}
         defaultValue=""
-        rules={{ required: "Seleccione una foto de perfil" }}
         render={({ field }) => <input {...field} type="hidden" />}
       />
       <Errors message={errors?.f_archivoFotoPerfil?.message} />

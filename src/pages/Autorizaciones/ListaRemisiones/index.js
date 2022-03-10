@@ -259,6 +259,7 @@ const ListadoRemisiones = () => {
                   <tr>
                     {/* <th>Número <FaArrowUp onClick={() => switchOrderNum()} /></th> */}
                     <th>Fecha<br /> (AAAA-MM-DD) <FaArrowUp onClick={() => switchOrderDate()} /></th>
+                    <th>Estudiante</th>
                     <th>Destinatario <FaArrowUp onClick={() => switchOrderDestinatario()} /></th>
                     <th>Director</th>
                     <th>Elaborado por</th>
@@ -275,6 +276,16 @@ const ListadoRemisiones = () => {
                         </td> */}
                       <td>{el?.dt_fechaRemision}</td>
                       <td>{el?.a_dirigido} - {el?.r_config_autoridad?.a_titulo}</td>
+                      <td>
+                        {el.r_usuarios_estudiante ? (
+                          <>
+                          {el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerNombre}{" "}{el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoNombre}{" "}
+                          {el?.r_usuarios_estudiante?.r_usuarios_persona?.a_primerApellido}{" "}{el?.r_usuarios_estudiante?.r_usuarios_persona?.a_segundoApellido}
+                          </>
+                        ) : (
+                          <i>Remisión hecha de forma masiva</i>
+                        )}
+                      </td>
                       <td>{el?.r_usuarios_director?.a_primerNombre} {el?.r_usuarios_director?.a_segundoNombre !== null
                         ? el?.r_usuarios_director?.a_segundoNombre
                         : ""

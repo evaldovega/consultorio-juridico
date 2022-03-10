@@ -89,6 +89,7 @@ const CentroDeConciliacionSolicitar = () => {
   };
 
   const guardar = async (data) => {
+    console.log(data)
     try {
       const solicitantes = getValues("r_solicitante");
       if (!solicitantes.length) {
@@ -120,9 +121,10 @@ const CentroDeConciliacionSolicitar = () => {
         ? `/conciliacion/solicitud/${idConciliacion}/`
         : `/conciliacion/solicitud/`;
       const method = idConciliacion ? "PATCH" : "POST";
+      let pruebasanexos = data.t_pruebasAnexos || []
       const payload = {
         ...data,
-        t_pruebasAnexos: data.t_pruebasAnexos.map((a) => ({
+        t_pruebasAnexos: pruebasanexos.map((a) => ({
           ...a,
           r_usuarios_persona: persona,
         })),
@@ -193,10 +195,11 @@ const CentroDeConciliacionSolicitar = () => {
   const getEstudiantes = async () => {
     setConciliadores([]);
 
-    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+    await API.get(`/estudiantes/inscripcion/?cedula=${cedula}`).then(
       (response) => {
-        setConciliadores([response.data]);
-        setIdEstudiante([response.data].map((el) => el.id)[0]);
+        let ret = response.data.results[0]
+        setConciliadores([response.data.results[0]]);
+        setIdEstudiante(response.data.results[0].r_usuarios_persona.id);
       }
     );
   }
@@ -432,10 +435,10 @@ const CentroDeConciliacionSolicitar = () => {
                             <tbody>
                               {conciliadores.map((el) => (
                                 <tr>
-                                  <td>{el?.a_numeroDocumento}</td>
+                                  <td>{el?.r_usuarios_persona?.a_numeroDocumento}</td>
                                   <td>
-                                    {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
-                                    {el?.a_primerApellido} {el?.a_segundoApellido}
+                                    {el?.r_usuarios_persona?.a_primerNombre} {el?.r_usuarios_persona?.a_segundoNombre}{" "}
+                                    {el?.r_usuarios_persona?.a_primerApellido} {el?.r_usuarios_persona?.a_segundoApellido}
                                   </td>
                                 </tr>
                               ))}

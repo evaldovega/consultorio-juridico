@@ -64,6 +64,14 @@ export const MODULES = [
   },
   {
     id: "",
+    name: "Encuesta de satisfacción",
+    policies: [ROL_PERSONA],
+    url: "/asesoria-juridica/encuesta",
+    descripcion: "",
+    img: "images/modulo2.jpg",
+  },
+  {
+    id: "",
     name: "Asignación de docentes",
     policies: [ROL_ASESOR, ROL_ADMIN],
     url: "/asignacion-docentes",

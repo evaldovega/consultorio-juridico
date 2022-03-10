@@ -199,17 +199,15 @@ const Actuaciones = ({
 
       <div style={{ height: 500, overflowY: "scroll", overflowX: "hidden" }}>
         {!seguimientos.length && (
-          <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE, ROL_ADMIN]}>
-            <div className="text-center h-100 d-flex flex-column justify-content-center">
-              <h5 className="mb-4">Aquí inicia el proceso!</h5>
-              <p>Añade actuaciones para llevar el seguimiento del caso</p>
-              <img
-                height="80"
-                src="/images/undraw_handcrafts_arrow.svg"
-                style={{ transform: "rotate(178deg)" }}
-              />
-            </div>
-          </Policy>
+          <div className="text-center h-100 d-flex flex-column justify-content-center">
+            <h5 className="mb-4">Aquí inicia el proceso.</h5>
+            <p>Añade actuaciones para llevar el seguimiento del caso</p>
+            <img
+              height="80"
+              src="/images/undraw_handcrafts_arrow.svg"
+              style={{ transform: "rotate(178deg)" }}
+            />
+          </div>
         )}
         <div className="actuaciones">
           {seguimientos.map((s, index) => {

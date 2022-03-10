@@ -52,6 +52,7 @@ import ReporteGraficaGenerico from "pages/AsesoriaJuridica/Reportes/ReporteGrafi
 import AsesoriaReportePorDiscapacidad from "pages/AsesoriaJuridica/Reportes/ReportePorDiscapacidad";
 import AsesoriaReporteCasosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCasosFecha";
 import AsesoriaReporteCiudadanosFecha from "pages/AsesoriaJuridica/Reportes/ReporteCiudadanosFecha";
+import EncuestaSatisfaccion from "pages/AsesoriaJuridica/EncuestaSatisfaccion";
 
 import EstudianteReportesIndex from "pages/InscripcionEstudiantesReporte";
 import ReportePorSexo from "pages/InscripcionEstudiantesReporte/ReportePorSexo";
@@ -175,6 +176,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/asesoria-juridica/reportes/ciudadanos-fecha" exact>
               <AsesoriaReporteCiudadanosFecha />
+            </PrivateRouter>
+            <PrivateRouter path="/asesoria-juridica/encuesta" exact>
+              <EncuestaSatisfaccion />
             </PrivateRouter>
 
             <PrivateRouter path="/inscripcion-estudiantes/reportes" exact>

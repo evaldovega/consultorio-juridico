@@ -72,9 +72,9 @@ const SolicitarAsesoria = () => {
     const _data = {
       ...data,
       r_usuarios_persona: usuarioEnSession,
-      // mm_estudiantesAsignados: data.mm_estudiantesAsignados
-      //   ? data.mm_estudiantesAsignados.map((e) => e.id)
-      //   : [],
+      mm_estudiantesAsignados: data.mm_estudiantesAsignados
+        ? data.mm_estudiantesAsignados.map((e) => e.id)
+        : [],
     };
 
     API.post("asesorias/solicitud/", _data)

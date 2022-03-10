@@ -93,9 +93,6 @@ const PerfilDemografico = () => {
         <Controller
           name="a_fechaNacimiento"
           control={control}
-          rules={{
-            required: "Ingrese fecha de nacimiento",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -128,9 +125,6 @@ const PerfilDemografico = () => {
         <Controller
           name="c_genero"
           control={control}
-          rules={{
-            required: "Ingrese información",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -187,9 +181,6 @@ const PerfilDemografico = () => {
           name="r_config_etnia"
           control={control}
           defaultValue=""
-          rules={{
-            required: "Ingrese información",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -217,9 +208,6 @@ const PerfilDemografico = () => {
           name="r_config_estadoCivil"
           control={control}
           defaultValue=""
-          rules={{
-            required: "Ingrese información",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -247,9 +235,6 @@ const PerfilDemografico = () => {
           name="a_numeroHijos"
           control={control}
           defaultValue=""
-          rules={{
-            required: "Ingrese información",
-          }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
