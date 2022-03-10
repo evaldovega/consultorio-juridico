@@ -104,18 +104,18 @@ const CentroDeConciliacionSolicitar = () => {
         return;
       }
 
-      const citados = getValues("r_citados");
-      if (!citados.length) {
-        toast.error("Debes añadir minimo un citado", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        return;
-      }
+      // const citados = getValues("r_citados");
+      // if (!citados.length) {
+      //   toast.error("Debes añadir minimo un citado", {
+      //     position: "top-center",
+      //     autoClose: 3000,
+      //     hideProgressBar: true,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //   });
+      //   return;
+      // }
       setCargando(true);
       const url = idConciliacion
         ? `/conciliacion/solicitud/${idConciliacion}/`
