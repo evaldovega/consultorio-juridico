@@ -18,6 +18,8 @@ import PerfilJuridicoIdentificacion from "./IdentificacionJuridica";
 import RepresentanteLegal from "./RepresentanteLegal";
 import PerfilAnexos from "./Anexos"
 import Policy from "components/Policy"
+
+const moment = require('moment')
 const classNames = require("classnames");
 
 const PerfilMaster = ({
@@ -84,6 +86,10 @@ const PerfilMaster = ({
     data.f_archivoDocumento_str = data.f_archivoDocumento;
     data.f_archivoARL_str = data.f_archivoARL
     data.f_archivoEPS_str = data.f_archivoEPS
+
+    if (data.a_fechaExpedicionDocumento === "") {
+      data.a_fechaExpedicionDocumento = moment(new Date()).format("YYYY-MM-DD")
+    }
 
     delete data.f_archivoFotoPerfil;
     delete data.f_archivoDocumento;

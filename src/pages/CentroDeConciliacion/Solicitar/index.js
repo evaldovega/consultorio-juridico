@@ -104,18 +104,12 @@ const CentroDeConciliacionSolicitar = () => {
         return;
       }
 
-      // const citados = getValues("r_citados");
-      // if (!citados.length) {
-      //   toast.error("Debes añadir minimo un citado", {
-      //     position: "top-center",
-      //     autoClose: 3000,
-      //     hideProgressBar: true,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //   });
-      //   return;
-      // }
+      let citados = getValues("r_citados");
+      console.log(citados)
+      if (!citados) {
+        citados = []
+      }
+
       setCargando(true);
       const url = idConciliacion
         ? `/conciliacion/solicitud/${idConciliacion}/`
@@ -128,7 +122,8 @@ const CentroDeConciliacionSolicitar = () => {
           ...a,
           r_usuarios_persona: persona,
         })),
-        r_usuarios_conciliador: idEstudiante
+        r_usuarios_conciliador: idEstudiante,
+        r_citados: citados
       };
       if (method == "POST") {
         payload.d_fechaSolicitud = moment().format("YYYY-MM-DD");
@@ -260,18 +255,20 @@ const CentroDeConciliacionSolicitar = () => {
               policies={policies}
               autoIncluir={true}
             />
-            <Partes
-              name="r_citados"
-              id="r_usuarios_citado"
-              title="Citados"
-              control={control}
-              setValue={setValue}
-              watch={watch}
-              getValues={getValues}
-              idConciliacion={idConciliacion}
-              apiDelete="conciliacion/citado/"
-              btnTextAdd="Añadir Citado"
-            />
+            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
+              <Partes
+                name="r_citados"
+                id="r_usuarios_citado"
+                title="Citados"
+                control={control}
+                setValue={setValue}
+                watch={watch}
+                getValues={getValues}
+                idConciliacion={idConciliacion}
+                apiDelete="conciliacion/citado/"
+                btnTextAdd="Añadir Citado"
+              />
+            </Policy>
             <VersionSolicitante
               control={control}
               readOnly={readOnly}
