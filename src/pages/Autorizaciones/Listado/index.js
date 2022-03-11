@@ -34,16 +34,16 @@ const ListadoAutorizaciones = () => {
 
   const getAutorizaciones = async () => {
     setCargando(true);
-    API.get(`autorizaciones/autorizacion${orderByDate ? '?order_by_date' : ''}${orderByName ? '?order_by_name' : ''}`, { params })
+    API.get(`autorizaciones/autorizacion/${orderByDate ? '?order_by_date' : ''}${orderByName ? '?order_by_name' : ''}`, { params })
       .then(({ data }) => {
         setDocs(
           data.results.map((d) => ({
-            nombres_apellidos: `${d.r_estudiante.r_usuarios_persona.a_primerNombre} ${d.r_estudiante.r_usuarios_persona.a_segundoNombre} ${d.r_estudiante.r_usuarios_persona.a_primerApellido} ${d.r_estudiante.r_usuarios_persona.a_segundoApellido}`,
-            documento: d.r_estudiante.r_usuarios_persona.a_numeroDocumento,
-            clase_proceso: d.a_proceso,
-            fecha: d.dt_fechaProceso,
-            nro_autorizacion: d.a_numeroRadicado,
-            observaciones: d.t_observaciones,
+            nombres_apellidos: `${d?.r_estudiante?.r_usuarios_persona?.a_primerNombre} ${d?.r_estudiante?.r_usuarios_persona?.a_segundoNombre} ${d.r_estudiante?.r_usuarios_persona?.a_primerApellido} ${d?.r_estudiante?.r_usuarios_persona?.a_segundoApellido}`,
+            documento: d?.r_estudiante?.r_usuarios_persona?.a_numeroDocumento,
+            clase_proceso: d?.a_proceso,
+            fecha: d?.dt_fechaProceso,
+            nro_autorizacion: d?.a_numeroRadicado,
+            observaciones: d?.t_observaciones,
             acciones: (
               <div className="d-flex justify-content-between">
                 <a
@@ -195,13 +195,13 @@ const ListadoAutorizaciones = () => {
                 <tbody>
                   {docs.map((d) => (
                     <tr>
-                      <td>{d.nombres_apellidos}</td>
-                      <td>{d.documento}</td>
-                      <td>{d.clase_proceso}</td>
-                      <td>{d.fecha}</td>
-                      <td>{d.nro_autorizacion}</td>
-                      <td>{d.observaciones}</td>
-                      <td>{d.acciones}</td>
+                      <td>{d?.nombres_apellidos}</td>
+                      <td>{d?.documento}</td>
+                      <td>{d?.clase_proceso}</td>
+                      <td>{d?.fecha}</td>
+                      <td>{d?.nro_autorizacion}</td>
+                      <td>{d?.observaciones}</td>
+                      <td>{d?.acciones}</td>
                     </tr>
                   ))}
                 </tbody>

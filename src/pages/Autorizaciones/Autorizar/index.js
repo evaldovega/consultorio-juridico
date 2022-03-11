@@ -76,10 +76,21 @@ const Autorizar = () => {
   const getInscripciones = async () => {
     setInscripciones([]);
     setSearching(true)
-    await API.post("/academusoft/estudiantes/", { estudiante: cedula }).then(
+    await API.post("/academusoft/estudiantes/inscripcion/", { estudiante: cedula }).then(
       (response) => {
-        setInscripciones([response.data]);
-        setIdEstudiante([response.data].map((el) => el.id)[0]);
+        if (response.data.r_usuarios_persona.r_user !== null) {
+          setInscripciones([response.data]);
+          setIdEstudiante([response.data].map((el) => el.id)[0]);
+        } else {
+          toast.error(`Este estudiante no posee una inscripción en este periodo.`, {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
         setSearching(false)
       }
     ).catch(err => {
@@ -263,9 +274,9 @@ const Autorizar = () => {
                         className="form-control"
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
-                        onKeyDown={(event) => {event.key === "Enter" && getInscripciones()}}
+                        onKeyDown={(event) => { event.key === "Enter" && getInscripciones() }}
                       />
-                      <Button 
+                      <Button
                         onClick={() => getInscripciones()}
                         disabled={searching}
                       >
@@ -285,10 +296,10 @@ const Autorizar = () => {
                         <tbody>
                           {inscripciones.map((el) => (
                             <tr>
-                              <td>{el?.a_numeroDocumento}</td>
+                              <td>{el?.r_usuarios_persona?.a_numeroDocumento}</td>
                               <td>
-                                {el?.a_primerNombre} {el?.a_segundoNombre}{" "}
-                                {el?.a_primerApellido} {el?.a_segundoApellido}
+                                {el?.r_usuarios_persona?.a_primerNombre} {el?.r_usuarios_persona?.a_segundoNombre}{" "}
+                                {el?.r_usuarios_persona?.a_primerApellido} {el?.r_usuarios_persona?.a_segundoApellido}
                               </td>
                             </tr>
                           ))}

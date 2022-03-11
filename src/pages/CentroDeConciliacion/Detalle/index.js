@@ -25,6 +25,7 @@ import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 import NuevaCita from "./NuevaCita";
 import PersonaDetailRow from "components/personaDetailRow";
 import { Context } from "components/Policy/Ctx";
+import PerfilMaster from "pages/Perfil/Master"
 
 var moment = require('moment')
 
@@ -35,6 +36,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [citas, setCitas] = useState([])
   const [idModal, setIdModal] = useState(null);
   const [nuevaCitaShow, setNuevaCitaShow] = useState(false)
+  const [showProfileData, setShowProfileData] = useState(false)
 
   const cargar = async () => {
     try {
@@ -55,6 +57,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
       .then(response => {
         setCitas(response.data)
       })
+  }
+
+  const mostrarDetalles = (id) => {
+    localStorage.setItem('consultorio_id_profileshow', id)
+    setShowProfileData(true)
   }
 
   useEffect(() => {
@@ -89,6 +96,22 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
         show={nuevaCitaShow}
         onHide={() => setNuevaCitaShow(false)}
       />
+      <Modal 
+        show={showProfileData}
+        onHide={() => setShowProfileData(false)}
+      >
+        <Modal.Header closeButton>
+          Información de la parte
+        </Modal.Header>
+        <Modal.Body>
+          <PerfilMaster 
+            id={localStorage.getItem('consultorio_id_profileshow')}
+            allowSearchPerson={false}
+            readOnly={true}
+            policies={policies}
+          />
+        </Modal.Body>
+      </Modal>
       <Modal
         show={doc}
         onHide={() => {
@@ -189,11 +212,13 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <>
                       <tr key={i}>
                         <td>
-                          {c?.r_usuarios_solicitante?.c_tipoPersona === PERSONA_JURIDICA ? (
-                            c?.r_usuarios_solicitante?.a_nombrePersonaJuridica
-                          ) : (
-                            `${c?.r_usuarios_solicitante?.a_primerNombre} ${c?.r_usuarios_solicitante?.a_primerApellido}`
-                          )}
+                          <a href="#" onClick={() => mostrarDetalles(c?.r_usuarios_solicitante?.id)}>
+                            {c?.r_usuarios_solicitante?.c_tipoPersona === PERSONA_JURIDICA ? (
+                              c?.r_usuarios_solicitante?.a_nombrePersonaJuridica
+                            ) : (
+                              `${c?.r_usuarios_solicitante?.a_primerNombre} ${c?.r_usuarios_solicitante?.a_primerApellido}`
+                            )}
+                          </a>
                         </td>
                         <td>{c?.r_usuarios_solicitante?.a_numeroDocumento || "-"}</td>
                         <td>{c?.r_usuarios_solicitante?.a_celular || "-"}</td>
@@ -277,11 +302,13 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <>
                       <tr key={i}>
                         <td>
-                          {c?.r_usuarios_citado?.c_tipoPersona === PERSONA_JURIDICA ? (
-                            c?.r_usuarios_citado?.a_nombrePersonaJuridica
-                          ) : (
-                            `${c?.r_usuarios_citado?.a_primerNombre} ${c?.r_usuarios_citado?.a_primerApellido}`
-                          )}
+                          <a href="#" onClick={() => mostrarDetalles(c?.r_usuarios_citado?.id)}>
+                            {c?.r_usuarios_citado?.c_tipoPersona === PERSONA_JURIDICA ? (
+                              c?.r_usuarios_citado?.a_nombrePersonaJuridica
+                            ) : (
+                              `${c?.r_usuarios_citado?.a_primerNombre} ${c?.r_usuarios_citado?.a_primerApellido}`
+                            )}
+                          </a>
                         </td>
                         <td>{c?.r_usuarios_citado?.a_numeroDocumento || "-"}</td>
                         <td>{c?.r_usuarios_citado?.a_celular || "-"}</td>
@@ -388,7 +415,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                       className="d-block mb-1"
                       href={`${baseUrl}/doc_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
                     >
-                      Acta de no conciliación
+                      Constancia de no conciliación
                     </a>
                     <a
                       target="blank"
@@ -409,7 +436,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                       className="d-block mb-1"
                       href={`${baseUrl}/docx_noacuerdo/${doc?.id}/${doc?.r_solicitante[0]?.r_usuarios_solicitante?.id}/${doc?.r_citados[0]?.r_usuarios_citado?.id}/`}
                     >
-                      Acta de no conciliación (Word)
+                      Constancia de no conciliación (Word)
                     </a>
                   </>
                 ) : (
