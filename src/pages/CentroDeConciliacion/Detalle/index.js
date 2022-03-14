@@ -168,7 +168,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
               </Row>
               <Row>
                 <Col xs="12">
-                  <Form.Label>Pretenciones iniciales</Form.Label>
+                  <Form.Label>Pretensiones iniciales</Form.Label>
                   <p>{doc?.t_pretencionesIniciales}</p>
                 </Col>
               </Row>

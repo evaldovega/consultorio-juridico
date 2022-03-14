@@ -47,16 +47,20 @@ const AsesoriaJuridicaHome = () => {
             margin: "auto"
           }}>
             <Row className="modules">
-              <Col xs={12} md={
-                <>
-                  <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
-                    {4}
-                  </Policy>
-                  <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA]}>
-                    {6}
-                  </Policy>
-                </>
-              }>
+              <Col 
+                xs={12} 
+                md={
+                  <>
+                    <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
+                      {4}
+                    </Policy>
+                    <Policy policy={[ROL_ESTUDIANTE, ROL_PERSONA]}>
+                      {6}
+                    </Policy>
+                  </>
+                }
+                className="mb-4"
+              >
                 <ItemModule
                   Icon={() => <Lapiz style={{ width: "50px", height: "50px" }} />}
                   title="Formato de Registro"
@@ -72,7 +76,7 @@ const AsesoriaJuridicaHome = () => {
                     {6}
                   </Policy>
                 </>
-              }>
+              } className="mb-4">
                 <ItemModule
                   Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                   title="Listado de casos"
@@ -80,7 +84,7 @@ const AsesoriaJuridicaHome = () => {
                 />
               </Col>
               <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
-                <Col xs={12} md={4}>
+                <Col xs={12} md={4} className="mb-4">
                   <ItemModule
                     Icon={() => <Carpeta style={{ width: "50px", height: "50px" }} />}
                     title="Reportes"

@@ -31,6 +31,7 @@ const Partes = ({
   btnTextAdd = "Añadir",
   policies,
   persona,
+  citado,
   autoIncluir = false,
 }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -115,7 +116,7 @@ const Partes = ({
           <Modal.Title>Añadir persona</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PerfilMaster callback={personaGuardada} />
+          <PerfilMaster callback={personaGuardada} citado={citado} />
         </Modal.Body>
       </Modal>
       <Card.Body style={{ padding: "2.5rem" }}>

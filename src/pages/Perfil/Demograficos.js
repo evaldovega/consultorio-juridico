@@ -8,7 +8,7 @@ import { ROL_ESTUDIANTE } from "constants/apiContants";
 import moment from "moment";
 
 const PerfilDemografico = () => {
-  const { readOnly, control, errors, setValue, policies, persona } =
+  const { readOnly, control, errors, setValue, policies, persona, citado } =
     useContext(Context);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -93,10 +93,11 @@ const PerfilDemografico = () => {
         <Controller
           name="a_fechaNacimiento"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Fecha de nacimiento
+                Fecha de nacimiento {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 type="date"
@@ -111,9 +112,10 @@ const PerfilDemografico = () => {
         <Controller
           name="a_lugarNacimiento"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="12" lg="6">
-              <Form.Label>Lugar de nacimiento</Form.Label>
+              <Form.Label>Lugar de nacimiento {!citado && (<span className="required" />)}</Form.Label>
               <Form.Control
                 {...field}
                 plaintext={readOnly}
@@ -125,10 +127,11 @@ const PerfilDemografico = () => {
         <Controller
           name="c_genero"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Genero
+                Genero {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 as="select"
@@ -149,10 +152,11 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_orientacion"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Orientación sexual
+                Orientación sexual {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 as="select"
@@ -177,11 +181,12 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_etnia"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Etnia
+                Etnia {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 as="select"
@@ -204,11 +209,12 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_estadoCivil"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Estado civil
+                Estado civil {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 as="select"
@@ -231,11 +237,12 @@ const PerfilDemografico = () => {
         <Controller
           name="a_numeroHijos"
           control={control}
+          rules={!citado && {required: "Ingrese información"}}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
-                Número de hijos
+                Número de hijos {!citado && (<span className="required" />)}
               </Form.Label>
               <Form.Control
                 type="number"

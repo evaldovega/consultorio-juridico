@@ -43,65 +43,63 @@ const AutorizacionesHome = () => {
           </MigaPan>
 
           <Row className="modules">
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                 title="Registrar autorización"
                 link="/autorizaciones/autorizar"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                 title="Listado de autorizaciones"
                 link="/autorizaciones/listado"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                 title="Generar certificado"
                 link="/autorizaciones/generar-certificado"
               />
             </Col>
-            <div class="w-100" style={{ marginBottom: 22 }}></div>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                 title="Listado de certificados"
                 link="/autorizaciones/lista-certificados"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                 title="Generar remisión"
                 link="/autorizaciones/generar-remision"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                 title="Listado de remisiones"
                 link="/autorizaciones/lista-remisiones"
               />
             </Col>
-            <div class="w-100" style={{ marginBottom: 22 }}></div>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                 title="Registro masivo de remisiones"
                 link="/autorizaciones/remision-masiva"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
                 title="Reporte autorizaciones por fecha"
                 link="/autorizaciones/reporte-fecha"
               />
             </Col>
-            <Col xs={12} md={4}>
+            <Col xs={12} md={4} className="mb-4">
               <ItemModule
                 Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
                 title="Reporte remisiones por fecha"

@@ -31,6 +31,7 @@ const PerfilMaster = ({
   clearOnFinish = false,
   readOnly = false,
   policies = [],
+  citado,
 }) => {
   const [loading, setLoading] = useState(false);
   const [persona, setPersona] = useState(null);
@@ -165,6 +166,7 @@ const PerfilMaster = ({
         clearOnFinish,
         TIPO_PERSONA,
         policies,
+        citado,
       }}
     >
       <Spin cargando={loading}>

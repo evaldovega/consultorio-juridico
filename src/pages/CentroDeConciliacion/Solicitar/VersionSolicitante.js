@@ -183,7 +183,7 @@ const VersionSolicitante = ({
             render={({ field }) => (
               <Form.Group as={Col} xs="12">
                 <Form.Label>
-                  Pretenciones <span className="required" />
+                  Pretensiones iniciales <span className="required" />
                 </Form.Label>
                 <Form.Control
                   as="textarea"

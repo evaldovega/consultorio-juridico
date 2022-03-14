@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Policy from "components/Policy";
 import { Space, Typography } from "antd";
 
@@ -35,6 +35,7 @@ import {
   FaRegChartBar, FaPen, FaFile, FaFolderOpen
 } from "react-icons/fa";
 import AccessDenied from "components/Policy/AccessDenied";
+import { Context } from "components/Policy/Ctx";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
@@ -44,6 +45,7 @@ import { ReactComponent as Papel } from "images/file-line.svg"
 import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const InscripcionEstudiantes = ({ params }) => {
+  const { policies = [], persona } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [form] = useForm();
 
@@ -83,7 +85,11 @@ const InscripcionEstudiantes = ({ params }) => {
                 </Col>
               </Policy>
 
-              <Col xs="12" md="4" className="mb-4">
+              <Col 
+                xs="12" 
+                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                className="mb-4"
+              >
                 <ItemModule
                   Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                   link="/inscripcion-estudiantes/listado"
@@ -91,7 +97,11 @@ const InscripcionEstudiantes = ({ params }) => {
                 />
               </Col>
 
-              <Col xs="12" md="4" className="mb-4">
+              <Col 
+                xs="12" 
+                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                className="mb-4"
+              >
                 <ItemModule
                   Icon={() => <Carpeta style={{width: "50px", height: "50px"}} />}
                   link="/inscripcion-estudiantes/reporte"

@@ -128,7 +128,7 @@ const CentroDeConciliacionSolicitar = () => {
       if (method == "POST") {
         payload.d_fechaSolicitud = moment().format("YYYY-MM-DD");
       }
-      console.log({payload})
+      console.log({ payload })
       const { data: response } = await API({
         method,
         url,
@@ -139,17 +139,17 @@ const CentroDeConciliacionSolicitar = () => {
       history.push(`/centro-de-conciliacion/solicitudes`);
     } catch (error) {
       const e =
-          error.response && error.response.data
-            ? error.response.data.detail
-            : error.toString();
-        toast.error(`${e}`, {
-          position: "top-center",
-          autoClose: 10000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
+        error.response && error.response.data
+          ? error.response.data.detail
+          : error.toString();
+      toast.error(`${e}`, {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       setCargando(false);
     }
   };
@@ -254,21 +254,21 @@ const CentroDeConciliacionSolicitar = () => {
               persona={persona}
               policies={policies}
               autoIncluir={true}
+              citado={false}
             />
-            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
-              <Partes
-                name="r_citados"
-                id="r_usuarios_citado"
-                title="Citados"
-                control={control}
-                setValue={setValue}
-                watch={watch}
-                getValues={getValues}
-                idConciliacion={idConciliacion}
-                apiDelete="conciliacion/citado/"
-                btnTextAdd="Añadir Citado"
-              />
-            </Policy>
+            <Partes
+              name="r_citados"
+              id="r_usuarios_citado"
+              title="Citados"
+              control={control}
+              setValue={setValue}
+              watch={watch}
+              getValues={getValues}
+              idConciliacion={idConciliacion}
+              apiDelete="conciliacion/citado/"
+              btnTextAdd="Añadir Citado"
+              citado={true}
+            />
             <VersionSolicitante
               control={control}
               readOnly={readOnly}
@@ -286,20 +286,21 @@ const CentroDeConciliacionSolicitar = () => {
               idConciliacion={idConciliacion}
               persona={persona}
             />
-
-            <Clasificar
-              control={control}
-              setValue={setValue}
-              watch={watch}
-              getValues={getValues}
-              idConciliacion={idConciliacion}
-              persona={persona}
-            />
+            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
+              <Clasificar
+                control={control}
+                setValue={setValue}
+                watch={watch}
+                getValues={getValues}
+                idConciliacion={idConciliacion}
+                persona={persona}
+              />
+            </Policy>
 
             <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE]}>
               <Card>
                 <Card.Body>
-                    <h2>Datos de la audiencia</h2>
+                  <h2>Datos de la audiencia</h2>
                   <Row className="mb-1">
                     {!idConciliacion && (
                       <>
@@ -423,7 +424,7 @@ const CentroDeConciliacionSolicitar = () => {
                             </tbody>
                           </Table>
                         </Form.Group>
-                    )}
+                      )}
                     </Policy>
                   </Row>
                 </Card.Body>

@@ -23,6 +23,7 @@ const PerfilIdentificacion = () => {
     setLoading: setLoadingMaster,
     allowSearchPerson,
     policies,
+    citado
   } = useContext(Context);
 
   const documento = watch('f_archivoDocumento')
@@ -147,10 +148,11 @@ const PerfilIdentificacion = () => {
           name="a_numeroDocumento"
           control={control}
           defaultValue=""
+          rules={{required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6">
               <Form.Label>
-                Número documento
+                Número documento <span className="required" />
               </Form.Label>
               <Form.Control
                 {...field}
@@ -227,10 +229,11 @@ const PerfilIdentificacion = () => {
           name="r_config_paisExpedicion"
           control={control}
           defaultValue=""
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Pais
+                Pais de expedición {!citado && (<span className="required" />)}
               </Form.Label>
               <Country
                 field={field}
@@ -247,10 +250,11 @@ const PerfilIdentificacion = () => {
           name="r_config_departamentoExpedicion"
           control={control}
           defaultValue=""
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Departamento o Estado
+                Departamento de expedición {!citado && (<span className="required" />)}
               </Form.Label>
               <State
                 field={field}
@@ -268,10 +272,11 @@ const PerfilIdentificacion = () => {
           name="r_config_ciudadExpedicion"
           control={control}
           defaultValue=""
+          rules={!citado && {required: "Ingrese información"}}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
-                Ciudad 
+                Ciudad de expedición {!citado && (<span className="required" />)}
               </Form.Label>
               <City field={field} setValue={setValue} readOnly={readOnly} />
               <Errors message={errors.r_config_ciudadExpedicion?.message} />
