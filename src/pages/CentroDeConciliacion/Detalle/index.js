@@ -201,9 +201,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <th>Celular</th>
                     <th>Dirección</th>
                     <Policy policy={[ROL_ADMIN]}>
-                      {citas.length && (
+                      {citas.length ? (
                         <th>Imprimir formatos</th>
-                      )}
+                      ) : null}
                     </Policy>
                   </tr>
                 </thead>
@@ -227,7 +227,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           {c?.r_usuarios_solicitante?.a_direccion}
                         </td>
                         <Policy policy={[ROL_ADMIN]}>
-                          {citas.length && (
+                          {citas.length ? (
                             <td>
                               <a
                                 target="blank"
@@ -258,7 +258,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                                 Inasistencia (Word)
                               </a>
                             </td>
-                          )}
+                          ) : null}
                         </Policy>
                       </tr>
                       <tr>
@@ -290,11 +290,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <th>Documento</th>
                     <th>Celular</th>
                     <th>Dirección</th>
-                    {citas.length && (
+                    {citas.length ? (
                       <Policy policy={[ROL_ADMIN]}>
                         <th>Imprimir formatos</th>
                       </Policy>
-                    )}
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -317,7 +317,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           {c?.r_usuarios_citado?.a_direccion}
                         </td>
                         <Policy policy={[ROL_ADMIN]}>
-                          {citas.length && (
+                          {citas.length ? (
                             <td>
                               <a
                                 target="blank"
@@ -348,7 +348,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                                 Inasistencia (Word)
                               </a>
                             </td>
-                          )}
+                          ) : null}
                         </Policy>
                       </tr>
                       <tr>
@@ -369,28 +369,30 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
               )}
             </Modal.Body>
           </Tab>
-          <Tab eventKey="anexos" title="Anexos">
-            <Modal.Body>
-              <Table>
-                {doc?.mm_documentosAnexos.length > 0 ? (
-                  doc?.mm_documentosAnexos.map((d, i) => (
-                    <tr key={i}>
-                      <td>
-                        <a
-                          target="blank"
-                          href={`${baseUrl}${d?.f_archivoDocumento}`}
-                        >
-                          {d?.a_titulo}
-                        </a>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <p>No se han anexado documentos.</p>
-                )}
-              </Table>
-            </Modal.Body>
-          </Tab>
+          {doc?.mm_documentosAnexos.length ? (
+            <Tab eventKey="anexos" title="Anexos">
+              <Modal.Body>
+                <Table>
+                  {doc?.mm_documentosAnexos.length > 0 ? (
+                    doc?.mm_documentosAnexos.map((d, i) => (
+                      <tr key={i}>
+                        <td>
+                          <a
+                            target="blank"
+                            href={`${baseUrl}${d?.f_archivoDocumento}`}
+                          >
+                            {d?.a_titulo}
+                          </a>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <p>No se han anexado documentos.</p>
+                  )}
+                </Table>
+              </Modal.Body>
+            </Tab>
+          ) : (null)}
           {policies.includes(ROL_ADMIN) && (
             <Tab eventKey="formatos" title="Impresión de formatos">
               <Modal.Body>
