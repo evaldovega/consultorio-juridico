@@ -27,12 +27,7 @@ const ItemModule = ({ Icon, title, link }) => {
           </span>
           <Card.Title
             level={5}
-            style={{
-              margin: 0,
-              color: "#000",
-              fontSize: "19px",
-              fontWeight: 500,
-            }}
+            className="menu-title-card"
           >
             {title}
           </Card.Title>

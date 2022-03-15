@@ -431,6 +431,13 @@ a {
   display: flex;
 }
 
+.menu-title-card {
+  margin: 0;
+  color: #000;
+  font-size: 20px !important;
+  font-weight: 500;
+}
+
 .footer-text {
   color: #FFF;
   font-size: 15px;
@@ -541,11 +548,21 @@ a {
     padding-left: 0;
   }
 
+  .menu-title-card {
+    font-size: 20px !important;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
   .discapacidades {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* 720p monitores */
+@media only screen and (max-width: 1366px) {
+  .menu-title-card {
+    font-size: 16px !important;
   }
 }
 

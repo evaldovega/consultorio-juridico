@@ -53,18 +53,18 @@ const CentroDeConciliacionHome = () => {
             <span>Centro de conciliación</span>
           </MigaPan>
           <div style={{
-            width: "70%",
+            width: "80%",
             margin: "auto"
           }}>
             <Row className="modules">
-              <Col xs={12} md={6}>
+              <Col xs={12} md={6} className="mb-4">
                 <ItemModule
                   Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                   title="Formato de Registro"
                   link="/centro-de-conciliacion/registrar"
                 />
               </Col>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={6} className="mb-4">
                 <ItemModule
                   Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                   title="Listado de casos"
