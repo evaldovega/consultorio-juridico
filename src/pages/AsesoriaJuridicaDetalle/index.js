@@ -32,6 +32,7 @@ const AsesoriaJuridicaDetalle = () => {
   const { id: asesoriaId } = useParams();
   const [solicitanteId, setSolicitanteId] = useState("");
   const [caso, setCaso] = useState({});
+  const [error, setError] = useState(false)
   const [cargando, setCargando] = useState(false);
   const [key, setKey] = useState("detalle");
   const compromisoEstablecido = caso?.t_recomendaciones?.length ? true : false;
@@ -43,6 +44,7 @@ const AsesoriaJuridicaDetalle = () => {
         setCaso(data);
         setSolicitanteId(data.r_usuarios_solicitante.id);
       })
+      .catch(() => setError(true))
       .finally(() => setCargando(false));
   };
 
@@ -67,81 +69,90 @@ const AsesoriaJuridicaDetalle = () => {
         </MigaPan>
 
         <Card style={{ overflow: "hidden" }}>
-          <Tabs
-            activeKey={key}
-            onSelect={(k) => setKey(k)}
-            id="uncontrolled-tab-example"
-          >
-            <Tab eventKey="detalle" title="Detalle">
-              <br />
-              <Card.Body>
-                <table style={{ width: "100%" }}>
-                  <tr>
-                    <th>N° caso</th>
-                    <th>Fecha y Hora</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <td>{caso.id}</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        {caso.dt_fechaAsesoria} {caso.ht_horaAsesoria}
-                        <Policy policy={[ROL_DOCENTE, ROL_ASESOR, ROL_ADMIN]}>
-                          <EstablecerFecha caso={caso} setCaso={setCaso} />
-                        </Policy>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-                <br></br>
-                <strong>Asunto</strong>
-                <p>{caso.t_asuntoConsulta || "No especificado"}</p>
-                <Compromisos
-                  asesoriaId={asesoriaId}
-                  caso={caso}
-                  setCaso={setCaso}
-                />
-              </Card.Body>
-            </Tab>
-
-            {!policies.includes(ROL_ESTUDIANTE) ? (
-              <Tab eventKey="asignados" title="Estudiantes asignados">
+          {!error ? (
+            <Tabs
+              activeKey={key}
+              onSelect={(k) => setKey(k)}
+              id="uncontrolled-tab-example"
+            >
+              <Tab eventKey="detalle" title="Detalle">
                 <br />
                 <Card.Body>
-                  <Estudiantes
+                  <table style={{ width: "100%" }}>
+                    <tr>
+                      <th>N° caso</th>
+                      <th>Fecha y Hora</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <td>{caso.id}</td>
+                      <td>
+                        <div className="d-flex align-items-center">
+                          {caso.dt_fechaAsesoria} {caso.ht_horaAsesoria}
+                          <Policy policy={[ROL_DOCENTE, ROL_ASESOR, ROL_ADMIN]}>
+                            <EstablecerFecha caso={caso} setCaso={setCaso} />
+                          </Policy>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  <br></br>
+                  <strong>Asunto</strong>
+                  <p>{caso.t_asuntoConsulta || "No especificado"}</p>
+                  <Compromisos
                     asesoriaId={asesoriaId}
                     caso={caso}
                     setCaso={setCaso}
                   />
                 </Card.Body>
               </Tab>
-            ) : null}
 
-            <Tab eventKey="solicitante" title="Solicitante">
-              <br />
-              <Card.Body>
-                <PerfilMaster
-                  id={solicitanteId}
-                  readOnly={true}
-                  allowSearchPerson={false}
-                  showButton={false}
+              {!policies.includes(ROL_ESTUDIANTE) ? (
+                <Tab eventKey="asignados" title="Estudiantes asignados">
+                  <br />
+                  <Card.Body>
+                    <Estudiantes
+                      asesoriaId={asesoriaId}
+                      caso={caso}
+                      setCaso={setCaso}
+                    />
+                  </Card.Body>
+                </Tab>
+              ) : null}
+              <Tab eventKey="solicitante" title="Solicitante">
+                <br />
+                <Card.Body>
+                  <PerfilMaster
+                    id={solicitanteId}
+                    readOnly={true}
+                    allowSearchPerson={false}
+                    showButton={false}
+                  />
+                </Card.Body>
+              </Tab>
+              <Tab
+                eventKey="seguimiento"
+                title={<span>Actuaciones y Seguimiento</span>}
+              >
+                <Actuaciones
+                  asesoriaId={asesoriaId}
+                  caso={caso}
+                  setCaso={setCaso}
+                  persona={persona}
+                  compromisoEstablecido={compromisoEstablecido}
                 />
-              </Card.Body>
-            </Tab>
-
-            <Tab
-              eventKey="seguimiento"
-              title={<span>Actuaciones y Seguimiento</span>}
-            >
-              <Actuaciones
-                asesoriaId={asesoriaId}
-                caso={caso}
-                setCaso={setCaso}
-                persona={persona}
-                compromisoEstablecido={compromisoEstablecido}
-              />
-            </Tab>
-          </Tabs>
+              </Tab>
+            </Tabs>
+          ) : (
+            <div style={{
+              display: 'flex',
+              alighItems: 'center',
+              justifyContent: 'center',
+              padding: '100px'
+            }}>
+              <h1>Ha ocurrido un error.</h1>
+            </div>
+          )}
         </Card>
       </Spin>
     </Page>
