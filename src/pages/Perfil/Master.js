@@ -12,7 +12,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import API from "utils/Axios";
 import Spin from "components/Spin";
-import { PERSONA_JURIDICA, PERSONA_NATURAL, ROL_ESTUDIANTE, ROL_ADMIN } from "constants/apiContants";
+import { PERSONA_JURIDICA, PERSONA_NATURAL, ROL_ESTUDIANTE, ROL_ADMIN, ROL_PERSONA } from "constants/apiContants";
 import TipoPersona from "./TipoPersona";
 import PerfilJuridicoIdentificacion from "./IdentificacionJuridica";
 import RepresentanteLegal from "./RepresentanteLegal";
@@ -176,7 +176,9 @@ const PerfilMaster = ({
           onKeyDown={(e) => checkKeyDown(e)}
         >
           <fieldset disabled={loading}>
-            <TipoPersona />
+            <Policy policy={[ROL_ADMIN, ROL_PERSONA]}>
+              <TipoPersona />
+            </Policy>
             {TIPO_PERSONA == PERSONA_NATURAL ? (
               <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
             ) : null}

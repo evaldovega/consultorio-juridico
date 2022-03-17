@@ -1,6 +1,6 @@
 import { policyAllow } from "components/Policy";
 import Spin from "components/Spin";
-import { ROL_PERSONA } from "constants/apiContants";
+import { ROL_ADMIN, ROL_PERSONA } from "constants/apiContants";
 import PerfilMaster from "pages/Perfil/Master";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -31,6 +31,7 @@ const Partes = ({
   btnTextAdd = "Añadir",
   policies,
   persona,
+  asesoriaDetail,
   citado,
   autoIncluir = false,
 }) => {
@@ -103,6 +104,20 @@ const Partes = ({
     }
   }, [persona, policies]);
 
+  useEffect(() => {
+    if (asesoriaDetail) {
+      personaGuardada({
+        persona: { id: asesoriaDetail.r_usuarios_solicitante.id },
+        success: true,
+        feedback: false,
+      });
+    }
+  }, [asesoriaDetail])
+
+  useEffect(() => {
+    console.log(policies)
+  }, [])
+
   return (
     <Card className="mb-4">
       <Modal
@@ -116,7 +131,11 @@ const Partes = ({
           <Modal.Title>Añadir persona</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PerfilMaster callback={personaGuardada} citado={citado} />
+          <PerfilMaster 
+            callback={personaGuardada} 
+            citado={citado}
+            allowSearchPerson={policies.includes(ROL_ADMIN) ? true : false}
+          />
         </Modal.Body>
       </Modal>
       <Card.Body style={{ padding: "2.5rem" }}>

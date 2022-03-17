@@ -8,7 +8,7 @@ import Country from "components/Country";
 import State from "components/State";
 import City from "components/City";
 import TipoIdentificacion from "./TipoIdentificacion";
-import { ROL_ESTUDIANTE } from "constants/apiContants";
+import { ROL_ESTUDIANTE, ROL_PERSONA } from "constants/apiContants";
 import moment from "moment";
 
 const PerfilIdentificacion = () => {

@@ -55,6 +55,7 @@ const CentroDeConciliacionSolicitar = () => {
   const { persona, policies } = useContext(ContextPolicy);
   const [cedula, setCedula] = useState("");
   const [idEstudiante, setIdEstudiante] = useState("");
+  const [asesoriaDetail, setAsesoriaDetail] = useState(null)
 
   const checkKeyDown = (e) => {
     if (e.code === "Enter") e.preventDefault();
@@ -167,6 +168,16 @@ const CentroDeConciliacionSolicitar = () => {
     }
   };
 
+  const cargarAsesoria = async () => {
+    API(`asesorias/solicitud/${asesoria}/`)
+      .then(response => {
+        setAsesoriaDetail(response.data)
+      })
+      .catch(error => {
+        console.log(error.response.data)
+      })
+  }
+
   useEffect(() => {
     if (idConciliacion) {
       setTimeout(() => cargarDetalle(), 400);
@@ -176,6 +187,7 @@ const CentroDeConciliacionSolicitar = () => {
   useEffect(() => {
     if (asesoria) {
       setValue("r_asesoria_solicitudAsesoria", asesoria);
+      cargarAsesoria();
     }
   }, [asesoria]);
 
@@ -252,6 +264,7 @@ const CentroDeConciliacionSolicitar = () => {
               idConciliacion={idConciliacion}
               btnTextAdd="Añadir Solicitante"
               persona={persona}
+              asesoriaDetail={asesoriaDetail && asesoriaDetail}
               policies={policies}
               autoIncluir={true}
               citado={false}
@@ -268,6 +281,7 @@ const CentroDeConciliacionSolicitar = () => {
               apiDelete="conciliacion/citado/"
               btnTextAdd="Añadir Citado"
               citado={true}
+              policies={policies}
             />
             <VersionSolicitante
               control={control}

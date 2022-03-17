@@ -150,7 +150,7 @@ const AsesoriaJuridicaDetalle = () => {
               justifyContent: 'center',
               padding: '100px'
             }}>
-              <h1>Ha ocurrido un error.</h1>
+              <h1>Usted no tiene permitido ver este caso.</h1>
             </div>
           )}
         </Card>

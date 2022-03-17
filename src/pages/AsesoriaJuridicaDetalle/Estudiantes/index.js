@@ -6,7 +6,7 @@ import PersonaDetailRow from "components/personaDetailRow";
 
 import { toast } from "react-toastify";
 import Policy, { policyAllow } from "components/Policy";
-import { ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE } from "constants/apiContants";
+import { ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE, ROL_ESTUDIANTE } from "constants/apiContants";
 import { useContext } from "react";
 import { Context } from "components/Policy/Ctx";
 import { Alert, Button } from "react-bootstrap";
@@ -100,7 +100,9 @@ const Estudiantes = ({ asesoriaId, caso = {}, setCaso }) => {
             allowRemove={allowRemove}
             onRemove={onRemoveEstudiante}
           />
-          <Docente id={e} />
+          <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
+            <Docente id={e} />
+          </Policy>
           {i < listado.length - 1 && <hr />}
         </>
       ))}

@@ -186,6 +186,12 @@ const SolicitarAsesoria = () => {
       loadDetail();
     }
   }, [id]);
+  
+  useEffect(() => {
+    if (policies.includes(ROL_PERSONA)) {
+      setPersonaId(localStorage.getItem("id_persona"))
+    }
+  }, [policies])
 
   return (
     <Policy
@@ -221,7 +227,7 @@ const SolicitarAsesoria = () => {
                       id={personaId}
                       formRef={formPersona}
                       showButton={false}
-                      allowSearchPerson={true}
+                      allowSearchPerson={!policies.includes(ROL_PERSONA) ? true : false}
                       clearOnFinish={true}
                       callback={personaGuardada}
                     />
