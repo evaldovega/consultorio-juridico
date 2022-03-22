@@ -81,7 +81,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
         <Modal.Body>
           <div className="d-flex flex-column justify-content-center align-items-center">
             <h1>Cargando detalle</h1>
-            <p>espere un moment por favor...</p>
+            <p>Espere un momento por favor...</p>
             <Spinner animation="border" status="primary" />
           </div>
         </Modal.Body>
@@ -477,7 +477,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                         {el?.r_config_salaConciliacion?.a_titulo || "-"}
                       </td>
                       <td>
-                        {el?.a_enlaceVirtual || "-"}
+                        {el.a_enlaceVirtual ? <a href={el?.a_enlaceVirtual}>{el?.a_enlaceVirtual}</a> : "-"}
                       </td>
                     </tr>
                   ))}
