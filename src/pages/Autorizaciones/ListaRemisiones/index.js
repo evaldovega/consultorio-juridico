@@ -110,7 +110,7 @@ const ListadoRemisiones = () => {
   const eliminarRemision = async (id_delete) => {
     if (window.confirm("¿Seguro que desea eliminar esta remisión?")) {
       API.delete(`autorizaciones/remision/${id_delete}/`).then((response) => {
-        window.location.reload();
+        getRemisiones();
       });
     }
   };
