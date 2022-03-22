@@ -7,8 +7,9 @@ const Cita = ({ actuacion, setEdit }) => {
     <div className="mb-3 mt-3">
       <Header actuacion={actuacion} titulo="cita" setEdit={setEdit} />
       <p>
-        <b>{moment(actuacion.dt_fechaNuevaCita).format("LLL")}</b>{" "}
-        {actuacion.t_observacion}
+        <b>Se ha agendado una cita para el {moment(actuacion.dt_fechaNuevaCita).format("LLL")}</b>
+        <br />
+        <b>Notas del agendador: </b>{actuacion.t_observacion}
       </p>
       <Footer actuacion={actuacion} />
     </div>

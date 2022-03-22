@@ -176,9 +176,11 @@ const PerfilMaster = ({
           onKeyDown={(e) => checkKeyDown(e)}
         >
           <fieldset disabled={loading}>
-            <Policy policy={[ROL_ADMIN, ROL_PERSONA]}>
+            {policies.includes(ROL_ESTUDIANTE) ? (
+              citado && <TipoPersona />
+            ) : (
               <TipoPersona />
-            </Policy>
+            )}
             {TIPO_PERSONA == PERSONA_NATURAL ? (
               <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
             ) : null}

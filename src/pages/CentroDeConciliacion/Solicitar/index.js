@@ -393,6 +393,33 @@ const CentroDeConciliacionSolicitar = () => {
                             />
                           </Col>
                         )}
+                        {modalidad === "PRESENCIAL" && (
+                            <Col xs="12" md="6">
+                                <Controller
+                                    name="r_config_salaConciliacion"
+                                    control={control}
+                                    rules={{
+                                        required: "Ingrese información",
+                                    }}
+                                    render={({ field }) => (
+                                        <Form.Group>
+                                            <Form.Label>Sala de conciliación</Form.Label>
+                                            <Form.Control as="select" {...field}>
+                                                <option value="">Seleccione...</option>
+                                                {salasConciliacion.map((el) => (
+                                                    <option value={el.id}>
+                                                        {el.a_titulo}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                            <Errors
+                                                message={errors?.r_usuarios_conciliador?.message}
+                                            />
+                                        </Form.Group>
+                                    )}
+                                />
+                            </Col>
+                        )}
                       </>
                     )}
                     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
