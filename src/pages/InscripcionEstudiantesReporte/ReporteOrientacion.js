@@ -146,7 +146,7 @@ const ReporteOrientacion = () => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos.length ? (
               <div
                 style={{
                   marginTop: "40px",
@@ -223,8 +223,8 @@ const ReporteOrientacion = () => {
                                     </div> */}
                 </div>
               </div>
-            )}
-            {datos !== "" && (
+            ) : (null)}
+            {datos.length ? (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
                     <tr>
@@ -243,7 +243,7 @@ const ReporteOrientacion = () => {
                     ))}
                   </tbody>
               </Table>
-            )}
+            ) : null}
           </Card.Body>
         </Card>
       </Page>

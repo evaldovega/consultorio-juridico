@@ -146,7 +146,7 @@ const ReportePorEtnia = () => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos.length ? (
               <div
                 style={{
                   marginTop: "40px",
@@ -210,8 +210,8 @@ const ReportePorEtnia = () => {
                   ))}
                 </div>
               </div>
-            )}
-            {datos !== "" && (
+            ) : null}
+            {datos.length ? (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
                     <tr>
@@ -230,7 +230,7 @@ const ReportePorEtnia = () => {
                     ))}
                   </tbody>
               </Table>
-            )}
+            ) : null}
           </Card.Body>
         </Card>
       </Page>

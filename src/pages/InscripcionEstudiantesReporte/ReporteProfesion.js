@@ -147,7 +147,7 @@ const ReporteProfesion = () => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos.length ? (
               <div
                 style={{
                   marginTop: "40px",
@@ -209,23 +209,10 @@ const ReporteProfesion = () => {
                       <br />
                     </div>
                   ))}
-                  {/* <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row'
-                                    }}>
-                                        <div style={{
-                                            height: "20px",
-                                            width: "20px",
-                                            borderRadius: "100px",
-                                            backgroundColor: 'rgb(153, 153, 153)',
-                                            marginRight: "10px"
-                                        }} />
-                                        <span>Masculino: {datos.hombres}</span>
-                                    </div> */}
                 </div>
               </div>
-            )}
-            {datos !== "" && (
+            ) : null}
+            {datos.length ? (
               <Table striped bordered hover style={{marginTop: "20px"}}>
                   <thead>
                     <tr>
@@ -244,7 +231,7 @@ const ReporteProfesion = () => {
                     ))}
                   </tbody>
               </Table>
-            )}
+            ) : null}
           </Card.Body>
         </Card>
       </Page>

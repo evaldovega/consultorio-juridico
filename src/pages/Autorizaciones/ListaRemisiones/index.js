@@ -206,8 +206,8 @@ const ListadoRemisiones = () => {
                   <tr>
                     {/* <th>Número <FaArrowUp onClick={() => switchOrderNum()} /></th> */}
                     <th>Fecha<br /> (AAAA-MM-DD) <FaArrowUp onClick={() => switchOrderDate()} /></th>
-                    <th>Estudiante</th>
                     <th>Destinatario <FaArrowUp onClick={() => switchOrderDestinatario()} /></th>
+                    <th>Estudiante</th>
                     <th>Director</th>
                     <th>Elaborado por</th>
                     <th>Acciones</th>

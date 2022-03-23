@@ -158,7 +158,7 @@ const ReportePorDiscapacidad = () => {
           </Card.Body>
 
           <Card.Body>
-            {datos !== [] && (
+            {datos.length ? (
               <div
                 style={{
                   marginTop: "40px",
@@ -222,7 +222,7 @@ const ReportePorDiscapacidad = () => {
                   ))}
                 </div>
               </div>
-            )}
+            ) : null}
           </Card.Body>
         </Card>
       </Page>
