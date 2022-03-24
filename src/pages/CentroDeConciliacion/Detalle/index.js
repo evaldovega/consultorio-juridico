@@ -36,6 +36,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [citas, setCitas] = useState([])
   const [idModal, setIdModal] = useState(null);
   const [nuevaCitaShow, setNuevaCitaShow] = useState(false)
+  const [nuevaCitaEditShow, setNuevaCitaEditShow] = useState(false)
   const [showProfileData, setShowProfileData] = useState(false)
 
   const cargar = async () => {
@@ -64,6 +65,12 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
     setShowProfileData(true)
   }
 
+  const edit = (id) => {
+    localStorage.setItem('cj_cita_editar', id)
+    console.log(localStorage.getItem('cj-cita-editar'))
+    setNuevaCitaEditShow(true)
+  }
+
   useEffect(() => {
     if (id) {
       cargar();
@@ -74,6 +81,10 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   useEffect(() => {
     cargarCitas()
   }, [nuevaCitaShow])
+
+  useEffect(() => {
+    cargarCitas()
+  }, [nuevaCitaEditShow])
 
   if (cargando) {
     return (
@@ -95,6 +106,12 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
         id={id}
         show={nuevaCitaShow}
         onHide={() => setNuevaCitaShow(false)}
+      />
+      <NuevaCita
+        id={id}
+        idCita={localStorage.getItem('cj_cita_editar')}
+        show={nuevaCitaEditShow}
+        onHide={() => setNuevaCitaEditShow(false)}
       />
       <Modal 
         show={showProfileData}
@@ -451,43 +468,59 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           )}
           <Tab eventKey="citas" title="Citas">
             <Modal.Body>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Fecha y hora de inicio</th>
-                    <th>Fecha y hora de finalización</th>
-                    <th>Modalidad</th>
-                    <th>Salón de la audiencia</th>
-                    <th>Enlace de la reunión</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {citas.map((el, index) => (
-                    <tr key={index}>
-                      <td>
-                        {moment(el?.d_fechaInicialAudiencia).format("DD/MMMM/YYYY hh:mm a")}
-                      </td>
-                      <td>
-                        {moment(el?.d_fechaFinalAudiencia).format("DD/MMMM/YYYY hh:mm a")}
-                      </td>
-                      <td>
-                        {el?.c_modalidad}
-                      </td>
-                      <td>
-                        {el?.r_config_salaConciliacion?.a_titulo || "-"}
-                      </td>
-                      <td>
-                        {el.a_enlaceVirtual ? <a href={el?.a_enlaceVirtual}>{el?.a_enlaceVirtual}</a> : "-"}
-                      </td>
+              <div style={{overflow: 'scroll'}}>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Fecha y hora de inicio</th>
+                      <th>Fecha y hora de finalización</th>
+                      <th>Modalidad</th>
+                      <th>Salón de la audiencia</th>
+                      <th>Enlace de la reunión</th>
+                      {policies.includes(ROL_ADMIN) && (
+                        <th></th>
+                      )}
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-              {!citas.length && (
-                <Alert variant="warning">
-                  No se ha agendado ninguna cita para atender este caso.
-                </Alert>
-              )}
+                  </thead>
+                  <tbody>
+                    {citas.map((el, index) => (
+                      <tr key={index}>
+                        <td>
+                          {moment(el?.d_fechaInicialAudiencia).format("DD/MMMM/YYYY hh:mm a")}
+                        </td>
+                        <td>
+                          {moment(el?.d_fechaFinalAudiencia).format("DD/MMMM/YYYY hh:mm a")}
+                        </td>
+                        <td>
+                          {el?.c_modalidad}
+                        </td>
+                        <td>
+                          {el?.r_config_salaConciliacion?.a_titulo || "-"}
+                        </td>
+                        <td>
+                          {el.a_enlaceVirtual ? <a href={el?.a_enlaceVirtual}>{el?.a_enlaceVirtual}</a> : "-"}
+                        </td>
+                        {policies.includes(ROL_ADMIN) && (
+                          <td>
+                            <div
+                              className="circle-icon mr-1"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => edit(el.id)}
+                            >
+                              <FaEye />
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+                {!citas.length && (
+                  <Alert variant="warning">
+                    No se ha agendado ninguna cita para atender este caso.
+                  </Alert>
+                )}
+              </div>
               <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
                 <Button onClick={() => setNuevaCitaShow(true)}>
                   Agregar nueva cita

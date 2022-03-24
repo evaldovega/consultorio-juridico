@@ -25,7 +25,9 @@ import { PERSONA_JURIDICA, PERSONA_NATURAL } from "constants/apiContants";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const NuevaCita = ({ id, setId, onHide, show }) => {
+const moment = require('moment')
+
+const NuevaCita = ({ id, idCita = null, setId, onHide, show }) => {
     const history = useHistory();
     const [showModal, setShowModal] = useState(show)
     const [salasConciliacion, setSalasConciliacion] = useState([])
@@ -39,6 +41,17 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
         }
     }
 
+    const loadDetail = async () => {
+        await API(`conciliacion/agenda/${idCita}/`)
+            .then(response => {
+                setValue('d_fechaInicialAudiencia', moment(response.data?.d_fechaInicialAudiencia).format("YYYY-MM-DDTHH:mm"))
+                setValue('d_fechaFinalAudiencia', moment(response.data?.d_fechaFinalAudiencia).format("YYYY-MM-DDTHH:mm"))
+                setValue('c_modalidad', response.data?.c_modalidad)
+                setValue('a_enlaceVirtual', response.data?.a_enlaceVirtual)
+                setValue('r_config_salaConciliacion', response.data?.r_config_salaConciliacion?.id)
+            })
+    }
+
     const checkKeyDown = (e) => {
         if (e.code === "Enter") e.preventDefault();
     };
@@ -46,6 +59,12 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
     useEffect(() => {
         load()
     }, [])
+
+    useEffect(() => {
+        if (idCita) {
+            loadDetail();
+        }
+    }, [idCita])
 
     const {
         register,
@@ -78,8 +97,14 @@ const NuevaCita = ({ id, setId, onHide, show }) => {
     const guardar = async (data) => {
         try {
             setCargando(true);
-            const url = `/conciliacion/agenda/`;
-            const method = "POST";
+            if (modalidad === "PRESENCIAL") {
+                data.a_enlaceVirtual = null
+            }
+            if (modalidad === "VIRTUAL") {
+                data.r_config_salaConciliacion = null
+            }
+            const url = `/conciliacion/agenda/${idCita ? `${idCita}/` : ""}`;
+            const method = idCita ? "PATCH" : "POST";
             const payload = {
                 ...data,
                 r_conciliacion_solicitudConciliacion: id
