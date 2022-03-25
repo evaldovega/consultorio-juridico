@@ -221,10 +221,9 @@ const ListadoAsignaciones = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>No. radicado</th>
+                    {/* <th>No. radicado</th> */}
                     <th colSpan={2}>Docente</th>
-                    <th>Año de validez</th>
-                    <th>Semestre de validez</th>
+                    <th>Periodo</th>
                     <th>Jornada</th>
                     <th>Consultorio</th>
                     <th>Grupo</th>
@@ -233,11 +232,11 @@ const ListadoAsignaciones = () => {
                 <tbody>
                   {docs.map((d) => (
                     <tr>
-                      <td>
+                      {/* <td>
                         <Link to={`/asignacion-docentes/asignar/${d.id}`}>
                           {d.id}
                         </Link>
-                      </td>
+                      </td> */}
                       <td>
                         {d?.r_usuarios_persona?.a_primerNombre}{" "}
                         {d?.r_usuarios_persona?.a_segundoNombre}{" "}
@@ -245,8 +244,7 @@ const ListadoAsignaciones = () => {
                         {d?.r_usuarios_persona?.a_segundoApellido}
                       </td>
                       <td>{d?.r_usuarios_persona?.a_numeroDocumento}</td>
-                      <td>{d.a_anioValidez}</td>
-                      <td>{d.a_semestreValidez}</td>
+                      <td>{d.a_anioValidez}-{d.a_semestreValidez}</td>
                       <td>{d?.r_config_jornadaValidez?.a_titulo}</td>
                       <td>{d?.r_config_numeroConsultorio?.a_titulo}</td>
                       <td>{d?.r_config_grupo?.a_titulo}</td>
