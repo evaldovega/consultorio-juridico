@@ -3,6 +3,9 @@ import { useRef } from "react";
 import { ExportToExcel } from "components/ExportToExcel";
 import { useForm, Controller } from "react-hook-form";
 import API from "utils/Axios";
+import { baseUrl } from "utils/Axios"
+import { toast } from "react-toastify";
+
 const { Row, Col, Button, Form } = require("react-bootstrap");
 
 const AsignacionesFiltros = ({
@@ -28,6 +31,8 @@ const AsignacionesFiltros = ({
   const btn = useRef();
   const [consultorios, setConsultorios] = useState([]);
   const [jornadas, setJornadas] = useState([]);
+  const [loading, setLoading] = useState(false)
+
   const filtrar = (data) => {
     console.log(data);
     setParams({ ...params, page: 1, ...data });
@@ -50,6 +55,29 @@ const AsignacionesFiltros = ({
     btn.current.click();
   };
 
+  const exportToExcel = async () => {
+    setLoading(true)
+    await API.get(`${baseUrl}/api/asignacion/empleados/exportar_excel/`, {
+      params,
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "asignacion_docentes.xlsx");
+      setLoading(false)
+    }).catch(error => {
+      setLoading(false)
+      toast.error("No se pudo exportar la lista de asignaciones.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    })
+  }
+
   useEffect(() => {
     setValue("cedula", "");
     setValue("no_consultorio", "");
@@ -60,7 +88,12 @@ const AsignacionesFiltros = ({
     setValue("primer_apellido", "");
     setValue("segundo_apellido", "");
     cargarConsultorios();
+    console.log(params)
   }, []);
+
+  useEffect(() => {
+    console.log(params)
+  }, [params])
 
   return (
     <Form noValidate onSubmit={handleSubmit(filtrar)} className="mb-4">
@@ -190,7 +223,14 @@ const AsignacionesFiltros = ({
             Limpiar filtros
           </Button>
         </div>
-        <ExportToExcel apiData={docs} fileName="documento" />
+        <Button
+          variant="success"
+          size="sm"
+          disabled={loading}
+          onClick={exportToExcel}
+        >
+          {!loading ? "Exportar a Excel" : "Exportando..."}
+        </Button>
       </div>
     </Form>
   );
