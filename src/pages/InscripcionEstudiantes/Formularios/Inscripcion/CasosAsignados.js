@@ -73,6 +73,10 @@ const CasosAsignados = ({ id }) => {
         load()
     }, [])
 
+    useEffect(() => {
+        load()
+    }, [params])
+
     return (
         <>
             {casos !== [] && (
