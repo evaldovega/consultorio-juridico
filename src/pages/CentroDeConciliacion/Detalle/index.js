@@ -113,7 +113,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
         show={nuevaCitaEditShow}
         onHide={() => setNuevaCitaEditShow(false)}
       />
-      <Modal 
+      <Modal
         show={showProfileData}
         onHide={() => setShowProfileData(false)}
       >
@@ -121,7 +121,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           Información de la parte
         </Modal.Header>
         <Modal.Body>
-          <PerfilMaster 
+          <PerfilMaster
             id={localStorage.getItem('consultorio_id_profileshow')}
             allowSearchPerson={false}
             readOnly={true}
@@ -413,7 +413,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           {policies.includes(ROL_ADMIN) && (
             <Tab eventKey="formatos" title="Impresión de formatos">
               <Modal.Body>
-                {citas.length ? (
+                {citas?.length && doc?.r_citados?.length ? (
                   <>
                     <a
                       target="blank"
@@ -459,8 +459,16 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     </a>
                   </>
                 ) : (
+                  null
+                )}
+                {!citas.length ? (
                   <Alert variant="warning">
                     Para descargar los formatos, asigne una cita en la pestaña Citas
+                  </Alert>
+                ) : null}
+                {!doc?.r_citados?.length && (
+                  <Alert variant="warning">
+                    Debe haber al menos una persona citada para poder descargar los formatos.
                   </Alert>
                 )}
               </Modal.Body>
@@ -468,7 +476,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
           )}
           <Tab eventKey="citas" title="Citas">
             <Modal.Body>
-              <div style={{overflow: 'scroll'}}>
+              <div style={{ overflow: 'scroll' }}>
                 <Table>
                   <thead>
                     <tr>

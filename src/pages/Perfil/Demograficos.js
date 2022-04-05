@@ -15,6 +15,7 @@ const PerfilDemografico = () => {
   const [orientaciones, setOrientaciones] = useState([]);
   const [etnias, setEtnias] = useState([]);
   const [estadosCiviles, setEstadosCiviles] = useState([]);
+  const [escolaridades, setEscolaridades] = useState([])
 
   const load = () => {
     setLoading(true);
@@ -23,16 +24,19 @@ const PerfilDemografico = () => {
       API("configuracion/orientacion/"),
       API("configuracion/etnia/"),
       API("configuracion/estado-civil/"),
+      API("configuracion/escolaridad/")
     ])
       .then(
         ([
           { data: r_orientaciones },
           { data: r_etnias },
           { data: r_estadoCivil },
+          { data: r_escolaridades },
         ]) => {
           setOrientaciones(r_orientaciones);
           setEtnias(r_etnias);
           setEstadosCiviles(r_estadoCivil);
+          setEscolaridades(r_escolaridades);
           setLoading(false);
         }
       )
@@ -53,6 +57,9 @@ const PerfilDemografico = () => {
     const etnia = etnias.find((o) => o.id == persona?.r_config_etnia);
     const estadoCivil = estadosCiviles.find(
       (o) => o.id == persona?.r_config_estadoCivil
+    );
+    const escolaridad = escolaridades.find(
+      (o) => o.id == persona?.r_config_escolaridad
     );
 
     return (
@@ -75,11 +82,19 @@ const PerfilDemografico = () => {
             <th>Etnia</th>
             <th>Número de hijos</th>
             <th>Estado civil</th>
+            <th>Nivel de escolaridad</th>
           </tr>
           <tr>
             <td>{etnia?.a_titulo || "No especificada"}</td>
             <td>{persona?.a_numeroHijos || "No especificado"}</td>
             <td>{estadoCivil?.a_titulo || "No especificado"}</td>
+            <td>{escolaridad?.a_titulo || "No especificada"}</td>
+          </tr>
+          <tr>
+            <th>Estrato</th>
+          </tr>
+          <tr>
+            <td>{persona?.c_estrato || "No especificado"}</td>
           </tr>
         </table>
       </div>
@@ -231,6 +246,63 @@ const PerfilDemografico = () => {
                 ))}
               </Form.Control>
               <Errors message={errors?.r_config_estadoCivil?.message} />
+            </Form.Group>
+          )}
+        />
+        <Controller
+          name="r_config_escolaridad"
+          control={control}
+          rules={!citado && {required: "Ingrese información"}}
+          defaultValue=""
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="6">
+              <Form.Label>
+                Escolaridad {!citado && (<span className="required" />)}
+              </Form.Label>
+              <Form.Control
+                as="select"
+                {...field}
+                readOnly={readOnly}
+                disabled={readOnly}
+                plaintext={readOnly}
+              >
+                <option value="">Seleccione</option>
+                {escolaridades.map((ec) => (
+                  <option key={ec.id} value={ec.id}>
+                    {ec.a_titulo}
+                  </option>
+                ))}
+              </Form.Control>
+              <Errors message={errors?.r_config_escolaridad?.message} />
+            </Form.Group>
+          )}
+        />
+        <Controller
+          name="c_estrato"
+          control={control}
+          rules={!citado && {required: "Ingrese información"}}
+          defaultValue=""
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="6">
+              <Form.Label>
+                Estrato {!citado && (<span className="required" />)}
+              </Form.Label>
+              <Form.Control
+                as="select"
+                {...field}
+                readOnly={readOnly}
+                disabled={readOnly}
+                plaintext={readOnly}
+              >
+                <option value="">Seleccione</option>
+                <option value="1">Estrato uno</option>
+                <option value="2">Estrato dos</option>
+                <option value="3">Estrato tres</option>
+                <option value="4">Estrato cuatro</option>
+                <option value="5">Estrato cinco</option>
+                <option value="6">Estrato seis</option>
+              </Form.Control>
+              <Errors message={errors?.r_config_escolaridad?.message} />
             </Form.Group>
           )}
         />
