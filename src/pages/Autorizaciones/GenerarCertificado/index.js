@@ -108,47 +108,58 @@ const GenerarCertificado = () => {
   };
 
   const guardarAsesoria = async (data) => {
-    setLoading(true);
-    const _data = {
-      ...data,
-      r_usuarios_estudiante: idEstudiante,
-    };
-    console.log(_data);
-    API({
-      url: "autorizaciones/certificacion/" + (id ? `${id}/` : ""),
-      method: id ? "PATCH" : "POST",
-      data: _data,
-    })
-      .then(({ data }) => {
-        setLoading(false);
-        toast.success("Se ha generado la certificación.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        history.push("/autorizaciones");
+    if (idEstudiante !== "") {
+      setLoading(true);
+      const _data = {
+        ...data,
+        r_usuarios_estudiante: idEstudiante,
+      };
+      console.log(_data);
+      API({
+        url: "autorizaciones/certificacion/" + (id ? `${id}/` : ""),
+        method: id ? "PATCH" : "POST",
+        data: _data,
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        const e =
-          error.response && error.response.data
-            ? error.response.data.detail
-            : error.toString();
-        toast.error(`${e}`, {
-          position: "top-center",
-          autoClose: 10000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
+        .then(({ data }) => {
+          setLoading(false);
+          toast.success("Se ha generado la certificación.", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          history.push("/autorizaciones");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          const e =
+            error.response && error.response.data
+              ? error.response.data.detail
+              : error.toString();
+          toast.error(`${e}`, {
+            position: "top-center",
+            autoClose: 10000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        })
+        .finally(() => {
+          setLoading(false);
         });
-      })
-      .finally(() => {
-        setLoading(false);
+    } else {
+      toast.error(`Debe ingresar a un estudiante para poder generar su certificado.`, {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
       });
+    }
   };
   const checkKeyDown = (e) => {
     if (e.code === "Enter") e.preventDefault();
