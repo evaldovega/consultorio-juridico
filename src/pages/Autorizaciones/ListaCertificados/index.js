@@ -88,16 +88,16 @@ const ListadoCertificados = () => {
           data.results.map((el) => ({
             nombre_estudiante: (
               <a href={`/autorizaciones/generar-certificado/${el.id}`}>
-                {el.r_usuarios_estudiante.a_primerNombre}{" "}
-                {el.r_usuarios_estudiante.a_segundoNombre}{" "}
-                {el.r_usuarios_estudiante.a_primerApellido}{" "}
-                {el.r_usuarios_estudiante.a_segundoApellido}
+                {el?.r_usuarios_estudiante?.a_primerNombre}{" "}
+                {el?.r_usuarios_estudiante?.a_segundoNombre}{" "}
+                {el?.r_usuarios_estudiante?.a_primerApellido}{" "}
+                {el?.r_usuarios_estudiante?.a_segundoApellido}
               </a>
             ),
-            documento: el.r_usuarios_estudiante.a_numeroDocumento,
-            elaborado_por: `${el.r_usuarios_elaboradoPor.a_primerNombre} ${el.r_usuarios_elaboradoPor.a_segundoNombre} ${el.r_usuarios_elaboradoPor.a_primerApellido} ${el.r_usuarios_elaboradoPor.a_segundoApellido}`,
-            director: `${el.r_usuarios_director.a_primerNombre} ${el.r_usuarios_director.a_segundoNombre} ${el.r_usuarios_director.a_primerApellido} ${el.r_usuarios_director.a_segundoApellido}`,
-            fecha: el.dt_fechaProceso,
+            documento: el?.r_usuarios_estudiante?.a_numeroDocumento,
+            elaborado_por: `${el?.r_usuarios_elaboradoPor?.a_primerNombre} ${el?.r_usuarios_elaboradoPor?.a_segundoNombre} ${el?.r_usuarios_elaboradoPor?.a_primerApellido} ${el?.r_usuarios_elaboradoPor?.a_segundoApellido}`,
+            director: `${el?.r_usuarios_director?.a_primerNombre} ${el?.r_usuarios_director?.a_segundoNombre} ${el?.r_usuarios_director?.a_primerApellido} ${el?.r_usuarios_director?.a_segundoApellido}`,
+            fecha: el?.dt_fechaProceso,
             acciones: (
               <div className="d-flex justify-content-between">
                 <a href={`${baseUrl}/doc_certificacion/${el.id}/`}>
