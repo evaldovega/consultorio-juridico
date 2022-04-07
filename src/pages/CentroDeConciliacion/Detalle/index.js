@@ -54,10 +54,12 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   };
 
   const cargarCitas = async () => {
-    await API(`conciliacion/agenda/?solicitud=${id}`)
-      .then(response => {
-        setCitas(response.data)
-      })
+    if (id) {
+      await API(`conciliacion/agenda/?solicitud=${id}`)
+        .then(response => {
+          setCitas(response.data)
+        })
+    }
   }
 
   const mostrarDetalles = (id) => {
