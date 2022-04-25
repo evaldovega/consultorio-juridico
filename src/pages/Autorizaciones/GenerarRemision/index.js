@@ -48,6 +48,8 @@ const GenerarRemision = () => {
   const [directores, setDirectores] = useState([]);
   const [cedula, setCedula] = useState("");
   const [idEstudiante, setIdEstudiante] = useState("");
+  const [idEstudiantePersona, setIdEstudiantePersona] = useState(null)
+  const [casos, setCasos] = useState([])
 
   const formPersona = useRef();
   const formAsesoria = useRef();
@@ -87,6 +89,7 @@ const GenerarRemision = () => {
         if (response.data.r_usuarios_persona.r_user !== null) {
           setInscripciones([response.data]);
           setIdEstudiante([response.data].map((el) => el.id)[0]);
+          setIdEstudiantePersona(response.data?.r_usuarios_persona?.id)
         } else {
           toast.error(`Este estudiante no posee una inscripción en este periodo.`, {
             position: "top-center",
@@ -125,6 +128,12 @@ const GenerarRemision = () => {
     //   );
     // });
   };
+
+  const loadCasos = async () => {
+    const { data } = await API.get(`asesorias/solicitud/?persona=${idEstudiantePersona}&page_size=1000`)
+    console.log(data.results)
+    setCasos(data.results)
+  }
 
   const guardarAsesoria = async (data) => {
     setLoading(true);
@@ -240,6 +249,10 @@ const GenerarRemision = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    loadCasos();
+  }, [idEstudiantePersona])
+
   return (
     <Policy policy={[ROL_ADMIN]}>
       <Page>
@@ -277,9 +290,9 @@ const GenerarRemision = () => {
                         className="form-control"
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
-                        onKeyDown={(event) => {event.key === "Enter" && getInscripciones()}}
+                        onKeyDown={(event) => { event.key === "Enter" && getInscripciones() }}
                       />
-                      <Button 
+                      <Button
                         onClick={() => getInscripciones()}
                         disabled={searching}
                       >
@@ -308,6 +321,16 @@ const GenerarRemision = () => {
                           ))}
                         </tbody>
                       </Table>
+                      {casos.length ? (
+                        <p>
+                          <b>ATENCIÓN:</b> Este estudiante cuenta con asignaciones en casos jurídicos. Estos casos son:{" "}
+                          {casos.map((el, i) => (
+                            <a href={`/asesoria-juridica/caso/${el.id}`}>
+                              {el.id}{(i + 1) !== casos.length && ", "}{}
+                            </a>
+                          ))}
+                        </p>
+                      ) : null}
                     </Form.Group>
                   )}
                 </Row>
