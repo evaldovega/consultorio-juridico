@@ -246,7 +246,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                           {c?.r_usuarios_solicitante?.a_direccion}
                         </td>
                         <Policy policy={[ROL_ADMIN]}>
-                          {citas.length ? (
+                          {citas.length && doc?.r_citados?.length ? (
                             <td>
                               <a
                                 target="blank"
