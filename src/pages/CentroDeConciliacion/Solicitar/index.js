@@ -105,10 +105,17 @@ const CentroDeConciliacionSolicitar = () => {
         return;
       }
 
-      let citados = getValues("r_citados");
-      console.log(citados)
-      if (!citados) {
-        citados = []
+      const citados = getValues("r_citados");
+      if (!citados.length) {
+        toast.error("Debe citar al menos a una persona.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        return;
       }
 
       setCargando(true);
