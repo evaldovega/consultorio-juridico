@@ -1,6 +1,6 @@
 import Page from "components/Page";
 import Policy from "components/Policy";
-import { ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE } from "constants/apiContants";
+import { ROL_ADMIN, ROL_DOCENTE, ROL_ESTUDIANTE } from "constants/apiContants";
 import Spin from "components/Spin";
 import { useContext, useState } from "react";
 import {
@@ -26,6 +26,7 @@ import NuevaCita from "./NuevaCita";
 import PersonaDetailRow from "components/personaDetailRow";
 import { Context } from "components/Policy/Ctx";
 import PerfilMaster from "pages/Perfil/Master"
+import DocenteAsesoria from '../../AsesoriaJuridicaDetalle/Estudiantes/Docente'
 
 var moment = require('moment')
 
@@ -198,6 +199,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <PersonaDetailRow
                       id={doc?.r_usuarios_conciliador?.id}
                     />
+                    <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
+                      <DocenteAsesoria id={doc?.r_usuarios_conciliador?.id} />
+                    </Policy>
                   </Col>
                 </Row>
               )}
