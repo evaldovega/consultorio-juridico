@@ -107,6 +107,30 @@ const Filtros = ({ cargando = false, setParams, params }) => {
             )}
           />
         </Col>
+        <Col xs="12" md="4" lg="3">
+          <Controller
+            name="nombre_solicitante"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Nombre del solicitante</Form.Label>
+                <Form.Control disabled={cargando} {...field} />
+              </Form.Group>
+            )}
+          />
+        </Col>
+        <Col xs="12" md="4" lg="3">
+          <Controller
+            name="nombre_citado"
+            control={control}
+            render={({ field }) => (
+              <Form.Group>
+                <Form.Label>Nombre del citado</Form.Label>
+                <Form.Control disabled={cargando} {...field} />
+              </Form.Group>
+            )}
+          />
+        </Col>
       </Row>
 
       <Button type="submit" ref={refButton} disabled={cargando}>
