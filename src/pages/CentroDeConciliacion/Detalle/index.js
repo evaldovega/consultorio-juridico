@@ -39,6 +39,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [nuevaCitaShow, setNuevaCitaShow] = useState(false)
   const [nuevaCitaEditShow, setNuevaCitaEditShow] = useState(false)
   const [showProfileData, setShowProfileData] = useState(false)
+  const [cedulas, setCedulas] = useState([])
 
   const cargar = async () => {
     try {
@@ -392,30 +393,52 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
               )}
             </Modal.Body>
           </Tab>
-          {doc?.mm_documentosAnexos.length ? (
-            <Tab eventKey="anexos" title="Anexos">
-              <Modal.Body>
-                <Table>
-                  {doc?.mm_documentosAnexos.length > 0 ? (
-                    doc?.mm_documentosAnexos.map((d, i) => (
-                      <tr key={i}>
-                        <td>
-                          <a
-                            target="blank"
-                            href={`${baseUrl}${d?.f_archivoDocumento}`}
-                          >
-                            {d?.a_titulo}
-                          </a>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <p>No se han anexado documentos.</p>
-                  )}
-                </Table>
-              </Modal.Body>
-            </Tab>
-          ) : (null)}
+          <Tab eventKey="anexos" title="Anexos">
+            <Modal.Body>
+              <Table>
+                {doc?.r_solicitante.map((d, i) => (
+                  <tr key={i}>
+                    <td>
+                      <a
+                        target="blank"
+                        href={`${baseUrl}${d?.r_usuarios_solicitante?.f_archivoDocumento}`}
+                      >
+                        {`Documento de identidad de ${d?.r_usuarios_solicitante?.a_primerNombre} ${d?.r_usuarios_solicitante?.a_primerApellido}`}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+                {doc?.r_citados.map((d, i) => (
+                  <tr key={i}>
+                    <td>
+                      <a
+                        target="blank"
+                        href={`${baseUrl}${d?.r_usuarios_citado?.f_archivoDocumento}`}
+                      >
+                        {`Documento de identidad de ${d?.r_usuarios_citado?.a_primerNombre} ${d?.r_usuarios_citado?.a_primerApellido}`}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+                {doc?.mm_documentosAnexos.length > 0 ? (
+                  doc?.mm_documentosAnexos.map((d, i) => (
+                    <tr key={i}>
+                      <td>
+                        <a
+                          target="blank"
+                          href={`${baseUrl}${d?.f_archivoDocumento}`}
+                        >
+                          {d?.a_titulo}
+                        </a>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <p>No se han anexado documentos.</p>
+                )}
+              </Table>
+            </Modal.Body>
+          </Tab>
           {policies.includes(ROL_ADMIN) && (
             <Tab eventKey="formatos" title="Impresión de formatos">
               <Modal.Body>

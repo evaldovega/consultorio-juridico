@@ -42,63 +42,36 @@ const DocenteAsesoria = ({ id }) => {
   
   return (
     <Row className="mb-2 align-items-center">
-      {/* <Col>
-        <div className="circle-profile" style={{ width: 64, height: 64 }}>
-          <Img originalSrc={doc.f_archivoFotoPerfil} roundedCircle={true} />
-        </div>
-      </Col> */}
-      <Col xs="6" md="3">
+      <Col xs="6" md="6">
         <Form.Group>
           <Form.Label>Docente del estudiante</Form.Label>
           <Form.Control
-            value={doc.nombre_docente}
+            value={doc?.nombre_docente}
             readOnly={true}
             plaintext={true}
           />
         </Form.Group>
       </Col>
-      {/* {doc.c_tipoPersona === PERSONA_JURIDICA ? (
-        <Col xs="6" md="6">
-          <Form.Group>
-            <Form.Label>Razón social</Form.Label>
-            <Form.Control
-              value={doc.a_nombrePersonaJuridica}
-              readOnly={true}
-              plaintext={true}
-            />
-          </Form.Group>
-        </Col>
-      ) : (
-        <>
-          <Col xs="6" md="3">
-            <Form.Group>
-              <Form.Label>Nombre(s)</Form.Label>
-              <Form.Control
-                value={`${doc.a_primerNombre} ${doc.a_segundoNombre || ""}`}
-                readOnly={true}
-                plaintext={true}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs="6" md="3">
-            <Form.Group>
-              <Form.Label>Apellido(s)</Form.Label>
-              <Form.Control
-                value={`${doc.a_primerApellido} ${doc.a_segundoApellido || ""}`}
-                readOnly={true}
-                plaintext={true}
-              />
-            </Form.Group>
-          </Col>
-        </>
-      )} */}
-      {/* {allowRemove ? (
-        <Col>
-          <Button variant="danger" onClick={remove}>
-            <FaTrash />
-          </Button>
-        </Col>
-      ) : null} */}
+      <Col xs="6" md="4">
+        <Form.Group>
+          <Form.Label>Número de consultorio</Form.Label>
+          <Form.Control
+            value={doc?.consultorio}
+            readOnly={true}
+            plaintext={true}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs="6" md="2">
+        <Form.Group>
+          <Form.Label>Grupo</Form.Label>
+          <Form.Control
+            value={doc?.grupo}
+            readOnly={true}
+            plaintext={true}
+          />
+        </Form.Group>
+      </Col>
     </Row>
   );
 };
