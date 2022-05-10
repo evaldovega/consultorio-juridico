@@ -57,9 +57,9 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
 
   const cargarCitas = async () => {
     if (id) {
-      await API(`conciliacion/agenda/?solicitud=${id}`)
+      await API(`conciliacion/agenda/?page_size=500&solicitud=${id}`)
         .then(response => {
-          setCitas(response.data)
+          setCitas(response.data.results)
         })
     }
   }
@@ -200,7 +200,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     <PersonaDetailRow
                       id={doc?.r_usuarios_conciliador?.id}
                     />
-                    <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
+                    <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
                       <DocenteAsesoria id={doc?.r_usuarios_conciliador?.id} />
                     </Policy>
                   </Col>
