@@ -57,15 +57,19 @@ const VersionSolicitante = ({
           />
           <Controller
             name="a_cuantiaValor"
+            rules={{
+              required: "Ingrese una cuantía",
+            }}
             control={control}
             render={({ field }) => (
               <Form.Group as={Col} xs="12" md="4">
-                <Form.Label>Cuantia</Form.Label>
+                <Form.Label>Cuantia <span className="required" /></Form.Label>
                 <Form.Control
                   {...field}
                   disabled={cargando || readOnly}
                   readonly={readOnly}
                 />
+                <Errors message={errors.a_cuantiaValor?.message} />
               </Form.Group>
             )}
           />

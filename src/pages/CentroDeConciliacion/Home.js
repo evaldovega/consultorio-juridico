@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import { Context } from "components/Policy/Ctx";
+import API, { baseUrl } from "utils/Axios";
 import {
   ACCESS_TOKEN_NAME,
   MODULES,
@@ -33,6 +34,18 @@ import { ReactComponent as Papel } from "images/file-line.svg"
 import { ReactComponent as Carpeta } from "images/folder.svg"
 
 const CentroDeConciliacionHome = () => {
+  const { policies = [], persona } = useContext(Context);
+
+  const exportarConciliadores = async () => {
+    await API(`${baseUrl}/api/conciliacion/solicitud/estudiantes_conciliadores/`, {
+      responseType: 'arraybuffer',
+    }).then((response) => {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([response.data], { type: 'application/xlsx' });
+      FileSaver.saveAs(blob, "estudiantes_conciliadores.xlsx");
+    })
+  }
+
   return (
     <Policy
       policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_ASESOR, ROL_DOCENTE, ROL_PERSONA]}
@@ -57,20 +70,45 @@ const CentroDeConciliacionHome = () => {
             margin: "auto"
           }}>
             <Row className="modules">
-              <Col xs={12} md={6} className="mb-4">
+              <Col 
+                xs={12} 
+                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                className="mb-4"
+              >
                 <ItemModule
                   Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
                   title="Formato de Registro"
                   link="/centro-de-conciliacion/registrar"
                 />
               </Col>
-              <Col xs={12} md={6} className="mb-4">
+              <Col 
+                xs={12} 
+                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                className="mb-4"
+              >
                 <ItemModule
                   Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
                   title="Listado de casos"
                   link="/centro-de-conciliacion/solicitudes"
                 />
               </Col>
+              <Policy policy={[ROL_ADMIN]}>
+                <Col 
+                  xs={12} 
+                  md={4} 
+                  className="mb-4"
+                >
+                  <a 
+                    href="#"
+                    onClick={() => exportarConciliadores()}
+                  >
+                    <ItemModule
+                      Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                      title="Estudiantes conciliadores"
+                    />
+                  </a>
+                </Col>
+              </Policy>
             </Row>
           </div>
         </Page>

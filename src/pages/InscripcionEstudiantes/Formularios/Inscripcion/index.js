@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import API from "utils/Axios";
 import Policy from "components/Policy";
 import CasosAsignados from "./CasosAsignados";
+import CasosConciliacion from "./CasosConciliacion";
 import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import Context from "./Ctx";
@@ -26,7 +27,7 @@ import MigaPan from "components/MigaPan";
 import MigaPanInscripcionEstudiante from "components/MigaPan/InscripcionEstudiante";
 import MigaPanInicio from "components/MigaPan/Inicio";
 
-const InscripcionPracticasConsultorioJuridico = ({}) => {
+const InscripcionPracticasConsultorioJuridico = ({ }) => {
   const history = useHistory();
   const { id } = useParams();
 
@@ -213,7 +214,13 @@ const InscripcionPracticasConsultorioJuridico = ({}) => {
           </FormProvider>
 
           {id && (
-            <CasosAsignados 
+            <CasosAsignados
+              id={personaId}
+            />
+          )}
+
+          {id && (
+            <CasosConciliacion
               id={personaId}
             />
           )}
