@@ -74,6 +74,7 @@ import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
+import Programacion from "pages/CentroDeConciliacion/Programacion";
 import ScrollToTop from "components/ScrollTop";
 import RecuperarClave from "pages/RecuperarClave";
 import MisInscripciones from "pages/MisInscripciones";
@@ -297,6 +298,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/solicitudes" exact>
               <CentroDeConciliacionListado />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/programacion" exact>
+              <Programacion />
             </PrivateRouter>
             <PrivateRouter path="/mi-inscripcion" exact>
               <MisInscripciones />

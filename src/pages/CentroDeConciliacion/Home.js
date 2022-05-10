@@ -72,7 +72,7 @@ const CentroDeConciliacionHome = () => {
             <Row className="modules">
               <Col 
                 xs={12} 
-                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                md={6} 
                 className="mb-4"
               >
                 <ItemModule
@@ -83,7 +83,7 @@ const CentroDeConciliacionHome = () => {
               </Col>
               <Col 
                 xs={12} 
-                md={policies.includes(ROL_ADMIN) ? 4 : 6} 
+                md={6} 
                 className="mb-4"
               >
                 <ItemModule
@@ -95,7 +95,7 @@ const CentroDeConciliacionHome = () => {
               <Policy policy={[ROL_ADMIN]}>
                 <Col 
                   xs={12} 
-                  md={4} 
+                  md={6} 
                   className="mb-4"
                 >
                   <a 
@@ -107,6 +107,19 @@ const CentroDeConciliacionHome = () => {
                       title="Estudiantes conciliadores"
                     />
                   </a>
+                </Col>
+              </Policy>
+              <Policy policy={[ROL_ADMIN]}>
+                <Col 
+                  xs={12} 
+                  md={6} 
+                  className="mb-4"
+                >
+                  <ItemModule
+                    Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                    title="Programación de citas"
+                    link="/centro-de-conciliacion/programacion"
+                  />
                 </Col>
               </Policy>
             </Row>
