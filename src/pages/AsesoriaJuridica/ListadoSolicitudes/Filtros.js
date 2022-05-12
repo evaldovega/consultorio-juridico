@@ -45,6 +45,8 @@ const Filtros = ({
   const limpiar = () => {
     setValue("fechainicio", "");
     setValue("fechafin", "");
+    setValue("fecha_asignacion_inicio", "");
+    setValue("fecha_asignacion_fin", "");
     setValue("doc_solicitante", "");
     setValue("primer_nombre", "");
     setValue("segundo_nombre", "");
@@ -57,6 +59,8 @@ const Filtros = ({
   useEffect(() => {
     setValue("fechainicio", "");
     setValue("fechafin", "");
+    setValue("fecha_asignacion_inicio", "");
+    setValue("fecha_asignacion_fin", "");
     setValue("primer_nombre", "");
     setValue("segundo_nombre", "");
     setValue("primer_apellido", "");
@@ -104,6 +108,33 @@ const Filtros = ({
                 <Col xs="12" md="6">
                   <Controller
                     name="fechafin"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group>
+                        <Form.Label>Fecha fin</Form.Label>
+                        <Form.Control type="date" {...field} size="sm" />
+                      </Form.Group>
+                    )}
+                  />
+                </Col>
+              </Row>
+              <h4>Por fecha de asignación</h4>
+              <Row className="mb-1">
+                <Col xs="12" md="6">
+                  <Controller
+                    name="fecha_asignacion_inicio"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group>
+                        <Form.Label>Fecha inicio</Form.Label>
+                        <Form.Control type="date" {...field} size="sm" />
+                      </Form.Group>
+                    )}
+                  />
+                </Col>
+                <Col xs="12" md="6">
+                  <Controller
+                    name="fecha_asignacion_fin"
                     control={control}
                     render={({ field }) => (
                       <Form.Group>
