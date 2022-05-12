@@ -16,6 +16,7 @@ import Policy from "components/Policy";
 import AccessDenied from "components/Policy/AccessDenied";
 import { Breadcrumb, Row, Col, Card } from "react-bootstrap";
 import SectionHeader from "components/SectionHeader"
+import { toast } from "react-toastify";
 
 import ItemModule from "components/ItemModule";
 import Icon from "components/icons";
@@ -33,17 +34,37 @@ import { ReactComponent as Lapiz } from "images/pencil.svg"
 import { ReactComponent as Papel } from "images/file-line.svg"
 import { ReactComponent as Carpeta } from "images/folder.svg"
 
+const FileSaver = require('file-saver');
+
 const CentroDeConciliacionHome = () => {
   const { policies = [], persona } = useContext(Context);
 
   const exportarConciliadores = async () => {
-    await API(`${baseUrl}/api/conciliacion/solicitud/estudiantes_conciliadores/`, {
-      responseType: 'arraybuffer',
-    }).then((response) => {
-      var FileSaver = require('file-saver');
-      var blob = new Blob([response.data], { type: 'application/xlsx' });
+    try {
+      toast.info("Se está descargando la lista. Por favor, espere un momento.", {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      const response = await API(`${baseUrl}/api/conciliacion/solicitud/estudiantes_conciliadores/`, {
+        responseType: 'arraybuffer',
+      })
+      const blob = new Blob([response.data], { type: 'application/xlsx' });
       FileSaver.saveAs(blob, "estudiantes_conciliadores.xlsx");
-    })
+      toast.success("Se ha generado el listado.", {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -70,53 +91,53 @@ const CentroDeConciliacionHome = () => {
             margin: "auto"
           }}>
             <Row className="modules">
-              <Col 
-                xs={12} 
-                md={6} 
+              <Col
+                xs={12}
+                md={6}
                 className="mb-4"
               >
                 <ItemModule
-                  Icon={() => <Lapiz style={{width: "50px", height: "50px"}} />}
+                  Icon={() => <Lapiz style={{ width: "50px", height: "50px" }} />}
                   title="Formato de Registro"
                   link="/centro-de-conciliacion/registrar"
                 />
               </Col>
-              <Col 
-                xs={12} 
-                md={6} 
+              <Col
+                xs={12}
+                md={6}
                 className="mb-4"
               >
                 <ItemModule
-                  Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                  Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                   title="Listado de casos"
                   link="/centro-de-conciliacion/solicitudes"
                 />
               </Col>
               <Policy policy={[ROL_ADMIN]}>
-                <Col 
-                  xs={12} 
-                  md={6} 
+                <Col
+                  xs={12}
+                  md={6}
                   className="mb-4"
                 >
-                  <a 
+                  <a
                     href="#"
                     onClick={() => exportarConciliadores()}
                   >
                     <ItemModule
-                      Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                      Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                       title="Estudiantes conciliadores"
                     />
                   </a>
                 </Col>
               </Policy>
               <Policy policy={[ROL_ADMIN]}>
-                <Col 
-                  xs={12} 
-                  md={6} 
+                <Col
+                  xs={12}
+                  md={6}
                   className="mb-4"
                 >
                   <ItemModule
-                    Icon={() => <Papel style={{width: "50px", height: "50px"}} />}
+                    Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                     title="Programación de citas"
                     link="/centro-de-conciliacion/programacion"
                   />

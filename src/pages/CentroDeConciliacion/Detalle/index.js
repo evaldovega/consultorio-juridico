@@ -40,6 +40,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [nuevaCitaEditShow, setNuevaCitaEditShow] = useState(false)
   const [showProfileData, setShowProfileData] = useState(false)
   const [cedulas, setCedulas] = useState([])
+  const [estudianteAsesor, setIdEstudianteAsesor] = useState(null)
 
   const cargar = async () => {
     try {
@@ -64,6 +65,19 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
     }
   }
 
+  const cargarAsesor = async () => {
+    try {
+      const { data } = await API.post(`conciliacion/solicitud/buscar_asesor/`, {
+        "no_caso_conciliacion": id
+      })
+      if (data.estudiante) {
+        setIdEstudianteAsesor(data.estudiante)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const mostrarDetalles = (id) => {
     localStorage.setItem('consultorio_id_profileshow', id)
     setShowProfileData(true)
@@ -79,6 +93,7 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
     if (id) {
       cargar();
       cargarCitas();
+      cargarAsesor();
     }
   }, [id]);
 
@@ -202,6 +217,19 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                     />
                     <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
                       <DocenteAsesoria id={doc?.r_usuarios_conciliador?.id} />
+                    </Policy>
+                  </Col>
+                </Row>
+              )}
+              {estudianteAsesor && (
+                <Row>
+                  <Col xs="12">
+                    <Form.Label>Estudiante asesor</Form.Label>
+                    <PersonaDetailRow
+                      id={estudianteAsesor}
+                    />
+                    <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
+                      <DocenteAsesoria id={estudianteAsesor} />
                     </Policy>
                   </Col>
                 </Row>
