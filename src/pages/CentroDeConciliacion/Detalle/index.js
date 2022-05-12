@@ -397,28 +397,30 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
             <Modal.Body>
               <Table>
                 {doc?.r_solicitante.map((d, i) => (
-                  <tr key={i}>
-                    <td>
-                      <a
-                        target="blank"
-                        href={`${baseUrl}${d?.r_usuarios_solicitante?.f_archivoDocumento}`}
-                      >
-                        {`Documento de identidad de ${d?.r_usuarios_solicitante?.a_primerNombre} ${d?.r_usuarios_solicitante?.a_primerApellido}`}
-                      </a>
-                    </td>
-                  </tr>
+                  d?.r_usuarios_solicitante?.f_archivoDocumento && (
+                    <tr key={i}>
+                      <td>
+                        <a
+                          href={`${baseUrl}${d?.r_usuarios_solicitante?.f_archivoDocumento}`}
+                        >
+                          {`Documento de identidad de ${d?.r_usuarios_solicitante?.a_primerNombre} ${d?.r_usuarios_solicitante?.a_primerApellido}`}
+                        </a>
+                      </td>
+                    </tr>
+                  )
                 ))}
                 {doc?.r_citados.map((d, i) => (
-                  <tr key={i}>
-                    <td>
-                      <a
-                        target="blank"
-                        href={`${baseUrl}${d?.r_usuarios_citado?.f_archivoDocumento}`}
-                      >
-                        {`Documento de identidad de ${d?.r_usuarios_citado?.a_primerNombre} ${d?.r_usuarios_citado?.a_primerApellido}`}
-                      </a>
-                    </td>
-                  </tr>
+                  d?.r_usuarios_citado?.f_archivoDocumento && (
+                    <tr key={i}>
+                      <td>
+                        <a
+                          href={`${baseUrl}${d?.r_usuarios_citado?.f_archivoDocumento}`}
+                        >
+                          {`Documento de identidad de ${d?.r_usuarios_citado?.a_primerNombre} ${d?.r_usuarios_citado?.a_primerApellido}`}
+                        </a>
+                      </td>
+                    </tr>
+                  )
                 ))}
                 {doc?.mm_documentosAnexos.length > 0 ? (
                   doc?.mm_documentosAnexos.map((d, i) => (
