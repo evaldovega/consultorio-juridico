@@ -86,4 +86,12 @@ export const MODULES = [
     descripcion: "",
     img: "images/modulo6.jpg",
   },
+  {
+    id: "",
+    name: "Funciones de administrador",
+    policies: [ROL_ADMIN],
+    url: "/funciones-admin",
+    descripcion: "",
+    img: "images/modulo2.jpg",
+  },
 ];
