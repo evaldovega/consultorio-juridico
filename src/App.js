@@ -79,6 +79,9 @@ import ScrollToTop from "components/ScrollTop";
 import RecuperarClave from "pages/RecuperarClave";
 import MisInscripciones from "pages/MisInscripciones";
 
+import FuncionesAdmin from "pages/FuncionesAdmin";
+import Roles from "pages/FuncionesAdmin/Roles";
+
 function App() {
   moment.locale("es");
   return (
@@ -301,6 +304,12 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/programacion" exact>
               <Programacion />
+            </PrivateRouter>
+            <PrivateRouter path="/funciones-admin" exact>
+              <FuncionesAdmin />
+            </PrivateRouter>
+            <PrivateRouter path="/funciones-admin/roles" exact>
+              <Roles />
             </PrivateRouter>
             <PrivateRouter path="/mi-inscripcion" exact>
               <MisInscripciones />
