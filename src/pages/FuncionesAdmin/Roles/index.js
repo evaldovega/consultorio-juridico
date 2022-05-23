@@ -131,7 +131,7 @@ const Roles = () => {
                                                                             {el?.casos.map((item, index) => (
                                                                                 <tr key={index}>
                                                                                     <td>
-                                                                                        <a href={`asesoria-juridica/caso/${item?.no_caso}`}>
+                                                                                        <a href={`/asesoria-juridica/caso/${item?.no_caso}`}>
                                                                                             {item?.no_caso}
                                                                                         </a>
                                                                                     </td>
