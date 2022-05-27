@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import {
   ACCESS_TOKEN_NAME,
   MODULES,
   ROL_ASESOR,
   ROL_ADMIN,
+  ROL_DOCENTE
 } from "constants/apiContants";
 import { Link } from "react-router-dom";
 
@@ -14,6 +15,7 @@ import CasosConciliacion from "./CasosConciliacion";
 import { Card, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import Context from "./Ctx";
+import { Context as PolicyCtx } from 'components/Policy/Ctx'
 import { toast } from "react-toastify";
 import AccessDenied from "components/Policy/AccessDenied";
 
@@ -30,6 +32,8 @@ import MigaPanInicio from "components/MigaPan/Inicio";
 const InscripcionPracticasConsultorioJuridico = ({ }) => {
   const history = useHistory();
   const { id } = useParams();
+
+  const { policies = [], persona } = useContext(PolicyCtx);
 
   const R_USER = localStorage.getItem("username_id");
 
@@ -166,7 +170,7 @@ const InscripcionPracticasConsultorioJuridico = ({ }) => {
 
   return (
     <Policy
-      policy={[ROL_ADMIN]}
+      policy={[ROL_ADMIN, ROL_DOCENTE]}
       feedback={
         <AccessDenied msn="Usted no tiene acceso a esta función de la página." />
       }
@@ -191,6 +195,7 @@ const InscripcionPracticasConsultorioJuridico = ({ }) => {
                 allowSearchPerson={true}
                 clearOnFinish={true}
                 callback={personaGuardada}
+                readOnly={policies.includes(ROL_DOCENTE) ? true : false}
               />
             </Card.Body>
           </Card>

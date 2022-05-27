@@ -274,7 +274,7 @@ const ListadoIncripciones = () => {
                     <th>Grupo</th>
                     <th>Turno</th>
                     <th>Discapacidades</th>
-                    <Policy policy={[ROL_ADMIN]}>
+                    <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
                       <th></th>
                     </Policy>
                   </tr>
@@ -320,7 +320,7 @@ const ListadoIncripciones = () => {
                           );
                         })}
                       </td>
-                      <Policy policy={[ROL_ADMIN]}>
+                      <Policy policy={[ROL_ADMIN, ROL_DOCENTE]}>
                         <td>
                           <Link
                             to={`/inscripcion-estudiantes/inscripcion-practicas/${d.id}`}
