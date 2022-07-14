@@ -181,6 +181,7 @@ const PerfilMaster = ({
             ) : (
               <TipoPersona />
             )}
+            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDatosPersonales /> : null}
             {TIPO_PERSONA == PERSONA_NATURAL ? (
               <PerfilIdentificacion allowSearchPerson={allowSearchPerson} />
             ) : null}
@@ -189,15 +190,10 @@ const PerfilMaster = ({
                 allowSearchPerson={allowSearchPerson}
               />
             ) : null}
-            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDatosPersonales /> : null}
-            {TIPO_PERSONA ? <PerfilUbicacion /> : null}
-
             {TIPO_PERSONA == PERSONA_JURIDICA ? <RepresentanteLegal /> : null}
-
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDemografico /> : null}
-
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDiscapacidad /> : null}
-
+            {TIPO_PERSONA ? <PerfilUbicacion /> : null}
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilLaboral /> : null}
             <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
               {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilAnexos /> : null}

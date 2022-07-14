@@ -51,7 +51,7 @@ const PerfilDiscapacidad = () => {
     return (
       <div>
         <Alert variant="warning">{error}</Alert>
-        <Button type="button" type="secundary" key="console" onClick={load}>
+        <Button type="secundary" key="console" onClick={load}>
           Recargar listado de discapacidades
         </Button>
       </div>

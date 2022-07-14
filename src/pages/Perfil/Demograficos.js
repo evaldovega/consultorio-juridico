@@ -250,6 +250,28 @@ const PerfilDemografico = () => {
           )}
         />
         <Controller
+          name="a_numeroHijos"
+          control={control}
+          rules={!citado && {required: "Ingrese información"}}
+          defaultValue=""
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="6">
+              <Form.Label>
+                Número de hijos {!citado && (<span className="required" />)}
+              </Form.Label>
+              <Form.Control
+                type="number"
+                min="0"
+                {...field}
+                readOnly={readOnly}
+                disabled={readOnly}
+                plaintext={readOnly}
+              />
+              <Errors message={errors?.a_numeroHijos?.message} />
+            </Form.Group>
+          )}
+        />
+        <Controller
           name="r_config_escolaridad"
           control={control}
           rules={!citado && {required: "Ingrese información"}}
@@ -303,28 +325,6 @@ const PerfilDemografico = () => {
                 <option value="6">Estrato seis</option>
               </Form.Control>
               <Errors message={errors?.r_config_escolaridad?.message} />
-            </Form.Group>
-          )}
-        />
-        <Controller
-          name="a_numeroHijos"
-          control={control}
-          rules={!citado && {required: "Ingrese información"}}
-          defaultValue=""
-          render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="6">
-              <Form.Label>
-                Número de hijos {!citado && (<span className="required" />)}
-              </Form.Label>
-              <Form.Control
-                type="number"
-                min="0"
-                {...field}
-                readOnly={readOnly}
-                disabled={readOnly}
-                plaintext={readOnly}
-              />
-              <Errors message={errors?.a_numeroHijos?.message} />
             </Form.Group>
           )}
         />
