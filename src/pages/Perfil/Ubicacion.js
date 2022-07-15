@@ -73,6 +73,25 @@ const PerfilUbicacion = () => {
       <h2 className="mb-4">Datos de ubicación</h2>
       <Row className="mb-1">
         <Controller
+          name="a_direccion"
+          control={control}
+          defaultValue=""
+          rules={{ required: "Ingrese una dirección" }}
+          render={({ field }) => (
+            <Form.Group as={Col} xs={12} md={6}>
+              <Form.Label>
+                Dirección <span className="required" />
+              </Form.Label>
+              <Form.Control
+                {...field}
+                plaintext={readOnly}
+                readOnly={readOnly}
+              />
+              <Errors message={errors.a_direccion?.message} />
+            </Form.Group>
+          )}
+        />
+        <Controller
           name="r_config_paisNacimiento"
           control={control}
           defaultValue=""
@@ -147,25 +166,6 @@ const PerfilUbicacion = () => {
           )}
         />
         <Controller
-          name="a_direccion"
-          control={control}
-          defaultValue=""
-          rules={{ required: "Ingrese una dirección" }}
-          render={({ field }) => (
-            <Form.Group as={Col} xs={12} md={6}>
-              <Form.Label>
-                Dirección <span className="required" />
-              </Form.Label>
-              <Form.Control
-                {...field}
-                plaintext={readOnly}
-                readOnly={readOnly}
-              />
-              <Errors message={errors.a_direccion?.message} />
-            </Form.Group>
-          )}
-        />
-        <Controller
           name="a_telefonoFijo"
           control={control}
           defaultValue=""
@@ -184,7 +184,7 @@ const PerfilUbicacion = () => {
           name="a_celular"
           control={control}
           defaultValue=""
-          rules={{required: "Ingrese el número de celular"}}
+          rules={{ required: "Ingrese el número de celular" }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
@@ -203,7 +203,7 @@ const PerfilUbicacion = () => {
           name="a_correoElectronico"
           control={control}
           defaultValue=""
-          rules={{required: "Ingrese un correo electrónico"}}
+          rules={{ required: "Ingrese un correo electrónico" }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>

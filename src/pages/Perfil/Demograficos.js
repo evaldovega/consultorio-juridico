@@ -3,12 +3,12 @@ import { Controller } from "react-hook-form";
 import { Breadcrumb, Card, Row, Col, Image, Form } from "react-bootstrap";
 import Context from "./Ctx";
 import Errors from "components/Errors";
-import API from "utils/Axios";
+import API, {baseUrl} from "utils/Axios";
 import { ROL_ESTUDIANTE } from "constants/apiContants";
 import moment from "moment";
 
 const PerfilDemografico = () => {
-  const { readOnly, control, errors, setValue, policies, persona, citado } =
+  const { readOnly, watch, control, getValues, errors, setValue, policies, persona, citado } =
     useContext(Context);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,6 +16,11 @@ const PerfilDemografico = () => {
   const [etnias, setEtnias] = useState([]);
   const [estadosCiviles, setEstadosCiviles] = useState([]);
   const [escolaridades, setEscolaridades] = useState([])
+  const [discapacidades, setDiscapacidades] = useState([])
+  const [entidadesSalud, setEntidadesSalud] = useState([])
+
+  const checked = watch("mm_discapacidad", []);
+  const certificacionEPS = watch('f_archivoEPS')
 
   const load = () => {
     setLoading(true);
@@ -24,7 +29,9 @@ const PerfilDemografico = () => {
       API("configuracion/orientacion/"),
       API("configuracion/etnia/"),
       API("configuracion/estado-civil/"),
-      API("configuracion/escolaridad/")
+      API("configuracion/escolaridad/"),
+      API("configuracion/discapacidad/"),
+      API("configuracion/entidad-salud/")
     ])
       .then(
         ([
@@ -32,11 +39,17 @@ const PerfilDemografico = () => {
           { data: r_etnias },
           { data: r_estadoCivil },
           { data: r_escolaridades },
+          { data: r_discapacidades },
+          { data: r_entidades_salud }
         ]) => {
           setOrientaciones(r_orientaciones);
           setEtnias(r_etnias);
           setEstadosCiviles(r_estadoCivil);
           setEscolaridades(r_escolaridades);
+          setDiscapacidades(r_discapacidades.map((el) => (
+            { label: el.a_titulo, value: el.id }
+          )));
+          setEntidadesSalud(r_entidades_salud)
           setLoading(false);
         }
       )
@@ -49,6 +62,30 @@ const PerfilDemografico = () => {
   useEffect(() => {
     load();
   }, [readOnly]);
+
+  const onChangeDiscapacidad = (check) => {
+    let values = getValues("mm_discapacidad") || [];
+    const index = values.indexOf(parseInt(check.value));
+    if (index < 0) {
+      values.push(parseInt(check.value));
+    } else {
+      values.splice(index, 1);
+    }
+    setValue("mm_discapacidad", values);
+  };
+
+  const selectedEPS = (el) => {
+    if (!el.files.length) {
+      setValue("f_archivoEPS", "");
+      return;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(el.files[0]);
+    reader.onload = function () {
+      setValue("f_archivoEPS", reader.result);
+      //el.value = "";
+    };
+  };
 
   if (readOnly) {
     const orientacion = orientaciones.find(
@@ -108,7 +145,7 @@ const PerfilDemografico = () => {
         <Controller
           name="a_fechaNacimiento"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -127,7 +164,7 @@ const PerfilDemografico = () => {
         <Controller
           name="a_lugarNacimiento"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="12" lg="6">
               <Form.Label>Lugar de nacimiento {!citado && (<span className="required" />)}</Form.Label>
@@ -142,7 +179,7 @@ const PerfilDemografico = () => {
         <Controller
           name="c_genero"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -167,7 +204,7 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_orientacion"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
               <Form.Label>
@@ -196,7 +233,7 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_etnia"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
@@ -221,10 +258,88 @@ const PerfilDemografico = () => {
             </Form.Group>
           )}
         />
+        <Form.Group as={Col} xs="12" md="6" lg="6">
+          <Form.Label>
+            Discapacidades
+          </Form.Label>
+          <br />
+          {discapacidades.map((d, i) => (
+            <Form.Check
+              inline
+              type="checkbox"
+              disabled={readOnly}
+              checked={checked?.some((c) => parseInt(c) == parseInt(d.value))}
+              onChange={(e) => onChangeDiscapacidad(e.target)}
+              value={parseInt(d.value)}
+              label={d.label}
+            />
+          ))}
+        </Form.Group>
+        <Controller
+          name="r_config_eps"
+          control={control}
+          rules={!citado && { required: "Ingrese información" }}
+          defaultValue=""
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="6">
+              <Form.Label>
+                EPS {!citado && (<span className="required" />)}
+              </Form.Label>
+              <Form.Control
+                as="select"
+                {...field}
+                readOnly={readOnly}
+                disabled={readOnly}
+                plaintext={readOnly}
+              >
+                <option value="">Seleccione</option>
+                {entidadesSalud.map((el, i) => (
+                  <option value={el.id} key={i}>
+                    {el.a_titulo}
+                  </option>
+                ))}
+              </Form.Control>
+              <Errors message={errors?.r_config_eps?.message} />
+            </Form.Group>
+          )}
+        />
+        <Form.Group as={Col} xs="12" md="6">
+          <Form.Label>
+            Adjuntar certificación EPS
+          </Form.Label>
+          <br />
+          {certificacionEPS && certificacionEPS.substring(0, 1) === "/" &&
+            <a href={`${baseUrl}${certificacionEPS}`}>Descargar certificación</a>
+          }
+          {certificacionEPS && certificacionEPS.substring(0, 1) === "h" &&
+            <a href={`${certificacionEPS}`}>Descargar certificación</a>
+          }
+          {!readOnly ? (
+            <Form.Control
+              type="file"
+              onChange={(e) => selectedEPS(e.target)}
+              readOnly={readOnly}
+            />
+          ) : null}
+          <Controller
+            name="f_archivoEPS"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <input
+                {...field}
+                type="hidden"
+                readOnly={readOnly}
+                plaintext={readOnly}
+              />
+            )}
+          />
+          <Errors message={errors.f_archivoEPS?.message} />
+        </Form.Group>
         <Controller
           name="r_config_estadoCivil"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
@@ -252,7 +367,7 @@ const PerfilDemografico = () => {
         <Controller
           name="a_numeroHijos"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
@@ -274,7 +389,7 @@ const PerfilDemografico = () => {
         <Controller
           name="r_config_escolaridad"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">
@@ -302,7 +417,7 @@ const PerfilDemografico = () => {
         <Controller
           name="c_estrato"
           control={control}
-          rules={!citado && {required: "Ingrese información"}}
+          rules={!citado && { required: "Ingrese información" }}
           defaultValue=""
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="6">

@@ -192,7 +192,7 @@ const PerfilMaster = ({
             ) : null}
             {TIPO_PERSONA == PERSONA_JURIDICA ? <RepresentanteLegal /> : null}
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDemografico /> : null}
-            {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDiscapacidad /> : null}
+            {/* {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilDiscapacidad /> : null} */}
             {TIPO_PERSONA ? <PerfilUbicacion /> : null}
             {TIPO_PERSONA == PERSONA_NATURAL ? <PerfilLaboral /> : null}
             <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE]}>
