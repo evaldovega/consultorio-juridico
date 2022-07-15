@@ -135,7 +135,7 @@ const PerfilAnexos = () => {
                     />
                     <Errors message={errors.f_archivoDocumento?.message} />
                 </Form.Group>
-                <Form.Group as={Col} xs="12" md="6">
+                {/* <Form.Group as={Col} xs="12" md="6">
                     <Form.Label>
                         Adjuntar certificación EPS
                     </Form.Label>
@@ -167,7 +167,7 @@ const PerfilAnexos = () => {
                         )}
                     />
                     <Errors message={errors.f_archivoDocumento?.message} />
-                </Form.Group>
+                </Form.Group> */}
             </Row>
             <ArchivosAnexos />
         </div>

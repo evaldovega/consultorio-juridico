@@ -45,26 +45,6 @@ const PerfilLaboral = () => {
           )}
         />
         <Controller
-          name="a_nombreEmpresa"
-          control={control}
-          rules={{
-            required: "Ingrese nombre de la empresa",
-          }}
-          render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6" lg="3">
-              <Form.Label>
-                Nombre empresa <span className="required" />
-              </Form.Label>
-              <Form.Control
-                {...field}
-                readOnly={readOnly}
-                plaintext={readOnly}
-              />
-              <Errors message={errors?.a_nombreEmpresa?.message} />
-            </Form.Group>
-          )}
-        />
-        <Controller
           name="a_cargoEmpresa"
           control={control}
           defaultValue=""
@@ -85,29 +65,29 @@ const PerfilLaboral = () => {
             </Form.Group>
           )}
         />
-      </Row>
-      <Row className="mb-3">
         <Controller
-          name="a_barrioEmpresa"
+          name="a_nombreEmpresa"
           control={control}
           rules={{
-            required: "Ingrese barrio",
+            required: "Ingrese nombre de la empresa",
           }}
           render={({ field }) => (
             <Form.Group as={Col} xs="12" md="6" lg="3">
               <Form.Label>
-                Barrio empresa <span className="required" />
+                Nombre empresa <span className="required" />
               </Form.Label>
               <Form.Control
                 {...field}
                 readOnly={readOnly}
                 plaintext={readOnly}
               />
-              <Errors message={errors?.a_barrioEmpresa?.message} />
+              <Errors message={errors?.a_nombreEmpresa?.message} />
             </Form.Group>
           )}
         />
-        <Controller
+      </Row>
+      <Row className="mb-3">
+      <Controller
           name="a_direccionEmpresa"
           control={control}
           defaultValue=""
@@ -125,6 +105,26 @@ const PerfilLaboral = () => {
                 plaintext={readOnly}
               />
               <Errors message={errors?.a_direccionEmpresa?.message} />
+            </Form.Group>
+          )}
+        />
+        <Controller
+          name="a_barrioEmpresa"
+          control={control}
+          rules={{
+            required: "Ingrese barrio",
+          }}
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="3">
+              <Form.Label>
+                Barrio empresa <span className="required" />
+              </Form.Label>
+              <Form.Control
+                {...field}
+                readOnly={readOnly}
+                plaintext={readOnly}
+              />
+              <Errors message={errors?.a_barrioEmpresa?.message} />
             </Form.Group>
           )}
         />
