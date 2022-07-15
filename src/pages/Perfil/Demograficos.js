@@ -17,6 +17,7 @@ const PerfilDemografico = () => {
   const [estadosCiviles, setEstadosCiviles] = useState([]);
   const [escolaridades, setEscolaridades] = useState([])
   const [discapacidades, setDiscapacidades] = useState([])
+  const [entidadesSalud, setEntidadesSalud] = useState([])
 
   const checked = watch("mm_discapacidad", []);
   const certificacionEPS = watch('f_archivoEPS')
@@ -29,7 +30,8 @@ const PerfilDemografico = () => {
       API("configuracion/etnia/"),
       API("configuracion/estado-civil/"),
       API("configuracion/escolaridad/"),
-      API("configuracion/discapacidad/")
+      API("configuracion/discapacidad/"),
+      API("configuracion/entidad-salud/")
     ])
       .then(
         ([
@@ -37,7 +39,8 @@ const PerfilDemografico = () => {
           { data: r_etnias },
           { data: r_estadoCivil },
           { data: r_escolaridades },
-          { data: r_discapacidades }
+          { data: r_discapacidades },
+          { data: r_entidades_salud }
         ]) => {
           setOrientaciones(r_orientaciones);
           setEtnias(r_etnias);
@@ -46,6 +49,7 @@ const PerfilDemografico = () => {
           setDiscapacidades(r_discapacidades.map((el) => (
             { label: el.a_titulo, value: el.id }
           )));
+          setEntidadesSalud(r_entidades_salud)
           setLoading(false);
         }
       )
@@ -271,6 +275,34 @@ const PerfilDemografico = () => {
             />
           ))}
         </Form.Group>
+        <Controller
+          name="r_config_eps"
+          control={control}
+          rules={!citado && { required: "Ingrese información" }}
+          defaultValue=""
+          render={({ field }) => (
+            <Form.Group as={Col} xs="12" md="6" lg="6">
+              <Form.Label>
+                EPS {!citado && (<span className="required" />)}
+              </Form.Label>
+              <Form.Control
+                as="select"
+                {...field}
+                readOnly={readOnly}
+                disabled={readOnly}
+                plaintext={readOnly}
+              >
+                <option value="">Seleccione</option>
+                {entidadesSalud.map((el, i) => (
+                  <option value={el.id} key={i}>
+                    {el.a_titulo}
+                  </option>
+                ))}
+              </Form.Control>
+              <Errors message={errors?.r_config_eps?.message} />
+            </Form.Group>
+          )}
+        />
         <Form.Group as={Col} xs="12" md="6">
           <Form.Label>
             Adjuntar certificación EPS
