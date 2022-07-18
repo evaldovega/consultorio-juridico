@@ -78,6 +78,7 @@ import Programacion from "pages/CentroDeConciliacion/Programacion";
 import ScrollToTop from "components/ScrollTop";
 import RecuperarClave from "pages/RecuperarClave";
 import MisInscripciones from "pages/MisInscripciones";
+import Tutoriales from "pages/Tutoriales";
 
 import FuncionesAdmin from "pages/FuncionesAdmin";
 import Roles from "pages/FuncionesAdmin/Roles";
@@ -313,6 +314,9 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/mi-inscripcion" exact>
               <MisInscripciones />
+            </PrivateRouter>
+            <PrivateRouter path="/tutoriales" exact>
+              <Tutoriales />
             </PrivateRouter>
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
