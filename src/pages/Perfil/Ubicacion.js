@@ -203,7 +203,14 @@ const PerfilUbicacion = () => {
           name="a_correoElectronico"
           control={control}
           defaultValue=""
-          rules={{ required: "Ingrese un correo electrónico" }}
+          rules={{
+            required: "Ingrese un correo electrónico",
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: "Ingrese un correo valido",
+            },
+          }}
           render={({ field }) => (
             <Form.Group as={Col} xs={12} md={6}>
               <Form.Label>
