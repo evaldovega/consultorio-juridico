@@ -104,7 +104,6 @@ export const VIDEOS = [
     parent: "Registro de asesoría",
     url: "http://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_asesoria.mp4",
     descripcion: "",
-    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE],
   },
   {
     id: 1,
@@ -113,6 +112,5 @@ export const VIDEOS = [
     parent: "Registro de usuario ciudadano",
     url: "http://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_usuario_ciudadano.mp4",
     descripcion: "",
-    policies: [ROL_ADMIN, ROL_ASESOR, ROL_ESTUDIANTE, ROL_DOCENTE],
   },
 ]

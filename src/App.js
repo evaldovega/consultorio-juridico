@@ -315,9 +315,7 @@ function App() {
             <PrivateRouter path="/mi-inscripcion" exact>
               <MisInscripciones />
             </PrivateRouter>
-            <PrivateRouter path="/tutoriales" exact>
-              <Tutoriales />
-            </PrivateRouter>
+            <Route path="/tutoriales" exact component={Tutoriales} />
             <Route path="/login" exact component={Login} />
             <Route path="/registrarse" exact component={Registro} />
             <Route path="/recuperar-clave" exact component={RecuperarClave} />

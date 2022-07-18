@@ -28,26 +28,18 @@ const Tutoriales = () => {
   const { policies } = useContext(Context);
 
   useEffect(() => {
-    if (policies && policies.length) {
-      const m = VIDEOS.filter((m) => {
-        if (!m.policies) {
-          return true;
+    console.log(VIDEOS)
+    const m = VIDEOS;
+    setModulosPermitidos(
+      Chunk(m, 3).map((m) => {
+        const relleno = 3 - m.length;
+        for (let i = 0; i < relleno; i++) {
+          m.push({});
         }
-        return policyAllow(m.policies, policies);
-      });
-      setModulosPermitidos(
-        Chunk(m, 3).map((m) => {
-          const relleno = 3 - m.length;
-          for (let i = 0; i < relleno; i++) {
-            m.push({});
-          }
-          return m;
-        })
-      );
-    } else {
-      setModulosPermitidos([]);
-    }
-  }, [policies]);
+        return m;
+      })
+    );
+  }, []);
 
   return (
     <>

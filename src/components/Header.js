@@ -5,6 +5,7 @@ import {
   MODULES,
   ROL_ADMIN,
   ROL_ESTUDIANTE,
+  ROL_PERSONA,
   USER_FULL_NAME,
 } from "../constants/apiContants";
 import { Button, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
@@ -68,70 +69,72 @@ const HeaderPage = ({ showButton, homePage }) => {
                 <span style={{ fontWeight: 'bold' }}>Tutoriales</span>
               </span>
             </Nav.Link>
-            <NavDropdown
-              title={
-                <span
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    justifyItems: "center",
-                    fontSize: "16px",
-                  }}
-                >
-                  <FaChild />
-                  <span>
-                    <b>Accesibilidad</b>
-                  </span>
-                </span>
-              }
-              id="basic-nav-dropdown0"
-            >
-              <NavDropdown.ItemText style={{ width: "250px" }}>
-                Herramienta de política de acceso para las personas que
-                presentan discapacidad visual o auditiva.
-                <br />
-                <Button
-                  type="primary"
-                  href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
-                  target="blank"
-                  style={{ marginTop: "10px" }}
-                >
-                  <FaDownload /> <b>Descargar</b>
-                </Button>
-              </NavDropdown.ItemText>
-            </NavDropdown>
-            <Nav.Link href="http://biblioteca.uniatlantico.edu.co/">
-              <span style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}>
-                <FaBook style={{ marginRight: "2px" }} />
-                <span style={{ fontWeight: 'bold' }}>Biblioteca</span>
-              </span>
-            </Nav.Link>
-            <NavDropdown
-              title={
-                <span
-                  style={{
-                    fontSize: "16px",
-                  }}
-                >
-                  <FaUserCircle /> <b>{fullname}</b>
-                  {/* <small
-                    style={{ fontSize: 8, display: "block", marginLeft: 18 }}
+            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_PERSONA]}>
+              <NavDropdown
+                title={
+                  <span
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      justifyItems: "center",
+                      fontSize: "16px",
+                    }}
                   >
-                    {policies.join(",")}
-                  </small> */}
+                    <FaChild />
+                    <span>
+                      <b>Accesibilidad</b>
+                    </span>
+                  </span>
+                }
+                id="basic-nav-dropdown0"
+              >
+                <NavDropdown.ItemText style={{ width: "250px" }}>
+                  Herramienta de política de acceso para las personas que
+                  presentan discapacidad visual o auditiva.
+                  <br />
+                  <Button
+                    type="primary"
+                    href="https://convertic.gov.co/641/w3-propertyvalue-15308.html"
+                    target="blank"
+                    style={{ marginTop: "10px" }}
+                  >
+                    <FaDownload /> <b>Descargar</b>
+                  </Button>
+                </NavDropdown.ItemText>
+              </NavDropdown>
+              <Nav.Link href="http://biblioteca.uniatlantico.edu.co/">
+                <span style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}>
+                  <FaBook style={{ marginRight: "2px" }} />
+                  <span style={{ fontWeight: 'bold' }}>Biblioteca</span>
                 </span>
-              }
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
+              </Nav.Link>
+              <NavDropdown
+                title={
+                  <span
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    <FaUserCircle /> <b>{fullname}</b>
+                    {/* <small
+                      style={{ fontSize: 8, display: "block", marginLeft: 18 }}
+                    >
+                      {policies.join(",")}
+                    </small> */}
+                  </span>
+                }
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
 
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logout}>Salir</NavDropdown.Item>
-            </NavDropdown>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logout}>Salir</NavDropdown.Item>
+              </NavDropdown>
+            </Policy>
           </Nav>
         </Navbar.Collapse>
       </Container>

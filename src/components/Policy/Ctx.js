@@ -62,7 +62,8 @@ export const Provider = ({ children }) => {
     if (
       location.pathname == "/login" ||
       location.pathname == "/registrarse" ||
-      location.pathname == "/recuperar-clave"
+      location.pathname == "/recuperar-clave" ||
+      location.pathname == "/tutoriales"
     ) {
       setPolcies([]);
       setUsername("");
@@ -73,7 +74,8 @@ export const Provider = ({ children }) => {
       !policies.length &&
       location.pathname != "/login" &&
       location.pathname != "/registrarse" &&
-      location.pathname != "/recuperar-clave"
+      location.pathname != "/recuperar-clave" &&
+      location.pathname != "/tutoriales"
     ) {
       loadPolicies();
     } else {
