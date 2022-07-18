@@ -8,7 +8,7 @@ import {
   USER_FULL_NAME,
 } from "../constants/apiContants";
 import { Button, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { FaChild, FaCog, FaDownload, FaUserCircle, FaBook } from "react-icons/fa";
+import { FaVideo, FaChild, FaCog, FaDownload, FaUserCircle, FaBook } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
 import Policy from "components/Policy"
@@ -58,6 +58,16 @@ const HeaderPage = ({ showButton, homePage }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            <Nav.Link href="/tutoriales">
+              <span style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <FaVideo style={{ marginRight: "2px" }} />
+                <span style={{ fontWeight: 'bold' }}>Tutoriales</span>
+              </span>
+            </Nav.Link>
             <NavDropdown
               title={
                 <span
@@ -96,8 +106,8 @@ const HeaderPage = ({ showButton, homePage }) => {
                 flexDirection: 'row',
                 alignItems: 'center'
               }}>
-                <FaBook style={{marginRight: "2px"}} />
-                <span style={{fontWeight: 'bold'}}>Biblioteca</span>
+                <FaBook style={{ marginRight: "2px" }} />
+                <span style={{ fontWeight: 'bold' }}>Biblioteca</span>
               </span>
             </Nav.Link>
             <NavDropdown
