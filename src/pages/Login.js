@@ -11,7 +11,7 @@ import Errors from "components/Errors";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import { animateCSS } from "utils";
-import { FaRocket, FaSign } from "react-icons/fa";
+import { FaRocket, FaSign, FaVideo } from "react-icons/fa";
 
 const Login = ({ location, history }) => {
   const recaptchaRef = React.useRef();
@@ -76,7 +76,7 @@ const Login = ({ location, history }) => {
       });
   };
 
-  const onError = () => {};
+  const onError = () => { };
 
   useEffect(() => {
     localStorage.removeItem(ACCESS_TOKEN_NAME);
@@ -99,7 +99,7 @@ const Login = ({ location, history }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
-              }}>  
+              }}>
                 <img
                   src="/images/cjlogo.jpg"
                   className="img-fluid"
@@ -159,6 +159,21 @@ const Login = ({ location, history }) => {
                         <FaRocket />
                       </div>
                       <span>Registrarse</span>
+                    </a>
+                    {/*<span className="ml-4 mr-4">⍿</span>
+                    <Link to="/recuperar-clave" className="link-blue">
+                      Olvidé la contraseña
+              </Link>*/}
+                  </div>
+                  <div className="mt-4 d-flex justify-content-center align-items-center">
+                    <a
+                      onClick={() => go("/tutoriales")}
+                      className="link link-primary d-flex align-items-center"
+                    >
+                      <div className="circle-icon mr-2">
+                        <FaVideo />
+                      </div>
+                      <span>Tutoriales</span>
                     </a>
                     {/*<span className="ml-4 mr-4">⍿</span>
                     <Link to="/recuperar-clave" className="link-blue">
