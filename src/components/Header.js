@@ -4,6 +4,7 @@ import {
   ACCESS_TOKEN_NAME,
   MODULES,
   ROL_ADMIN,
+  ROL_DOCENTE,
   ROL_ESTUDIANTE,
   ROL_PERSONA,
   USER_FULL_NAME,
@@ -69,7 +70,7 @@ const HeaderPage = ({ showButton, homePage }) => {
                 <span style={{ fontWeight: 'bold' }}>Tutoriales</span>
               </span>
             </Nav.Link>
-            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_PERSONA]}>
+            <Policy policy={[ROL_ADMIN, ROL_ESTUDIANTE, ROL_PERSONA, ROL_DOCENTE]}>
               <NavDropdown
                 title={
                   <span

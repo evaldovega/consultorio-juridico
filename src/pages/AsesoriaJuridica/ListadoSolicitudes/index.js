@@ -44,11 +44,12 @@ const ListadoSolicitudes = () => {
   const [orderByNombre, setOrderByNombre] = useState(false)
   const [orderByNumCaso, setOrderByNumCaso] = useState(false)
   const [orderByDocumento, setOrderByDocumento] = useState(false)
+  const [orderByRegister, setOrderByRegister] = useState(false)
   const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getSolicitudes = async () => {
     setCargando(true);
-    API.get(`asesorias/solicitud/${orderByDate ? '?date_reverse' : ''}${orderByAsunto ? '?asunto_reverse' : ''}${orderByNombre ? '?nombre_reverse' : ''}${orderByNumCaso ? '?nocaso_reverse' : ''}${orderByDocumento ? '?documento_reverse' : ''}`, { params })
+    API.get(`asesorias/solicitud/${orderByDate ? '?date_reverse' : ''}${orderByAsunto ? '?asunto_reverse' : ''}${orderByNombre ? '?nombre_reverse' : ''}${orderByNumCaso ? '?nocaso_reverse' : ''}${orderByDocumento ? '?documento_reverse' : ''}${orderByRegister ? '?registro_reverse=1' : ''}`, { params })
       .then(({ data }) => {
         setDocs(data.results || []);
         setPaginacion({ paginas: data.total_pages, registros: data.count });
@@ -120,6 +121,15 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(false)
     setOrderByNumCaso(false)
     setOrderByDocumento(false)
+  }
+
+  const switchRegistryDate = () => {
+    setOrderByDate(false)
+    setOrderByAsunto(false)
+    setOrderByNombre(false)
+    setOrderByNumCaso(false)
+    setOrderByDocumento(false)
+    setOrderByRegister(!orderByRegister)
   }
 
   const switchOrderAsunto = () => {
@@ -211,6 +221,7 @@ const ListadoSolicitudes = () => {
                       <th>Documento de identidad <FaArrowUp onClick={() => switchOrderDocumento()} /></th>
                     </Policy>
                     <th>Fecha y hora <FaArrowUp onClick={() => switchOrderDate()} /></th>
+                    <th>Registro en sistema <FaArrowUp onClick={() => switchRegistryDate()} /></th>
                     {/* <th>Asunto <FaArrowUp onClick={() => switchOrderAsunto()} /></th> */}
                     <th></th>
                   </tr>
@@ -238,6 +249,7 @@ const ListadoSolicitudes = () => {
                       <td>
                         {d?.dt_fechaAsesoria ? moment(d?.dt_fechaAsesoria).format("YYYY-MM-DD") : "No definida"} {d?.ht_horaAsesoria !== null && moment(d?.ht_horaAsesoria, "HH:mm:ss").format("hh:mm a")}
                       </td>
+                      <td>{d?.sys_fechaCreacion ? moment(d?.sys_fechaCreacion).format("YYYY-MM-DD") : "No definida"}</td>
                       {/* <td className="crop">{d?.t_asuntoConsulta}</td> */}
                       <td>
                         <Link to={`/asesoria-juridica/caso/${d.id}`}>

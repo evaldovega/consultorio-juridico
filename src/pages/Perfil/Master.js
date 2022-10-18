@@ -22,6 +22,8 @@ import Policy from "components/Policy"
 const moment = require('moment')
 const classNames = require("classnames");
 
+var _ = require("lodash");
+
 const PerfilMaster = ({
   formRef = null,
   id = "",
@@ -97,10 +99,9 @@ const PerfilMaster = ({
     delete data.f_archivoARL;
     delete data.f_archivoEPS;
     data.mm_discapacidad = !data.mm_discapacidad ? [] : data.mm_discapacidad;
-    //data.r_user = 2;
     API({
-      url: `usuarios/personas/` + (persona ? `${persona.id}/` : ""),
-      method: persona ? "patch" : "post",
+      url: `usuarios/personas/` + (!_.isEmpty(persona) ? `${persona.id}/` : ""),
+      method: !_.isEmpty(persona) ? "patch" : "post",
       data,
     })
       .then(({ data }) => {

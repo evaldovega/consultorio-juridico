@@ -15,11 +15,12 @@ var moment = require("moment");
 const ReporteRegistrados = () => {
   const [fechaInicial, setFechaInicial] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
+  const [historico, setHistorico] = useState(false);
   const [loading, setLoading] = useState(false)
 
   const consultar = async () => {
     setLoading(true)
-    await API(`estudiantes/inscripcion/pdf_estudiantes/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}`, {
+    await API(`estudiantes/inscripcion/pdf_estudiantes/?fechainicial=${fechaInicial}&fechafinal=${fechaFinal}&historico=${historico}`, {
       responseType: 'arraybuffer',
     })
       .then(response => {
@@ -118,6 +119,15 @@ const ReporteRegistrados = () => {
                 placeholder="Fecha final"
                 onChange={(e) => setFechaFinal(e.target.value)}
               />
+              <label style={{ display: 'flex', padding: '0 10px', alignItems: 'center' }}>
+                <input 
+                  type="checkbox"
+                  style={{ marginRight: '5px' }}
+                  name="historico"
+                  value={historico}
+                  onChange={(e) => setHistorico(e.target.checked)}
+                /> Consultar histórico
+              </label>
               <InputGroup.Append>
                 <Button
                   // href={`${baseUrl}/registrados_fecha/${fechaInicial}/${fechaFinal}`}

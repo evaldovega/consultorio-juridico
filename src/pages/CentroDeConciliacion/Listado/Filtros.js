@@ -28,8 +28,8 @@ const Filtros = ({ cargando = false, setParams, params }) => {
     reValidateMode: "onChange",
     shouldFocusError: true,
     defaultValues: {
-      fecha_inicial: moment().startOf("month").format("YYYY-MM-DD"),
-      fecha_final: moment().endOf("month").format("YYYY-MM-DD"),
+      // fecha_inicial: moment().startOf("month").format("YYYY-MM-DD"),
+      // fecha_final: moment().endOf("month").format("YYYY-MM-DD"),
       id_citado: "",
       id_solicitante: ""
     },
@@ -51,13 +51,10 @@ const Filtros = ({ cargando = false, setParams, params }) => {
           <Controller
             name="fecha_inicial"
             control={control}
-            rules={{
-              required: "Ingrese una fecha",
-            }}
             render={({ field }) => (
               <Form.Group>
                 <Form.Label>
-                  Fecha inicial <span className="required" />
+                  Fecha inicial
                 </Form.Label>
                 <Form.Control type="date" disabled={cargando} {...field} />
                 <Errors message={errors.fecha_inicial?.message} />
@@ -69,13 +66,10 @@ const Filtros = ({ cargando = false, setParams, params }) => {
           <Controller
             name="fecha_final"
             control={control}
-            rules={{
-              required: "Ingrese una fecha",
-            }}
             render={({ field }) => (
               <Form.Group>
                 <Form.Label>
-                  Fecha final <span className="required" />
+                  Fecha final
                 </Form.Label>
                 <Form.Control type="date" disabled={cargando} {...field} />
                 <Errors message={errors.fecha_final?.message} />

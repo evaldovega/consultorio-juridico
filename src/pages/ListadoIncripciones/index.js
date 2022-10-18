@@ -47,6 +47,7 @@ const ListadoIncripciones = () => {
   const [paramsSerialized, setParamsSerialized] = useState("")
 
   const getInscripciones = async () => {
+    console.log("Parametros", params);
     try {
       setCargando(true);
       const { data } = await API.get(`estudiantes/inscripcion/${orderByDate ? '?order_by_date' : ''}${orderByName ? '?name_reverse' : ''}${orderByYear ? '?year_reverse' : ''}${orderByDocument ? '?document_reverse' : ''}${orderByCode ? '?code_reverse' : ''}${orderBySemester ? '?semester_reverse' : ''}`, { params });

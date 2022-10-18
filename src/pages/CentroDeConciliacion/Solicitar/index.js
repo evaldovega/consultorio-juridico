@@ -323,7 +323,7 @@ const CentroDeConciliacionSolicitar = () => {
                 <Card.Body>
                   <h2>Datos de la audiencia</h2>
                   <Row className="mb-1">
-                    {!idConciliacion && (
+                    {/* {!idConciliacion && (
                       <>
                         <Col xs="12" md="6">
                           <Controller
@@ -428,7 +428,7 @@ const CentroDeConciliacionSolicitar = () => {
                             </Col>
                         )}
                       </>
-                    )}
+                    )} */}
                     <Policy policy={[ROL_ADMIN, ROL_ASESOR]}>
                       <Form.Group as={Col} xs="12" md="7">
                         <label>

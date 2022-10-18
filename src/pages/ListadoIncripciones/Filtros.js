@@ -42,6 +42,7 @@ const InscripcionesFiltros = ({
   };
 
   const limpiar = () => {
+    setValue("historicos", false);
     setValue("cedula", "");
     setValue("codestudiante", "");
     setValue("fechainicio", "");
@@ -68,6 +69,7 @@ const InscripcionesFiltros = ({
   };
 
   useEffect(() => {
+    setValue("historico", false);
     setValue("cedula", "");
     setValue("codestudiante", "");
     setValue("fechainicio", "");
@@ -250,6 +252,23 @@ const InscripcionesFiltros = ({
                           mostrarTodos={true}
                         />
                       </Form.Group>
+                    )}
+                  />
+                </Col>
+              </Row>
+              <Row className="mb-1">
+                <Col xs="12" md="6">
+                  <Controller
+                    name="historico"
+                    control={control}
+                    render={({ field }) => (
+                      <Form.Group>
+                        <Form.Label style={{ alignContent:'center' }}>Consultar históricos
+                          <Form.Check type="checkbox" size="sm" onChange={(e) => setValue("historico", e.target.checked)} style={{ display: 'inline-block', marginLeft: '5px'}} />
+                        </Form.Label>
+                      </Form.Group>
+
+                      
                     )}
                   />
                 </Col>
