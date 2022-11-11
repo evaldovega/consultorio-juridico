@@ -102,7 +102,7 @@ export const VIDEOS = [
     img: "images/modulo2.jpg",
     name: "Registro de asesoría",
     parent: "Registro de asesoría",
-    url: "http://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_asesoria.mp4",
+    url: "https://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_asesoria.mp4",
     descripcion: "",
   },
   {
@@ -110,7 +110,7 @@ export const VIDEOS = [
     img: "images/modulo5.jpg",
     name: "Registro de usuario ciudadano",
     parent: "Registro de usuario ciudadano",
-    url: "http://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_usuario_ciudadano.mp4",
+    url: "https://consultoriojuridico.uniatlantico.edu.co:8000/media/tutoriales/registro_de_usuario_ciudadano.mp4",
     descripcion: "",
   },
 ]

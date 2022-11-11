@@ -227,23 +227,19 @@ const PerfilLaboral = () => {
       <h2 className="mb-4">Datos laborales</h2>
       <Row className="mb-3">
         <Controller
-          name="r_config_profesion"
+          name="a_profesion"
           control={control}
-          defaultValue=""
           render={({ field }) => (
-            <Form.Group as={Col} xs="12" md="6">
-              <Form.Label>Profesión u oficio</Form.Label>
+            <Form.Group as={Col} xs="12" md="6" lg="3">
+              <Form.Label>
+                Profesión
+              </Form.Label>
               <Form.Control
-                as="select"
                 {...field}
-                disabled={readOnly}
+                readOnly={readOnly}
                 plaintext={readOnly}
-              >
-                <option value="">Seleccione...</option>
-                {profesiones.map((el) => (
-                  <option value={el.id}>{el.a_titulo}</option>
-                ))}
-              </Form.Control>
+              />
+              <Errors message={errors?.a_profesion?.message} />
             </Form.Group>
           )}
         />

@@ -49,7 +49,7 @@ const FotoPerfil = () => {
       >
         <Img originalSrc={src} />
       </div>
-      {!readOnly ? <Form.Control type="file" onChange={onChange} /> : null}
+      <Form.Control type="file" onChange={onChange} />
       <Controller
         name="f_archivoFotoPerfil"
         control={control}

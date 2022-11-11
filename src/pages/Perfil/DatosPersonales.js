@@ -12,7 +12,7 @@ const PerfilDatosPersonales = ({ }) => {
   const { readOnly, control, errors, setValue, policies, persona } =
     useContext(Context);
 
-  if (readOnly || policies.includes(ROL_ESTUDIANTE)) {
+  if (readOnly) {
     return (
       <div className="mb-4">
         <h2 className="mb-2">Datos personales</h2>
