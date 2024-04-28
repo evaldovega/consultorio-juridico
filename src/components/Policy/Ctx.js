@@ -23,6 +23,7 @@ export const Provider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [persona, setPersona] = useState("");
   const [fullname, setFullname] = useState("");
+  const [userid, setUserId] = useState("");
 
   const loadPolicies = () => {
     setLoadingReal(true);
@@ -30,12 +31,14 @@ export const Provider = ({ children }) => {
     setUsername("");
     setPersona("");
     setFullname("");
+    setUserId("");
     API.get("/auth-user/")
       .then(({ data }) => {
         setPolcies(data.roles);
         setPersona(data.id_persona);
         setUsername(data.username);
         setFullname(data.fullname);
+        setUserId(data.id);
         setLoading(false);
         setLoadingReal(false);
       })
@@ -92,6 +95,7 @@ export const Provider = ({ children }) => {
   const ctx = {
     policies: policies,
     allPolicies: allPolicies,
+    userid,
     fullname,
     username,
     persona,

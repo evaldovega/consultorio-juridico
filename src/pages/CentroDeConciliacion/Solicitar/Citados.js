@@ -23,7 +23,7 @@ const Citados = ({ control, setValue, getValues, watch }) => {
   const handleClose = () => {
     setMostrarModal(false);
   };
-  const personaGuardada = ({ persona, success }) => {
+  const personaGuardada = ({ persona, success, error }) => {
     if (success) {
       console.log(persona);
       setMostrarModal(false);

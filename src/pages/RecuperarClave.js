@@ -25,7 +25,7 @@ const RecuperarClave = () => {
         data
       );
       setCargando(false);
-      toast.success("Revise su correo electónico y siga las instrucciones");
+      toast.success("Revise su correo electrónico y siga las instrucciones");
     } catch (error) {
       console.log(error.response);
       setCargando(false);

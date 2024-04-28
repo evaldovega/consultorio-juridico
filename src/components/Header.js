@@ -10,7 +10,7 @@ import {
   USER_FULL_NAME,
 } from "../constants/apiContants";
 import { Button, Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { FaVideo, FaChild, FaCog, FaDownload, FaUserCircle, FaBook } from "react-icons/fa";
+import { FaVideo, FaChild, FaCog, FaDownload, FaKey, FaSignOutAlt, FaUserCircle, FaBook } from "react-icons/fa";
 import { useContext } from "react";
 import { Context } from "./Policy/Ctx";
 import Policy from "components/Policy"
@@ -130,10 +130,11 @@ const HeaderPage = ({ showButton, homePage }) => {
                 }
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="/perfil">Perfil</NavDropdown.Item>
+                <NavDropdown.Item href="/perfil"><FaUserCircle /> Perfil</NavDropdown.Item>
+                <NavDropdown.Item href="/perfil/cambio-clave"><FaKey /> Cambiar contraseña</NavDropdown.Item>
 
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logout}>Salir</NavDropdown.Item>
+                <NavDropdown.Item onClick={logout}><FaSignOutAlt /> Salir</NavDropdown.Item>
               </NavDropdown>
             </Policy>
           </Nav>

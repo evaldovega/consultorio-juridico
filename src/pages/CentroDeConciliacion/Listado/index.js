@@ -25,7 +25,7 @@ import { ExportToExcel } from "components/ExportToExcel";
 import { Link } from "react-router-dom";
 import API, { baseUrl } from "utils/Axios";
 import { useEffect } from "react";
-import { FaEye, FaPenAlt, FaArrowUp } from "react-icons/fa";
+import { FaEye, FaPenAlt, FaArrowUp, FaCheck } from "react-icons/fa";
 import CentroDeConciliacionDetalle from "../Detalle";
 import Filtros from "./Filtros";
 import MigaPan from "components/MigaPan";
@@ -140,6 +140,18 @@ const CentroDeConciliacionListado = () => {
     }
   }, []);
 
+  const cerrarCaso = (id) => {
+    let confirmacion = window.confirm("¿Está seguro de cerrar este caso?")
+    if(confirmacion == true){
+      setCargando(true);
+      API.post(`conciliacion/solicitud/${id}/cerrar/`)
+      .then(data => {
+        cargar();
+      })
+      .finally(() => setCargando(false));
+    }
+  }
+
   useEffect(() => {
     cargar();
   }, [params]);
@@ -210,7 +222,7 @@ const CentroDeConciliacionListado = () => {
                             <FaEye />
                           </div>
 
-                          <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
+                          <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_ESTUDIANTE, ROL_DOCENTE]}>
                             <Link
                               to={`/centro-de-conciliacion/registrar/${d.id}`}
                             >
@@ -218,6 +230,25 @@ const CentroDeConciliacionListado = () => {
                                 <FaPenAlt />
                               </div>
                             </Link>
+                          </Policy>
+                          <Policy policy={[ROL_ASESOR, ROL_ADMIN, ROL_DOCENTE]}>
+                            {
+                              d?.estado_cierre_caso ?
+                                <div
+                                  className="circle-icon ml-1 closed-case-container"
+                                >
+                                  <FaCheck />
+                                </div>
+                              :
+                                <div
+                                  className="circle-icon ml-1"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => cerrarCaso(d?.id)}
+                                >
+                                  <FaCheck />
+                                </div>
+                            }
+                            
                           </Policy>
                         </div>
                       </td>

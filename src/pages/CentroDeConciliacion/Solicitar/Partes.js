@@ -53,7 +53,7 @@ const Partes = ({
     setMostrarModal(false);
   };
 
-  const personaGuardada = ({ persona, success, feedback = true }) => {
+  const personaGuardada = ({ persona, success, feedback = true, errormsg = "No se pudo guardar la persona" }) => {
     if (success) {
       console.log({persona})
       setMostrarModal(false);
@@ -65,7 +65,7 @@ const Partes = ({
       console.log({ [id]: persona.id });
       append({ [id]: persona.id });
     } else {
-      toast.warn("No se pudo guardar la persona");
+      toast.warn(errormsg);
     }
   };
 

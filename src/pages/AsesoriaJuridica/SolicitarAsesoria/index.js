@@ -148,12 +148,12 @@ const SolicitarAsesoria = () => {
     formPersona.current.click();
   };
   //-----Enviar el formulario de inscripcion
-  const personaGuardada = ({ persona, success, error }) => {
+  const personaGuardada = ({ persona, success, error, errormsg }) => {
     if (success) {
       setValue("r_usuarios_solicitante", persona.id);
       formAsesoria.current.click();
     } else {
-      console.log(error.response);
+      console.log(errormsg);
       if (
         error &&
         error.response &&
@@ -169,7 +169,7 @@ const SolicitarAsesoria = () => {
           draggable: true,
         });
       } else {
-        toast.error("No se pudo guardar los datos del ciudadano!", {
+        toast.error(errormsg, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: true,

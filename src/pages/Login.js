@@ -51,6 +51,7 @@ const Login = ({ location, history }) => {
         localStorage.setItem("username_id", data.id);
         localStorage.setItem("id_persona", data.id_persona);
         localStorage.setItem("doc_identidad", data.doc);
+        localStorage.setItem("cargar_perfil", data.cargar_perfil);
         history.replace(
           location && location.state && location.state.from
             ? location.state.from.pathname
@@ -80,6 +81,12 @@ const Login = ({ location, history }) => {
 
   useEffect(() => {
     localStorage.removeItem(ACCESS_TOKEN_NAME);
+    const queryParameters = window.location.search;
+    if(queryParameters.includes('activate=1')){
+      // Activating an account
+      toast.success("Su cuenta ha sido activada exitosamente ya puede ingresar con las credenciales enviadas a su correo electrónico");
+    }
+
   }, []);
 
   return (
@@ -133,6 +140,7 @@ const Login = ({ location, history }) => {
                       type="password"
                     />
                     <Errors message={errors.password?.message} />
+                    <Link to="/recuperar-clave" className="link-blue">Olvidé mi contraseña</Link>
                   </Form.Group>
                 )}
               />
@@ -160,10 +168,6 @@ const Login = ({ location, history }) => {
                       </div>
                       <span>Registrarse</span>
                     </a>
-                    {/*<span className="ml-4 mr-4">⍿</span>
-                    <Link to="/recuperar-clave" className="link-blue">
-                      Olvidé la contraseña
-              </Link>*/}
                   </div>
                   <div className="mt-4 d-flex justify-content-center align-items-center">
                     <a
@@ -175,10 +179,6 @@ const Login = ({ location, history }) => {
                       </div>
                       <span>Tutoriales</span>
                     </a>
-                    {/*<span className="ml-4 mr-4">⍿</span>
-                    <Link to="/recuperar-clave" className="link-blue">
-                      Olvidé la contraseña
-              </Link>*/}
                   </div>
                 </>
               )}

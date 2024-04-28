@@ -724,3 +724,13 @@ a {
 .dropdown-item:active {
   background-color: #4a4947 !important;
 }
+
+.closed-case-container {
+  background-color: #3ce33c;
+  border: 1px solid green;
+}
+
+.container-select > div{
+  width: 100%;
+  flex: 1;
+}

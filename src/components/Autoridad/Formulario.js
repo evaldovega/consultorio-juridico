@@ -54,7 +54,6 @@ const AutoridadFormulario = ({ visible, setVisible, autoriadGuardada }) => {
 
   useEffect(() => {
     if (!visible) {
-      setValue("a_codigo", "");
       setValue("a_titulo", "");
     }
   }, [visible]);
@@ -71,21 +70,6 @@ const AutoridadFormulario = ({ visible, setVisible, autoriadGuardada }) => {
           <Modal.Title>Agregar autoridad</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Controller
-            name="a_codigo"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Ingrese información" }}
-            render={({ field }) => (
-              <Form.Group>
-                <Form.Label>
-                  Código <span className="required" />
-                </Form.Label>
-                <Form.Control {...field} disabled={cargando} />
-                <Errors message={errors?.a_codigo?.message} />
-              </Form.Group>
-            )}
-          />
           <Controller
             name="a_titulo"
             control={control}

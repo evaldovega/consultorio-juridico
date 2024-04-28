@@ -6,6 +6,7 @@ import PerfilMaster from "./Master";
 import { toast } from "react-toastify";
 import { FaPenAlt, FaEye } from "react-icons/fa";
 import { Context } from "components/Policy/Ctx";
+import { useEffect } from "react";
 
 const Perfil = () => {
   const { policies, persona } = useContext(Context);
@@ -25,6 +26,16 @@ const Perfil = () => {
       setReadOnly(true);
     }
   };
+
+  useEffect(() => {
+    const queryParameters = window.location.search;
+    if(queryParameters.includes('edit=1')){
+      // Activating an account
+      toast.success("Por favor continúe con su registro, diligenciando su información");
+      setReadOnly(false)
+    }
+  }, [])
+
   return (
     <Page>
       <div className="d-flex justify-content-between align-items-center">

@@ -24,7 +24,7 @@ import {
 } from "constants/apiContants";
 import Spin from "components/Spin";
 import moment from "moment";
-import { FaEye, FaArrowUp } from "react-icons/fa";
+import { FaEye, FaArrowUp, FaCheck } from "react-icons/fa";
 import Filtros from "./Filtros";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanAsesoriaJuridica from "components/MigaPan/AsesoriaJuridica";
@@ -121,6 +121,7 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(false)
     setOrderByNumCaso(false)
     setOrderByDocumento(false)
+    setOrderByRegister(false)
   }
 
   const switchRegistryDate = () => {
@@ -138,6 +139,7 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(false)
     setOrderByNumCaso(false)
     setOrderByDocumento(false)
+    setOrderByRegister(false)
   }
 
   const switchOrderNombre = () => {
@@ -146,6 +148,7 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(!orderByNombre)
     setOrderByNumCaso(false)
     setOrderByDocumento(false)
+    setOrderByRegister(false)
   }
 
   const switchOrderNoCaso = () => {
@@ -154,6 +157,7 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(false)
     setOrderByNumCaso(!orderByNumCaso)
     setOrderByDocumento(false)
+    setOrderByRegister(false)
   }
 
   const switchOrderDocumento = () => {
@@ -162,6 +166,7 @@ const ListadoSolicitudes = () => {
     setOrderByNombre(false)
     setOrderByNumCaso(false)
     setOrderByDocumento(!orderByDocumento)
+    setOrderByRegister(false)
   }
 
   useEffect(() => {
@@ -185,6 +190,21 @@ const ListadoSolicitudes = () => {
   useEffect(() => {
     getSolicitudes({});
   }, [orderByDocumento])
+  useEffect(() => {
+    getSolicitudes({});
+  }, [orderByRegister])
+
+  const cerrarAsesoria = (id) => {
+    let confirmacion = window.confirm("¿Está seguro de cerrar este caso?")
+    if(confirmacion == true){
+      setCargando(true);
+      API.post(`asesorias/solicitud/${id}/cerrar/`)
+      .then(data => {
+        getSolicitudes();
+      })
+      .finally(() => setCargando(false));
+    }
+  }
 
   return (
     <Policy
@@ -252,11 +272,32 @@ const ListadoSolicitudes = () => {
                       <td>{d?.sys_fechaCreacion ? moment(d?.sys_fechaCreacion).format("YYYY-MM-DD") : "No definida"}</td>
                       {/* <td className="crop">{d?.t_asuntoConsulta}</td> */}
                       <td>
-                        <Link to={`/asesoria-juridica/caso/${d.id}`}>
-                          <div className="circle-icon">
-                            <FaEye />
-                          </div>
-                        </Link>
+                        <div className="d-flex justify-content-end">
+                          <Link to={`/asesoria-juridica/caso/${d.id}`}>
+                            <div className="circle-icon">
+                              <FaEye />
+                            </div>
+                          </Link>
+                          
+                          <Policy policy={[ROL_ASESOR, ROL_ADMIN]}>
+                            {
+                              d?.estado_cierre_caso ?
+                                <div
+                                  className="circle-icon ml-1 closed-case-container"
+                                >
+                                  <FaCheck />
+                                </div>
+                              :
+                                <div
+                                  className="circle-icon ml-1"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => cerrarAsesoria(d?.id)}
+                                >
+                                  <FaCheck />
+                                </div>
+                            }
+                          </Policy>
+                        </div>
                       </td>
                     </tr>
                   ))}

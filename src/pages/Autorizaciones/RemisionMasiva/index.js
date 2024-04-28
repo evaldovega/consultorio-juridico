@@ -22,6 +22,7 @@ import { FaColumns, FaTimes } from "react-icons/fa";
 import MigaPan from "components/MigaPan";
 import MigaPanInicio from "components/MigaPan/Inicio";
 import MigaPanDocumentos from "components/MigaPan/Documentos";
+import Autoridad from "components/Autoridad";
 const { default: Page } = require("components/Page");
 const { default: Policy } = require("components/Policy");
 const { ROL_PERSONA, ROL_ADMIN } = require("constants/apiContants");
@@ -314,16 +315,8 @@ const RemisionMasiva = () => {
                         control={control}
                         render={({ field }) => (
                           <Form.Group as={Col} xs="12" md="6">
-                            <Form.Label>Autoridad</Form.Label>
-                            <Form.Control as="select" {...field}>
-                              <option value="">Seleccione...</option>
-                              {autoridades.map((el) => (
-                                <option value={el.id}>{el.a_titulo}</option>
-                              ))}
-                            </Form.Control>
-                            <Errors
-                              message={errors?.ht_horaAsesoria?.message}
-                            />
+                            <Autoridad field={field} setValue={setValue} />
+                            <Errors message={errors?.ht_horaAsesoria?.message} />
                           </Form.Group>
                         )}
                       />

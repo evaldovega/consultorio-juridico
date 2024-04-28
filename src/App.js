@@ -67,6 +67,7 @@ import ReporteProfesion from "pages/InscripcionEstudiantesReporte/ReporteProfesi
 import ReportePorDiscapacidad from "pages/InscripcionEstudiantesReporte/ReportePorDiscapacidad";
 
 import Perfil from "pages/Perfil";
+import CambioClave from "pages/Perfil/CambioClave";
 import { ToastContainer } from "react-toastify";
 import AsesoriaJuridicaDetalle from "pages/AsesoriaJuridicaDetalle";
 import "moment/locale/es";
@@ -74,6 +75,7 @@ import moment from "moment";
 import CentroDeConciliacionHome from "pages/CentroDeConciliacion/Home";
 import CentroDeConciliacionSolicitar from "pages/CentroDeConciliacion/Solicitar";
 import CentroDeConciliacionListado from "pages/CentroDeConciliacion/Listado";
+import CentroDeConciliacionReportes from "pages/CentroDeConciliacion/Reportes";
 import Programacion from "pages/CentroDeConciliacion/Programacion";
 import ScrollToTop from "components/ScrollTop";
 import RecuperarClave from "pages/RecuperarClave";
@@ -82,6 +84,7 @@ import Tutoriales from "pages/Tutoriales";
 
 import FuncionesAdmin from "pages/FuncionesAdmin";
 import Roles from "pages/FuncionesAdmin/Roles";
+import ReporteGraficaGenericoConn from "pages/CentroDeConciliacion/Reportes/ReporteGraficaGenericoConn";
 
 function App() {
   moment.locale("es");
@@ -284,6 +287,9 @@ function App() {
             <PrivateRouter path="/perfil" exact>
               <Perfil />
             </PrivateRouter>
+            <PrivateRouter path="/perfil/cambio-clave" exact>
+              <CambioClave />
+            </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion" exact>
               <CentroDeConciliacionHome />
             </PrivateRouter>
@@ -302,6 +308,12 @@ function App() {
             </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/solicitudes" exact>
               <CentroDeConciliacionListado />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/reportes" exact>
+              <CentroDeConciliacionReportes />
+            </PrivateRouter>
+            <PrivateRouter path="/centro-de-conciliacion/reportes_grafica/:tiporeporte" exact>
+              <ReporteGraficaGenericoConn />
             </PrivateRouter>
             <PrivateRouter path="/centro-de-conciliacion/programacion" exact>
               <Programacion />

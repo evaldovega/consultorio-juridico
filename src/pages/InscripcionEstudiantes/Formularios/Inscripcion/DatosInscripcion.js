@@ -14,6 +14,7 @@ const DatosInscripcion = ({ watch }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { readOnly, control, errors, setValue } = useContext(Context);
+  const consultorio = watch("r_config_numeroConsultorio");
 
   const load = () => {
     setLoading(true);
@@ -214,7 +215,7 @@ const DatosInscripcion = ({ watch }) => {
                     readOnly={readOnly}
                   >
                     <option value="">Seleccione</option>
-                    {grupos.map((el, i) => (
+                    {grupos.filter((d) => d.r_config_consultorio == consultorio).map((el, i) => (
                       <option value={el.id} key={i}>
                         {el.a_titulo}
                       </option>
@@ -233,9 +234,6 @@ const DatosInscripcion = ({ watch }) => {
               rules={{ required: "Ingrese información" }}
               render={({ field }) => (
                 <Form.Group as={Col} xs="12" md="6" lg="6">
-                  <Form.Label>
-                    Lugar de las practicas <span className="required" />
-                  </Form.Label>
                   <LugarPractica
                     watch={watch}
                     field={field}

@@ -90,6 +90,7 @@ const GenerarRemision = () => {
           setInscripciones([response.data]);
           setIdEstudiante([response.data].map((el) => el.id)[0]);
           setIdEstudiantePersona(response.data?.r_usuarios_persona?.id)
+          loadCasos(response.data?.r_usuarios_persona?.id)
         } else {
           toast.error(`Este estudiante no posee una inscripción en este periodo.`, {
             position: "top-center",
@@ -129,14 +130,15 @@ const GenerarRemision = () => {
     // });
   };
 
-  const loadCasos = async () => {
-    const { data } = await API.get(`asesorias/solicitud/?persona=${idEstudiantePersona}&page_size=1000`)
-    console.log(data.results)
+  const loadCasos = async (idEstudiante) => {
+    const { data } = await API.get(`asesorias/solicitud/?persona=${idEstudiante ? idEstudiantePersona : null}&page_size=1000`)
+    console.log("Results", idEstudiantePersona, data.results)
     setCasos(data.results)
   }
 
   const guardarAsesoria = async (data) => {
     setLoading(true);
+    console.log(data)
     const _data = {
       ...data,
       r_usuarios_estudiante: idEstudiante,
@@ -249,9 +251,9 @@ const GenerarRemision = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    loadCasos();
-  }, [idEstudiantePersona])
+  // useEffect(() => {
+  //   loadCasos();
+  // }, [idEstudiantePersona])
 
   return (
     <Policy policy={[ROL_ADMIN]}>
@@ -290,7 +292,6 @@ const GenerarRemision = () => {
                         className="form-control"
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
-                        onKeyDown={(event) => { event.key === "Enter" && getInscripciones() }}
                       />
                       <Button
                         onClick={() => getInscripciones()}

@@ -17,7 +17,7 @@ const MigaPanAsesoriaJuridica = () => {
   return (
     <Dropdown size="sm" navbar={true}>
       <Dropdown.Toggle variant="link" split={true} id="dropdown-basic">
-        Asesoria Jurídica
+        Asesoría Jurídica
       </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item
@@ -31,7 +31,7 @@ const MigaPanAsesoriaJuridica = () => {
           active={location.pathname == "/asesoria-juridica/solicitar"}
         >
           <Link to="/asesoria-juridica/solicitar">
-            Solicitar nueva asesoria
+            Solicitar nueva asesoría
           </Link>
         </Dropdown.Item>
         <Policy policy={[ROL_ADMIN, ROL_ASESOR, ROL_DOCENTE]}>

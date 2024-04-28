@@ -63,7 +63,7 @@ const AsesoriaJuridicaHome = () => {
               >
                 <ItemModule
                   Icon={() => <Lapiz style={{ width: "50px", height: "50px" }} />}
-                  title="Formato de Registro"
+                  title="Formato de registro"
                   link="/asesoria-juridica/solicitar"
                 />
               </Col>

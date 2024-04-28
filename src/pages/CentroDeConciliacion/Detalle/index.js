@@ -27,6 +27,8 @@ import PersonaDetailRow from "components/personaDetailRow";
 import { Context } from "components/Policy/Ctx";
 import PerfilMaster from "pages/Perfil/Master"
 import DocenteAsesoria from '../../AsesoriaJuridicaDetalle/Estudiantes/Docente'
+import TextArea from "antd/lib/input/TextArea";
+import { Label } from "reactstrap";
 
 var moment = require('moment')
 
@@ -41,6 +43,11 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
   const [showProfileData, setShowProfileData] = useState(false)
   const [cedulas, setCedulas] = useState([])
   const [estudianteAsesor, setIdEstudianteAsesor] = useState(null)
+
+  const [showModalCierre, setShowModalCierre] = useState(false);
+  const [motivoCierre, setMotivoCierre] = useState("")
+  const [archivoCierre, setArchivoCierre] = useState("")
+  const [nombreArchivoCierre, setNombreArchivoCierre] = useState("")
 
   const cargar = async () => {
     try {
@@ -105,6 +112,34 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
     cargarCitas()
   }, [nuevaCitaEditShow])
 
+  const cerrarConciliacion = () => {
+    let confirmacion = window.confirm("¿Está seguro de cerrar este caso?")
+    if(confirmacion == true){
+      setCargando(true);
+      API.post(`conciliacion/solicitud/${doc.id}/cerrar/`, {
+        "motivo": motivoCierre,
+        "anexo": archivoCierre,
+        "titulo": nombreArchivoCierre
+      })
+      .then(data => {
+        setShowModalCierre(false);
+        cargar();
+      })
+      .finally(() => setCargando(false));
+    }
+  }
+
+  const onChange = (e) => {
+    var reader = new FileReader();
+    const file = e.target.files[0];
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      console.log(reader.result, file.name);
+      setNombreArchivoCierre(file.name)
+      setArchivoCierre(reader.result)
+    };
+  };
+
   if (cargando) {
     return (
       <Modal show={true}>
@@ -121,6 +156,24 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
 
   return (
     <>
+      <Modal show={showModalCierre}>
+        <Modal.Header>
+          <Modal.Title>Cerrar caso de conciliación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Por favor ingrese los motivos para dar cierre al caso No. { doc?.id }</p>
+          <TextArea style={{padding:"4px 8px"}} onChange={(t) => setMotivoCierre(t.target.value)} rows={4} placeholder="Escriba aquí..."></TextArea>
+          <div style={{ marginTop:"12px" }}>
+            <Label>Archivos adjuntos (opcional)</Label>
+            <input type="file" onChange={onChange} />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={() => setShowModalCierre(false)}>Cancelar</Button>
+          <Button onClick={cerrarConciliacion}>Cerrar caso</Button>
+        </Modal.Footer>
+      </Modal>
+
       <NuevaCita
         id={id}
         show={nuevaCitaShow}
@@ -181,10 +234,22 @@ const CentroDeConciliacionDetalle = ({ id, setId, onHide }) => {
                   {doc && doc.a_cuantiaValor && doc.a_cuantiaValor}
                   {doc && doc.a_indeterminada && doc.a_indeterminada}
                 </Col>
+                <Col xs="12" md="6" lg="4">
+                  <Policy policy={[ROL_ADMIN]}>
+                    { doc?.estado_cierre_caso ? 
+                      <div>
+                        Caso cerrado en: { moment(doc?.estado_cierre_caso).format("Y-MM-D")}
+                        <p><b>Motivo de cierre:</b> { doc?.t_motivoCierre }<br />
+                        { doc?.f_adjuntoCierre ? <a target="_blank" href={doc?.f_adjuntoCierre}>Ver adjunto</a> : "" }</p>
+                      </div>
+                    : <Button size="medium" onClick={() => setShowModalCierre(true)} type="button">Cerrar caso</Button>
+                    }
+                  </Policy>
+                </Col>
               </Row>
               <Row>
                 <Col xs="12" md="4" lg="4">
-                  <Form.Label>Pais</Form.Label>
+                  <Form.Label>País</Form.Label>
                   <p>{doc?.r_config_pais}</p>
                 </Col>
                 <Col xs="12" md="4" lg="4">

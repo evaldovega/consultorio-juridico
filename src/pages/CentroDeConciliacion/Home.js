@@ -93,18 +93,18 @@ const CentroDeConciliacionHome = () => {
             <Row className="modules">
               <Col
                 xs={12}
-                md={6}
+                md={4}
                 className="mb-4"
               >
                 <ItemModule
                   Icon={() => <Lapiz style={{ width: "50px", height: "50px" }} />}
-                  title="Formato de Registro"
+                  title="Formato de registro"
                   link="/centro-de-conciliacion/registrar"
                 />
               </Col>
               <Col
                 xs={12}
-                md={6}
+                md={4}
                 className="mb-4"
               >
                 <ItemModule
@@ -116,7 +116,7 @@ const CentroDeConciliacionHome = () => {
               <Policy policy={[ROL_ADMIN]}>
                 <Col
                   xs={12}
-                  md={6}
+                  md={4}
                   className="mb-4"
                 >
                   <a
@@ -133,13 +133,26 @@ const CentroDeConciliacionHome = () => {
               <Policy policy={[ROL_ADMIN]}>
                 <Col
                   xs={12}
-                  md={6}
+                  md={4}
                   className="mb-4"
                 >
                   <ItemModule
                     Icon={() => <Papel style={{ width: "50px", height: "50px" }} />}
                     title="Programación de citas"
                     link="/centro-de-conciliacion/programacion"
+                  />
+                </Col>
+              </Policy>
+              <Policy policy={[ROL_ADMIN]}>
+                <Col
+                  xs={12}
+                  md={4}
+                  className="mb-4"
+                >
+                  <ItemModule
+                    Icon={() => <Carpeta style={{ width: "50px", height: "50px" }} />}
+                    title="Reportes"
+                    link="/centro-de-conciliacion/reportes"
                   />
                 </Col>
               </Policy>

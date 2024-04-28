@@ -53,7 +53,18 @@ const Home = () => {
     } else {
       setModulosPermitidos([]);
     }
+
+    console.log(policies)
   }, [policies]);
+
+  useEffect(() => {
+    let cargar = localStorage.getItem("cargar_perfil")
+    
+    if(cargar == "true"){
+      localStorage.setItem("cargar_perfil", false)
+      history.push('/perfil?edit=1')
+    }
+  }, [])
 
   return (
     <>

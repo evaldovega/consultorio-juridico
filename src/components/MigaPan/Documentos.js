@@ -66,7 +66,7 @@ const MigaPanDocumentos = () => {
           active={location.pathname == "/autorizaciones/remision-masiva"}
         >
           <Link to="/autorizaciones/remision-masiva">
-            Gerar remisiones masivamente
+            Gene. remisiones masivamente
           </Link>
         </Dropdown.Item>
       </Dropdown.Menu>

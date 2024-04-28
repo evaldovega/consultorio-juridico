@@ -100,7 +100,7 @@ const VersionSolicitante = ({
             render={({ field }) => (
               <Form.Group as={Col} xs={12} md={4}>
                 <Form.Label>
-                  Pais <span className="required" />
+                  País <span className="required" />
                 </Form.Label>
                 <Country
                   field={field}

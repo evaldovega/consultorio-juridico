@@ -113,7 +113,25 @@ const PerfilMaster = ({
         setPersona(data);
       })
       .catch((error) => {
-        callback({ persona: data, success: false, error });
+        let err = error.response.data
+        let errormsg=""
+        if(error?.response){
+          if(typeof error.response.data == "object"){
+            try{
+              errormsg = error.response.data.join()
+            }catch(e){
+              if ("r_user" in error.response.data){
+                errormsg = "El correo electrónico ingresado ya se encuentra registrado. Por favor corrija esto"
+              }
+            }
+          }else{
+            errormsg = error.response.data
+          }
+        }else{
+          errormsg = error.toString()
+        }
+        console.log()
+        callback({ persona: data, success: false, errormsg: errormsg, error: err });
       })
       .finally(() => setLoading(false));
   };

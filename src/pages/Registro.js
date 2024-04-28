@@ -28,27 +28,30 @@ const Registro = ({ location, history }) => {
   const colB = useRef();
 
   const onFinish = (data) => {
-    setCargando(true);
-    API.post("registro/", data)
-      .then(({ data }) => {
-        setCargando(false);
-        toast.success("Registro completado. Verifique su correo electrónico para activar su cuenta e inicie sesión.");
-        go("/login");
-      })
-      .catch((error) => {
-        console.log(error.response);
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.non_field_errors
-        ) {
-          toast.error(error.response.data.non_field_errors.join(","));
-        } else {
-          toast.error(error.toString());
-        }
+    let confirmacion = window.confirm("¿Está seguro de la información suministrada y desea continuar en el registro?")
+    if(confirmacion == true){
+      setCargando(true);
+      API.post("registro/", data)
+        .then(({ data }) => {
+          setCargando(false);
+          toast.success("Registro completado. Verifique su correo electrónico para activar su cuenta e inicie sesión.");
+          go("/login");
+        })
+        .catch((error) => {
+          console.log(error.response);
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.non_field_errors
+          ) {
+            toast.error(error.response.data.non_field_errors.join(","));
+          } else {
+            toast.error(error.toString());
+          }
 
-        setCargando(false);
-      });
+          setCargando(false);
+        });
+    }
   };
   const onError = () => {};
 
@@ -128,7 +131,7 @@ const Registro = ({ location, history }) => {
                     pattern: {
                       value:
                         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: "Ingrese un correo valido",
+                      message: "Ingrese un correo válido",
                     },
                   }}
                   render={({ field }) => (
@@ -140,33 +143,15 @@ const Registro = ({ location, history }) => {
                   )}
                 />
                 <Controller
-                  name="password"
+                  name="num_identificacion"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Ingrese su contraseña" }}
+                  rules={{ required: "Ingrese su número de identificación" }}
                   render={({ field }) => (
                     <Form.Group>
-                      <Form.Label>Contraseña</Form.Label>
-                      <Form.Control {...field} type="password" />
-                      <Errors message={errors.password?.message} />
-                    </Form.Group>
-                  )}
-                />
-                <Controller
-                  name="password2"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: "Confirme su contraseña",
-                    validate: (value) =>
-                      value === password.current ||
-                      "Las contraseñas no coinciden",
-                  }}
-                  render={({ field }) => (
-                    <Form.Group>
-                      <Form.Label>Confirmar contraseña</Form.Label>
-                      <Form.Control {...field} type="password" />
-                      <Errors message={errors.password2?.message} />
+                      <Form.Label>Número de cédula sin espacios ni puntos</Form.Label>
+                      <Form.Control {...field} />
+                      <Errors message={errors.num_identificacion?.message} />
                     </Form.Group>
                   )}
                 />

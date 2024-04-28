@@ -18,7 +18,7 @@ const MigaPanInicio = () => {
         <Dropdown.Item
           active={location.pathname.includes("/asesoria-juridica")}
         >
-          <Link to="/asesoria-juridica">Ir a asesoria jurídica</Link>
+          <Link to="/asesoria-juridica">Ir a asesoría jurídica</Link>
         </Dropdown.Item>
         <Dropdown.Item
           active={location.pathname.includes("/centro-de-conciliacion")}
